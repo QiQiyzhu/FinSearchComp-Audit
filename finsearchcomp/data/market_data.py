@@ -8,7 +8,7 @@ import logging
 import os
 import re
 import time
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict, List, Optional, Union
 
 import akshare as ak
 import pandas as pd
@@ -111,6 +111,36 @@ def _norm_os(code: str) -> tuple[str, str]:
     return "US_STOCK", raw  # 兼容 105.AAPL 或 AAPL
 
 
+def _split_items(value: Optional[str]) -> List[str]:
+    if not value:
+        return []
+    return [item.strip() for item in re.split(r"[;,]", value) if item.strip()]
+
+
+def _resolve_stock_ticker(code: str) -> tuple[str, str, Optional[str]]:
+    raw = code.strip().upper()
+    if not raw:
+        raise ValueError("Empty stock ticker provided")
+
+    if raw.endswith((".SH", ".SZ", ".BJ")):
+        return "CN_STOCK", _norm_cn(raw), None
+    if raw.endswith(".HK"):
+        return "HK_STOCK", raw[:-3].zfill(5), None
+
+    match = re.fullmatch(r"(SH|SZ|BJ)(\d{6})", raw)
+    if match:
+        return "CN_STOCK", match.group(2), None
+
+    hk_match = re.fullmatch(r"(?:HK)?(\d{1,5})", raw)
+    if hk_match:
+        return "HK_STOCK", hk_match.group(1).zfill(5), None
+
+    if re.fullmatch(r"\d{6}", raw):
+        return "CN_STOCK", raw, None
+
+    return "CN_STOCK", _norm_cn(raw), None
+
+
 def _pick_row(df: pd.DataFrame, code: str, name_hint: Optional[str] = None) -> Optional[pd.Series]:
     cols = set(df.columns.astype(str))
     if "代码" in cols:
@@ -158,7 +188,12 @@ def _as_quote(row: pd.Series, orig_ticker: str) -> Dict[str, object]:
     }
 
 
-def fetch_single(ticker: str, tags: str, method: Optional[str], ttl_sec: int = 60) -> Optional[Dict[str, object]]:
+def _fetch_single_quote(
+    ticker: str,
+    tags: str,
+    method: Optional[str],
+    ttl_sec: int = 60,
+) -> Optional[Dict[str, object]]:
     """
     Retrieve a single quote snapshot by routing to the appropriate market universe.
 
@@ -179,7 +214,7 @@ def fetch_single(ticker: str, tags: str, method: Optional[str], ttl_sec: int = 6
         code = ticker.strip().upper()
         name_hint = code
     elif tag == "股票":
-        universe, code, name_hint = "CN_STOCK", _norm_cn(ticker), None
+        universe, code, name_hint = _resolve_stock_ticker(ticker)
     elif tag == "Stock":
         universe, code = _norm_os(ticker)
         name_hint = None
@@ -201,6 +236,33 @@ def fetch_single(ticker: str, tags: str, method: Optional[str], ttl_sec: int = 6
 
     row = _pick_row(df, code, name_hint)
     return _as_quote(row, ticker) if row is not None else None
+
+
+def fetch_single(
+    ticker: str,
+    tags: str,
+    method: Optional[str],
+    ttl_sec: int = 60,
+) -> Optional[Union[Dict[str, object], List[Dict[str, object]]]]:
+    """
+    Retrieve one or multiple quote snapshots based on AkShare metadata.
+
+    When `ticker` (or `method`) contains comma/semicolon separated entries,
+    quotes for each ticker will be returned as a list, preserving order.
+    """
+    tickers = _split_items(ticker) or [ticker]
+    methods = _split_items(method) if method else []
+
+    results: List[Dict[str, object]] = []
+    for idx, single_ticker in enumerate(tickers):
+        method_hint = methods[idx] if idx < len(methods) else method
+        quote = _fetch_single_quote(single_ticker, tags, method_hint, ttl_sec=ttl_sec)
+        if quote is not None:
+            results.append(quote)
+
+    if not results:
+        return None
+    return results if len(results) > 1 else results[0]
 
 
 def fetch_all_universe_data(ttl_sec: int = 60, force_refresh: bool = False) -> Dict[str, pd.DataFrame]:
