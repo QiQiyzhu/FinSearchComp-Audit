@@ -1,5 +1,7 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>FinSearchComp 审计</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="可复现的金融搜索 Agent 轨迹、来源支持与时间有效性审计">
+<title>FinSearchComp 审计</title>
 <style>
 :root{--ink:#172033;--muted:#667085;--blue:#2563eb;--green:#14804a;--red:#b42318;--bg:#f3f6fb}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,"Microsoft YaHei",sans-serif}
@@ -9,14 +11,19 @@ main{padding:36px 24px 80px}.summary,.grid,.compare{display:grid;grid-template-c
 .summary{grid-template-columns:repeat(4,1fr);margin-top:-62px}.stat,.card,.panel,.compare section{background:white;border:1px solid #e5eaf2;border-radius:16px;box-shadow:0 8px 28px #14264a12}
 .stat,.card,.panel,.compare section{padding:22px}.stat b{display:block;font-size:28px;color:var(--blue)}h2{margin-top:48px}
 .success{border-top:4px solid var(--green)}.failure{border-top:4px solid var(--red)}.badge{display:inline-block;padding:3px 10px;border-radius:99px;background:#eaf8f0;color:var(--green);font-weight:700}.failure .badge{background:#fff0ee;color:var(--red)}
-.question,footer{color:var(--muted)}code{background:#eef2f7;padding:2px 6px;border-radius:5px;word-break:break-word}.metrics{display:flex;gap:8px;flex-wrap:wrap}.metrics span{background:#f2f4f7;border-radius:8px;padding:5px 9px}
+.question,footer{color:var(--muted)}code{background:#eef2f7;padding:2px 6px;border-radius:5px;word-break:break-word}pre{background:#101828;color:#eef4ff;padding:18px;border-radius:12px;overflow:auto}pre code{background:none;color:inherit;padding:0}.metrics{display:flex;gap:8px;flex-wrap:wrap}.metrics span{background:#f2f4f7;border-radius:8px;padding:5px 9px}
 .panel{overflow:auto}table{border-collapse:collapse;width:100%}th,td{padding:11px;border-bottom:1px solid #e7eaf0;text-align:left}th{background:#f8fafc}footer{margin-top:48px}
 @media(max-width:760px){.summary,.grid,.compare{grid-template-columns:1fr}.summary{margin-top:-44px}}
 </style></head><body><header><div class="wrap"><p>FYP · Financial Search Agent</p>
 <h1>FinSearchComp<br>搜索轨迹与可信度审计</h1><p>完整轨迹、3 个成功、3 个失败、引用支持、时间检查，以及普通搜索与金融 API 对比。</p>
-<nav><a href="#trajectory">完整轨迹</a><a href="#cases">六个案例</a><a href="report.md">汇报稿</a><a href="trace.json">JSON 轨迹</a></nav>
+<nav><a href="#reproduce">一分钟复现</a><a href="#trajectory">完整轨迹</a><a href="#cases">六个案例</a><a href="report.md">汇报稿</a><a href="trace.json">JSON 轨迹</a></nav>
 </div></header><main class="wrap"><section class="summary"><div class="stat"><b>6</b>实验案例</div>
 <div class="stat"><b>3 / 3</b>成功 / 失败</div><div class="stat"><b>100%</b>成功案例引用支持</div><div class="stat"><b>2 类</b>网页 / 金融 API</div></section>
+<h2 id="reproduce">一分钟复现</h2><div class="panel"><p><b>确定性复现：</b>从保存的 Agent 轨迹重新生成报告并验证一致性；不会把记录数据冒充成实时搜索。</p>
+<pre><code>git clone https://github.com/QiQiyzhu/FinSearchComp-Audit.git
+cd FinSearchComp-Audit
+python reproduce.py</code></pre>
+<p>无需 API Key。命令会验证 6 条轨迹、生成 4 个产物，并检查案例顺序、指标行数、来源审计和关键章节。</p></div>
 <h2 id="trajectory">完整搜索任务轨迹</h2><div class="panel"><h3>S&P 500 最大单月涨幅</h3>
 <ol><li>规划：ticker → 时间窗 → 月频 → 相邻月收益 → 最大值。</li>
 <li>查询 <code>^GSPC monthly close 2009-12-01 to 2025-04-30</code>。</li>
@@ -88,5 +95,5 @@ main{padding:36px 24px 80px}.summary,.grid,.compare{display:grid;grid-template-c
 <section><h3>金融数据接口</h3><p>擅长 OHLC 和长时间序列；结构化、易复算、效率高。仍需明确 ticker、复权、时区和供应商口径。</p></section></div>
 <h2>评价框架</h2><div class="panel"><p><b>真实性：</b>答案正确 + 引用真的支持 + 时间版本正确。</p>
 <p><b>完整性：</b>题目每个评分点都回答。</p><p><b>效率：</b>比较工具数、耗时和无效搜索；结构化题尽早切换金融 API。</p></div>
-<footer>详情：<a href="report.md">report.md</a> · <a href="trace.json">trace.json</a> · <a href="metrics.csv">metrics.csv</a></footer>
+<footer>详情：<a href="report.md">report.md</a> · <a href="trace.json">trace.json</a> · <a href="metrics.csv">metrics.csv</a> · <a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/REPRODUCIBILITY.md">复现说明</a></footer>
 </main></body></html>
