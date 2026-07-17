@@ -178,8 +178,11 @@ def validate_payload(payload: dict, strict_demo: bool = False) -> dict:
             require(not all(gates), f"{run_id} is marked failure but passes every trust gate")
 
     if strict_demo:
-        require(len(runs) == 6, "strict demo must contain exactly 6 runs")
-        require(outcomes == {"success": 3, "failure": 3}, "strict demo must contain 3 success and 3 failure runs")
+        require(len(runs) == 12, "strict demo must contain exactly 12 runs")
+        require(
+            outcomes == {"success": 6, "failure": 6},
+            "strict demo must contain 6 success and 6 failure runs",
+        )
 
     return {"runs": len(runs), **outcomes}
 
@@ -204,7 +207,7 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
     report_text = (output_dir / "report.md").read_text(encoding="utf-8")
     for run in payload["runs"]:
         require(html.escape(run["label"]) in html_text, f"index.html is missing label: {run['label']}")
-    for heading in ("完整任务轨迹", "三个成功案例和三个失败案例", "普通网页搜索 vs 金融数据接口"):
+    for heading in ("完整任务轨迹", "6 个成功案例和 6 个失败案例", "普通网页搜索 vs 金融数据接口"):
         require(heading in report_text, f"report.md is missing section: {heading}")
 
     return {"files": len(OUTPUT_FILES), **trace_summary}
@@ -219,7 +222,7 @@ def main() -> None:
         help="Recorded audit-run JSON",
     )
     parser.add_argument("--output", type=Path, default=Path("site"), help="Generated artifact directory")
-    parser.add_argument("--strict-demo", action="store_true", help="Require the published 3-success/3-failure demo")
+    parser.add_argument("--strict-demo", action="store_true", help="Require the published 6-success/6-failure demo")
     args = parser.parse_args()
 
     payload = json.loads(args.input.read_text(encoding="utf-8"))

@@ -36,7 +36,7 @@ python reproduce.py
 预期结果：
 
 ```text
-[1/3] Validated 6 recorded runs (3 success, 3 failure)
+[1/3] Validated 12 recorded runs (6 success, 6 failure)
 [2/3] Generated 4 report artifacts in site
 [3/3] Reproducibility checks passed
 ```
@@ -44,7 +44,7 @@ python reproduce.py
 验证器会检查：
 
 - 运行 ID 唯一；
-- 严格演示包含 6 条轨迹、3 成功和 3 失败；
+- 严格演示包含 12 条轨迹、6 成功和 6 失败；
 - 工具调用数与 `metrics.tool_call_count` 一致；
 - 比率指标位于 0 到 1；
 - 成功案例通过正确性、引用、时间和完整性四个门槛；
@@ -80,6 +80,9 @@ answer_completeness = 1.0
 | 检索 | 沪深指数问题只回答一半 | 无完整关键词、URL 和振幅计算 |
 | 时间版本 | 经常账户初步值/最终值 | 同一机构的不同发布日期给出 4220 / 4239 |
 | 引用关系 | NVIDIA 财年列错位 | 页面权威，但 3670 属于错误财年列 |
+| 公司行为 | NVIDIA 10-for-1 拆股 | 未复权比较两个名义价格，制造虚假暴跌 |
+| 单位缩放 | Tesla 研发费用 | 忽略 Dollars in millions，结果缩小千倍 |
+| 时间边界 | S&P 500 年度收益率 | 用当年第一个交易日代替上年最后一个交易日 |
 
 只保留成功案例会掩盖系统何时不可信。
 
@@ -149,14 +152,16 @@ python finsearchcomp/chat/chat.py \
 ## 9. 数据来源与时间说明
 
 - 指数价格案例使用 Yahoo Finance Chart JSON 进行可复算演示；
-- 公司财报案例使用 SEC 文件；
+- 公司财报案例使用 Apple、Tesla 和 NVIDIA 的 SEC 文件；
+- 宏观与政策案例使用 BLS 和 Federal Reserve 官方公告；
+- 公司行为案例使用 NVIDIA 官方拆股文件；
 - 中国经常账户案例使用国家外汇管理局公告；
 - 记录的演示轨迹生成于 2026-07-17；
 - `sample_runs.json` 中保留每次获取时间、来源 URL 和审计原因。
 
 ## 10. 已知局限
 
-- 6 条案例不足以代表整个 FinSearchComp；
+- 12 条案例仍不足以代表整个 FinSearchComp；
 - 记录轨迹复现验证的是证据链和报告生成，不是实时工具稳定性；
 - Yahoo Finance 不是监管级官方行情源；
 - 来源支持的最终判断仍包含人工审计；

@@ -15,21 +15,21 @@ main{padding:36px 24px 80px}.summary,.grid,.compare{display:grid;grid-template-c
 .panel{overflow:auto}table{border-collapse:collapse;width:100%}th,td{padding:11px;border-bottom:1px solid #e7eaf0;text-align:left}th{background:#f8fafc}footer{margin-top:48px}
 @media(max-width:760px){.summary,.grid,.compare{grid-template-columns:1fr}.summary{margin-top:-44px}}
 </style></head><body><header><div class="wrap"><p>FYP · Financial Search Agent</p>
-<h1>FinSearchComp<br>搜索轨迹与可信度审计</h1><p>完整轨迹、3 个成功、3 个失败、引用支持、时间检查，以及普通搜索与金融 API 对比。</p>
-<nav><a href="#reproduce">一分钟复现</a><a href="#trajectory">完整轨迹</a><a href="#cases">六个案例</a><a href="report.md">汇报稿</a><a href="trace.json">JSON 轨迹</a></nav>
-</div></header><main class="wrap"><section class="summary"><div class="stat"><b>6</b>实验案例</div>
-<div class="stat"><b>3 / 3</b>成功 / 失败</div><div class="stat"><b>100%</b>成功案例引用支持</div><div class="stat"><b>2 类</b>网页 / 金融 API</div></section>
+<h1>FinSearchComp<br>搜索轨迹与可信度审计</h1><p>完整轨迹、6 个成功、6 个失败、引用支持、时间检查，以及普通搜索与金融 API 对比。</p>
+<nav><a href="#reproduce">一分钟复现</a><a href="#trajectory">完整轨迹</a><a href="#cases">十二个案例</a><a href="report.md">汇报稿</a><a href="trace.json">JSON 轨迹</a></nav>
+</div></header><main class="wrap"><section class="summary"><div class="stat"><b>12</b>实验案例</div>
+<div class="stat"><b>6 / 6</b>成功 / 失败</div><div class="stat"><b>100%</b>成功案例引用支持</div><div class="stat"><b>3 类</b>金融 API / 官方来源 / 搜索</div></section>
 <h2 id="reproduce">一分钟复现</h2><div class="panel"><p><b>确定性复现：</b>从保存的 Agent 轨迹重新生成报告并验证一致性；不会把记录数据冒充成实时搜索。</p>
 <pre><code>git clone https://github.com/QiQiyzhu/FinSearchComp-Audit.git
 cd FinSearchComp-Audit
 python reproduce.py</code></pre>
-<p>无需 API Key。命令会验证 6 条轨迹、生成 4 个产物，并检查案例顺序、指标行数、来源审计和关键章节。</p></div>
+<p>无需 API Key。命令会验证 12 条轨迹、生成 4 个产物，并检查案例顺序、指标行数、来源审计和关键章节。</p></div>
 <h2 id="trajectory">完整搜索任务轨迹</h2><div class="panel"><h3>S&P 500 最大单月涨幅</h3>
 <ol><li>规划：ticker → 时间窗 → 月频 → 相邻月收益 → 最大值。</li>
 <li>查询 <code>^GSPC monthly close 2009-12-01 to 2025-04-30</code>。</li>
 <li>调用 Yahoo Finance Chart JSON。</li><li>计算 <code>2912.4299 / 2584.5901 - 1 = 12.6844%</code>。</li>
 <li>答案：<b>April 2020, 12.68%</b>，引用和时间窗均通过。</li></ol></div>
-<h2 id="cases">三个成功与三个失败</h2><div class="grid"><article class="card success">
+<h2 id="cases">6 个成功与 6 个失败</h2><div class="grid"><article class="card success">
             <div class="badge">成功</div>
             <h3>成功案例 1：S&amp;P 500 最大单月涨幅</h3>
             <p class="question">From January 2010 to April 2025, in which month did the S&amp;P 500 index experience the largest single-month increase? What was the percentage increase that month? (Unit: %, rounded to two decimal places)</p>
@@ -59,7 +59,37 @@ python reproduce.py</code></pre>
             <div class="metrics"><span>引用 100%</span>
             <span>时间 100%</span>
             <span>完整 100%</span>
-            <span>工具 2</span></div></article><article class="card failure">
+            <span>工具 2</span></div></article><article class="card success">
+            <div class="badge">成功</div>
+            <h3>成功案例 4：Apple 2024 财年净销售额</h3>
+            <p class="question">According to Apple&#x27;s 2024 Form 10-K, what were total net sales for fiscal 2024? Report both millions and billions of U.S. dollars.</p>
+            <p><b>策略：</b>优先定位 SEC 原始 10-K，而不是二手财经摘要；在产品净销售额表中核对 2024 列和表格单位，再把百万美元换算为十亿美元。</p>
+            <details><summary>关键词和工具调用</summary><ul><li><code>site:sec.gov/Archives/edgar/data/320193 2024 Apple 10-K total net sales 391035</code></li><li><code>Apple fiscal 2024 total net sales dollars in millions</code></li><li><strong>open_sec_filing</strong> — Apple 2024 Form 10-K 的净销售额表列示：2024 年 Total net sales 为 391,035（百万美元）。</li></ul></details>
+            <p><b>最终答案：</b>Apple&#x27;s fiscal 2024 total net sales were $391,035 million, or $391.035 billion.</p><ul><li><b>pass/pass</b> — SEC 原始 10-K 同一行明确列出 2024 年总净销售额 391,035，单位为百万美元；财年列和换算均正确。</li></ul>
+            <div class="metrics"><span>引用 100%</span>
+            <span>时间 100%</span>
+            <span>完整 100%</span>
+            <span>工具 1</span></div></article><article class="card success">
+            <div class="badge">成功</div>
+            <h3>成功案例 5：美国 2024 年末 CPI 同比</h3>
+            <p class="question">By what percentage did the U.S. CPI-U all-items index increase over the 12 months ending December 2024?</p>
+            <p><b>策略：</b>直接检索 BLS 对应月份的归档新闻稿；区分 12 个月同比与 12 月单月环比，并保留是否季调的统计口径。</p>
+            <details><summary>关键词和工具调用</summary><ul><li><code>site:bls.gov/news.release/archives/cpi_01152025.htm all items 12 months ending December 2024</code></li><li><code>BLS CPI-U December 2024 year over year not seasonally adjusted</code></li><li><strong>open_official_release</strong> — BLS 新闻稿写明：截至 2024 年 12 月的 12 个月，CPI-U all items 在未季调口径下上涨 2.9%。</li></ul></details>
+            <p><b>最终答案：</b>The CPI-U all-items index increased 2.9% over the 12 months ending December 2024, before seasonal adjustment.</p><ul><li><b>pass/pass</b> — BLS 归档新闻稿的正文和 Table A 均给出 2.9%；答案同时注明 12 个月同比和未季调口径。</li></ul>
+            <div class="metrics"><span>引用 100%</span>
+            <span>时间 100%</span>
+            <span>完整 100%</span>
+            <span>工具 1</span></div></article><article class="card success">
+            <div class="badge">成功</div>
+            <h3>成功案例 6：美联储 2024 年 9 月降息</h3>
+            <p class="question">At its September 18, 2024 meeting, by how much did the FOMC lower the federal funds target range, and what was the new range?</p>
+            <p><b>策略：</b>使用指定会议日期定位 Federal Reserve 官方 FOMC statement；同时抽取调整幅度和调整后的上下限，避免只回答其中一项。</p>
+            <details><summary>关键词和工具调用</summary><ul><li><code>site:federalreserve.gov monetary20240918a target range 1/2 percentage point</code></li><li><code>September 18 2024 FOMC statement 4-3/4 to 5 percent</code></li><li><strong>open_official_release</strong> — FOMC 决定将联邦基金利率目标区间下调 1/2 个百分点，至 4-3/4%—5%。</li></ul></details>
+            <p><b>最终答案：</b>The FOMC lowered the range by 0.50 percentage point (50 basis points), to 4.75%-5.00%.</p><ul><li><b>pass/pass</b> — 指定日期的 Federal Reserve 原始声明同时明确给出 1/2 个百分点的幅度和 4-3/4%—5% 的新范围。</li></ul>
+            <div class="metrics"><span>引用 100%</span>
+            <span>时间 100%</span>
+            <span>完整 100%</span>
+            <span>工具 1</span></div></article><article class="card failure">
             <div class="badge">失败</div>
             <h3>失败案例 1：浅层网页搜索只答出一半</h3>
             <p class="question">2024年全年，在沪深300、科创50和中证500三个指数中，年涨幅最高的指数是哪个，涨幅多大？年最高价相比年最低价上涨的振幅最高的指数是哪个，比例是多少？</p>
@@ -89,8 +119,38 @@ python reproduce.py</code></pre>
             <div class="metrics"><span>引用 0%</span>
             <span>时间 0%</span>
             <span>完整 100%</span>
+            <span>工具 1</span></div></article><article class="card failure">
+            <div class="badge">失败</div>
+            <h3>失败案例 4：忽略 NVIDIA 拆股造成虚假暴跌</h3>
+            <p class="question">NVIDIA closed near $1,096.33 on May 31, 2024 and near $121.79 on June 10, 2024. Did shareholders lose about 89% over that interval?</p>
+            <p><b>策略：</b>错误轨迹只比较两个网页中的名义收盘价，没有先检查区间内是否发生拆股、分红或代码变更。</p>
+            <details><summary>关键词和工具调用</summary><ul><li><code>NVDA May 31 2024 close 1096.33 June 10 2024 close 121.79</code></li><li><code>NVIDIA June 2024 stock split</code></li><li><strong>web_search</strong> — 网页历史记录显示 2024-05-31 名义收盘价约 1,096.33 美元，2024-06-10 名义收盘价约 121.79 美元。</li><li><strong>open_official_document</strong> — NVIDIA 官方 FAQ 说明拆股比例为 10-for-1，拆股调整后的交易自 2024-06-10 开始。</li></ul></details>
+            <p><b>最终答案：</b>Yes. NVIDIA shares lost approximately 88.89% between May 31 and June 10, 2024.</p><ul><li><b>pass/pass</b> — 网页能支持两个名义价格，但仅有名义价格还不足以推导股东经济损失。</li><li><b>fail/pass</b> — 官方文件明确说明 10-for-1 拆股及 6 月 10 日开始拆股调整交易；跨拆股直接比较名义价格会制造虚假暴跌。</li></ul>
+            <div class="metrics"><span>引用 50%</span>
+            <span>时间 100%</span>
+            <span>完整 100%</span>
+            <span>工具 2</span></div></article><article class="card failure">
+            <div class="badge">失败</div>
+            <h3>失败案例 5：忽略财报单位导致 Tesla 研发费用缩小千倍</h3>
+            <p class="question">How much did Tesla report as research and development expense for 2024, in U.S. dollars?</p>
+            <p><b>策略：</b>错误轨迹定位到正确的 SEC 10-K 和正确数字 4,540，却忽略表头“Dollars in millions”，把表内数字直接当成美元或单个百万美元。</p>
+            <details><summary>关键词和工具调用</summary><ul><li><code>site:sec.gov/Archives/edgar/data/1318605 Tesla 2024 research development 4540</code></li><li><code>Tesla 2024 10-K R&amp;D dollars in millions</code></li><li><strong>open_sec_filing</strong> — SEC 表格显示 Research and development 为 4,540，表头单位是 Dollars in millions。</li></ul></details>
+            <p><b>最终答案：</b>Tesla&#x27;s 2024 research and development expense was $4.54 million.</p><ul><li><b>fail/pass</b> — SEC 表格明确标注 Dollars in millions，因此 4,540 表示 45.40 亿美元，而不是 454 万美元；正确来源也可能被单位解析错误。</li></ul>
+            <div class="metrics"><span>引用 0%</span>
+            <span>时间 100%</span>
+            <span>完整 100%</span>
+            <span>工具 1</span></div></article><article class="card failure">
+            <div class="badge">失败</div>
+            <h3>失败案例 6：年度收益率起点选择错误</h3>
+            <p class="question">What was the S&amp;P 500 calendar-year price return for 2024, based on closing levels?</p>
+            <p><b>策略：</b>错误轨迹把 2024 年第一个交易日收盘价当作全年起点；这遗漏了从 2023 年最后一个交易日到 2024 年第一个交易日的涨跌。</p>
+            <details><summary>关键词和工具调用</summary><ul><li><code>^GSPC first trading day 2024 close and last trading day 2024 close</code></li><li><code>S&amp;P 500 calendar-year return boundary convention</code></li><li><strong>fetch_yahoo_chart</strong> — 接口包含 2023-12-29 收盘 4769.8301、2024-01-02 收盘 4742.8301、2024-12-31 收盘 5881.6299。</li></ul></details>
+            <p><b>最终答案：</b>The S&amp;P 500&#x27;s 2024 calendar-year price return was 24.01%.</p><ul><li><b>fail/fail</b> — 接口数据本身完整，但年度收益应从 2023 年最后一个交易日收盘算到 2024 年最后一个交易日；使用 2024-01-02 会丢失首日收益。</li></ul>
+            <div class="metrics"><span>引用 0%</span>
+            <span>时间 0%</span>
+            <span>完整 100%</span>
             <span>工具 1</span></div></article></div>
-<h2>结果总表</h2><div class="panel"><table><thead><tr><th>结果</th><th>案例</th><th>方法</th><th>真实性综合检查</th><th>工具数</th></tr></thead><tbody><tr><td>✓</td><td>成功案例 1：S&amp;P 500 最大单月涨幅</td><td>finance_api</td><td>通过</td><td>1</td></tr><tr><td>✓</td><td>成功案例 2：加息后三个月 S&amp;P 500 最大回撤</td><td>finance_api</td><td>通过</td><td>1</td></tr><tr><td>✓</td><td>成功案例 3：Nasdaq 与 S&amp;P 500 2024 年涨幅差</td><td>finance_api</td><td>通过</td><td>2</td></tr><tr><td>✗</td><td>失败案例 1：浅层网页搜索只答出一半</td><td>web_search</td><td>未通过</td><td>1</td></tr><tr><td>✗</td><td>失败案例 2：官方初步值与最终值版本冲突</td><td>web_search</td><td>未通过</td><td>2</td></tr><tr><td>✗</td><td>失败案例 3：财年列错位导致数字来自正确文件、却支持错误结论</td><td>web_search</td><td>未通过</td><td>1</td></tr></tbody></table></div>
+<h2>结果总表</h2><div class="panel"><table><thead><tr><th>结果</th><th>案例</th><th>方法</th><th>真实性综合检查</th><th>工具数</th></tr></thead><tbody><tr><td>✓</td><td>成功案例 1：S&amp;P 500 最大单月涨幅</td><td>finance_api</td><td>通过</td><td>1</td></tr><tr><td>✓</td><td>成功案例 2：加息后三个月 S&amp;P 500 最大回撤</td><td>finance_api</td><td>通过</td><td>1</td></tr><tr><td>✓</td><td>成功案例 3：Nasdaq 与 S&amp;P 500 2024 年涨幅差</td><td>finance_api</td><td>通过</td><td>2</td></tr><tr><td>✓</td><td>成功案例 4：Apple 2024 财年净销售额</td><td>official_filing</td><td>通过</td><td>1</td></tr><tr><td>✓</td><td>成功案例 5：美国 2024 年末 CPI 同比</td><td>official_release</td><td>通过</td><td>1</td></tr><tr><td>✓</td><td>成功案例 6：美联储 2024 年 9 月降息</td><td>official_release</td><td>通过</td><td>1</td></tr><tr><td>✗</td><td>失败案例 1：浅层网页搜索只答出一半</td><td>web_search</td><td>未通过</td><td>1</td></tr><tr><td>✗</td><td>失败案例 2：官方初步值与最终值版本冲突</td><td>web_search</td><td>未通过</td><td>2</td></tr><tr><td>✗</td><td>失败案例 3：财年列错位导致数字来自正确文件、却支持错误结论</td><td>web_search</td><td>未通过</td><td>1</td></tr><tr><td>✗</td><td>失败案例 4：忽略 NVIDIA 拆股造成虚假暴跌</td><td>web_search</td><td>未通过</td><td>2</td></tr><tr><td>✗</td><td>失败案例 5：忽略财报单位导致 Tesla 研发费用缩小千倍</td><td>web_search</td><td>未通过</td><td>1</td></tr><tr><td>✗</td><td>失败案例 6：年度收益率起点选择错误</td><td>finance_api</td><td>未通过</td><td>1</td></tr></tbody></table></div>
 <h2>普通搜索 vs 金融接口</h2><div class="compare"><section><h3>普通网页搜索</h3><p>擅长公告、财报和背景；但片段可能过期、表格列可能错位，Agent 也可能停止过早。</p></section>
 <section><h3>金融数据接口</h3><p>擅长 OHLC 和长时间序列；结构化、易复算、效率高。仍需明确 ticker、复权、时区和供应商口径。</p></section></div>
 <h2>评价框架</h2><div class="panel"><p><b>真实性：</b>答案正确 + 引用真的支持 + 时间版本正确。</p>

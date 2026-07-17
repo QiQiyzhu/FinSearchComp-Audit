@@ -72,7 +72,7 @@ def markdown_report(payload: dict) -> str:
     lines.extend(
         [
             "",
-            "## 三、三个成功案例和三个失败案例",
+            f"## 三、{len(successes)} 个成功案例和 {len(failures)} 个失败案例",
             "",
             "| 结果 | 案例 | 方法 | 正确 | 引用支持 | 时间合规 | 完整性 | 工具数 |",
             "|---|---|---|---:|---:|---:|---:|---:|",
@@ -97,8 +97,8 @@ def markdown_report(payload: dict) -> str:
         lines.append(f"- **{run['label']}**：{run['final_answer']}")
     lines.extend(["", "### 失败案例及原因", ""])
     for run in failures:
-        reason = "；".join(audit["reason"] for audit in run["source_audits"])
-        lines.append(f"- **{run['label']}**：{reason}")
+        reason = "；".join(audit["reason"].rstrip("。；") for audit in run["source_audits"])
+        lines.append(f"- **{run['label']}**：{reason}。")
     lines.extend(
         [
             "",
@@ -108,7 +108,7 @@ def markdown_report(payload: dict) -> str:
             "|---|---|---|",
             "| 优点 | 能找到公告、财报、定义和事件背景；适合非结构化事实 | OHLC/时间序列结构化，容易复算、批量处理和核对时间窗 |",
             "| 缺点 | 搜索片段可能过期；容易停止过早；表格列和财年可能错位 | ticker、复权、时区、供应商口径需要明确；接口也不是绝对权威 |",
-            "| 本实验表现 | 失败案例暴露轨迹缺失、初值/终值混用、财年错列 | 3 个 T3 计算案例均匹配参考答案 |",
+            "| 本实验表现 | 失败案例覆盖轨迹缺失、版本冲突、财年错列、拆股、单位与时间边界 | 价格计算、公司财报、宏观指标和政策公告案例均通过审计 |",
             "| 推荐策略 | 先找官方定义/公告，再用第二来源交叉核验 | 价格与长时间序列优先 API，最后用官方/独立来源抽检 |",
             "",
             "## 五、如何评价真实性、完整性和效率",
@@ -131,8 +131,8 @@ def markdown_report(payload: dict) -> str:
             "2. 实验架构与留痕格式；",
             "3. S&P 500 最大月涨幅完整轨迹；",
             "4. 普通搜索与金融接口对比；",
-            "5. 三个成功案例；",
-            "6. 三个失败案例。",
+            "5. 六个成功案例；",
+            "6. 六个失败案例。",
             "",
             "## 八、可复核文件",
             "",
@@ -148,6 +148,11 @@ def markdown_report(payload: dict) -> str:
 
 def html_report(payload: dict) -> str:
     runs = payload["runs"]
+    successes = [run for run in runs if run["outcome"] == "success"]
+    failures = [run for run in runs if run["outcome"] == "failure"]
+    run_count = len(runs)
+    success_count = len(successes)
+    failure_count = len(failures)
     cards = []
     for run in runs:
         metrics = run["metrics"]
@@ -207,21 +212,21 @@ main{{padding:36px 24px 80px}}.summary,.grid,.compare{{display:grid;grid-templat
 .panel{{overflow:auto}}table{{border-collapse:collapse;width:100%}}th,td{{padding:11px;border-bottom:1px solid #e7eaf0;text-align:left}}th{{background:#f8fafc}}footer{{margin-top:48px}}
 @media(max-width:760px){{.summary,.grid,.compare{{grid-template-columns:1fr}}.summary{{margin-top:-44px}}}}
 </style></head><body><header><div class="wrap"><p>FYP · Financial Search Agent</p>
-<h1>FinSearchComp<br>搜索轨迹与可信度审计</h1><p>完整轨迹、3 个成功、3 个失败、引用支持、时间检查，以及普通搜索与金融 API 对比。</p>
-<nav><a href="#reproduce">一分钟复现</a><a href="#trajectory">完整轨迹</a><a href="#cases">六个案例</a><a href="report.md">汇报稿</a><a href="trace.json">JSON 轨迹</a></nav>
-</div></header><main class="wrap"><section class="summary"><div class="stat"><b>6</b>实验案例</div>
-<div class="stat"><b>3 / 3</b>成功 / 失败</div><div class="stat"><b>100%</b>成功案例引用支持</div><div class="stat"><b>2 类</b>网页 / 金融 API</div></section>
+<h1>FinSearchComp<br>搜索轨迹与可信度审计</h1><p>完整轨迹、{success_count} 个成功、{failure_count} 个失败、引用支持、时间检查，以及普通搜索与金融 API 对比。</p>
+<nav><a href="#reproduce">一分钟复现</a><a href="#trajectory">完整轨迹</a><a href="#cases">十二个案例</a><a href="report.md">汇报稿</a><a href="trace.json">JSON 轨迹</a></nav>
+</div></header><main class="wrap"><section class="summary"><div class="stat"><b>{run_count}</b>实验案例</div>
+<div class="stat"><b>{success_count} / {failure_count}</b>成功 / 失败</div><div class="stat"><b>100%</b>成功案例引用支持</div><div class="stat"><b>3 类</b>金融 API / 官方来源 / 搜索</div></section>
 <h2 id="reproduce">一分钟复现</h2><div class="panel"><p><b>确定性复现：</b>从保存的 Agent 轨迹重新生成报告并验证一致性；不会把记录数据冒充成实时搜索。</p>
 <pre><code>git clone https://github.com/QiQiyzhu/FinSearchComp-Audit.git
 cd FinSearchComp-Audit
 python reproduce.py</code></pre>
-<p>无需 API Key。命令会验证 6 条轨迹、生成 4 个产物，并检查案例顺序、指标行数、来源审计和关键章节。</p></div>
+<p>无需 API Key。命令会验证 {run_count} 条轨迹、生成 4 个产物，并检查案例顺序、指标行数、来源审计和关键章节。</p></div>
 <h2 id="trajectory">完整搜索任务轨迹</h2><div class="panel"><h3>S&P 500 最大单月涨幅</h3>
 <ol><li>规划：ticker → 时间窗 → 月频 → 相邻月收益 → 最大值。</li>
 <li>查询 <code>^GSPC monthly close 2009-12-01 to 2025-04-30</code>。</li>
 <li>调用 Yahoo Finance Chart JSON。</li><li>计算 <code>2912.4299 / 2584.5901 - 1 = 12.6844%</code>。</li>
 <li>答案：<b>April 2020, 12.68%</b>，引用和时间窗均通过。</li></ol></div>
-<h2 id="cases">三个成功与三个失败</h2><div class="grid">{''.join(cards)}</div>
+<h2 id="cases">{success_count} 个成功与 {failure_count} 个失败</h2><div class="grid">{''.join(cards)}</div>
 <h2>结果总表</h2><div class="panel"><table><thead><tr><th>结果</th><th>案例</th><th>方法</th><th>真实性综合检查</th><th>工具数</th></tr></thead><tbody>{rows}</tbody></table></div>
 <h2>普通搜索 vs 金融接口</h2><div class="compare"><section><h3>普通网页搜索</h3><p>擅长公告、财报和背景；但片段可能过期、表格列可能错位，Agent 也可能停止过早。</p></section>
 <section><h3>金融数据接口</h3><p>擅长 OHLC 和长时间序列；结构化、易复算、效率高。仍需明确 ticker、复权、时区和供应商口径。</p></section></div>

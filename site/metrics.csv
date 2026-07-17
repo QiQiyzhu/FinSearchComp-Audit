@@ -2,6 +2,12 @@
 S1_T3_023_FINANCE_API,(T3)Complex_Historical_Investigation_023,success,finance_api,True,True,1.0,1.0,1.0,1.0,1,5.9
 S2_T3_227_FINANCE_API,(T3)Complex_Historical_Investigation_227,success,finance_api,True,True,1.0,1.0,1.0,1.0,1,5.1
 S3_T3_B030_FINANCE_API,(T3)Complex_Historical_Investigation_b030,success,finance_api,True,True,1.0,1.0,1.0,1.0,2,5.7
+S4_CORP_APPLE_2024_NET_SALES,EXT_CORPORATE_FILING_001,success,official_filing,True,True,1.0,1.0,1.0,1.0,1,1.4
+S5_MACRO_US_CPI_2024,EXT_OFFICIAL_MACRO_001,success,official_release,True,True,1.0,1.0,1.0,1.0,1,1.1
+S6_POLICY_FOMC_2024_09,EXT_POLICY_RELEASE_001,success,official_release,True,True,1.0,1.0,1.0,1.0,1,0.9
 F1_T3_B027_SHALLOW_WEB,(T3)Complex_Historical_Investigation_b027,failure,web_search,False,False,0.0,0.5,0.5,0.2,1,
 F2_T2_002_VINTAGE_MISMATCH,(T2)Simple_Historical_Lookup_002,failure,web_search,True,False,1.0,0.0,0.5,1.0,2,2.0
 F3_T2_537_FISCAL_COLUMN,(T2)Simple_Historical_Lookup_537,failure,web_search,False,False,0.0,0.0,1.0,1.0,1,1.0
+F4_CORPORATE_ACTION_NVDA_SPLIT,EXT_CORPORATE_ACTION_001,failure,web_search,False,False,0.5,1.0,1.0,1.0,2,2.1
+F5_UNIT_SCALE_TSLA_RD,EXT_UNIT_SCALE_001,failure,web_search,False,False,0.0,1.0,1.0,1.0,1,1.3
+F6_WINDOW_SP500_2024_RETURN,EXT_TIME_WINDOW_001,failure,finance_api,False,False,0.0,0.0,1.0,1.0,1,2.7

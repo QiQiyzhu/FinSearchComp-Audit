@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "created_at": "2026-07-17T10:30:00+08:00",
+  "created_at": "2026-07-17T19:01:50+08:00",
   "method_note": "成功案例由公开金融 JSON 接口或监管机构原始文件复核；失败案例用于展示浅搜索、数据版本和财年对齐问题。F1 来自上游仓库自带结果，F2/F3 是可复现的审计基线。",
   "runs": [
     {
@@ -201,6 +201,181 @@
       }
     },
     {
+      "run_id": "S4_CORP_APPLE_2024_NET_SALES",
+      "benchmark_id": "EXT_CORPORATE_FILING_001",
+      "label": "成功案例 4：Apple 2024 财年净销售额",
+      "outcome": "success",
+      "mode": "official_filing",
+      "question": "According to Apple's 2024 Form 10-K, what were total net sales for fiscal 2024? Report both millions and billions of U.S. dollars.",
+      "reference_answer": "$391,035 million, equal to $391.035 billion.",
+      "strategy": "优先定位 SEC 原始 10-K，而不是二手财经摘要；在产品净销售额表中核对 2024 列和表格单位，再把百万美元换算为十亿美元。",
+      "search_queries": [
+        "site:sec.gov/Archives/edgar/data/320193 2024 Apple 10-K total net sales 391035",
+        "Apple fiscal 2024 total net sales dollars in millions"
+      ],
+      "tool_calls": [
+        {
+          "sequence": 1,
+          "tool": "open_sec_filing",
+          "arguments": {
+            "cik": "0000320193",
+            "form": "10-K",
+            "period": "2024-09-28",
+            "table": "Net Sales"
+          },
+          "source_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/aapl-20240928.htm",
+          "result_summary": "Apple 2024 Form 10-K 的净销售额表列示：2024 年 Total net sales 为 391,035（百万美元）。",
+          "retrieved_at": "2026-07-17T18:42:00+08:00",
+          "duration_seconds": 1.4
+        }
+      ],
+      "calculation": "$391,035 million ÷ 1,000 = $391.035 billion.",
+      "final_answer": "Apple's fiscal 2024 total net sales were $391,035 million, or $391.035 billion.",
+      "citations": [
+        {
+          "title": "Apple Inc. 2024 Form 10-K",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/aapl-20240928.htm",
+          "source_type": "official_filing",
+          "primary": true
+        }
+      ],
+      "source_audits": [
+        {
+          "claim": "Apple's fiscal 2024 total net sales were $391,035 million ($391.035 billion).",
+          "citation_url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/aapl-20240928.htm",
+          "support": "pass",
+          "time_check": "pass",
+          "reason": "SEC 原始 10-K 同一行明确列出 2024 年总净销售额 391,035，单位为百万美元；财年列和换算均正确。"
+        }
+      ],
+      "metrics": {
+        "benchmark_correct": true,
+        "current_fact_correct": true,
+        "citation_support_rate": 1.0,
+        "time_compliance_rate": 1.0,
+        "answer_completeness": 1.0,
+        "trace_completeness": 1.0,
+        "tool_call_count": 1,
+        "duration_seconds": 1.4
+      }
+    },
+    {
+      "run_id": "S5_MACRO_US_CPI_2024",
+      "benchmark_id": "EXT_OFFICIAL_MACRO_001",
+      "label": "成功案例 5：美国 2024 年末 CPI 同比",
+      "outcome": "success",
+      "mode": "official_release",
+      "question": "By what percentage did the U.S. CPI-U all-items index increase over the 12 months ending December 2024?",
+      "reference_answer": "2.9% before seasonal adjustment.",
+      "strategy": "直接检索 BLS 对应月份的归档新闻稿；区分 12 个月同比与 12 月单月环比，并保留是否季调的统计口径。",
+      "search_queries": [
+        "site:bls.gov/news.release/archives/cpi_01152025.htm all items 12 months ending December 2024",
+        "BLS CPI-U December 2024 year over year not seasonally adjusted"
+      ],
+      "tool_calls": [
+        {
+          "sequence": 1,
+          "tool": "open_official_release",
+          "arguments": {
+            "agency": "BLS",
+            "release": "Consumer Price Index - December 2024",
+            "series": "CPI-U all items"
+          },
+          "source_url": "https://www.bls.gov/news.release/archives/cpi_01152025.htm",
+          "result_summary": "BLS 新闻稿写明：截至 2024 年 12 月的 12 个月，CPI-U all items 在未季调口径下上涨 2.9%。",
+          "retrieved_at": "2026-07-17T18:44:00+08:00",
+          "duration_seconds": 1.1
+        }
+      ],
+      "calculation": "直接读取 BLS 的 unadjusted 12-month percent change：2.9%。",
+      "final_answer": "The CPI-U all-items index increased 2.9% over the 12 months ending December 2024, before seasonal adjustment.",
+      "citations": [
+        {
+          "title": "BLS Consumer Price Index News Release — December 2024",
+          "url": "https://www.bls.gov/news.release/archives/cpi_01152025.htm",
+          "source_type": "official_release",
+          "primary": true
+        }
+      ],
+      "source_audits": [
+        {
+          "claim": "The CPI-U all-items index rose 2.9% over the 12 months ending December 2024.",
+          "citation_url": "https://www.bls.gov/news.release/archives/cpi_01152025.htm",
+          "support": "pass",
+          "time_check": "pass",
+          "reason": "BLS 归档新闻稿的正文和 Table A 均给出 2.9%；答案同时注明 12 个月同比和未季调口径。"
+        }
+      ],
+      "metrics": {
+        "benchmark_correct": true,
+        "current_fact_correct": true,
+        "citation_support_rate": 1.0,
+        "time_compliance_rate": 1.0,
+        "answer_completeness": 1.0,
+        "trace_completeness": 1.0,
+        "tool_call_count": 1,
+        "duration_seconds": 1.1
+      }
+    },
+    {
+      "run_id": "S6_POLICY_FOMC_2024_09",
+      "benchmark_id": "EXT_POLICY_RELEASE_001",
+      "label": "成功案例 6：美联储 2024 年 9 月降息",
+      "outcome": "success",
+      "mode": "official_release",
+      "question": "At its September 18, 2024 meeting, by how much did the FOMC lower the federal funds target range, and what was the new range?",
+      "reference_answer": "By 1/2 percentage point (50 basis points), to 4.75%-5.00%.",
+      "strategy": "使用指定会议日期定位 Federal Reserve 官方 FOMC statement；同时抽取调整幅度和调整后的上下限，避免只回答其中一项。",
+      "search_queries": [
+        "site:federalreserve.gov monetary20240918a target range 1/2 percentage point",
+        "September 18 2024 FOMC statement 4-3/4 to 5 percent"
+      ],
+      "tool_calls": [
+        {
+          "sequence": 1,
+          "tool": "open_official_release",
+          "arguments": {
+            "agency": "Federal Reserve",
+            "date": "2024-09-18",
+            "document": "FOMC statement"
+          },
+          "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20240918a.htm",
+          "result_summary": "FOMC 决定将联邦基金利率目标区间下调 1/2 个百分点，至 4-3/4%—5%。",
+          "retrieved_at": "2026-07-17T18:46:00+08:00",
+          "duration_seconds": 0.9
+        }
+      ],
+      "calculation": "1/2 percentage point = 0.50 percentage point = 50 basis points；4-3/4% = 4.75%。",
+      "final_answer": "The FOMC lowered the range by 0.50 percentage point (50 basis points), to 4.75%-5.00%.",
+      "citations": [
+        {
+          "title": "Federal Reserve FOMC Statement — September 18, 2024",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20240918a.htm",
+          "source_type": "official_release",
+          "primary": true
+        }
+      ],
+      "source_audits": [
+        {
+          "claim": "The FOMC cut the target range by 50 basis points to 4.75%-5.00%.",
+          "citation_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20240918a.htm",
+          "support": "pass",
+          "time_check": "pass",
+          "reason": "指定日期的 Federal Reserve 原始声明同时明确给出 1/2 个百分点的幅度和 4-3/4%—5% 的新范围。"
+        }
+      ],
+      "metrics": {
+        "benchmark_correct": true,
+        "current_fact_correct": true,
+        "citation_support_rate": 1.0,
+        "time_compliance_rate": 1.0,
+        "answer_completeness": 1.0,
+        "trace_completeness": 1.0,
+        "tool_call_count": 1,
+        "duration_seconds": 0.9
+      }
+    },
+    {
       "run_id": "F1_T3_B027_SHALLOW_WEB",
       "benchmark_id": "(T3)Complex_Historical_Investigation_b027",
       "label": "失败案例 1：浅层网页搜索只答出一半",
@@ -377,6 +552,205 @@
         "trace_completeness": 1.0,
         "tool_call_count": 1,
         "duration_seconds": 1.0
+      }
+    },
+    {
+      "run_id": "F4_CORPORATE_ACTION_NVDA_SPLIT",
+      "benchmark_id": "EXT_CORPORATE_ACTION_001",
+      "label": "失败案例 4：忽略 NVIDIA 拆股造成虚假暴跌",
+      "outcome": "failure",
+      "mode": "web_search",
+      "question": "NVIDIA closed near $1,096.33 on May 31, 2024 and near $121.79 on June 10, 2024. Did shareholders lose about 89% over that interval?",
+      "reference_answer": "No. NVIDIA completed a 10-for-1 stock split, and split-adjusted trading began June 10, 2024; the nominal prices cannot be compared without adjustment.",
+      "strategy": "错误轨迹只比较两个网页中的名义收盘价，没有先检查区间内是否发生拆股、分红或代码变更。",
+      "search_queries": [
+        "NVDA May 31 2024 close 1096.33 June 10 2024 close 121.79",
+        "NVIDIA June 2024 stock split"
+      ],
+      "tool_calls": [
+        {
+          "sequence": 1,
+          "tool": "web_search",
+          "arguments": {
+            "query": "NVDA May 31 2024 close June 10 2024 close"
+          },
+          "source_url": "https://sangseek.com/stocks/nvidia",
+          "result_summary": "网页历史记录显示 2024-05-31 名义收盘价约 1,096.33 美元，2024-06-10 名义收盘价约 121.79 美元。",
+          "retrieved_at": "2026-07-17T18:48:00+08:00",
+          "duration_seconds": 1.2
+        },
+        {
+          "sequence": 2,
+          "tool": "open_official_document",
+          "arguments": {
+            "issuer": "NVIDIA",
+            "document": "2024 Stock Split FAQ"
+          },
+          "source_url": "https://investor.nvidia.com/files/doc_downloads/2024/06/nvidia-2024-stock-split_faq_investors.pdf",
+          "result_summary": "NVIDIA 官方 FAQ 说明拆股比例为 10-for-1，拆股调整后的交易自 2024-06-10 开始。",
+          "retrieved_at": "2026-07-17T18:48:02+08:00",
+          "duration_seconds": 0.9
+        }
+      ],
+      "calculation": "错误计算：(121.79 / 1096.33 - 1) × 100 = -88.89%；正确做法应先按 10-for-1 拆股统一价格口径。",
+      "final_answer": "Yes. NVIDIA shares lost approximately 88.89% between May 31 and June 10, 2024.",
+      "citations": [
+        {
+          "title": "NVIDIA historical nominal prices",
+          "url": "https://sangseek.com/stocks/nvidia",
+          "source_type": "secondary_market_data",
+          "primary": false
+        },
+        {
+          "title": "NVIDIA 2024 Stock Split FAQ",
+          "url": "https://investor.nvidia.com/files/doc_downloads/2024/06/nvidia-2024-stock-split_faq_investors.pdf",
+          "source_type": "official_corporate_action",
+          "primary": true
+        }
+      ],
+      "source_audits": [
+        {
+          "claim": "The two pages show nominal prices near $1,096.33 and $121.79.",
+          "citation_url": "https://sangseek.com/stocks/nvidia",
+          "support": "pass",
+          "time_check": "pass",
+          "reason": "网页能支持两个名义价格，但仅有名义价格还不足以推导股东经济损失。"
+        },
+        {
+          "claim": "NVIDIA shareholders lost approximately 88.89% over the interval.",
+          "citation_url": "https://investor.nvidia.com/files/doc_downloads/2024/06/nvidia-2024-stock-split_faq_investors.pdf",
+          "support": "fail",
+          "time_check": "pass",
+          "reason": "官方文件明确说明 10-for-1 拆股及 6 月 10 日开始拆股调整交易；跨拆股直接比较名义价格会制造虚假暴跌。"
+        }
+      ],
+      "metrics": {
+        "benchmark_correct": false,
+        "current_fact_correct": false,
+        "citation_support_rate": 0.5,
+        "time_compliance_rate": 1.0,
+        "answer_completeness": 1.0,
+        "trace_completeness": 1.0,
+        "tool_call_count": 2,
+        "duration_seconds": 2.1
+      }
+    },
+    {
+      "run_id": "F5_UNIT_SCALE_TSLA_RD",
+      "benchmark_id": "EXT_UNIT_SCALE_001",
+      "label": "失败案例 5：忽略财报单位导致 Tesla 研发费用缩小千倍",
+      "outcome": "failure",
+      "mode": "web_search",
+      "question": "How much did Tesla report as research and development expense for 2024, in U.S. dollars?",
+      "reference_answer": "$4.540 billion ($4,540 million).",
+      "strategy": "错误轨迹定位到正确的 SEC 10-K 和正确数字 4,540，却忽略表头“Dollars in millions”，把表内数字直接当成美元或单个百万美元。",
+      "search_queries": [
+        "site:sec.gov/Archives/edgar/data/1318605 Tesla 2024 research development 4540",
+        "Tesla 2024 10-K R&D dollars in millions"
+      ],
+      "tool_calls": [
+        {
+          "sequence": 1,
+          "tool": "open_sec_filing",
+          "arguments": {
+            "cik": "0001318605",
+            "form": "10-K",
+            "period": "2024-12-31",
+            "table": "Research and Development Expense"
+          },
+          "source_url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828025003063/tsla-20241231.htm",
+          "result_summary": "SEC 表格显示 Research and development 为 4,540，表头单位是 Dollars in millions。",
+          "retrieved_at": "2026-07-17T18:50:00+08:00",
+          "duration_seconds": 1.3
+        }
+      ],
+      "calculation": "错误：4,540 ÷ 1,000 = 4.54 million；正确：4,540 × $1 million = $4.540 billion。",
+      "final_answer": "Tesla's 2024 research and development expense was $4.54 million.",
+      "citations": [
+        {
+          "title": "Tesla Inc. 2024 Form 10-K",
+          "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828025003063/tsla-20241231.htm",
+          "source_type": "official_filing",
+          "primary": true
+        }
+      ],
+      "source_audits": [
+        {
+          "claim": "Tesla's 2024 R&D expense was $4.54 million.",
+          "citation_url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828025003063/tsla-20241231.htm",
+          "support": "fail",
+          "time_check": "pass",
+          "reason": "SEC 表格明确标注 Dollars in millions，因此 4,540 表示 45.40 亿美元，而不是 454 万美元；正确来源也可能被单位解析错误。"
+        }
+      ],
+      "metrics": {
+        "benchmark_correct": false,
+        "current_fact_correct": false,
+        "citation_support_rate": 0.0,
+        "time_compliance_rate": 1.0,
+        "answer_completeness": 1.0,
+        "trace_completeness": 1.0,
+        "tool_call_count": 1,
+        "duration_seconds": 1.3
+      }
+    },
+    {
+      "run_id": "F6_WINDOW_SP500_2024_RETURN",
+      "benchmark_id": "EXT_TIME_WINDOW_001",
+      "label": "失败案例 6：年度收益率起点选择错误",
+      "outcome": "failure",
+      "mode": "finance_api",
+      "question": "What was the S&P 500 calendar-year price return for 2024, based on closing levels?",
+      "reference_answer": "23.31%, using the December 29, 2023 close and December 31, 2024 close.",
+      "strategy": "错误轨迹把 2024 年第一个交易日收盘价当作全年起点；这遗漏了从 2023 年最后一个交易日到 2024 年第一个交易日的涨跌。",
+      "search_queries": [
+        "^GSPC first trading day 2024 close and last trading day 2024 close",
+        "S&P 500 calendar-year return boundary convention"
+      ],
+      "tool_calls": [
+        {
+          "sequence": 1,
+          "tool": "fetch_yahoo_chart",
+          "arguments": {
+            "symbol": "^GSPC",
+            "start_date": "2023-12-29",
+            "end_date": "2025-01-02",
+            "interval": "1d"
+          },
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1703808000&period2=1735776000&interval=1d&events=history",
+          "result_summary": "接口包含 2023-12-29 收盘 4769.8301、2024-01-02 收盘 4742.8301、2024-12-31 收盘 5881.6299。",
+          "retrieved_at": "2026-07-17T18:52:00+08:00",
+          "duration_seconds": 2.7
+        }
+      ],
+      "calculation": "错误：(5881.6299 / 4742.8301 - 1) × 100 = 24.0110%；正确：(5881.6299 / 4769.8301 - 1) × 100 = 23.3090%。",
+      "final_answer": "The S&P 500's 2024 calendar-year price return was 24.01%.",
+      "citations": [
+        {
+          "title": "Yahoo Finance Chart API: S&P 500 daily prices",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1703808000&period2=1735776000&interval=1d&events=history",
+          "source_type": "financial_api",
+          "primary": false
+        }
+      ],
+      "source_audits": [
+        {
+          "claim": "The S&P 500 calendar-year price return for 2024 was 24.01%.",
+          "citation_url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1703808000&period2=1735776000&interval=1d&events=history",
+          "support": "fail",
+          "time_check": "fail",
+          "reason": "接口数据本身完整，但年度收益应从 2023 年最后一个交易日收盘算到 2024 年最后一个交易日；使用 2024-01-02 会丢失首日收益。"
+        }
+      ],
+      "metrics": {
+        "benchmark_correct": false,
+        "current_fact_correct": false,
+        "citation_support_rate": 0.0,
+        "time_compliance_rate": 0.0,
+        "answer_completeness": 1.0,
+        "trace_completeness": 1.0,
+        "tool_call_count": 1,
+        "duration_seconds": 2.7
       }
     }
   ]

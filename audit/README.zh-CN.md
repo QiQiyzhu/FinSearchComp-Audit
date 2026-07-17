@@ -1,6 +1,6 @@
 # FinSearchComp 可审计复现实验
 
-本目录提供一个确定性复现（deterministic replay）：使用已经保存的 6 条 Agent 运行轨迹，重新生成报告并检查轨迹、指标与输出是否一致。
+本目录提供一个确定性复现（deterministic replay）：使用已经保存的 12 条 Agent 运行轨迹（6 成功、6 失败），重新生成报告并检查轨迹、指标与输出是否一致。
 
 它不是伪装成“实时搜索”的静态答案。两种模式的边界如下：
 
@@ -32,7 +32,7 @@ python reproduce.py \
   --output site
 ```
 
-如果你正在开发自己的案例集，不要求固定的 3 成功/3 失败：
+如果你正在开发自己的案例集，不要求固定的 6 成功/6 失败：
 
 ```bash
 python reproduce.py \
