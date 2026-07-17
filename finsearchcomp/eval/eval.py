@@ -112,15 +112,26 @@ def parse_judge_output(judge_output: str) -> float:
         logger.warning(f"Input passed to parse_judge_output is not a string: {type(judge_output)}")
         return DEFAULT_ERROR_SCORE
     try:
-        # Extract JSON part
-        json_match = re.search(r"```json\s*(\{.*?\})\s*```", judge_output, re.DOTALL)
-        if not json_match:
-            logger.warning(f"Unable to find JSON block from judge output: {judge_output}")
-            return DEFAULT_ERROR_SCORE
+        # Judge prompts in the released data use both fenced and plain JSON, and
+        # historical result files contain scalar as well as nested score values.
+        json_match = re.search(
+            r"```(?:json)?\s*(\{.*?\})\s*```",
+            judge_output,
+            re.DOTALL | re.IGNORECASE,
+        )
+        if json_match:
+            payload = json_match.group(1)
+        else:
+            plain_match = re.search(r"(\{[^{}]*(?:answer_score|score)[^{}]*\})", judge_output)
+            if not plain_match:
+                logger.warning(f"Unable to find JSON score from judge output: {judge_output}")
+                return DEFAULT_ERROR_SCORE
+            payload = plain_match.group(1)
 
-        judge_json = json.loads(json_match.group(1))
-        # Extract score, assuming it's nested as [[score]]
-        score = judge_json.get("answer_score", [[DEFAULT_ERROR_SCORE]])[0][0]
+        judge_json = json.loads(payload)
+        score = judge_json.get("answer_score", judge_json.get("score", DEFAULT_ERROR_SCORE))
+        while isinstance(score, list) and score:
+            score = score[0]
         return float(score)
     except (json.JSONDecodeError, IndexError, TypeError, ValueError) as e:
         logger.warning(f"Error parsing judge output JSON or score: {e}\nOutput: {judge_output}")
@@ -228,6 +239,9 @@ def process_file(data: Dict, model, output_file: str = None):
         results["evaluations"].append(eval_result)
         total_score += evaluation["score"]
         valid_evals += 1
+        if "T1" not in str(prompt_id):
+            non_ts_total_score += evaluation["score"]
+            non_ts_valid_evals += 1
         
         logger.info(f"Evaluation completed {prompt_id}: score {evaluation['score']}")
     

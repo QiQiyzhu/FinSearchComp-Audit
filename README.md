@@ -68,6 +68,14 @@ python finsearchcomp/chat/chat.py \
 ```
 > limit=0 means process all questions in the data file.
 
+### Student audit lab / 学生审计实验
+
+See [`audit/README.zh-CN.md`](audit/README.zh-CN.md) for a one-click,
+presentation-ready experiment. It records search terms, tool calls, final
+answers, citation support, temporal validity, and web-search vs. financial-API
+differences. The **One-click FinSearch Audit** GitHub Actions workflow builds
+and deploys a Chinese GitHub Pages report without requiring an API key.
+
 3️⃣ Conduct evaluation:
 
 ```bash

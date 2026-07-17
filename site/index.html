@@ -1,0 +1,92 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>FinSearchComp 审计</title>
+<style>
+:root{--ink:#172033;--muted:#667085;--blue:#2563eb;--green:#14804a;--red:#b42318;--bg:#f3f6fb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,"Microsoft YaHei",sans-serif}
+header{background:linear-gradient(125deg,#102044,#244f9e);color:white;padding:60px 24px}.wrap{max-width:1100px;margin:auto}
+h1{font-size:clamp(30px,5vw,52px);line-height:1.12;margin:0 0 16px}header p{max-width:780px;color:#dbe7ff}nav a{color:white;margin-right:18px}
+main{padding:36px 24px 80px}.summary,.grid,.compare{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.summary{grid-template-columns:repeat(4,1fr);margin-top:-62px}.stat,.card,.panel,.compare section{background:white;border:1px solid #e5eaf2;border-radius:16px;box-shadow:0 8px 28px #14264a12}
+.stat,.card,.panel,.compare section{padding:22px}.stat b{display:block;font-size:28px;color:var(--blue)}h2{margin-top:48px}
+.success{border-top:4px solid var(--green)}.failure{border-top:4px solid var(--red)}.badge{display:inline-block;padding:3px 10px;border-radius:99px;background:#eaf8f0;color:var(--green);font-weight:700}.failure .badge{background:#fff0ee;color:var(--red)}
+.question,footer{color:var(--muted)}code{background:#eef2f7;padding:2px 6px;border-radius:5px;word-break:break-word}.metrics{display:flex;gap:8px;flex-wrap:wrap}.metrics span{background:#f2f4f7;border-radius:8px;padding:5px 9px}
+.panel{overflow:auto}table{border-collapse:collapse;width:100%}th,td{padding:11px;border-bottom:1px solid #e7eaf0;text-align:left}th{background:#f8fafc}footer{margin-top:48px}
+@media(max-width:760px){.summary,.grid,.compare{grid-template-columns:1fr}.summary{margin-top:-44px}}
+</style></head><body><header><div class="wrap"><p>FYP · Financial Search Agent</p>
+<h1>FinSearchComp<br>搜索轨迹与可信度审计</h1><p>完整轨迹、3 个成功、3 个失败、引用支持、时间检查，以及普通搜索与金融 API 对比。</p>
+<nav><a href="#trajectory">完整轨迹</a><a href="#cases">六个案例</a><a href="report.md">汇报稿</a><a href="trace.json">JSON 轨迹</a></nav>
+</div></header><main class="wrap"><section class="summary"><div class="stat"><b>6</b>实验案例</div>
+<div class="stat"><b>3 / 3</b>成功 / 失败</div><div class="stat"><b>100%</b>成功案例引用支持</div><div class="stat"><b>2 类</b>网页 / 金融 API</div></section>
+<h2 id="trajectory">完整搜索任务轨迹</h2><div class="panel"><h3>S&P 500 最大单月涨幅</h3>
+<ol><li>规划：ticker → 时间窗 → 月频 → 相邻月收益 → 最大值。</li>
+<li>查询 <code>^GSPC monthly close 2009-12-01 to 2025-04-30</code>。</li>
+<li>调用 Yahoo Finance Chart JSON。</li><li>计算 <code>2912.4299 / 2584.5901 - 1 = 12.6844%</code>。</li>
+<li>答案：<b>April 2020, 12.68%</b>，引用和时间窗均通过。</li></ol></div>
+<h2 id="cases">三个成功与三个失败</h2><div class="grid"><article class="card success">
+            <div class="badge">成功</div>
+            <h3>成功案例 1：S&amp;P 500 最大单月涨幅</h3>
+            <p class="question">From January 2010 to April 2025, in which month did the S&amp;P 500 index experience the largest single-month increase? What was the percentage increase that month? (Unit: %, rounded to two decimal places)</p>
+            <p><b>策略：</b>把自然语言问题拆成 ticker、时间窗、频率和计算定义。调用 Yahoo Finance Chart JSON 获取月末收盘价，从 2009-12 开始取数以便计算 2010-01 的月收益；逐月计算 close[t] / close[t-1] - 1 并取最大值。</p>
+            <details><summary>关键词和工具调用</summary><ul><li><code>^GSPC monthly close 2009-12-01 to 2025-04-30</code></li><li><code>monthly_return = current_month_close / previous_month_close - 1</code></li><li><strong>fetch_yahoo_chart</strong> — 2020-04 月末收盘 2912.4299；2020-03 月末收盘 2584.5901；收益率 12.6844%，高于窗口内其他月份。</li></ul></details>
+            <p><b>最终答案：</b>April 2020, 12.68%.</p><ul><li><b>pass/pass</b> — 接口覆盖 2009-12 至 2025-04；计算需要的前月与当月收盘值均在返回数据中，时间窗完整。</li></ul>
+            <div class="metrics"><span>引用 100%</span>
+            <span>时间 100%</span>
+            <span>完整 100%</span>
+            <span>工具 1</span></div></article><article class="card success">
+            <div class="badge">成功</div>
+            <h3>成功案例 2：加息后三个月 S&amp;P 500 最大回撤</h3>
+            <p class="question">After the Federal Reserve&#x27;s first rate hike on March 16, 2022, what was the maximum drawdown of the S&amp;P 500 Index over the following three months (i.e., from March 16 to June 16, 2022)? Please provide the date range and drawdown percentage.</p>
+            <p><b>策略：</b>调用日线接口，维护运行中的历史最高收盘价；对每个后续交易日计算 close / running_peak - 1，保存最小值及其峰值和谷值日期。</p>
+            <details><summary>关键词和工具调用</summary><ul><li><code>^GSPC daily close 2022-03-16 to 2022-06-16</code></li><li><code>maximum drawdown peak before trough</code></li><li><strong>fetch_yahoo_chart</strong> — 运行峰值日期 2022-03-29；最低相对回撤出现在 2022-06-16；回撤 -20.83146%。</li></ul></details>
+            <p><b>最终答案：</b>Peak: March 29, 2022; trough: June 16, 2022; maximum drawdown: 20.83%.</p><ul><li><b>pass/pass</b> — 返回数据逐日覆盖题目窗口；峰值先于谷值，计算定义符合最大回撤。</li></ul>
+            <div class="metrics"><span>引用 100%</span>
+            <span>时间 100%</span>
+            <span>完整 100%</span>
+            <span>工具 1</span></div></article><article class="card success">
+            <div class="badge">成功</div>
+            <h3>成功案例 3：Nasdaq 与 S&amp;P 500 2024 年涨幅差</h3>
+            <p class="question">Which is greater, the full-year increase of the Nasdaq Index in 2024 or the full-year increase of the S&amp;P 500 in 2024? What is the difference, rounded to two decimal places?</p>
+            <p><b>策略：</b>将 Nasdaq Index 明确为 Nasdaq Composite (^IXIC)，以 2023 年最后一个交易日收盘价为年初基准、2024 年最后一个交易日收盘价为年末值；对两个指数使用完全相同的供应商与公式。</p>
+            <details><summary>关键词和工具调用</summary><ul><li><code>^IXIC and ^GSPC closes 2023-12-29 and 2024-12-31</code></li><li><code>calendar-year price return</code></li><li><strong>fetch_yahoo_chart</strong> — Nasdaq Composite: 15011.3496 → 19310.7891，2024 涨幅 28.6413%。</li><li><strong>fetch_yahoo_chart</strong> — S&amp;P 500: 4769.8301 → 5881.6299，2024 涨幅 23.3090%。</li></ul></details>
+            <p><b>最终答案：</b>The Nasdaq Composite increased more; its 2024 gain exceeded the S&amp;P 500&#x27;s by 5.33 percentage points.</p><ul><li><b>pass/pass</b> — 两个接口均包含相同年界的收盘价；同源同公式避免口径混用。</li></ul>
+            <div class="metrics"><span>引用 100%</span>
+            <span>时间 100%</span>
+            <span>完整 100%</span>
+            <span>工具 2</span></div></article><article class="card failure">
+            <div class="badge">失败</div>
+            <h3>失败案例 1：浅层网页搜索只答出一半</h3>
+            <p class="question">2024年全年，在沪深300、科创50和中证500三个指数中，年涨幅最高的指数是哪个，涨幅多大？年最高价相比年最低价上涨的振幅最高的指数是哪个，比例是多少？</p>
+            <p><b>策略：</b>这是上游仓库自带 chat-test-eval.json 中的真实失败输出。Agent 依赖搜索片段，找到了部分年度涨幅，但没有切换到结构化历史行情接口，因此无法计算全年最高价与最低价。</p>
+            <details><summary>关键词和工具调用</summary><ul><li><strong>unknown_web_search</strong> — 上游只在答案中保留了“[Search Result 24, Step 2]”占位符，没有保存原始关键词、URL 或工具返回。</li></ul></details>
+            <p><b>最终答案：</b>科创50 年涨幅最高，为 16.07%；搜索结果未找到三个指数的全年最高价和最低价，因此无法计算振幅。</p><ul><li><b>unverifiable/unverifiable</b> — 原始 URL 和工具结果未留档，无法证明引用真正支持结论。</li><li><b>fail/pass</b> — 金融历史行情接口可以直接取得 2024 年日线高低价；停止搜索属于检索深度失败。</li></ul>
+            <div class="metrics"><span>引用 0%</span>
+            <span>时间 50%</span>
+            <span>完整 50%</span>
+            <span>工具 1</span></div></article><article class="card failure">
+            <div class="badge">失败</div>
+            <h3>失败案例 2：官方初步值与最终值版本冲突</h3>
+            <p class="question">2024年中国全年经常账户差额是多少？（单位：亿美元）（取整）</p>
+            <p><b>策略：</b>优先检索国家外汇管理局。搜索同时命中 2025-02-28 初步数和 2025-03-21 正式数；如果 Agent 只取第一条结果，就会在已有最终值时继续报告旧版本。</p>
+            <details><summary>关键词和工具调用</summary><ul><li><code>site:safe.gov.cn 2024年 中国 全年 经常账户 差额 4220 亿美元</code></li><li><code>site:safe.gov.cn 2024年四季度及全年 我国国际收支平衡表 正式数</code></li><li><strong>web_search</strong> — 2025-02-28 初步数：2024 年经常账户顺差 4220 亿美元。</li><li><strong>open_page</strong> — 2025-03-21 正式数：2024 年经常账户顺差 4239 亿美元。</li></ul></details>
+            <p><b>最终答案：</b>4220 亿美元。</p><ul><li><b>pass/fail</b> — 初步公告确实支持 4220，但一个月后的正式公告修订为 4239。若问题未指定数据版本，当前回答应优先正式值并注明修订。</li></ul>
+            <div class="metrics"><span>引用 100%</span>
+            <span>时间 0%</span>
+            <span>完整 50%</span>
+            <span>工具 2</span></div></article><article class="card failure">
+            <div class="badge">失败</div>
+            <h3>失败案例 3：财年列错位导致数字来自正确文件、却支持错误结论</h3>
+            <p class="question">In fiscal year 2022, what was NVIDIA&#x27;s total deferred tax assets? (million dollars)</p>
+            <p><b>策略：</b>搜索命中 SEC 原始 iXBRL 表，但浅层抽取器直接读取表格第一列的 3,670，没有核对第一列对应 Jan. 29, 2023、第二列才对应 Jan. 30, 2022。</p>
+            <details><summary>关键词和工具调用</summary><ul><li><code>site:sec.gov/Archives/edgar/data/1045810 2022 NVIDIA deferred tax assets</code></li><li><strong>web_search</strong> — SEC 表同时列出 Jan. 29, 2023 的 3,670 和 Jan. 30, 2022 的 1,408（百万美元）。</li></ul></details>
+            <p><b>最终答案：</b>$3,670 million.</p><ul><li><b>fail/fail</b> — 3,670 属于 Jan. 29, 2023；同一表格的 Jan. 30, 2022 列明确为 1,408。来源权威不等于引用关系正确。</li></ul>
+            <div class="metrics"><span>引用 0%</span>
+            <span>时间 0%</span>
+            <span>完整 100%</span>
+            <span>工具 1</span></div></article></div>
+<h2>结果总表</h2><div class="panel"><table><thead><tr><th>结果</th><th>案例</th><th>方法</th><th>真实性综合检查</th><th>工具数</th></tr></thead><tbody><tr><td>✓</td><td>成功案例 1：S&amp;P 500 最大单月涨幅</td><td>finance_api</td><td>通过</td><td>1</td></tr><tr><td>✓</td><td>成功案例 2：加息后三个月 S&amp;P 500 最大回撤</td><td>finance_api</td><td>通过</td><td>1</td></tr><tr><td>✓</td><td>成功案例 3：Nasdaq 与 S&amp;P 500 2024 年涨幅差</td><td>finance_api</td><td>通过</td><td>2</td></tr><tr><td>✗</td><td>失败案例 1：浅层网页搜索只答出一半</td><td>web_search</td><td>未通过</td><td>1</td></tr><tr><td>✗</td><td>失败案例 2：官方初步值与最终值版本冲突</td><td>web_search</td><td>未通过</td><td>2</td></tr><tr><td>✗</td><td>失败案例 3：财年列错位导致数字来自正确文件、却支持错误结论</td><td>web_search</td><td>未通过</td><td>1</td></tr></tbody></table></div>
+<h2>普通搜索 vs 金融接口</h2><div class="compare"><section><h3>普通网页搜索</h3><p>擅长公告、财报和背景；但片段可能过期、表格列可能错位，Agent 也可能停止过早。</p></section>
+<section><h3>金融数据接口</h3><p>擅长 OHLC 和长时间序列；结构化、易复算、效率高。仍需明确 ticker、复权、时区和供应商口径。</p></section></div>
+<h2>评价框架</h2><div class="panel"><p><b>真实性：</b>答案正确 + 引用真的支持 + 时间版本正确。</p>
+<p><b>完整性：</b>题目每个评分点都回答。</p><p><b>效率：</b>比较工具数、耗时和无效搜索；结构化题尽早切换金融 API。</p></div>
+<footer>详情：<a href="report.md">report.md</a> · <a href="trace.json">trace.json</a> · <a href="metrics.csv">metrics.csv</a></footer>
+</main></body></html>

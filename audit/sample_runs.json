@@ -1,0 +1,383 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-07-17T10:30:00+08:00",
+  "method_note": "成功案例由公开金融 JSON 接口或监管机构原始文件复核；失败案例用于展示浅搜索、数据版本和财年对齐问题。F1 来自上游仓库自带结果，F2/F3 是可复现的审计基线。",
+  "runs": [
+    {
+      "run_id": "S1_T3_023_FINANCE_API",
+      "benchmark_id": "(T3)Complex_Historical_Investigation_023",
+      "label": "成功案例 1：S&P 500 最大单月涨幅",
+      "outcome": "success",
+      "mode": "finance_api",
+      "question": "From January 2010 to April 2025, in which month did the S&P 500 index experience the largest single-month increase? What was the percentage increase that month? (Unit: %, rounded to two decimal places)",
+      "reference_answer": "April 2020 (12.68%), an error of 0.1% is allowed",
+      "strategy": "把自然语言问题拆成 ticker、时间窗、频率和计算定义。调用 Yahoo Finance Chart JSON 获取月末收盘价，从 2009-12 开始取数以便计算 2010-01 的月收益；逐月计算 close[t] / close[t-1] - 1 并取最大值。",
+      "search_queries": [
+        "^GSPC monthly close 2009-12-01 to 2025-04-30",
+        "monthly_return = current_month_close / previous_month_close - 1"
+      ],
+      "tool_calls": [
+        {
+          "sequence": 1,
+          "tool": "fetch_yahoo_chart",
+          "arguments": {
+            "symbol": "^GSPC",
+            "start_date": "2009-12-01",
+            "end_date": "2025-05-01",
+            "interval": "1mo"
+          },
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1259625600&period2=1746057600&interval=1mo&events=history",
+          "result_summary": "2020-04 月末收盘 2912.4299；2020-03 月末收盘 2584.5901；收益率 12.6844%，高于窗口内其他月份。",
+          "retrieved_at": "2026-07-17T10:05:00+08:00",
+          "duration_seconds": 5.9
+        }
+      ],
+      "calculation": "(2912.42993164063 / 2584.59008789063 - 1) × 100 = 12.6844% → 12.68%",
+      "final_answer": "April 2020, 12.68%.",
+      "citations": [
+        {
+          "title": "Yahoo Finance Chart API: S&P 500 monthly prices",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1259625600&period2=1746057600&interval=1mo&events=history",
+          "source_type": "financial_api",
+          "primary": false
+        }
+      ],
+      "source_audits": [
+        {
+          "claim": "April 2020 was the largest single-month increase and the return was 12.68%.",
+          "citation_url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1259625600&period2=1746057600&interval=1mo&events=history",
+          "support": "pass",
+          "time_check": "pass",
+          "reason": "接口覆盖 2009-12 至 2025-04；计算需要的前月与当月收盘值均在返回数据中，时间窗完整。"
+        }
+      ],
+      "metrics": {
+        "benchmark_correct": true,
+        "current_fact_correct": true,
+        "citation_support_rate": 1.0,
+        "time_compliance_rate": 1.0,
+        "answer_completeness": 1.0,
+        "trace_completeness": 1.0,
+        "tool_call_count": 1,
+        "duration_seconds": 5.9
+      }
+    },
+    {
+      "run_id": "S2_T3_227_FINANCE_API",
+      "benchmark_id": "(T3)Complex_Historical_Investigation_227",
+      "label": "成功案例 2：加息后三个月 S&P 500 最大回撤",
+      "outcome": "success",
+      "mode": "finance_api",
+      "question": "After the Federal Reserve's first rate hike on March 16, 2022, what was the maximum drawdown of the S&P 500 Index over the following three months (i.e., from March 16 to June 16, 2022)? Please provide the date range and drawdown percentage.",
+      "reference_answer": "Peak: March 29, 2022; trough: June 16, 2022; maximum drawdown: 20.83%.",
+      "strategy": "调用日线接口，维护运行中的历史最高收盘价；对每个后续交易日计算 close / running_peak - 1，保存最小值及其峰值和谷值日期。",
+      "search_queries": [
+        "^GSPC daily close 2022-03-16 to 2022-06-16",
+        "maximum drawdown peak before trough"
+      ],
+      "tool_calls": [
+        {
+          "sequence": 1,
+          "tool": "fetch_yahoo_chart",
+          "arguments": {
+            "symbol": "^GSPC",
+            "start_date": "2022-03-16",
+            "end_date": "2022-06-17",
+            "interval": "1d"
+          },
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1647388800&period2=1655510400&interval=1d&events=history",
+          "result_summary": "运行峰值日期 2022-03-29；最低相对回撤出现在 2022-06-16；回撤 -20.83146%。",
+          "retrieved_at": "2026-07-17T10:08:00+08:00",
+          "duration_seconds": 5.1
+        }
+      ],
+      "calculation": "drawdown[t] = close[t] / max(close[0:t]) - 1；窗口最小值 = -20.83146% → 最大回撤 20.83%。",
+      "final_answer": "Peak: March 29, 2022; trough: June 16, 2022; maximum drawdown: 20.83%.",
+      "citations": [
+        {
+          "title": "Yahoo Finance Chart API: S&P 500 daily prices",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1647388800&period2=1655510400&interval=1d&events=history",
+          "source_type": "financial_api",
+          "primary": false
+        }
+      ],
+      "source_audits": [
+        {
+          "claim": "The peak was March 29, the trough was June 16, and the maximum drawdown was 20.83%.",
+          "citation_url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1647388800&period2=1655510400&interval=1d&events=history",
+          "support": "pass",
+          "time_check": "pass",
+          "reason": "返回数据逐日覆盖题目窗口；峰值先于谷值，计算定义符合最大回撤。"
+        }
+      ],
+      "metrics": {
+        "benchmark_correct": true,
+        "current_fact_correct": true,
+        "citation_support_rate": 1.0,
+        "time_compliance_rate": 1.0,
+        "answer_completeness": 1.0,
+        "trace_completeness": 1.0,
+        "tool_call_count": 1,
+        "duration_seconds": 5.1
+      }
+    },
+    {
+      "run_id": "S3_T3_B030_FINANCE_API",
+      "benchmark_id": "(T3)Complex_Historical_Investigation_b030",
+      "label": "成功案例 3：Nasdaq 与 S&P 500 2024 年涨幅差",
+      "outcome": "success",
+      "mode": "finance_api",
+      "question": "Which is greater, the full-year increase of the Nasdaq Index in 2024 or the full-year increase of the S&P 500 in 2024? What is the difference, rounded to two decimal places?",
+      "reference_answer": "Nasdaq Index; difference: 5.33%.",
+      "strategy": "将 Nasdaq Index 明确为 Nasdaq Composite (^IXIC)，以 2023 年最后一个交易日收盘价为年初基准、2024 年最后一个交易日收盘价为年末值；对两个指数使用完全相同的供应商与公式。",
+      "search_queries": [
+        "^IXIC and ^GSPC closes 2023-12-29 and 2024-12-31",
+        "calendar-year price return"
+      ],
+      "tool_calls": [
+        {
+          "sequence": 1,
+          "tool": "fetch_yahoo_chart",
+          "arguments": {
+            "symbol": "^IXIC",
+            "start_date": "2023-12-29",
+            "end_date": "2025-01-02",
+            "interval": "1d"
+          },
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EIXIC?period1=1703808000&period2=1735776000&interval=1d&events=history",
+          "result_summary": "Nasdaq Composite: 15011.3496 → 19310.7891，2024 涨幅 28.6413%。",
+          "retrieved_at": "2026-07-17T10:12:00+08:00",
+          "duration_seconds": 2.8
+        },
+        {
+          "sequence": 2,
+          "tool": "fetch_yahoo_chart",
+          "arguments": {
+            "symbol": "^GSPC",
+            "start_date": "2023-12-29",
+            "end_date": "2025-01-02",
+            "interval": "1d"
+          },
+          "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1703808000&period2=1735776000&interval=1d&events=history",
+          "result_summary": "S&P 500: 4769.8301 → 5881.6299，2024 涨幅 23.3090%。",
+          "retrieved_at": "2026-07-17T10:12:03+08:00",
+          "duration_seconds": 2.9
+        }
+      ],
+      "calculation": "28.6413% - 23.3090% = 5.3323% → 5.33%。",
+      "final_answer": "The Nasdaq Composite increased more; its 2024 gain exceeded the S&P 500's by 5.33 percentage points.",
+      "citations": [
+        {
+          "title": "Yahoo Finance Chart API: Nasdaq Composite",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EIXIC?period1=1703808000&period2=1735776000&interval=1d&events=history",
+          "source_type": "financial_api",
+          "primary": false
+        },
+        {
+          "title": "Yahoo Finance Chart API: S&P 500",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=1703808000&period2=1735776000&interval=1d&events=history",
+          "source_type": "financial_api",
+          "primary": false
+        }
+      ],
+      "source_audits": [
+        {
+          "claim": "Nasdaq Composite outperformed S&P 500 by 5.33 percentage points in 2024.",
+          "citation_url": "https://query1.finance.yahoo.com/v8/finance/chart/%5EIXIC?period1=1703808000&period2=1735776000&interval=1d&events=history",
+          "support": "pass",
+          "time_check": "pass",
+          "reason": "两个接口均包含相同年界的收盘价；同源同公式避免口径混用。"
+        }
+      ],
+      "metrics": {
+        "benchmark_correct": true,
+        "current_fact_correct": true,
+        "citation_support_rate": 1.0,
+        "time_compliance_rate": 1.0,
+        "answer_completeness": 1.0,
+        "trace_completeness": 1.0,
+        "tool_call_count": 2,
+        "duration_seconds": 5.7
+      }
+    },
+    {
+      "run_id": "F1_T3_B027_SHALLOW_WEB",
+      "benchmark_id": "(T3)Complex_Historical_Investigation_b027",
+      "label": "失败案例 1：浅层网页搜索只答出一半",
+      "outcome": "failure",
+      "mode": "web_search",
+      "question": "2024年全年，在沪深300、科创50和中证500三个指数中，年涨幅最高的指数是哪个，涨幅多大？年最高价相比年最低价上涨的振幅最高的指数是哪个，比例是多少？",
+      "reference_answer": "年涨跌幅最高：科创50 16.07%；年振幅最高：科创50 70.62%。",
+      "strategy": "这是上游仓库自带 chat-test-eval.json 中的真实失败输出。Agent 依赖搜索片段，找到了部分年度涨幅，但没有切换到结构化历史行情接口，因此无法计算全年最高价与最低价。",
+      "search_queries": [],
+      "tool_calls": [
+        {
+          "sequence": 1,
+          "tool": "unknown_web_search",
+          "arguments": {},
+          "source_url": null,
+          "result_summary": "上游只在答案中保留了“[Search Result 24, Step 2]”占位符，没有保存原始关键词、URL 或工具返回。",
+          "retrieved_at": null,
+          "duration_seconds": null
+        }
+      ],
+      "calculation": "未执行完整计算。",
+      "final_answer": "科创50 年涨幅最高，为 16.07%；搜索结果未找到三个指数的全年最高价和最低价，因此无法计算振幅。",
+      "citations": [],
+      "source_audits": [
+        {
+          "claim": "科创50 年涨幅为 16.07%。",
+          "citation_url": null,
+          "support": "unverifiable",
+          "time_check": "unverifiable",
+          "reason": "原始 URL 和工具结果未留档，无法证明引用真正支持结论。"
+        },
+        {
+          "claim": "振幅无法计算。",
+          "citation_url": null,
+          "support": "fail",
+          "time_check": "pass",
+          "reason": "金融历史行情接口可以直接取得 2024 年日线高低价；停止搜索属于检索深度失败。"
+        }
+      ],
+      "metrics": {
+        "benchmark_correct": false,
+        "current_fact_correct": false,
+        "citation_support_rate": 0.0,
+        "time_compliance_rate": 0.5,
+        "answer_completeness": 0.5,
+        "trace_completeness": 0.2,
+        "tool_call_count": 1,
+        "duration_seconds": null
+      }
+    },
+    {
+      "run_id": "F2_T2_002_VINTAGE_MISMATCH",
+      "benchmark_id": "(T2)Simple_Historical_Lookup_002",
+      "label": "失败案例 2：官方初步值与最终值版本冲突",
+      "outcome": "failure",
+      "mode": "web_search",
+      "question": "2024年中国全年经常账户差额是多少？（单位：亿美元）（取整）",
+      "reference_answer": "4220 亿美元（数据集采用 2025-02-28 公布的初步数）。",
+      "strategy": "优先检索国家外汇管理局。搜索同时命中 2025-02-28 初步数和 2025-03-21 正式数；如果 Agent 只取第一条结果，就会在已有最终值时继续报告旧版本。",
+      "search_queries": [
+        "site:safe.gov.cn 2024年 中国 全年 经常账户 差额 4220 亿美元",
+        "site:safe.gov.cn 2024年四季度及全年 我国国际收支平衡表 正式数"
+      ],
+      "tool_calls": [
+        {
+          "sequence": 1,
+          "tool": "web_search",
+          "arguments": {
+            "query": "site:safe.gov.cn 2024年 中国 全年 经常账户 差额"
+          },
+          "source_url": "https://www.safe.gov.cn/shanghai/2025/0228/2245.html",
+          "result_summary": "2025-02-28 初步数：2024 年经常账户顺差 4220 亿美元。",
+          "retrieved_at": "2026-07-17T10:20:00+08:00",
+          "duration_seconds": 1.2
+        },
+        {
+          "sequence": 2,
+          "tool": "open_page",
+          "arguments": {
+            "url": "https://www.safe.gov.cn/shanghai/2025/0321/2258.html"
+          },
+          "source_url": "https://www.safe.gov.cn/shanghai/2025/0321/2258.html",
+          "result_summary": "2025-03-21 正式数：2024 年经常账户顺差 4239 亿美元。",
+          "retrieved_at": "2026-07-17T10:20:02+08:00",
+          "duration_seconds": 0.8
+        }
+      ],
+      "calculation": "无需计算；关键是选择正确数据版本。",
+      "final_answer": "4220 亿美元。",
+      "citations": [
+        {
+          "title": "国家外汇管理局公布2024年四季度及全年我国国际收支平衡表初步数",
+          "url": "https://www.safe.gov.cn/shanghai/2025/0228/2245.html",
+          "source_type": "official_preliminary",
+          "primary": true
+        },
+        {
+          "title": "国家外汇管理局公布2024年四季度及全年我国国际收支平衡表",
+          "url": "https://www.safe.gov.cn/shanghai/2025/0321/2258.html",
+          "source_type": "official_final",
+          "primary": true
+        }
+      ],
+      "source_audits": [
+        {
+          "claim": "2024 年经常账户顺差为 4220 亿美元。",
+          "citation_url": "https://www.safe.gov.cn/shanghai/2025/0228/2245.html",
+          "support": "pass",
+          "time_check": "fail",
+          "reason": "初步公告确实支持 4220，但一个月后的正式公告修订为 4239。若问题未指定数据版本，当前回答应优先正式值并注明修订。"
+        }
+      ],
+      "metrics": {
+        "benchmark_correct": true,
+        "current_fact_correct": false,
+        "citation_support_rate": 1.0,
+        "time_compliance_rate": 0.0,
+        "answer_completeness": 0.5,
+        "trace_completeness": 1.0,
+        "tool_call_count": 2,
+        "duration_seconds": 2.0
+      }
+    },
+    {
+      "run_id": "F3_T2_537_FISCAL_COLUMN",
+      "benchmark_id": "(T2)Simple_Historical_Lookup_537",
+      "label": "失败案例 3：财年列错位导致数字来自正确文件、却支持错误结论",
+      "outcome": "failure",
+      "mode": "web_search",
+      "question": "In fiscal year 2022, what was NVIDIA's total deferred tax assets? (million dollars)",
+      "reference_answer": "$1,408 million.",
+      "strategy": "搜索命中 SEC 原始 iXBRL 表，但浅层抽取器直接读取表格第一列的 3,670，没有核对第一列对应 Jan. 29, 2023、第二列才对应 Jan. 30, 2022。",
+      "search_queries": [
+        "site:sec.gov/Archives/edgar/data/1045810 2022 NVIDIA deferred tax assets"
+      ],
+      "tool_calls": [
+        {
+          "sequence": 1,
+          "tool": "web_search",
+          "arguments": {
+            "query": "site:sec.gov/Archives/edgar/data/1045810 2022 NVIDIA deferred tax assets"
+          },
+          "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/R79.htm",
+          "result_summary": "SEC 表同时列出 Jan. 29, 2023 的 3,670 和 Jan. 30, 2022 的 1,408（百万美元）。",
+          "retrieved_at": "2026-07-17T10:25:00+08:00",
+          "duration_seconds": 1.0
+        }
+      ],
+      "calculation": "无需计算；需要做财年与列标题对齐。",
+      "final_answer": "$3,670 million.",
+      "citations": [
+        {
+          "title": "NVIDIA SEC iXBRL: Income Taxes - Deferred Taxes (Details)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/R79.htm",
+          "source_type": "official_filing",
+          "primary": true
+        }
+      ],
+      "source_audits": [
+        {
+          "claim": "NVIDIA FY2022 total deferred tax assets were $3,670 million.",
+          "citation_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/R79.htm",
+          "support": "fail",
+          "time_check": "fail",
+          "reason": "3,670 属于 Jan. 29, 2023；同一表格的 Jan. 30, 2022 列明确为 1,408。来源权威不等于引用关系正确。"
+        }
+      ],
+      "metrics": {
+        "benchmark_correct": false,
+        "current_fact_correct": false,
+        "citation_support_rate": 0.0,
+        "time_compliance_rate": 0.0,
+        "answer_completeness": 1.0,
+        "trace_completeness": 1.0,
+        "tool_call_count": 1,
+        "duration_seconds": 1.0
+      }
+    }
+  ]
+}
