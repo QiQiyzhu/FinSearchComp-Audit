@@ -13,19 +13,25 @@
 
 - [在线审计报告](https://qiqiyzhu.github.io/FinSearchComp-Audit/)：适合浏览和演示；
 - [`site/report.md`](site/report.md)：可直接阅读的中文实验报告；
-- [`site/trace.json`](site/trace.json)：6 次运行的完整结构化轨迹；
+- [`site/trace.json`](site/trace.json)：12 次运行的完整结构化轨迹；
 - [`site/metrics.csv`](site/metrics.csv)：真实性、完整性和效率指标。
 
-本仓库复现了 3 个成功案例和 3 个失败案例：
+本仓库复现了 6 个成功案例和 6 个失败案例：
 
 | 类型 | 案例 | 主要发现 |
 |---|---|---|
 | 成功 | S&P 500 最大单月涨幅 | April 2020，12.68% |
 | 成功 | 2022 年首次加息后三个月最大回撤 | 20.83% |
 | 成功 | Nasdaq 与 S&P 500 的 2024 年涨幅差 | 5.33 个百分点 |
+| 成功 | Apple 2024 财年净销售额 | 3,910.35 亿美元；SEC 财报单位换算正确 |
+| 成功 | 美国 2024 年末 CPI 同比 | 2.9%；区分同比、环比与季调口径 |
+| 成功 | 美联储 2024 年 9 月降息 | 50 个基点，目标区间降至 4.75%–5.00% |
 | 失败 | 沪深指数比较只回答一半 | 浅层搜索停止过早 |
 | 失败 | 中国经常账户 4220 / 4239 | 初步值与最终值版本冲突 |
 | 失败 | NVIDIA 递延所得税资产 | 正确文件中选错财年列 |
+| 失败 | NVIDIA 2024 年拆股 | 未复权比较制造 88.89% 虚假暴跌 |
+| 失败 | Tesla 2024 年研发费用 | 忽略“百万美元”表头，结果缩小千倍 |
+| 失败 | S&P 500 2024 年收益率 | 用首个交易日代替上年末，年度边界错误 |
 
 ## 60 秒复现
 
@@ -40,7 +46,7 @@ python reproduce.py
 成功时会看到：
 
 ```text
-[1/3] Validated 6 recorded runs (3 success, 3 failure)
+[1/3] Validated 12 recorded runs (6 success, 6 failure)
 [2/3] Generated 4 report artifacts in site
 [3/3] Reproducibility checks passed
 ```
@@ -116,7 +122,7 @@ AND 答案完整性 = 100%
 .
 ├── reproduce.py                  # 一条命令：验证输入 → 生成报告 → 验证输出
 ├── audit/
-│   ├── sample_runs.json          # 3 成功 + 3 失败的可复现输入
+│   ├── sample_runs.json          # 6 成功 + 6 失败的可复现输入
 │   ├── run_demo.py               # HTML / Markdown / JSON / CSV 生成器
 │   ├── validate_outputs.py       # 轨迹与产物语义验证
 │   └── README.zh-CN.md           # 实验说明
@@ -166,10 +172,10 @@ python finsearchcomp/chat/chat.py \
 
 ## 局限
 
-- 当前审计集只有 6 个案例，不代表完整 635 题的总体性能；
-- 成功案例主要覆盖指数与价格计算；
+- 当前审计集有 12 个案例，仍不代表完整 635 题的总体性能；
+- 成功案例覆盖指数计算、公司财报、宏观统计和货币政策公告；
 - Yahoo Finance 适合复算演示，但不是监管级官方行情源；
-- 失败案例用于暴露检索、数据版本和财年对齐风险，不用于比较多个 LLM 的排名；
+- 失败案例覆盖检索深度、数据版本、财年列、拆股复权、金额单位和年度边界，不用于比较多个 LLM 的排名；
 - 本项目不构成投资建议。
 
 ## 上游项目与引用
