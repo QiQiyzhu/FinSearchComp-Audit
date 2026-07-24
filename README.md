@@ -170,6 +170,16 @@ python finsearchcomp/chat/chat.py \
 3. 运行 `python reproduce.py`；
 4. 确认本地验证和 GitHub Actions 均通过。
 
+## 新增：100 条时间与版本冲突测试集
+
+`temporal_clash/` 提供一个独立、无 API Key 的小型受控实验：20 个真实金融问题分别配套干净证据、未来证据、错期间、错单位和错版本，共 100 条。四个确定性代理策略对应普通 Agent、时间约束 Prompt、元数据过滤器和 TEG 验证器。
+
+```bash
+python -m temporal_clash.run_experiment --check
+```
+
+这张初步表用于验证实验设计和消融关系，不是 LLM 排名。数据说明、指标、逐题输出和研究边界见 [`temporal_clash/README.zh-CN.md`](temporal_clash/README.zh-CN.md)。
+
 ## 局限
 
 - 当前审计集有 12 个案例，仍不代表完整 635 题的总体性能；
