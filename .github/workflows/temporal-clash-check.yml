@@ -1,0 +1,29 @@
+name: Temporal clash check
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "temporal_clash/**"
+      - ".github/workflows/temporal-clash-check.yml"
+  push:
+    branches-ignore: [main]
+    paths:
+      - "temporal_clash/**"
+      - ".github/workflows/temporal-clash-check.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  controlled-benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Generate and validate 100 controlled cases
+        run: python -m temporal_clash.run_experiment --check
+      - name: Show experiment table
+        run: cat temporal_clash/results/experiment_table.csv

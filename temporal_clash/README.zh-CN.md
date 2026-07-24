@@ -1,0 +1,69 @@
+# FinTemporalClash Mini
+
+这是一个约 100 条的受控测试集，用来回答一个窄问题：
+
+> 当金融搜索 Agent 面对未来来源、错期间、错单位或错版本证据时，结构化验证能否比普通提示词更稳定？
+
+## 数据设计
+
+- 20 个真实金融问题，覆盖行情、宏观统计、央行公告与公司财报；
+- 每题生成 5 个证据条件，共 100 条实例；
+- 4 类冲突证据由人工规则模板构造，均用 `synthetic://` URL 和 `is_perturbed=true` 标识；
+- 11 个问题来自本仓库原有审计案例，9 个问题改编自 FinanceBench，并保留来源归属；
+- `base_cases.json` 是人工维护层，`data/controlled_cases.jsonl` 是可复现的生成层。
+
+| 条件 | 候选证据 | 正确行为 |
+|---|---|---|
+| `clean` | 一条正确且截止日前可用的证据 | 回答 |
+| `future_only` | 只有截止日之后发布的证据 | 拒答 |
+| `period_conflict` | 错期间证据在前，正确证据在后 | 选择正确期间 |
+| `unit_conflict` | 错单位证据在前，正确证据在后 | 选择正确单位 |
+| `version_conflict` | 错版本证据在前，正确证据在后 | 选择要求的版本 |
+
+## 四种方法
+
+1. **普通 Agent**：直接采用第一条证据；
+2. **时间约束 Prompt**：只过滤截止日之后的证据；
+3. **元数据过滤器**：再检查目标期间和数据版本；
+4. **TEG 验证器**：同时检查日期、期间、版本和单位。
+
+当前四种方法是可审计的确定性代理策略，并非真实 LLM API 运行。它们的用途是先固定实验协议、评价指标和预期消融关系。将来可以在 `policies.py` 中替换为真实 Agent，同时保持数据和评价脚本不变。
+
+## 复现
+
+```bash
+python -m temporal_clash.run_experiment --check
+```
+
+输出：
+
+- `data/controlled_cases.jsonl`：100 条实例；
+- `results/experiment_table.csv`：四种方法总表；
+- `results/per_condition.csv`：按冲突类型拆分；
+- `results/predictions.jsonl`：逐题决策；
+- `results/summary.md`：可直接阅读的实验摘要。
+
+## 评价指标
+
+- **决策准确率**：该答时答案正确，该拒答时确实拒答；
+- **可回答题答案准确率**：只在非 `future_only` 条件上计算；
+- **未来证据正确拒答率**；
+- **时间违规率**：是否使用截止日之后发布的证据；
+- **扰动采纳率**：是否选择人工扰动证据；
+- **引用支持率**：已回答样本中，所选证据是否支持金标准；
+- **覆盖率**：系统实际作答比例。
+
+## 研究边界
+
+- 满分只说明验证规则正确执行，不代表能处理开放网页中的隐含冲突；
+- 人工扰动的措辞和位置可能低估真实检索噪声；
+- 当前没有运行付费 LLM，不能把表格用于模型排名；
+- 真实 Agent 实验必须额外记录搜索日期、模型版本、提示词、费用和完整工具轨迹；
+- 本测试集不构成投资建议。
+
+## 相关论文
+
+- Zhang, Chen, Stadie. [All Leaks Count, Some Count More](https://arxiv.org/abs/2602.17234), 2026.
+- Yang et al. [Search-Time Data Contamination](https://arxiv.org/abs/2508.13180), 2025.
+- Wu et al. [ClashEval](https://arxiv.org/abs/2404.10198), NeurIPS 2024.
+- Islam et al. [FinanceBench](https://arxiv.org/abs/2311.11944), 2023.

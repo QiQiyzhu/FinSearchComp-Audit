@@ -1,0 +1,5 @@
+﻿method,decision_accuracy,answer_accuracy,correct_abstention_rate,temporal_violation_rate,perturbation_adoption_rate,citation_support_rate,coverage
+普通 Agent,20.0%,25.0%,0.0%,20.0%,100.0%,40.0%,100.0%
+时间约束 Prompt,40.0%,25.0%,100.0%,0.0%,75.0%,25.0%,80.0%
+元数据过滤器,80.0%,75.0%,100.0%,0.0%,25.0%,75.0%,80.0%
+TEG 验证器,100.0%,100.0%,100.0%,0.0%,0.0%,100.0%,80.0%

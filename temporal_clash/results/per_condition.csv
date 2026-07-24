@@ -1,0 +1,21 @@
+﻿method,condition,decision_accuracy,abstention_rate,perturbation_adoption_rate
+普通 Agent,clean,100.0%,0.0%,0.0%
+普通 Agent,future_only,0.0%,0.0%,100.0%
+普通 Agent,period_conflict,0.0%,0.0%,100.0%
+普通 Agent,unit_conflict,0.0%,0.0%,100.0%
+普通 Agent,version_conflict,0.0%,0.0%,100.0%
+时间约束 Prompt,clean,100.0%,0.0%,0.0%
+时间约束 Prompt,future_only,100.0%,100.0%,0.0%
+时间约束 Prompt,period_conflict,0.0%,0.0%,100.0%
+时间约束 Prompt,unit_conflict,0.0%,0.0%,100.0%
+时间约束 Prompt,version_conflict,0.0%,0.0%,100.0%
+元数据过滤器,clean,100.0%,0.0%,0.0%
+元数据过滤器,future_only,100.0%,100.0%,0.0%
+元数据过滤器,period_conflict,100.0%,0.0%,0.0%
+元数据过滤器,unit_conflict,0.0%,0.0%,100.0%
+元数据过滤器,version_conflict,100.0%,0.0%,0.0%
+TEG 验证器,clean,100.0%,0.0%,0.0%
+TEG 验证器,future_only,100.0%,100.0%,0.0%
+TEG 验证器,period_conflict,100.0%,0.0%,0.0%
+TEG 验证器,unit_conflict,100.0%,0.0%,0.0%
+TEG 验证器,version_conflict,100.0%,0.0%,0.0%
