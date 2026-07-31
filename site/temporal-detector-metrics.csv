@@ -1,0 +1,5 @@
+﻿method,precision,recall,f1,future_leakage_recall,metadata_conflict_recall,false_positive_rate,safe_evidence_retention_rate
+普通 Agent,0.0%,0.0%,0.0%,0.0%,0.0%,0.0%,100.0%
+时间约束 Prompt,100.0%,25.0%,40.0%,100.0%,0.0%,0.0%,100.0%
+元数据过滤器,100.0%,75.0%,85.7%,100.0%,66.7%,0.0%,100.0%
+TEG 验证器,100.0%,100.0%,100.0%,100.0%,100.0%,0.0%,100.0%

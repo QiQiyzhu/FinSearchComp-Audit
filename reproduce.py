@@ -8,6 +8,7 @@ from pathlib import Path
 
 from audit.run_demo import write_outputs
 from audit.validate_outputs import validate_output_dir, validate_payload
+from temporal_clash.run_experiment import run as run_temporal_experiment
 
 
 def main() -> None:
@@ -35,15 +36,18 @@ def main() -> None:
     payload = json.loads(args.input.read_text(encoding="utf-8"))
     summary = validate_payload(payload, strict_demo=strict_demo)
     print(
-        f"[1/3] Validated {summary['runs']} recorded runs "
+        f"[1/4] Validated {summary['runs']} recorded runs "
         f"({summary['success']} success, {summary['failure']} failure)"
     )
 
     write_outputs(args.input, args.output, announce=False)
-    print(f"[2/3] Generated 4 report artifacts in {args.output}")
+    print(f"[2/4] Generated core audit artifacts in {args.output}")
 
     validate_output_dir(args.output, payload, strict_demo=strict_demo)
-    print("[3/3] Reproducibility checks passed")
+    print("[3/4] Core audit reproducibility checks passed")
+
+    run_temporal_experiment(check=True, site_dir=args.output)
+    print("[4/4] Temporal detector benchmark and report generated")
 
 
 if __name__ == "__main__":
