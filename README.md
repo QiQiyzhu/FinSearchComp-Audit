@@ -46,6 +46,13 @@ python reproduce.py
 
 该命令会同时复现两部分：12 条保存的金融搜索 Agent 轨迹，以及 100 条时间/期间/版本/单位受控冲突实例。
 
+真实搜索 Agent 的 20 题小规模 pilot 已提供独立入口。默认命令只输出
+调用与费用计划，不会发送 API 请求：
+
+```bash
+python -m temporal_clash.run_live_pilot
+```
+
 成功时会看到：
 
 ```text
