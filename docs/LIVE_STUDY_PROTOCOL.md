@@ -88,10 +88,10 @@ Structured Outputs，必须由实际的多策略运行证明。
 
 ## 5. 1题 × 4策略正式门禁
 
-**当前状态：已于 2026-07-31 使用 `claude-sonnet-5` 真实通过，并扩展为 10×4 pilot。**
-公开结果包含 40/40 条严格有效记录、80 个成功 HTTP 阶段、70 次搜索、547 个完整来源
-和 155 条原生 citations。见
-[`temporal_clash/results/live_pilot_10q_claude_r1/README.md`](../temporal_clash/results/live_pilot_10q_claude_r1/README.md)。
+**当前状态：已于 2026-07-31 使用 `claude-sonnet-5` 真实通过，并完成 20×4 pilot。**
+公开结果包含 80/80 条严格有效记录、160 个成功 HTTP 阶段、167 次搜索、
+1,228 个完整来源和 256 条原生 citations。见
+[`temporal_clash/results/live_pilot_20q_claude_complete/README.md`](../temporal_clash/results/live_pilot_20q_claude_complete/README.md)。
 
 Claude 每个策略固定使用 2 个 HTTP 阶段，所以 4 个策略最多需要 8 次请求；
 每个策略最多 3 次搜索，所以最多 12 次付费 Web Search。
@@ -121,11 +121,11 @@ python -m temporal_clash.run_live_pilot `
 如果中转不支持任一原生能力，程序会停止。不要通过关闭强制搜索或退回 Prompt JSON
 来“跑通”，因为那会改变研究对象。
 
-## 6. 20题 × 4策略 × 3重复
+## 6. 已完成 20题 × 4策略；下一步做 3重复
 
-当前 10×4 是一次真实开放网页 pilot，但仍只有一个模型、一个运行窗口和一次重复。
-它发现严格过滤器会因网页时间元数据缺失而过度拒答，因此不应把下面的完整实验描述成
-已经完成；应先改进元数据获取和校准，再在同一代码提交、同一模型和尽可能集中的时间窗口运行：
+当前 20×4 是一次真实开放网页 pilot，但仍只有一个模型、一个运行窗口和一次重复。
+它发现严格过滤器会因网页时间元数据缺失而过度拒答。下一步应先改进元数据获取和校准，
+再在同一代码提交、同一模型和尽可能集中的时间窗口运行 3 次重复：
 
 ```powershell
 python -m temporal_clash.run_live_pilot `

@@ -135,7 +135,7 @@ table{{width:100%;border-collapse:collapse;min-width:760px}}th,td{{padding:12px 
 <h2 id="traces">可解释的逐证据审计</h2>
 <div class="traces">{_sample_cards(bundle)}</div>
 <h2>结论边界</h2>
-<div class="warning"><b>当前结果是确定性协议验证，不是真实 LLM 排名。</b> 数据中的时间、期间、版本与单位均已显式标注，因此完整检测器达到满分是设计上限。<a href="live-pilot.html">已完成的 10题×4策略真实 pilot</a> 显示，开放网页的日期缺失会让严格 Gate 过度拒答，因此真实结果必须与受控结果分开报告。</div>
+<div class="warning"><b>当前结果是确定性协议验证，不是真实 LLM 排名。</b> 数据中的时间、期间、版本与单位均已显式标注，因此完整检测器达到满分是设计上限。<a href="live-pilot.html">已完成的 20题×4策略真实 pilot</a> 显示，开放网页的日期缺失会让严格 Gate 过度拒答，因此真实结果必须与受控结果分开报告。</div>
 <h2>论文连接</h2>
 <p>本原型受 <a href="https://arxiv.org/abs/2601.13770">Look-Ahead-Bench</a> 启发，但研究对象从“交易收益是否跨时期衰减”改为“搜索证据是否满足 point-in-time 约束”，更贴合 FinSearchComp 的搜索与引用任务。</p>
 <footer>生成文件：temporal-metrics.csv · temporal-detector-metrics.csv · temporal-predictions.jsonl · temporal-detector-trace.jsonl</footer>

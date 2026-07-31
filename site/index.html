@@ -35,15 +35,16 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
 <h1>别只问答案对不对。<br><span>还要问证据当时是否存在。</span></h1>
 <p class="hero-copy">FinSearchComp-Audit 检查金融研究 Agent 是否使用了未来发布、错误期间、
 错误版本或错误单位的证据。项目同时提供 100 条受控冲突实验，以及
-40 条真实 Claude Web Search trace。</p>
-<div class="hero-actions"><a class="button primary" href="#live-pilot">查看 40 条真实实验</a>
+80 条真实 Claude Web Search trace。</p>
+<div class="hero-actions"><a class="button primary" href="#live-pilot">查看 80 条真实实验</a>
 <a class="button secondary" href="temporal-audit.html">查看 100 条受控实验</a></div>
 <nav><a href="#teacher">研究问题</a><a href="#live-pilot">真实结果</a><a href="#live-cases">实际案例</a>
-<a href="#reproduce">复现</a><a href="#cases">历史审计案例</a><a href="live-pilot.html">完整 Pilot 报告</a></nav>
+<a href="#reproduce">复现</a><a href="#cases">历史审计案例</a><a href="live-pilot.html">完整 Pilot 报告</a>
+<a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/LITERATURE_AND_ROADMAP.md">论文与升级路线</a></nav>
 </div></header><main class="wrap"><section class="summary">
-<div class="stat"><b>40</b><small>严格验证的真实 trace</small></div>
-<div class="stat"><b>70</b><small>真实 Web Search</small></div>
-<div class="stat"><b>547</b><small>保存的完整来源</small></div>
+<div class="stat"><b>80</b><small>严格验证的真实 trace</small></div>
+<div class="stat"><b>167</b><small>真实 Web Search</small></div>
+<div class="stat"><b>1228</b><small>保存的完整来源</small></div>
 <div class="stat"><b>100</b><small>受控冲突实例</small></div></section>
 <h2 id="teacher">30 秒看懂研究</h2>
 <p class="lead"><b>研究问题：</b>当金融搜索 Agent 遇到未来信息、错期间、错版本或错单位时，显式的证据审计能否降低错误证据采用率，同时保留安全证据？</p>
@@ -54,24 +55,26 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
 <section><h3>真实实验发现</h3><p>严格 Gate 在开放网页上因日期元数据缺失而过度拒答。真实结果与受控上限不同，这正是当前最重要的研究发现。</p></section>
 </div>
 <span class="section-label">LIVE WEB SEARCH STUDY</span>
-<h2 id="live-pilot">10 题 × 4 策略的真实 Web Search Agent pilot</h2>
+<h2 id="live-pilot">20 题 × 4 策略的真实 Web Search Agent pilot</h2>
 <p class="section-copy">同一个 <code>claude-sonnet-5</code>、同一批问题、相同推理强度与搜索上限，
-只改变四种策略。40 条记录全部通过严格 trace 校验；所有已回答记录都有原生引用，
+只改变四种策略。80 条记录全部通过严格 trace 校验；所有已回答记录都有原生引用，
 所有运行都保存了完整搜索来源。</p>
 <div class="pilot-grid"><div class="panel"><table><thead><tr><th>策略</th><th>最终正确率</th>
 <th>模型初稿正确率</th><th>回答覆盖率</th><th>引用覆盖</th><th>完整来源</th></tr></thead>
-<tbody><tr><td>普通搜索 Agent</td><td><b>70%</b></td><td>70%</td><td>90%</td><td>100%</td><td>100%</td></tr><tr><td>时间约束 Prompt</td><td><b>70%</b></td><td>70%</td><td>90%</td><td>100%</td><td>100%</td></tr><tr><td>元数据过滤器</td><td><b>50%</b></td><td>70%</td><td>50%</td><td>100%</td><td>100%</td></tr><tr><td>完整证据验证器</td><td><b>30%</b></td><td>60%</td><td>30%</td><td>100%</td><td>100%</td></tr></tbody></table></div>
-<aside class="finding"><h3>真实结果没有复制受控实验</h3><div class="big">70% → 30%</div>
-<p>普通 Agent 最终正确率为 70%，完整证据验证器为 30%。下降主要来自
-<b>网页发布日期缺失导致的过度拒答</b>，不是接口没有搜索或没有保存引用。</p>
+<tbody><tr><td>普通搜索 Agent</td><td><b>50%</b></td><td>50%</td><td>65%</td><td>100%</td><td>100%</td></tr><tr><td>时间约束 Prompt</td><td><b>45%</b></td><td>45%</td><td>65%</td><td>100%</td><td>100%</td></tr><tr><td>元数据过滤器</td><td><b>25%</b></td><td>45%</td><td>30%</td><td>100%</td><td>100%</td></tr><tr><td>完整证据验证器</td><td><b>20%</b></td><td>40%</td><td>25%</td><td>100%</td><td>100%</td></tr></tbody></table></div>
+<aside class="finding"><h3>真实结果没有复制受控实验</h3><div class="big">50% → 20%</div>
+<p>普通 Agent 最终正确率为 50%，完整证据验证器为
+20%。严格策略共有 <b>8 条正确初稿最终被拒答</b>；
+网页元数据缺失是需要独立验证的主要机制之一。</p>
 <p>因此当前不能声称 TEG 已在真实网络上优于基线。</p></aside></div>
 <div class="artifact-links"><a href="live-pilot.html">阅读完整研究卡</a>
 <a href="live-pilot/case_outcomes.csv">下载逐题结果</a>
-<a href="live-pilot/trace.jsonl">查看 40 条 trace</a>
+<a href="live-pilot/case_analysis.md">阅读 20 道逐题说明</a>
+<a href="live-pilot/trace.jsonl">查看 80 条 trace</a>
 <a href="live-pilot/exclusions.json">查看排除记录</a></div>
 <h2 id="live-cases">三个来自真实 trace 的例子</h2>
 <p class="section-copy">以下不是演示脚本，而是 2026-07-31 实际运行记录的逐题对照。
-每张卡片都汇总同一道题的四种策略；完整 10 题结果可从上方下载。</p>
+每张卡片都汇总同一道题的四种策略；完整 20 题结果和中文解释可从上方下载。</p>
 <div class="live-cases"><article class="live-case">
             <div class="case-kicker">真实的过度拒答案例</div>
             <h3>Apple 2024财年的净销售额是多少？</h3>
@@ -105,7 +108,7 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
 <tr><td><b>完整证据验证器</b></td><td><b>100.0%</b></td><td><b>100.0%</b></td><td><b>0.0%</b></td><td><b>100.0%</b></td></tr>
 </tbody></table></div>
 <p class="boundary"><b>结论边界：</b>受控实验是确定性协议验证，不是真实 LLM 排名。
-真实 10×4 pilot 已证明开放网页中的日期缺失会改变结论，因此两层实验必须分开报告。</p>
+真实 20×4 pilot 表明开放网页中的日期缺失会改变结论，因此两层实验必须分开报告。</p>
 <h2 id="reproduce">一分钟复现</h2><div class="panel"><p><b>确定性复现：</b>从保存的 Agent 轨迹重新生成报告并验证一致性；不会把记录数据冒充成实时搜索。</p>
 <pre><code>git clone https://github.com/QiQiyzhu/FinSearchComp-Audit.git
 cd FinSearchComp-Audit
@@ -243,7 +246,7 @@ python reproduce.py</code></pre>
 <h2>评价框架</h2><div class="panel"><p><b>真实性：</b>答案正确 + 引用真的支持 + 时间版本正确。</p>
 <p><b>完整性：</b>题目每个评分点都回答。</p><p><b>效率：</b>比较工具数、耗时和无效搜索；结构化题尽早切换金融 API。</p></div>
 <footer>真实实验：<a href="live-pilot.html">研究卡</a> ·
-<a href="live-pilot/trace.jsonl">40 条 trace</a> ·
+<a href="live-pilot/trace.jsonl">80 条 trace</a> ·
 受控实验：<a href="temporal-audit.html">100 条实例</a> ·
 历史审计：<a href="report.md">report.md</a> ·
 <a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/REPRODUCIBILITY.md">复现说明</a></footer>

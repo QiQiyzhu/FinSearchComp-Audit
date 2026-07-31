@@ -1,0 +1,16 @@
+﻿comparison,metric,estimate,ci_lower,ci_upper,n_questions,method,bootstrap_samples,seed
+普通搜索 Agent,decision_accuracy,0.5000,0.3000,0.7000,20,question_cluster_bootstrap_percentile,10000,20260731
+时间约束 Prompt,decision_accuracy,0.4500,0.2500,0.6500,20,question_cluster_bootstrap_percentile,10000,20260731
+元数据过滤器,decision_accuracy,0.2500,0.1000,0.4500,20,question_cluster_bootstrap_percentile,10000,20260731
+完整证据验证器,decision_accuracy,0.2000,0.0500,0.4000,20,question_cluster_bootstrap_percentile,10000,20260731
+普通搜索 Agent,model_decision_accuracy,0.5000,0.3000,0.7000,20,question_cluster_bootstrap_percentile,10000,20260731
+时间约束 Prompt,model_decision_accuracy,0.4500,0.2500,0.6500,20,question_cluster_bootstrap_percentile,10000,20260731
+元数据过滤器,model_decision_accuracy,0.4500,0.2500,0.6500,20,question_cluster_bootstrap_percentile,10000,20260731
+完整证据验证器,model_decision_accuracy,0.4000,0.2000,0.6000,20,question_cluster_bootstrap_percentile,10000,20260731
+普通搜索 Agent,answer_coverage,0.6500,0.4500,0.8500,20,question_cluster_bootstrap_percentile,10000,20260731
+时间约束 Prompt,answer_coverage,0.6500,0.4500,0.8500,20,question_cluster_bootstrap_percentile,10000,20260731
+元数据过滤器,answer_coverage,0.3000,0.1000,0.5000,20,question_cluster_bootstrap_percentile,10000,20260731
+完整证据验证器,answer_coverage,0.2500,0.1000,0.4500,20,question_cluster_bootstrap_percentile,10000,20260731
+时间约束 Prompt - 普通搜索 Agent,paired_decision_accuracy_difference,-0.0500,-0.2000,0.1000,20,paired_question_bootstrap_percentile,10000,20260731
+元数据过滤器 - 普通搜索 Agent,paired_decision_accuracy_difference,-0.2500,-0.4500,-0.1000,20,paired_question_bootstrap_percentile,10000,20260731
+完整证据验证器 - 普通搜索 Agent,paired_decision_accuracy_difference,-0.3000,-0.5000,-0.1000,20,paired_question_bootstrap_percentile,10000,20260731
