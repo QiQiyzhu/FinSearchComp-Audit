@@ -133,6 +133,13 @@ python reproduce.py \
 
 ## 8. 实时 Agent 模式
 
+正式的 OpenAI/Claude Web Search Agent 实验不再通过上游聊天脚本运行。请按
+[`LIVE_STUDY_PROTOCOL.md`](LIVE_STUDY_PROTOCOL.md) 先执行模型清单预检和
+1题×4策略严格门禁，再执行 20题×4策略×3重复。正式 runner 会保存代码指纹、
+问题批次与提示词哈希、实际模型、UTC 时间窗、完整来源、原始响应哈希和重复统计。
+
+下面的上游命令仅保留为原 FinSearchComp 模型调用参考，不满足本项目正式 trace 门禁：
+
 如需重新调用上游模型：
 
 ```bash

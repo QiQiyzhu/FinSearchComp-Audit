@@ -94,9 +94,10 @@ Look-Ahead-Bench 通过比较两个市场时期的 Alpha Decay 诊断交易模�
 
 ## 真实 Web Search Agent pilot
 
-仓库提供了一个带费用保护的真实搜索接入。它使用 20 个基础金融问题，
-分别运行普通 Agent、时间 Prompt、元数据过滤器和完整证据验证器。输出写入
-`outputs/live_agent_pilot/`，不会覆盖 100 条受控实验的结果。
+仓库提供了 OpenAI Responses 和 Anthropic Messages 两种真实搜索接入。它使用
+20 个基础金融问题，分别运行普通 Agent、时间 Prompt、元数据过滤器和完整证据
+验证器。runner 强制搜索、保存完整来源、限制内部搜索次数、使用 JSON Schema，
+并把原始响应、模型、日期、提示词哈希、响应 ID、token、引用和结果写入 trace。
 
 先查看运行计划（不会访问 API，也不会产生费用）：
 
@@ -104,24 +105,41 @@ Look-Ahead-Bench 通过比较两个市场时期的 Alpha Decay 诊断交易模�
 python -m temporal_clash.run_live_pilot
 ```
 
-建议先跑 1 题、4 个策略，确认账户、模型权限和 trace：
+Claude 中转先运行模型清单预检，再跑 1 题、4 个策略门禁：
 
 ```powershell
-$env:OPENAI_API_KEY = "你的临时环境变量"
-python -m temporal_clash.run_live_pilot --limit 1 --max-api-calls 4 --confirm-live
+$env:ANTHROPIC_BASE_URL = "https://ai.aiclick.cc"
+$env:ANTHROPIC_AUTH_TOKEN = "<轮换后的本地密钥>"
+$model = "中转实际列出的 Claude 模型 ID"
+python -m temporal_clash.probe_live_api `
+  --provider anthropic --model $model --confirm-network
+python -m temporal_clash.run_live_pilot `
+  --provider anthropic --limit 1 --model $model `
+  --max-tool-calls 3 --max-api-calls 8 `
+  --output-dir temporal_clash/results/live_pilot_1q_claude `
+  --confirm-live
 ```
 
-确认后再运行 20 题 pilot：
+确认后运行 20 题 × 4 策略 × 3 重复：
 
 ```powershell
-python -m temporal_clash.run_live_pilot --limit 20 --max-api-calls 80 --confirm-live
+python -m temporal_clash.run_live_pilot `
+  --provider anthropic --limit 20 --model $model `
+  --reasoning-effort medium --search-context-size medium `
+  --max-tool-calls 3 --repeats 3 --max-api-calls 480 `
+  --output-dir temporal_clash/results/live_pilot_20q_claude_3x `
+  --confirm-live
 ```
 
 安全边界：
 
-- API Key 只从 `OPENAI_API_KEY` 读取，不写入仓库；
+- API Key 只从进程环境变量读取，不写入仓库；
 - 没有 `--confirm-live` 时只打印调用计划；
-- `--max-api-calls` 防止题目数或策略数意外扩大；
+- `--max-api-calls` 限制 HTTP 请求，`--max-tool-calls` 限制响应内部搜索；
 - 默认断点续跑，只跳过已经成功的 `case × strategy`；
+- 任一成功记录缺少搜索、完整来源、结构化输出或原始响应时会立即判为 invalid；
 - 真实 pilot 是外部有效性实验，不能替代人工扰动的因果受控实验；
 - 当前来源日期是 Agent 报告的元数据，后续需增加独立网页抓取验证。
+
+完整协议、两种 provider 的差异和结果发布边界见
+[`docs/LIVE_STUDY_PROTOCOL.md`](../docs/LIVE_STUDY_PROTOCOL.md)。

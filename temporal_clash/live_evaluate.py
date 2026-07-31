@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from .live_agent import STRATEGIES, STRATEGY_LABELS
+from .live_validate import observed_search_calls
 
 
 ABS_TOLERANCE = {
@@ -99,8 +100,9 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
             int((record.get("usage") or {}).get("output_tokens") or 0)
             for record in api_ok
         )
-        search_calls = sum(
-            len(record.get("search_actions") or []) for record in api_ok
+        search_calls = sum(observed_search_calls(record) for record in api_ok)
+        source_count = sum(
+            len(record.get("search_sources") or []) for record in api_ok
         )
         summaries[strategy] = {
             "runs": float(len(items)),
@@ -114,6 +116,9 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
             "decision_accuracy": _rate(api_ok, answer_is_correct),
             "citation_coverage": _rate(
                 answered, lambda record: bool(record.get("api_citations"))
+            ),
+            "source_capture_coverage": _rate(
+                api_ok, lambda record: bool(record.get("search_sources"))
             ),
             "declared_temporal_leakage_rate": _rate(
                 answered, lambda record: _declared_temporal_status(record)[0]
@@ -134,6 +139,9 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
                 else 0.0
             ),
             "web_search_calls": float(search_calls),
+            "average_sources_per_run": (
+                source_count / len(api_ok) if api_ok else 0.0
+            ),
             "input_tokens": float(input_tokens),
             "output_tokens": float(output_tokens),
         }
@@ -153,11 +161,13 @@ def write_metrics(
         "answer_coverage",
         "decision_accuracy",
         "citation_coverage",
+        "source_capture_coverage",
         "declared_temporal_leakage_rate",
         "missing_declared_date_rate",
         "filter_trigger_rate",
         "average_latency_seconds",
         "web_search_calls",
+        "average_sources_per_run",
         "input_tokens",
         "output_tokens",
     ]
@@ -176,6 +186,9 @@ def write_metrics(
                     "answer_coverage": f"{summary['answer_coverage']:.4f}",
                     "decision_accuracy": f"{summary['decision_accuracy']:.4f}",
                     "citation_coverage": f"{summary['citation_coverage']:.4f}",
+                    "source_capture_coverage": (
+                        f"{summary['source_capture_coverage']:.4f}"
+                    ),
                     "declared_temporal_leakage_rate": (
                         f"{summary['declared_temporal_leakage_rate']:.4f}"
                     ),
@@ -187,6 +200,9 @@ def write_metrics(
                         f"{summary['average_latency_seconds']:.3f}"
                     ),
                     "web_search_calls": int(summary["web_search_calls"]),
+                    "average_sources_per_run": (
+                        f"{summary['average_sources_per_run']:.3f}"
+                    ),
                     "input_tokens": int(summary["input_tokens"]),
                     "output_tokens": int(summary["output_tokens"]),
                 }
@@ -198,8 +214,8 @@ def write_metrics(
         "> 这是外部有效性 pilot，不替代 100 条人工扰动的受控实验。来源日期来自 Agent "
         "结构化报告，属于待进一步抓取验证的元数据。",
         "",
-        "| 策略 | 成功率 | 覆盖率 | 正确率 | 引用覆盖 | 声明的时间泄漏 | 日期缺失 |",
-        "|---|---:|---:|---:|---:|---:|---:|",
+        "| 策略 | 成功率 | 覆盖率 | 正确率 | 引用覆盖 | 完整来源捕获 | 声明的时间泄漏 | 日期缺失 |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for strategy in STRATEGIES:
         summary = summaries[strategy]
@@ -216,6 +232,7 @@ def write_metrics(
                     pct("answer_coverage"),
                     pct("decision_accuracy"),
                     pct("citation_coverage"),
+                    pct("source_capture_coverage"),
                     pct("declared_temporal_leakage_rate"),
                     pct("missing_declared_date_rate"),
                 ]

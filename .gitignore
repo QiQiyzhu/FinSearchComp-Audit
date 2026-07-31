@@ -5,3 +5,4 @@ __pycache__/
 output/
 outputs/
 temporal_clash/live_results/
+temporal_clash/results/**/raw_responses/

@@ -7,13 +7,23 @@ import re
 import time
 import urllib.error
 import urllib.request
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import date
 from typing import Any, Callable
+from urllib.parse import urlsplit, urlunsplit
 
 
-DEFAULT_MODEL = "gpt-5.6-luna"
-DEFAULT_BASE_URL = "https://api.openai.com/v1"
+OPENAI_PROVIDER = "openai"
+ANTHROPIC_PROVIDER = "anthropic"
+PROVIDERS = (OPENAI_PROVIDER, ANTHROPIC_PROVIDER)
+
+DEFAULT_MODEL = "gpt-5.6-terra"
+DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-5"
+DEFAULT_OPENAI_BASE_URL = "https://api.openai.com/v1"
+DEFAULT_ANTHROPIC_BASE_URL = "https://api.anthropic.com"
+ANTHROPIC_VERSION = "2023-06-01"
+ANTHROPIC_WEB_SEARCH_TOOL = "web_search_20260318"
+TRACE_SCHEMA_VERSION = "2.0"
 
 STRATEGIES = (
     "plain_agent",
@@ -36,8 +46,47 @@ LOCAL_VALIDATION_PROFILES = {
     "teg_validator": ("published_at", "target_period", "revision", "unit"),
 }
 
+EVIDENCE_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "url": {"type": ["string", "null"]},
+        "title": {"type": ["string", "null"]},
+        "published_at": {
+            "type": ["string", "null"],
+            "description": "YYYY-MM-DD, or null when the source does not establish it.",
+        },
+        "target_period": {"type": ["string", "null"]},
+        "revision": {"type": ["string", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "evidence_text": {"type": ["string", "null"]},
+    },
+    "required": [
+        "url",
+        "title",
+        "published_at",
+        "target_period",
+        "revision",
+        "unit",
+        "evidence_text",
+    ],
+    "additionalProperties": False,
+}
+
+AGENT_RESULT_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "action": {"type": "string", "enum": ["answer", "abstain"]},
+        "answer_value": {"type": ["string", "null"]},
+        "unit": {"type": ["string", "null"]},
+        "explanation": {"type": "string"},
+        "evidence": {"type": "array", "items": EVIDENCE_SCHEMA},
+    },
+    "required": ["action", "answer_value", "unit", "explanation", "evidence"],
+    "additionalProperties": False,
+}
+
 OUTPUT_CONTRACT = """
-Return only one JSON object, without Markdown fences:
+Return only one JSON object, without Markdown fences, matching this contract:
 {
   "action": "answer" or "abstain",
   "answer_value": "numeric string, or null",
@@ -45,8 +94,8 @@ Return only one JSON object, without Markdown fences:
   "explanation": "one short sentence",
   "evidence": [
     {
-      "url": "https://...",
-      "title": "source title",
+      "url": "https://... or null",
+      "title": "source title or null",
       "published_at": "YYYY-MM-DD or null",
       "target_period": "the exact requested target period or null",
       "revision": "the exact requested version or null",
@@ -57,7 +106,72 @@ Return only one JSON object, without Markdown fences:
 }
 If reliable evidence is insufficient, use action="abstain". Never invent a
 publication date or metadata value: use null when the page does not establish it.
+Every evidence URL must come from a source actually retrieved in this run.
 """.strip()
+
+_SECRET_PATTERNS = (
+    re.compile(r"sk-[A-Za-z0-9_-]{16,}"),
+    re.compile(r"(?i)(authorization\s*[:=]\s*bearer\s+)[^\s\"']+"),
+    re.compile(r"(?i)(x-api-key\s*[:=]\s*)[^\s\"']+"),
+)
+
+
+def default_model_for_provider(provider: str) -> str:
+    if provider == OPENAI_PROVIDER:
+        return DEFAULT_MODEL
+    if provider == ANTHROPIC_PROVIDER:
+        return DEFAULT_ANTHROPIC_MODEL
+    raise ValueError(f"Unknown provider: {provider}")
+
+
+def credential_is_available(provider: str) -> bool:
+    if provider == OPENAI_PROVIDER:
+        return bool(os.getenv("OPENAI_API_KEY"))
+    if provider == ANTHROPIC_PROVIDER:
+        return bool(
+            os.getenv("ANTHROPIC_AUTH_TOKEN") or os.getenv("ANTHROPIC_API_KEY")
+        )
+    raise ValueError(f"Unknown provider: {provider}")
+
+
+def credential_help(provider: str) -> str:
+    if provider == OPENAI_PROVIDER:
+        return "Set OPENAI_API_KEY in the current shell."
+    if provider == ANTHROPIC_PROVIDER:
+        return (
+            "Set ANTHROPIC_AUTH_TOKEN (relay/Bearer auth) or ANTHROPIC_API_KEY "
+            "(official x-api-key auth) in the current shell."
+        )
+    raise ValueError(f"Unknown provider: {provider}")
+
+
+def redact_sensitive(value: str) -> str:
+    result = value
+    for pattern in _SECRET_PATTERNS:
+        if pattern.groups:
+            result = pattern.sub(r"\1[REDACTED]", result)
+        else:
+            result = pattern.sub("[REDACTED]", result)
+    return result
+
+
+def safe_base_url(value: str) -> str:
+    parsed = urlsplit(value)
+    if parsed.scheme not in {"http", "https"} or not parsed.hostname:
+        raise ValueError("Base URL must be an absolute HTTP(S) URL")
+    if parsed.username or parsed.password:
+        raise ValueError("Base URL must not contain credentials")
+    port = f":{parsed.port}" if parsed.port else ""
+    hostname = parsed.hostname or ""
+    netloc = f"{hostname}{port}"
+    return urlunsplit((parsed.scheme, netloc, parsed.path.rstrip("/"), "", ""))
+
+
+def _endpoint(base_url: str, resource: str) -> str:
+    base = safe_base_url(base_url)
+    if base.endswith("/v1"):
+        return f"{base}/{resource.lstrip('/')}"
+    return f"{base}/v1/{resource.lstrip('/')}"
 
 
 def _strategy_rules(strategy: str, case: dict[str, Any]) -> str:
@@ -95,6 +209,7 @@ def build_prompt(case: dict[str, Any], strategy: str) -> str:
     return "\n\n".join(
         [
             _strategy_rules(strategy, case),
+            "You must perform web search before answering.",
             "Question and audit metadata:",
             json.dumps(
                 {
@@ -156,11 +271,127 @@ def extract_api_citations(response: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def extract_search_actions(response: dict[str, Any]) -> list[dict[str, Any]]:
-    return [
-        item.get("action", {})
-        for item in response.get("output", [])
-        if item.get("type") == "web_search_call"
-    ]
+    actions: list[dict[str, Any]] = []
+    for item in response.get("output", []):
+        if item.get("type") != "web_search_call":
+            continue
+        action = dict(item.get("action") or {})
+        action["call_id"] = item.get("id")
+        action["status"] = item.get("status")
+        actions.append(action)
+    return actions
+
+
+def _normalize_source(source: Any) -> dict[str, Any] | None:
+    if isinstance(source, str):
+        return {"url": source, "title": None, "type": None}
+    if not isinstance(source, dict):
+        return None
+    url = source.get("url") or source.get("source_url")
+    if not url:
+        return None
+    return {
+        "url": url,
+        "title": source.get("title"),
+        "type": source.get("type"),
+    }
+
+
+def extract_search_sources(response: dict[str, Any]) -> list[dict[str, Any]]:
+    sources: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for item in response.get("output", []):
+        if item.get("type") != "web_search_call":
+            continue
+        action = item.get("action") or {}
+        for source in action.get("sources") or []:
+            normalized = _normalize_source(source)
+            if not normalized or normalized["url"] in seen:
+                continue
+            seen.add(normalized["url"])
+            sources.append(normalized)
+    return sources
+
+
+def extract_anthropic_output_text(response: dict[str, Any]) -> str:
+    return "\n".join(
+        str(block.get("text"))
+        for block in response.get("content", [])
+        if block.get("type") == "text" and block.get("text")
+    ).strip()
+
+
+def extract_anthropic_search_actions(
+    response: dict[str, Any],
+) -> list[dict[str, Any]]:
+    actions: list[dict[str, Any]] = []
+    for block in response.get("content", []):
+        if block.get("type") != "server_tool_use" or block.get("name") != "web_search":
+            continue
+        actions.append(
+            {
+                **dict(block.get("input") or {}),
+                "call_id": block.get("id"),
+                "caller": block.get("caller"),
+                "type": "search",
+            }
+        )
+    return actions
+
+
+def extract_anthropic_search_sources(
+    response: dict[str, Any],
+) -> list[dict[str, Any]]:
+    sources: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for block in response.get("content", []):
+        if block.get("type") != "web_search_tool_result":
+            continue
+        content = block.get("content")
+        if not isinstance(content, list):
+            continue
+        for result in content:
+            if not isinstance(result, dict) or result.get("type") != "web_search_result":
+                continue
+            url = result.get("url")
+            if not url or url in seen:
+                continue
+            seen.add(url)
+            sources.append(
+                {
+                    "url": url,
+                    "title": result.get("title"),
+                    "page_age": result.get("page_age"),
+                    "type": result.get("type"),
+                }
+            )
+    return sources
+
+
+def extract_anthropic_citations(
+    response: dict[str, Any],
+) -> list[dict[str, Any]]:
+    citations: list[dict[str, Any]] = []
+    seen: set[tuple[str, str]] = set()
+    for block in response.get("content", []):
+        if block.get("type") != "text":
+            continue
+        for citation in block.get("citations") or []:
+            url = citation.get("url")
+            cited_text = str(citation.get("cited_text") or "")
+            key = (str(url or ""), cited_text)
+            if not url or key in seen:
+                continue
+            seen.add(key)
+            citations.append(
+                {
+                    "url": url,
+                    "title": citation.get("title"),
+                    "cited_text": citation.get("cited_text"),
+                    "type": citation.get("type"),
+                }
+            )
+    return citations
 
 
 def parse_json_object(text: str) -> dict[str, Any]:
@@ -289,18 +520,81 @@ def apply_local_validation(
 @dataclass(frozen=True)
 class RequestConfig:
     model: str = DEFAULT_MODEL
-    reasoning_effort: str = "low"
-    search_context_size: str = "low"
+    reasoning_effort: str = "medium"
+    search_context_size: str = "medium"
+    max_tool_calls: int = 3
     max_output_tokens: int = 1200
     timeout_seconds: int = 120
     max_retries: int = 0
+    force_search: bool = True
+    structured_output: bool = True
+    save_raw_response: bool = True
 
 
 Transport = Callable[[dict[str, Any]], dict[str, Any]]
 
 
-class OpenAIResponsesWebSearch:
-    """Minimal Responses API client that keeps API keys out of files and traces."""
+def request_config_view(config: RequestConfig) -> dict[str, Any]:
+    return asdict(config)
+
+
+def http_calls_per_run(provider: str, structured_output: bool) -> int:
+    if provider == OPENAI_PROVIDER:
+        return 1
+    if provider == ANTHROPIC_PROVIDER:
+        return 2 if structured_output else 1
+    raise ValueError(f"Unknown provider: {provider}")
+
+
+def _combined_usage(*usage_objects: dict[str, Any]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for field in (
+        "input_tokens",
+        "output_tokens",
+        "cache_creation_input_tokens",
+        "cache_read_input_tokens",
+    ):
+        result[field] = sum(int(usage.get(field) or 0) for usage in usage_objects)
+    result["total_tokens"] = result["input_tokens"] + result["output_tokens"]
+    result["server_tool_use"] = {
+        "web_search_requests": sum(
+            int(
+                ((usage.get("server_tool_use") or {}).get("web_search_requests"))
+                or 0
+            )
+            for usage in usage_objects
+        )
+    }
+    result["stages"] = list(usage_objects)
+    return result
+
+
+class _RetryingClient:
+    def __init__(self, config: RequestConfig) -> None:
+        self.config = config
+
+    def _request_with_retries(
+        self,
+        payload: dict[str, Any],
+        transport: Transport,
+    ) -> tuple[dict[str, Any], int]:
+        error: Exception | None = None
+        for attempt in range(1, self.config.max_retries + 2):
+            try:
+                return transport(payload), attempt
+            except Exception as exc:
+                error = exc
+                if attempt > self.config.max_retries:
+                    break
+                time.sleep(min(2 ** (attempt - 1), 4))
+        raise RuntimeError(redact_sensitive(str(error) if error else "Unknown API failure"))
+
+
+class OpenAIResponsesWebSearch(_RetryingClient):
+    """Responses API client with forced search, full sources and JSON Schema."""
+
+    provider = OPENAI_PROVIDER
+    structured_output_mode = "openai_text_json_schema"
 
     def __init__(
         self,
@@ -310,22 +604,23 @@ class OpenAIResponsesWebSearch:
         api_key: str | None = None,
         base_url: str | None = None,
     ) -> None:
-        self.config = config
+        super().__init__(config)
         self._transport = transport
         self._api_key = api_key
-        self._base_url = (
-            base_url or os.getenv("OPENAI_BASE_URL") or DEFAULT_BASE_URL
-        ).rstrip("/")
+        self._base_url = safe_base_url(
+            base_url or os.getenv("OPENAI_BASE_URL") or DEFAULT_OPENAI_BASE_URL
+        )
+
+    @property
+    def base_url(self) -> str:
+        return self._base_url
 
     def _http_transport(self, payload: dict[str, Any]) -> dict[str, Any]:
         api_key = self._api_key or os.getenv("OPENAI_API_KEY")
         if not api_key:
-            raise RuntimeError(
-                "OPENAI_API_KEY is not set. Use plan mode first, then set the "
-                "environment variable before --confirm-live."
-            )
+            raise RuntimeError(credential_help(self.provider))
         request = urllib.request.Request(
-            f"{self._base_url}/responses",
+            _endpoint(self._base_url, "responses"),
             data=json.dumps(payload).encode("utf-8"),
             headers={
                 "Authorization": f"Bearer {api_key}",
@@ -339,63 +634,321 @@ class OpenAIResponsesWebSearch:
             ) as response:
                 return json.loads(response.read().decode("utf-8"))
         except urllib.error.HTTPError as exc:
-            detail = exc.read().decode("utf-8", errors="replace")
-            raise RuntimeError(f"OpenAI API HTTP {exc.code}: {detail[:500]}") from exc
+            detail = redact_sensitive(
+                exc.read().decode("utf-8", errors="replace")
+            )
+            raise RuntimeError(f"OpenAI-compatible API HTTP {exc.code}: {detail[:800]}") from exc
         except urllib.error.URLError as exc:
-            raise RuntimeError(f"OpenAI API network error: {exc.reason}") from exc
+            raise RuntimeError(f"OpenAI-compatible API network error: {exc.reason}") from exc
 
-    def run(self, case: dict[str, Any], strategy: str) -> dict[str, Any]:
+    def build_payload(self, case: dict[str, Any], strategy: str) -> dict[str, Any]:
         prompt = build_prompt(case, strategy)
-        payload = {
+        payload: dict[str, Any] = {
             "model": self.config.model,
             "instructions": (
-                "You are a financial research agent. Use web search when needed. "
-                "Follow the requested JSON contract exactly."
+                "You are a financial research agent. You must use web search before "
+                "answering. Use only URLs retrieved in this response and follow the "
+                "requested JSON contract exactly."
             ),
             "input": prompt,
             "tools": [
                 {
                     "type": "web_search",
                     "search_context_size": self.config.search_context_size,
+                    "external_web_access": True,
                 }
             ],
+            "tool_choice": "required" if self.config.force_search else "auto",
+            "include": ["web_search_call.action.sources"],
+            "max_tool_calls": self.config.max_tool_calls,
             "reasoning": {"effort": self.config.reasoning_effort},
             "max_output_tokens": self.config.max_output_tokens,
             "store": False,
         }
+        if self.config.structured_output:
+            payload["text"] = {
+                "format": {
+                    "type": "json_schema",
+                    "name": "financial_research_result",
+                    "schema": AGENT_RESULT_SCHEMA,
+                    "strict": True,
+                }
+            }
+        return payload
 
+    def run(self, case: dict[str, Any], strategy: str) -> dict[str, Any]:
+        prompt = build_prompt(case, strategy)
+        payload = self.build_payload(case, strategy)
         started = time.perf_counter()
-        response: dict[str, Any] | None = None
-        error: Exception | None = None
-        transport = self._transport or self._http_transport
-        for attempt in range(1, self.config.max_retries + 2):
-            try:
-                response = transport(payload)
-                error = None
-                break
-            except Exception as exc:
-                error = exc
-                if attempt > self.config.max_retries:
-                    break
-                time.sleep(min(2 ** (attempt - 1), 4))
+        response, attempts = self._request_with_retries(
+            payload, self._transport or self._http_transport
+        )
         latency = time.perf_counter() - started
-        if response is None:
-            raise RuntimeError(str(error) if error else "Unknown API failure")
 
         output_text = extract_output_text(response)
         parsed = normalize_agent_result(parse_json_object(output_text))
         validated = apply_local_validation(strategy, parsed, case)
-        return {
+        record = {
+            "trace_schema_version": TRACE_SCHEMA_VERSION,
+            "provider": self.provider,
             "response_id": response.get("id"),
+            "response_ids": [response.get("id")],
+            "requested_model": self.config.model,
             "model": response.get("model") or self.config.model,
             "strategy": strategy,
             "strategy_label": STRATEGY_LABELS[strategy],
             "prompt_sha256": prompt_sha256(prompt),
             "prompt": prompt,
+            "request_config": request_config_view(self.config),
+            "structured_output_mode": (
+                self.structured_output_mode
+                if self.config.structured_output
+                else "prompt_json"
+            ),
             "latency_seconds": round(latency, 3),
+            "http_attempts": attempts,
             "usage": response.get("usage") or {},
             "search_actions": extract_search_actions(response),
+            "search_sources": extract_search_sources(response),
             "api_citations": extract_api_citations(response),
             "output_text": output_text,
             "result": validated,
         }
+        if self.config.save_raw_response:
+            record["raw_response"] = response
+        return record
+
+
+class AnthropicMessagesWebSearch(_RetryingClient):
+    """Anthropic Messages client with search then schema-constrained normalization.
+
+    Anthropic citations cannot be combined with output_config.format in one
+    request. Formal mode therefore uses two fixed stages with the same model and
+    effort: a forced-search research call and a JSON-Schema normalization call.
+    """
+
+    provider = ANTHROPIC_PROVIDER
+    structured_output_mode = "anthropic_two_stage_json_schema"
+
+    def __init__(
+        self,
+        config: RequestConfig,
+        *,
+        transport: Transport | None = None,
+        api_key: str | None = None,
+        auth_token: str | None = None,
+        base_url: str | None = None,
+    ) -> None:
+        super().__init__(config)
+        self._transport = transport
+        self._api_key = api_key
+        self._auth_token = auth_token
+        self._base_url = safe_base_url(
+            base_url or os.getenv("ANTHROPIC_BASE_URL") or DEFAULT_ANTHROPIC_BASE_URL
+        )
+
+    @property
+    def base_url(self) -> str:
+        return self._base_url
+
+    def _http_transport(self, payload: dict[str, Any]) -> dict[str, Any]:
+        auth_token = self._auth_token or os.getenv("ANTHROPIC_AUTH_TOKEN")
+        api_key = self._api_key or os.getenv("ANTHROPIC_API_KEY")
+        if not auth_token and not api_key:
+            raise RuntimeError(credential_help(self.provider))
+        headers = {
+            "Content-Type": "application/json",
+            "anthropic-version": ANTHROPIC_VERSION,
+        }
+        if auth_token:
+            headers["Authorization"] = f"Bearer {auth_token}"
+        else:
+            headers["x-api-key"] = str(api_key)
+        request = urllib.request.Request(
+            _endpoint(self._base_url, "messages"),
+            data=json.dumps(payload).encode("utf-8"),
+            headers=headers,
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(
+                request, timeout=self.config.timeout_seconds
+            ) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            detail = redact_sensitive(
+                exc.read().decode("utf-8", errors="replace")
+            )
+            raise RuntimeError(
+                f"Anthropic-compatible API HTTP {exc.code}: {detail[:800]}"
+            ) from exc
+        except urllib.error.URLError as exc:
+            raise RuntimeError(
+                f"Anthropic-compatible API network error: {exc.reason}"
+            ) from exc
+
+    def build_research_payload(
+        self, case: dict[str, Any], strategy: str
+    ) -> dict[str, Any]:
+        tool = {
+            "type": ANTHROPIC_WEB_SEARCH_TOOL,
+            "name": "web_search",
+            "max_uses": self.config.max_tool_calls,
+            "allowed_callers": ["direct"],
+            "response_inclusion": "full",
+        }
+        return {
+            "model": self.config.model,
+            "max_tokens": self.config.max_output_tokens,
+            "system": (
+                "You are a financial research agent. Always search the live web "
+                "before answering. Prefer primary sources. Return the requested JSON "
+                "object and preserve citations/source metadata in the API response."
+            ),
+            "messages": [{"role": "user", "content": build_prompt(case, strategy)}],
+            "tools": [tool],
+            "tool_choice": (
+                {"type": "tool", "name": "web_search"}
+                if self.config.force_search
+                else {"type": "auto"}
+            ),
+            "output_config": {"effort": self.config.reasoning_effort},
+        }
+
+    def build_normalization_payload(
+        self,
+        case: dict[str, Any],
+        strategy: str,
+        research_text: str,
+        citations: list[dict[str, Any]],
+        sources: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        normalization_input = {
+            "original_task": build_prompt(case, strategy),
+            "research_draft": research_text,
+            "retrieved_sources": sources,
+            "citations": citations,
+        }
+        return {
+            "model": self.config.model,
+            "max_tokens": self.config.max_output_tokens,
+            "system": (
+                "Convert the supplied web-research draft into the required schema. "
+                "Do not add facts, URLs, dates, values, or metadata that are absent "
+                "from the supplied material. Use null for unknown metadata."
+            ),
+            "messages": [
+                {
+                    "role": "user",
+                    "content": json.dumps(normalization_input, ensure_ascii=False),
+                }
+            ],
+            "output_config": {
+                "effort": self.config.reasoning_effort,
+                "format": {
+                    "type": "json_schema",
+                    "schema": AGENT_RESULT_SCHEMA,
+                },
+            },
+        }
+
+    def run(self, case: dict[str, Any], strategy: str) -> dict[str, Any]:
+        prompt = build_prompt(case, strategy)
+        transport = self._transport or self._http_transport
+        research_payload = self.build_research_payload(case, strategy)
+        started = time.perf_counter()
+        research, research_attempts = self._request_with_retries(
+            research_payload, transport
+        )
+        if research.get("stop_reason") == "pause_turn":
+            raise RuntimeError(
+                "Anthropic search returned pause_turn; reduce the task or implement "
+                "a bounded continuation before treating this run as complete."
+            )
+
+        research_text = extract_anthropic_output_text(research)
+        citations = extract_anthropic_citations(research)
+        sources = extract_anthropic_search_sources(research)
+        normalize: dict[str, Any] | None = None
+        normalize_attempts = 0
+        output_text = research_text
+
+        if self.config.structured_output:
+            normalize_payload = self.build_normalization_payload(
+                case, strategy, research_text, citations, sources
+            )
+            normalize, normalize_attempts = self._request_with_retries(
+                normalize_payload, transport
+            )
+            output_text = extract_anthropic_output_text(normalize)
+
+        latency = time.perf_counter() - started
+        parsed = normalize_agent_result(parse_json_object(output_text))
+        validated = apply_local_validation(strategy, parsed, case)
+        model = research.get("model") or self.config.model
+        normalize_model = (normalize or {}).get("model") if normalize else None
+        usage = (
+            _combined_usage(
+                research.get("usage") or {}, (normalize or {}).get("usage") or {}
+            )
+            if normalize
+            else research.get("usage") or {}
+        )
+        response_ids = [
+            value
+            for value in (research.get("id"), (normalize or {}).get("id"))
+            if value
+        ]
+        record = {
+            "trace_schema_version": TRACE_SCHEMA_VERSION,
+            "provider": self.provider,
+            "response_id": research.get("id"),
+            "normalization_response_id": (normalize or {}).get("id"),
+            "response_ids": response_ids,
+            "requested_model": self.config.model,
+            "model": model,
+            "normalization_model": normalize_model,
+            "strategy": strategy,
+            "strategy_label": STRATEGY_LABELS[strategy],
+            "prompt_sha256": prompt_sha256(prompt),
+            "prompt": prompt,
+            "request_config": request_config_view(self.config),
+            "structured_output_mode": (
+                self.structured_output_mode
+                if self.config.structured_output
+                else "prompt_json"
+            ),
+            "latency_seconds": round(latency, 3),
+            "http_attempts": research_attempts + normalize_attempts,
+            "usage": usage,
+            "search_actions": extract_anthropic_search_actions(research),
+            "search_sources": sources,
+            "api_citations": citations,
+            "research_output_text": research_text,
+            "output_text": output_text,
+            "result": validated,
+        }
+        if self.config.save_raw_response:
+            record["raw_response"] = {
+                "research": research,
+                "normalization": normalize,
+            }
+        return record
+
+
+def create_client(
+    provider: str,
+    config: RequestConfig,
+    *,
+    base_url: str | None = None,
+    transport: Transport | None = None,
+) -> OpenAIResponsesWebSearch | AnthropicMessagesWebSearch:
+    if provider == OPENAI_PROVIDER:
+        return OpenAIResponsesWebSearch(
+            config, base_url=base_url, transport=transport
+        )
+    if provider == ANTHROPIC_PROVIDER:
+        return AnthropicMessagesWebSearch(
+            config, base_url=base_url, transport=transport
+        )
+    raise ValueError(f"Unknown provider: {provider}")

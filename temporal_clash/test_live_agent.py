@@ -1,19 +1,28 @@
 from __future__ import annotations
 
 import json
+import tempfile
 import unittest
+from pathlib import Path
+from unittest.mock import patch
 
+from . import run_live_pilot
 from .live_agent import (
+    AnthropicMessagesWebSearch,
     OpenAIResponsesWebSearch,
     RequestConfig,
     apply_local_validation,
     build_prompt,
     extract_api_citations,
     extract_search_actions,
+    extract_search_sources,
     normalize_agent_result,
     parse_json_object,
+    redact_sensitive,
 )
 from .live_evaluate import answer_is_correct, parse_number, summarize
+from .probe_live_api import extract_model_ids, models_endpoint
+from .live_validate import validate_live_record, validate_protocol_consistency
 from .run_live_pilot import plan
 
 
@@ -55,7 +64,19 @@ def response_fixture(payload: dict) -> dict:
         "output": [
             {
                 "type": "web_search_call",
-                "action": {"type": "search", "query": "fixture query"},
+                "id": "search_fixture",
+                "status": "completed",
+                "action": {
+                    "type": "search",
+                    "query": "fixture query",
+                    "sources": [
+                        {
+                            "type": "url",
+                            "url": "https://example.com/source",
+                            "title": "Example",
+                        }
+                    ],
+                },
             },
             {
                 "type": "message",
@@ -79,6 +100,82 @@ def response_fixture(payload: dict) -> dict:
     }
 
 
+class AnthropicFixture:
+    def __init__(self) -> None:
+        self.payloads: list[dict] = []
+
+    def __call__(self, payload: dict) -> dict:
+        self.payloads.append(payload)
+        if payload.get("tools"):
+            return {
+                "id": "msg_research",
+                "model": payload["model"],
+                "stop_reason": "end_turn",
+                "usage": {
+                    "input_tokens": 100,
+                    "output_tokens": 50,
+                    "server_tool_use": {"web_search_requests": 1},
+                },
+                "content": [
+                    {
+                        "type": "server_tool_use",
+                        "id": "srvtool_1",
+                        "name": "web_search",
+                        "input": {"query": "fixture query"},
+                        "caller": {"type": "direct"},
+                    },
+                    {
+                        "type": "web_search_tool_result",
+                        "tool_use_id": "srvtool_1",
+                        "content": [
+                            {
+                                "type": "web_search_result",
+                                "url": "https://example.com/source",
+                                "title": "Example",
+                                "page_age": "2024-12-31",
+                            }
+                        ],
+                    },
+                    {
+                        "type": "text",
+                        "text": "Research draft with the requested value.",
+                        "citations": [
+                            {
+                                "type": "web_search_result_location",
+                                "url": "https://example.com/source",
+                                "title": "Example",
+                                "cited_text": "23.31%",
+                            }
+                        ],
+                    },
+                ],
+            }
+        result = {
+            "action": "answer",
+            "answer_value": "23.31",
+            "unit": "percent",
+            "explanation": "fixture",
+            "evidence": [
+                {
+                    "url": "https://example.com/source",
+                    "title": "Example",
+                    "published_at": "2024-12-31",
+                    "target_period": "2024",
+                    "revision": "final",
+                    "unit": "percent",
+                    "evidence_text": "23.31%",
+                }
+            ],
+        }
+        return {
+            "id": "msg_normalize",
+            "model": payload["model"],
+            "stop_reason": "end_turn",
+            "usage": {"input_tokens": 80, "output_tokens": 40},
+            "content": [{"type": "text", "text": json.dumps(result)}],
+        }
+
+
 class LiveAgentTests(unittest.TestCase):
     def test_prompts_differ_by_strategy(self) -> None:
         plain = build_prompt(CASE, "plain_agent")
@@ -98,6 +195,10 @@ class LiveAgentTests(unittest.TestCase):
             extract_api_citations(response)[0]["url"], "https://example.com/source"
         )
         self.assertEqual(extract_search_actions(response)[0]["type"], "search")
+        self.assertEqual(
+            extract_search_sources(response)[0]["url"],
+            "https://example.com/source",
+        )
 
     def test_metadata_filter_rejects_future_evidence(self) -> None:
         result = normalize_agent_result(
@@ -124,6 +225,38 @@ class LiveAgentTests(unittest.TestCase):
         self.assertEqual(record["result"]["action"], "answer")
         self.assertEqual(record["response_id"], "resp_fixture")
         self.assertEqual(len(record["api_citations"]), 1)
+        self.assertEqual(validate_live_record({"status": "ok", **record}), [])
+        payload = client.build_payload(CASE, "plain_agent")
+        self.assertEqual(payload["tool_choice"], "required")
+        self.assertEqual(
+            payload["include"], ["web_search_call.action.sources"]
+        )
+        self.assertEqual(payload["max_tool_calls"], 3)
+        self.assertEqual(payload["text"]["format"]["type"], "json_schema")
+
+    def test_anthropic_client_uses_two_fixed_stages(self) -> None:
+        fixture = AnthropicFixture()
+        client = AnthropicMessagesWebSearch(
+            RequestConfig(model="claude-fixture"),
+            transport=fixture,
+        )
+        record = client.run(CASE, "teg_validator")
+        self.assertEqual(len(fixture.payloads), 2)
+        research, normalization = fixture.payloads
+        self.assertEqual(
+            research["tool_choice"], {"type": "tool", "name": "web_search"}
+        )
+        self.assertEqual(research["tools"][0]["max_uses"], 3)
+        self.assertNotIn("format", research["output_config"])
+        self.assertNotIn("tools", normalization)
+        self.assertEqual(
+            normalization["output_config"]["format"]["type"], "json_schema"
+        )
+        validated = {"status": "ok", "case": CASE, **record}
+        self.assertEqual(validate_live_record(validated), [])
+        self.assertEqual(
+            validate_protocol_consistency([validated]), []
+        )
 
     def test_numeric_evaluation_and_summary(self) -> None:
         record = {
@@ -153,6 +286,96 @@ class LiveAgentTests(unittest.TestCase):
             plan(20, ("plain_agent", "temporal_prompt"), "fixture", 40, 1)
         text = plan(20, ("plain_agent", "temporal_prompt"), "fixture", 80, 1)
         self.assertIn("80 HTTP attempts", text)
+        with self.assertRaises(ValueError):
+            plan(
+                20,
+                ("plain_agent", "temporal_prompt"),
+                "fixture",
+                80,
+                0,
+                "anthropic",
+                2,
+            )
+        text = plan(
+            1,
+            tuple(("plain_agent", "temporal_prompt")),
+            "fixture",
+            4,
+            0,
+            "anthropic",
+        )
+        self.assertIn("4 HTTP attempts", text)
+
+    def test_secret_redaction(self) -> None:
+        value = "Authorization: Bearer sk-" + ("x" * 32)
+        redacted = redact_sensitive(value)
+        self.assertNotIn("sk-", redacted)
+        self.assertIn("[REDACTED]", redacted)
+
+    def test_model_probe_parses_relay_inventory(self) -> None:
+        response = {
+            "data": [
+                {"id": "claude-sonnet-fixture"},
+                {"name": "claude-haiku-fixture"},
+            ]
+        }
+        self.assertEqual(
+            extract_model_ids(response),
+            ["claude-haiku-fixture", "claude-sonnet-fixture"],
+        )
+        self.assertEqual(
+            models_endpoint("https://relay.example/v1"),
+            "https://relay.example/v1/models",
+        )
+
+    def test_runner_writes_valid_repeats_and_aggregate(self) -> None:
+        def fake_factory(provider, config, *, base_url=None):
+            return OpenAIResponsesWebSearch(
+                config,
+                transport=response_fixture,
+                base_url=base_url,
+            )
+
+        with tempfile.TemporaryDirectory() as temporary:
+            output_dir = Path(temporary) / "study"
+            args = run_live_pilot.parser().parse_args(
+                [
+                    "--limit",
+                    "1",
+                    "--model",
+                    "fixture-model",
+                    "--repeats",
+                    "2",
+                    "--max-api-calls",
+                    "8",
+                    "--output-dir",
+                    str(output_dir),
+                    "--confirm-live",
+                ]
+            )
+            with (
+                patch.object(
+                    run_live_pilot,
+                    "credential_is_available",
+                    return_value=True,
+                ),
+                patch.object(
+                    run_live_pilot,
+                    "create_client",
+                    side_effect=fake_factory,
+                ),
+            ):
+                records = run_live_pilot.run(args)
+
+            self.assertEqual(len(records), 8)
+            manifest = json.loads(
+                (output_dir / "study_manifest.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(manifest["status"], "completed")
+            self.assertTrue((output_dir / "aggregate_metrics.csv").exists())
+            self.assertTrue(
+                any((output_dir / "repeat_01" / "raw_responses").iterdir())
+            )
 
 
 if __name__ == "__main__":
