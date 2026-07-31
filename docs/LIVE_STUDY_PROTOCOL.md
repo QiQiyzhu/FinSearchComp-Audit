@@ -84,14 +84,14 @@ python -m temporal_clash.probe_live_api `
 ```
 
 `requested_model_listed=true` 只证明认证和模型清单可用。是否支持 Web Search 与
-Structured Outputs，必须由下一步的 1题×4策略检查证明。
+Structured Outputs，必须由实际的多策略运行证明。
 
 ## 5. 1题 × 4策略正式门禁
 
-**当前状态：已于 2026-07-31 使用 `claude-sonnet-5` 真实通过。**
-4/4 记录严格有效，共 8 个 HTTP 阶段、10 次搜索、84 个完整来源和 18 条原生
-citations。见
-[`temporal_clash/results/live_pilot_1q_claude/README.md`](../temporal_clash/results/live_pilot_1q_claude/README.md)。
+**当前状态：已于 2026-07-31 使用 `claude-sonnet-5` 真实通过，并扩展为 10×4 pilot。**
+公开结果包含 40/40 条严格有效记录、80 个成功 HTTP 阶段、70 次搜索、547 个完整来源
+和 155 条原生 citations。见
+[`temporal_clash/results/live_pilot_10q_claude_r1/README.md`](../temporal_clash/results/live_pilot_10q_claude_r1/README.md)。
 
 Claude 每个策略固定使用 2 个 HTTP 阶段，所以 4 个策略最多需要 8 次请求；
 每个策略最多 3 次搜索，所以最多 12 次付费 Web Search。
@@ -106,7 +106,7 @@ python -m temporal_clash.run_live_pilot `
   --search-context-size medium `
   --max-tool-calls 3 `
   --max-api-calls 8 `
-  --output-dir temporal_clash/results/live_pilot_1q_claude `
+  --output-dir temporal_clash/results/live_pilot_1q_gate `
   --confirm-live
 ```
 
@@ -123,7 +123,9 @@ python -m temporal_clash.run_live_pilot `
 
 ## 6. 20题 × 4策略 × 3重复
 
-1×4 通过后，在同一代码提交、同一模型和尽可能集中的时间窗口运行：
+当前 10×4 是一次真实开放网页 pilot，但仍只有一个模型、一个运行窗口和一次重复。
+它发现严格过滤器会因网页时间元数据缺失而过度拒答，因此不应把下面的完整实验描述成
+已经完成；应先改进元数据获取和校准，再在同一代码提交、同一模型和尽可能集中的时间窗口运行：
 
 ```powershell
 python -m temporal_clash.run_live_pilot `

@@ -34,11 +34,9 @@ def parse_number(value: Any) -> float | None:
     return float(match.group(0))
 
 
-def answer_is_correct(record: dict[str, Any]) -> bool:
+def _numeric_answer_is_correct(record: dict[str, Any]) -> bool:
     result = record.get("result") or {}
     case = record["case"]
-    if result.get("action") != "answer":
-        return False
     if result.get("unit") != case["canonical_unit"]:
         return False
     observed = parse_number(result.get("answer_value"))
@@ -49,10 +47,28 @@ def answer_is_correct(record: dict[str, Any]) -> bool:
     return math.isclose(observed, expected, rel_tol=0.0, abs_tol=tolerance)
 
 
-def _declared_temporal_status(record: dict[str, Any]) -> tuple[bool, bool]:
+def answer_is_correct(record: dict[str, Any]) -> bool:
+    result = record.get("result") or {}
+    return result.get("action") == "answer" and _numeric_answer_is_correct(record)
+
+
+def model_answer_is_correct(record: dict[str, Any]) -> bool:
+    result = record.get("result") or {}
+    model_action = result.get("model_action", result.get("action"))
+    return model_action == "answer" and _numeric_answer_is_correct(record)
+
+
+def _declared_temporal_status(
+    record: dict[str, Any],
+    *,
+    accepted_only: bool,
+) -> tuple[bool, bool]:
     result = record.get("result") or {}
     cutoff = date.fromisoformat(record["case"]["cutoff_date"])
-    evidence = result.get("evidence") or []
+    if accepted_only and "accepted_evidence" in result:
+        evidence = result.get("accepted_evidence") or []
+    else:
+        evidence = result.get("evidence") or []
     if not evidence:
         return False, True
     has_future = False
@@ -114,6 +130,7 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
                 lambda record: (record.get("result") or {}).get("action") == "answer",
             ),
             "decision_accuracy": _rate(api_ok, answer_is_correct),
+            "model_decision_accuracy": _rate(api_ok, model_answer_is_correct),
             "citation_coverage": _rate(
                 answered, lambda record: bool(record.get("api_citations"))
             ),
@@ -121,10 +138,22 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
                 api_ok, lambda record: bool(record.get("search_sources"))
             ),
             "declared_temporal_leakage_rate": _rate(
-                answered, lambda record: _declared_temporal_status(record)[0]
+                answered,
+                lambda record: _declared_temporal_status(
+                    record, accepted_only=True
+                )[0],
             ),
             "missing_declared_date_rate": _rate(
-                answered, lambda record: _declared_temporal_status(record)[1]
+                answered,
+                lambda record: _declared_temporal_status(
+                    record, accepted_only=True
+                )[1],
+            ),
+            "candidate_declared_future_rate": _rate(
+                answered,
+                lambda record: _declared_temporal_status(
+                    record, accepted_only=False
+                )[0],
             ),
             "filter_trigger_rate": _rate(
                 api_ok,
@@ -160,10 +189,12 @@ def write_metrics(
         "api_success_rate",
         "answer_coverage",
         "decision_accuracy",
+        "model_decision_accuracy",
         "citation_coverage",
         "source_capture_coverage",
         "declared_temporal_leakage_rate",
         "missing_declared_date_rate",
+        "candidate_declared_future_rate",
         "filter_trigger_rate",
         "average_latency_seconds",
         "web_search_calls",
@@ -185,6 +216,9 @@ def write_metrics(
                     "api_success_rate": f"{summary['api_success_rate']:.4f}",
                     "answer_coverage": f"{summary['answer_coverage']:.4f}",
                     "decision_accuracy": f"{summary['decision_accuracy']:.4f}",
+                    "model_decision_accuracy": (
+                        f"{summary['model_decision_accuracy']:.4f}"
+                    ),
                     "citation_coverage": f"{summary['citation_coverage']:.4f}",
                     "source_capture_coverage": (
                         f"{summary['source_capture_coverage']:.4f}"
@@ -194,6 +228,9 @@ def write_metrics(
                     ),
                     "missing_declared_date_rate": (
                         f"{summary['missing_declared_date_rate']:.4f}"
+                    ),
+                    "candidate_declared_future_rate": (
+                        f"{summary['candidate_declared_future_rate']:.4f}"
                     ),
                     "filter_trigger_rate": f"{summary['filter_trigger_rate']:.4f}",
                     "average_latency_seconds": (
@@ -214,8 +251,8 @@ def write_metrics(
         "> 这是外部有效性 pilot，不替代 100 条人工扰动的受控实验。来源日期来自 Agent "
         "结构化报告，属于待进一步抓取验证的元数据。",
         "",
-        "| 策略 | 成功率 | 覆盖率 | 正确率 | 引用覆盖 | 完整来源捕获 | 声明的时间泄漏 | 日期缺失 |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|",
+        "| 策略 | 成功率 | 覆盖率 | 最终正确率 | 模型初稿正确率 | 引用覆盖 | 完整来源捕获 | 已采用证据时间泄漏 | 日期缺失 |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for strategy in STRATEGIES:
         summary = summaries[strategy]
@@ -231,6 +268,7 @@ def write_metrics(
                     pct("api_success_rate"),
                     pct("answer_coverage"),
                     pct("decision_accuracy"),
+                    pct("model_decision_accuracy"),
                     pct("citation_coverage"),
                     pct("source_capture_coverage"),
                     pct("declared_temporal_leakage_rate"),

@@ -4,7 +4,7 @@
 
 [![Live demo](https://img.shields.io/badge/Live_Demo-Open-2563eb)](https://qiqiyzhu.github.io/FinSearchComp-Audit/)
 [![Temporal benchmark](https://img.shields.io/badge/Controlled_Benchmark-100_cases-0f766e)](https://qiqiyzhu.github.io/FinSearchComp-Audit/temporal-audit.html)
-[![Tests](https://img.shields.io/badge/Offline_Tests-17_passing-15803d)](https://github.com/QiQiyzhu/FinSearchComp-Audit/actions/workflows/finsearch-audit.yml)
+[![Tests](https://img.shields.io/badge/Offline_Tests-18_passing-15803d)](https://github.com/QiQiyzhu/FinSearchComp-Audit/actions/workflows/finsearch-audit.yml)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab)](https://www.python.org/)
 
 ## 老师先看这里：这个项目解决什么问题？
@@ -22,7 +22,7 @@
 | 对照方法 | 普通 Agent、时间约束 Prompt、元数据过滤器、完整证据验证器 |
 | 新指标 | Temporal Robustness Gap、时间违规率、扰动采用率、证据检测 F1 |
 | 可解释输出 | 每题保存搜索策略、引用、日期/期间/版本/单位检查和拒答原因 |
-| 真实 Agent | Claude 1题×4策略门禁已真实跑通；4/4 trace 有搜索、完整来源、原生 citations、Structured Output 和 raw hash |
+| 真实 Agent | Claude 10题×4策略 pilot 已完成；40/40 trace 有搜索、完整来源、原生 citations、Structured Output 和 raw hash |
 
 **建议展示入口：**
 
@@ -31,7 +31,7 @@
 - [查看 3 分钟教师演示稿](docs/TEACHER_DEMO.md)
 - [查看真实 Agent 运行入口](temporal_clash/run_live_pilot.py)
 - [查看正式实验协议与 Claude 中转门禁](docs/LIVE_STUDY_PROTOCOL.md)
-- [查看已通过的 Claude 1×4 真实 pilot](temporal_clash/results/live_pilot_1q_claude/README.md)
+- [查看 Claude 10×4 真实 pilot](temporal_clash/results/live_pilot_10q_claude_r1/README.md)
 
 ## 初步实验结果
 
@@ -49,21 +49,27 @@
 
 > **实验边界：** 这张表验证的是受控协议和消融关系，不是真实 LLM 排名。
 > 完整验证器能达到 100%，是因为测试集中的冲突元数据已人工标注。
-> 下一阶段用真实搜索 Agent 检验开放网页中的隐含日期、缺失元数据和检索噪声。
+> 下方真实搜索 pilot 已开始检验开放网页中的隐含日期、缺失元数据和检索噪声。
 
-## 真实 Agent 检查点
+## 真实 Agent pilot
 
-2026-07-31 已使用中转实际列出的 `claude-sonnet-5` 跑通
-**1 个真实问题 × 4 个策略**。四条记录均通过严格 trace 校验：
+2026-07-31 已使用中转实际列出的 `claude-sonnet-5`，在固定顺序的前 10 个完整问题上
+完成 **10 题 × 4 策略**，共 40 条严格验证 trace：
 
-- 8/8 HTTP 阶段成功，实际执行 10 次 Web Search；
-- 保存 84 个完整来源、18 条 Anthropic 原生 citations；
-- 保存两个阶段的模型/响应 ID、完整无密钥请求、token、UTC 时间和 raw response 哈希；
-- 普通 Agent 与时间 Prompt 在本题容差内回答正确；两个严格 gate 因来源发布日期或
-  版本字段缺失而拒答。
+| 策略 | 最终决策准确率 | 模型草稿准确率 | 答案覆盖率 | 引用覆盖率 | 完整来源覆盖率 |
+|---|---:|---:|---:|---:|---:|
+| 普通搜索 Agent | 70% | 70% | 90% | 100% | 100% |
+| 时间约束 Prompt | 70% | 70% | 90% | 100% | 100% |
+| 元数据过滤器 | 50% | 70% | 50% | 100% | 100% |
+| 完整证据验证器 | 30% | 60% | 30% | 100% | 100% |
 
-这只能证明真实 Web Search Agent 接口和研究协议跑通，不能用 1 道题比较模型或策略。
-完整结果见[真实 pilot 研究卡](temporal_clash/results/live_pilot_1q_claude/README.md)。
+结果没有复制受控样例中的单调提升：严格策略虽然把最终采用证据的时间泄漏保持为 0，
+但开放网页经常缺少可验证日期，导致过度拒答并降低覆盖率和最终准确率。这是当前 pilot
+最重要的真实发现，也把下一步聚焦到独立元数据获取和拒答校准。
+
+本地运行实际产生 42 条成功记录；公开集合按固定题目顺序保留前 10 道四策略完整的问题，
+排除第 11 题的 2 条不完整结果。完整 trace、逐题结果、排除记录和研究清单见
+[真实 pilot 研究卡](temporal_clash/results/live_pilot_10q_claude_r1/README.md)。
 
 ## 方法概览
 
@@ -89,7 +95,7 @@ flowchart LR
 |---|---|---|---|
 | 搜索审计案例 | 12 条保存的金融 Agent 轨迹 | 成功/失败分析、引用支持、时间合规、完整 trace | 已完成 |
 | 受控时间 Benchmark | 20 个问题、100 条干净或扰动证据 | 四策略对照表、TRG、泄露检测 F1 | 已完成 |
-| 真实 Web Search pilot | 20 个问题 × 4 个策略 × 3 重复 | 完整 trace、来源、指标均值与标准差 | 1×4 门禁已真实通过；正式扩展待确认约 480 次请求预算 |
+| 真实 Web Search pilot | 10 个问题 × 4 个策略 | 40 条完整 trace、来源、逐题和聚合指标 | 已完成一轮；扩大样本与重复运行待做 |
 
 ## 我的具体贡献
 
@@ -125,8 +131,8 @@ python -m temporal_clash.run_live_pilot
 
 - **现在可以证明：** 显式元数据验证比仅靠 Prompt 更能抵抗受控的时间、期间、版本和单位冲突；
 - **现在不能声称：** 某个真实 LLM 或搜索产品已经在完整金融任务上达到 100%；
-- **下一步：** 在中转后台确认余额和计费后，扩展到 20 题 × 4 策略 × 3 重复并报告均值与样本标准差；
-- **仍需加强：** 独立抓取网页发布日期，避免只相信 Agent 自报的来源元数据。
+- **真实 pilot 发现：** 严格 gate 会因开放网页元数据缺失而过度拒答，当前不能宣称优于普通 Agent；
+- **下一步：** 先独立抓取网页发布日期并校准拒答规则，再在预注册题集上扩大样本、重复运行并报告置信区间。
 
 <details>
 <summary><b>展开技术细节、案例清单和上游 FinSearchComp 说明</b></summary>
@@ -179,8 +185,8 @@ python reproduce.py
 
 该命令会同时复现两部分：12 条保存的金融搜索 Agent 轨迹，以及 100 条时间/期间/版本/单位受控冲突实例。
 
-真实搜索 Agent 的 20 题小规模 pilot 已提供独立入口。默认命令只输出
-调用与费用计划，不会发送 API 请求：
+真实搜索 Agent 的 10 题 × 4 策略结果已经发布；runner 也提供扩大样本的独立入口。
+默认命令只输出调用与费用计划，不会发送 API 请求：
 
 ```bash
 python -m temporal_clash.run_live_pilot

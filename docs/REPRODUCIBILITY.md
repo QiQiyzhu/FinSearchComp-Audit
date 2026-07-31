@@ -133,10 +133,17 @@ python reproduce.py \
 
 ## 8. 实时 Agent 模式
 
-正式的 OpenAI/Claude Web Search Agent 实验不再通过上游聊天脚本运行。请按
-[`LIVE_STUDY_PROTOCOL.md`](LIVE_STUDY_PROTOCOL.md) 先执行模型清单预检和
-1题×4策略严格门禁，再执行 20题×4策略×3重复。正式 runner 会保存代码指纹、
-问题批次与提示词哈希、实际模型、UTC 时间窗、完整来源、原始响应哈希和重复统计。
+正式的 OpenAI/Claude Web Search Agent 实验不再通过上游聊天脚本运行。当前已经公开
+[10题×4策略真实 pilot](../temporal_clash/results/live_pilot_10q_claude_r1/README.md)，
+共 40 条严格验证 trace。`trace.jsonl` 保存代码与 prompt 哈希、实际模型、UTC 时间、
+搜索动作、引用和完整来源；`case_outcomes.csv` 保存逐题配对结果；
+`study_manifest.json` 保存预算和排除统计。原始响应只在本地保留，由 trace 中的
+SHA-256 校验。
+
+本地源运行停止时有 42 条成功记录。公开结果使用固定题目顺序的前 10 道完整四策略题；
+第 11 题的 2 条不完整策略明确记录在 `exclusions.json`，没有混入比较。扩大样本前应先
+改善独立时间元数据获取，再按[`LIVE_STUDY_PROTOCOL.md`](LIVE_STUDY_PROTOCOL.md)
+进行预注册的重复实验。
 
 下面的上游命令仅保留为原 FinSearchComp 模型调用参考，不满足本项目正式 trace 门禁：
 

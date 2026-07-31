@@ -13,10 +13,12 @@ RATE_FIELDS = (
     "api_success_rate",
     "answer_coverage",
     "decision_accuracy",
+    "model_decision_accuracy",
     "citation_coverage",
     "source_capture_coverage",
     "declared_temporal_leakage_rate",
     "missing_declared_date_rate",
+    "candidate_declared_future_rate",
     "filter_trigger_rate",
 )
 

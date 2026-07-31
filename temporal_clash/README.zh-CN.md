@@ -4,6 +4,16 @@
 
 > 当金融搜索 Agent 面对未来来源、错期间、错单位或错版本证据时，结构化验证能否比普通提示词更稳定？
 
+## 当前真实 pilot
+
+2026-07-31 已完成 `claude-sonnet-5` 的 10 题 × 4 策略真实 Web Search pilot，
+共 40 条严格验证记录。公开产物包含逐次 trace、聚合指标、逐题配对结果、排除说明和研究清单：
+
+[查看真实 10×4 pilot](results/live_pilot_10q_claude_r1/README.md)
+
+真实结果显示严格时间过滤会因开放网页缺少可验证日期而过度拒答；因此它是机制与局限性的
+初步证据，不是策略优越性的最终结论。
+
 ## 数据设计
 
 - 20 个真实金融问题，覆盖行情、宏观统计、央行公告与公司财报；
@@ -105,7 +115,8 @@ Look-Ahead-Bench 通过比较两个市场时期的 Alpha Decay 诊断交易模�
 python -m temporal_clash.run_live_pilot
 ```
 
-Claude 中转先运行模型清单预检，再跑 1 题、4 个策略门禁：
+首次接入新的 Claude 中转时，先运行模型清单预检，再跑 1 题、4 个策略门禁；
+当前中转的门禁与 10×4 pilot 均已完成：
 
 ```powershell
 $env:ANTHROPIC_BASE_URL = "https://ai.aiclick.cc"
@@ -116,7 +127,7 @@ python -m temporal_clash.probe_live_api `
 python -m temporal_clash.run_live_pilot `
   --provider anthropic --limit 1 --model $model `
   --max-tool-calls 3 --max-api-calls 8 `
-  --output-dir temporal_clash/results/live_pilot_1q_claude `
+  --output-dir temporal_clash/results/live_pilot_1q_gate `
   --confirm-live
 ```
 

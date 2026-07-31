@@ -21,7 +21,12 @@ from .live_agent import (
     parse_json_object,
     redact_sensitive,
 )
-from .live_evaluate import answer_is_correct, parse_number, summarize
+from .live_evaluate import (
+    answer_is_correct,
+    model_answer_is_correct,
+    parse_number,
+    summarize,
+)
 from .probe_live_api import extract_model_ids, models_endpoint
 from .live_validate import validate_live_record, validate_protocol_consistency
 from .run_live_pilot import plan
@@ -286,9 +291,38 @@ class LiveAgentTests(unittest.TestCase):
         }
         self.assertEqual(parse_number("391,035"), 391035.0)
         self.assertTrue(answer_is_correct(record))
+        self.assertTrue(model_answer_is_correct(record))
         metrics = summarize([record])["teg_validator"]
         self.assertEqual(metrics["decision_accuracy"], 1.0)
+        self.assertEqual(metrics["model_decision_accuracy"], 1.0)
         self.assertEqual(metrics["citation_coverage"], 1.0)
+
+    def test_final_leakage_uses_only_accepted_evidence(self) -> None:
+        record = {
+            "status": "ok",
+            "strategy": "teg_validator",
+            "case": CASE,
+            "result": {
+                "action": "answer",
+                "model_action": "answer",
+                "answer_value": "23.31",
+                "unit": "percent",
+                "evidence": [
+                    {"published_at": "2025-03-01"},
+                    {"published_at": "2024-12-31"},
+                ],
+                "accepted_evidence": [{"published_at": "2024-12-31"}],
+                "filter_triggered": False,
+            },
+            "api_citations": [{"url": "https://example.com"}],
+            "search_sources": [{"url": "https://example.com"}],
+            "usage": {},
+            "search_actions": [{"type": "search"}],
+            "latency_seconds": 1.0,
+        }
+        metrics = summarize([record])["teg_validator"]
+        self.assertEqual(metrics["declared_temporal_leakage_rate"], 0.0)
+        self.assertEqual(metrics["candidate_declared_future_rate"], 1.0)
 
     def test_cost_guard_counts_retries(self) -> None:
         with self.assertRaises(ValueError):
