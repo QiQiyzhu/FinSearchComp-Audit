@@ -13,6 +13,7 @@ from .live_agent import (
     RequestConfig,
     apply_local_validation,
     build_prompt,
+    build_research_prompt,
     extract_api_citations,
     extract_search_actions,
     extract_search_sources,
@@ -248,6 +249,14 @@ class LiveAgentTests(unittest.TestCase):
         )
         self.assertEqual(research["tools"][0]["max_uses"], 3)
         self.assertNotIn("format", research["output_config"])
+        self.assertNotIn(
+            "Return only one JSON object",
+            research["messages"][0]["content"],
+        )
+        self.assertIn(
+            "native citations",
+            build_research_prompt(CASE, "teg_validator"),
+        )
         self.assertNotIn("tools", normalization)
         self.assertEqual(
             normalization["output_config"]["format"]["type"], "json_schema"

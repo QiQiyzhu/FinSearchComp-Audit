@@ -231,6 +231,35 @@ def build_prompt(case: dict[str, Any], strategy: str) -> str:
     )
 
 
+def build_research_prompt(case: dict[str, Any], strategy: str) -> str:
+    if strategy not in STRATEGIES:
+        raise ValueError(f"Unknown strategy: {strategy}")
+    return "\n\n".join(
+        [
+            _strategy_rules(strategy, case),
+            "You must perform web search before answering.",
+            "Question and audit metadata:",
+            json.dumps(
+                {
+                    "question": case["question_zh"],
+                    "cutoff_date": case["cutoff_date"],
+                    "target_period": case["target_period"],
+                    "required_version": case["required_version"],
+                    "canonical_unit": case["canonical_unit"],
+                },
+                ensure_ascii=False,
+                indent=2,
+            ),
+            (
+                "Write a concise research memo, not JSON. State the candidate "
+                "answer and unit, identify publication date, target period and "
+                "revision when available, and use the API's native citations for "
+                "every factual claim. Never invent missing metadata."
+            ),
+        ]
+    )
+
+
 def prompt_sha256(prompt: str) -> str:
     return hashlib.sha256(prompt.encode("utf-8")).hexdigest()
 
@@ -718,6 +747,7 @@ class OpenAIResponsesWebSearch(_RetryingClient):
             "api_citations": extract_api_citations(response),
             "output_text": output_text,
             "result": validated,
+            "request_payload": payload,
         }
         if self.config.save_raw_response:
             record["raw_response"] = response
@@ -808,10 +838,15 @@ class AnthropicMessagesWebSearch(_RetryingClient):
             "max_tokens": self.config.max_output_tokens,
             "system": (
                 "You are a financial research agent. Always search the live web "
-                "before answering. Prefer primary sources. Return the requested JSON "
-                "object and preserve citations/source metadata in the API response."
+                "before answering. Prefer primary sources. Write a concise research "
+                "memo with native citations; do not output JSON in this stage."
             ),
-            "messages": [{"role": "user", "content": build_prompt(case, strategy)}],
+            "messages": [
+                {
+                    "role": "user",
+                    "content": build_research_prompt(case, strategy),
+                }
+            ],
             "tools": [tool],
             "tool_choice": (
                 {"type": "tool", "name": "web_search"}
@@ -860,6 +895,7 @@ class AnthropicMessagesWebSearch(_RetryingClient):
 
     def run(self, case: dict[str, Any], strategy: str) -> dict[str, Any]:
         prompt = build_prompt(case, strategy)
+        research_prompt = build_research_prompt(case, strategy)
         transport = self._transport or self._http_transport
         research_payload = self.build_research_payload(case, strategy)
         started = time.perf_counter()
@@ -918,6 +954,8 @@ class AnthropicMessagesWebSearch(_RetryingClient):
             "strategy_label": STRATEGY_LABELS[strategy],
             "prompt_sha256": prompt_sha256(prompt),
             "prompt": prompt,
+            "research_prompt_sha256": prompt_sha256(research_prompt),
+            "research_prompt": research_prompt,
             "request_config": request_config_view(self.config),
             "structured_output_mode": (
                 self.structured_output_mode
@@ -933,6 +971,10 @@ class AnthropicMessagesWebSearch(_RetryingClient):
             "research_output_text": research_text,
             "output_text": output_text,
             "result": validated,
+            "request_payloads": {
+                "research": research_payload,
+                "normalization": normalize_payload if normalize else None,
+            },
         }
         if self.config.save_raw_response:
             record["raw_response"] = {

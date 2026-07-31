@@ -109,6 +109,18 @@ def validate_live_record(
             violations.append("anthropic_two_stage_response_missing")
         if record.get("normalization_model") != record.get("model"):
             violations.append("anthropic_stage_model_mismatch")
+        research_prompt = record.get("research_prompt")
+        if (
+            not research_prompt
+            or record.get("research_prompt_sha256")
+            != prompt_sha256(str(research_prompt))
+        ):
+            violations.append("anthropic_research_prompt_hash_mismatch")
+        request_payloads = record.get("request_payloads") or {}
+        if not request_payloads.get("research") or not request_payloads.get(
+            "normalization"
+        ):
+            violations.append("anthropic_request_payloads_missing")
 
     source_urls = {
         str(source.get("url"))
