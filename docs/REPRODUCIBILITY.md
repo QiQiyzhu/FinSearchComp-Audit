@@ -38,8 +38,8 @@ python reproduce.py
 ```text
 [1/4] Validated 12 recorded runs (6 success, 6 failure)
 [2/4] Generated core audit artifacts in site
-[3/4] Core audit reproducibility checks passed
-[4/4] Temporal detector benchmark and report generated
+[3/4] Temporal detector benchmark and report generated
+[4/4] All reproducibility and site-link checks passed
 ```
 
 验证器会检查：

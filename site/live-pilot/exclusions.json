@@ -1,0 +1,47 @@
+{
+  "transport_errors": [
+    {
+      "case_id": "sp500_hike_drawdown",
+      "strategy": "metadata_filter",
+      "run_at": "2026-07-31T07:21:24.051094+00:00",
+      "error_type": "RuntimeError",
+      "error": "Remote end closed connection without response"
+    },
+    {
+      "case_id": "us_cpi_dec_2024",
+      "strategy": "plain_agent",
+      "run_at": "2026-07-31T07:46:34.268655+00:00",
+      "error_type": "RuntimeError",
+      "error": "Remote end closed connection without response"
+    },
+    {
+      "case_id": "us_cpi_dec_2024",
+      "strategy": "plain_agent",
+      "run_at": "2026-07-31T07:49:00.635552+00:00",
+      "error_type": "RuntimeError",
+      "error": "Remote end closed connection without response"
+    },
+    {
+      "case_id": "us_cpi_dec_2024",
+      "strategy": "temporal_prompt",
+      "run_at": "2026-07-31T07:52:30.320769+00:00",
+      "error_type": "RuntimeError",
+      "error": "Remote end closed connection without response"
+    }
+  ],
+  "invalid_records": [],
+  "successful_records_outside_subset": [
+    {
+      "case_id": "sp500_return_2024",
+      "strategy": "metadata_filter",
+      "run_at": "2026-07-31T08:30:59.003640+00:00",
+      "reason": "outside first complete question prefix"
+    },
+    {
+      "case_id": "sp500_return_2024",
+      "strategy": "teg_validator",
+      "run_at": "2026-07-31T08:31:29.023217+00:00",
+      "reason": "outside first complete question prefix"
+    }
+  ]
+}

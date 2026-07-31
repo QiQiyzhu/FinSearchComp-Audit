@@ -6,6 +6,7 @@ import argparse
 import csv
 import html
 import json
+from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -43,11 +44,41 @@ RATIO_FIELDS = {
     "answer_completeness",
     "trace_completeness",
 }
-OUTPUT_FILES = ("index.html", "report.md", "trace.json", "metrics.csv")
+OUTPUT_FILES = (
+    "index.html",
+    "live-pilot.html",
+    "report.md",
+    "trace.json",
+    "metrics.csv",
+)
+LIVE_PILOT_FILES = (
+    "README.md",
+    "metrics.csv",
+    "case_outcomes.csv",
+    "exclusions.json",
+    "study_manifest.json",
+    "trace.jsonl",
+)
 
 
 class ValidationError(ValueError):
     """Raised when an audit trace or generated artifact is inconsistent."""
+
+
+class LinkCollector(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.hrefs: list[str] = []
+
+    def handle_starttag(
+        self, tag: str, attrs: list[tuple[str, str | None]]
+    ) -> None:
+        if tag != "a":
+            return
+        values = dict(attrs)
+        href = values.get("href")
+        if href:
+            self.hrefs.append(href)
 
 
 def require(condition: bool, message: str) -> None:
@@ -60,6 +91,24 @@ def is_web_url(value: object) -> bool:
         return False
     parsed = urlparse(value)
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
+def validate_local_links(output_dir: Path, html_path: Path) -> None:
+    parser = LinkCollector()
+    parser.feed(html_path.read_text(encoding="utf-8"))
+    root = output_dir.resolve()
+    for href in parser.hrefs:
+        if href.startswith(("#", "http://", "https://", "mailto:")):
+            continue
+        relative = href.split("#", 1)[0]
+        if not relative:
+            continue
+        target = (html_path.parent / relative).resolve()
+        require(
+            target == root or root in target.parents,
+            f"local link escapes output directory: {href}",
+        )
+        require(target.is_file(), f"broken local link in {html_path.name}: {href}")
 
 
 def validate_payload(payload: dict, strict_demo: bool = False) -> dict:
@@ -191,6 +240,13 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
     for filename in OUTPUT_FILES:
         target = output_dir / filename
         require(target.is_file() and target.stat().st_size > 0, f"missing or empty output: {target}")
+    live_dir = output_dir / "live-pilot"
+    for filename in LIVE_PILOT_FILES:
+        target = live_dir / filename
+        require(
+            target.is_file() and target.stat().st_size > 0,
+            f"missing or empty live-pilot output: {target}",
+        )
 
     trace = json.loads((output_dir / "trace.json").read_text(encoding="utf-8"))
     trace_summary = validate_payload(trace, strict_demo=strict_demo)
@@ -212,6 +268,8 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
         "100 条受控实验",
         "真实 Web Search Agent",
         "确定性协议验证",
+        "三个来自真实 trace 的例子",
+        "40 条记录全部通过严格 trace 校验",
     ):
         require(
             required_showcase_text in html_text,
@@ -219,6 +277,50 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
         )
     for heading in ("完整任务轨迹", "6 个成功案例和 6 个失败案例", "普通网页搜索 vs 金融数据接口"):
         require(heading in report_text, f"report.md is missing section: {heading}")
+
+    live_html = (output_dir / "live-pilot.html").read_text(encoding="utf-8")
+    for required_live_text in (
+        "10 题 × 4 策略 Pilot",
+        "严格策略没有在真实网页上胜出",
+        "选择规则与排除",
+        "实际逐题例子",
+    ):
+        require(
+            required_live_text in live_html,
+            f"live-pilot.html is missing text: {required_live_text}",
+        )
+    with (live_dir / "metrics.csv").open(
+        encoding="utf-8-sig", newline=""
+    ) as handle:
+        live_metric_rows = list(csv.DictReader(handle))
+    with (live_dir / "case_outcomes.csv").open(
+        encoding="utf-8-sig", newline=""
+    ) as handle:
+        live_outcomes = list(csv.DictReader(handle))
+    live_trace_lines = [
+        line
+        for line in (live_dir / "trace.jsonl").read_text(
+            encoding="utf-8"
+        ).splitlines()
+        if line.strip()
+    ]
+    require(len(live_metric_rows) == 4, "live pilot must contain four strategy rows")
+    require(len(live_outcomes) == 40, "live pilot must contain 40 outcomes")
+    require(len(live_trace_lines) == 40, "live pilot must contain 40 trace records")
+    require(
+        len({row["case_id"] for row in live_outcomes}) == 10,
+        "live pilot must contain 10 unique cases",
+    )
+    for line_number, line in enumerate(live_trace_lines, start=1):
+        try:
+            json.loads(line)
+        except json.JSONDecodeError as error:
+            raise ValidationError(
+                f"live trace line {line_number} is not valid JSON"
+            ) from error
+    validate_local_links(output_dir, output_dir / "index.html")
+    validate_local_links(output_dir, output_dir / "live-pilot.html")
+    validate_local_links(output_dir, output_dir / "temporal-audit.html")
 
     return {"files": len(OUTPUT_FILES), **trace_summary}
 

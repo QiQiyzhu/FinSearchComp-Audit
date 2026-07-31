@@ -1,0 +1,41 @@
+﻿case_id,question_zh,strategy,model_action,final_action,answer_value,unit,gold_answer,canonical_unit,model_draft_correct,final_decision_correct,filter_triggered,evidence_count,accepted_evidence_count,web_search_calls,source_count,citation_count,latency_seconds,input_tokens,output_tokens
+sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,plain_agent,answer,answer,12.7,percent,12.68,percent,1,1,0,5,5,3,24,10,78.587,5788,2249
+sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,temporal_prompt,answer,answer,12.7,percent,12.68,percent,1,1,0,2,2,2,16,2,162.029,4065,1665
+sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,metadata_filter,answer,abstain,12.7,percent,12.68,percent,1,0,1,3,0,2,17,5,36.651,5435,1880
+sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,teg_validator,abstain,abstain,,percent,12.68,percent,0,0,0,5,0,3,23,6,116.382,6200,2440
+sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,plain_agent,answer,answer,-20.8,percent,20.83,percent,0,0,0,1,1,3,23,2,37.273,3934,2333
+sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,temporal_prompt,abstain,abstain,,,20.83,percent,0,0,0,1,1,3,25,0,86.495,4329,2838
+sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,metadata_filter,abstain,abstain,,,20.83,percent,0,0,0,0,0,3,25,0,128.55,3989,1827
+sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,teg_validator,abstain,abstain,,,20.83,percent,0,0,0,0,0,2,19,0,105.6,3307,1407
+nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,plain_agent,answer,answer,4.6,percentage_point,5.33,percentage_point,0,0,0,1,1,1,10,2,90.558,5731,1489
+nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,temporal_prompt,answer,answer,5.33,percentage_point,5.33,percentage_point,1,1,0,2,2,2,13,3,32.227,4290,1778
+nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,metadata_filter,answer,abstain,4.6,percentage_point,5.33,percentage_point,0,0,1,2,0,1,9,3,121.179,3221,1803
+nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,teg_validator,abstain,abstain,,,5.33,percentage_point,0,0,0,1,0,2,18,2,93.201,5219,1932
+apple_2024_sales,Apple 2024财年的净销售额是多少？,plain_agent,answer,answer,391035,USD_million,391035,USD_million,1,1,0,2,2,1,9,4,123.256,4225,1418
+apple_2024_sales,Apple 2024财年的净销售额是多少？,temporal_prompt,answer,answer,390035,USD_million,391035,USD_million,0,0,0,2,2,1,8,4,92.437,3458,1771
+apple_2024_sales,Apple 2024财年的净销售额是多少？,metadata_filter,answer,abstain,391035,USD_million,391035,USD_million,1,0,1,1,0,1,9,3,132.757,4217,1527
+apple_2024_sales,Apple 2024财年的净销售额是多少？,teg_validator,answer,abstain,391035,USD_million,391035,USD_million,1,0,1,1,0,1,9,4,87.544,3826,1559
+us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,plain_agent,answer,answer,2.9,percent,2.9,percent,1,1,0,2,2,1,8,5,27.429,5455,1314
+us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,temporal_prompt,answer,answer,2.9,percent,2.9,percent,1,1,0,1,1,1,8,5,132.248,3901,1167
+us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,metadata_filter,answer,answer,2.9,percent,2.9,percent,1,1,0,1,1,1,9,5,76.125,4305,1346
+us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,teg_validator,answer,answer,2.9,percent,2.9,percent,1,1,0,2,1,1,9,5,88.491,6208,1614
+fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,plain_agent,answer,answer,50,basis_point,50,basis_point,1,1,0,3,3,1,9,7,96.284,4337,1505
+fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,temporal_prompt,answer,answer,50,basis_point,50,basis_point,1,1,0,2,2,1,9,4,148.503,3988,1220
+fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,metadata_filter,answer,answer,50,basis_point,50,basis_point,1,1,0,3,3,1,9,4,148.326,4209,1523
+fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,teg_validator,answer,abstain,50,basis_point,50,basis_point,1,0,1,4,0,1,10,7,70.358,6865,2037
+china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,plain_agent,answer,answer,4220,USD_100million,4220,USD_100million,1,1,0,2,2,1,9,4,25.737,4784,1731
+china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,temporal_prompt,answer,answer,4220,USD_100million,4220,USD_100million,1,1,0,2,2,2,18,5,29.563,5905,1910
+china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,metadata_filter,answer,answer,4220,USD_100million,4220,USD_100million,1,1,0,2,2,2,15,5,29.456,5610,1957
+china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,teg_validator,answer,answer,4220,USD_100million,4220,USD_100million,1,1,0,2,2,2,14,3,30.138,5139,1963
+nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,plain_agent,abstain,abstain,,,1408,USD_million,0,0,0,1,1,3,18,0,37.595,3983,2111
+nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,temporal_prompt,answer,answer,1222,USD_million,1408,USD_million,0,0,0,2,2,3,12,4,41.12,4857,2328
+nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,metadata_filter,abstain,abstain,,,1408,USD_million,0,0,0,1,1,3,20,4,30.641,5316,2106
+nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,teg_validator,abstain,abstain,,,1408,USD_million,0,0,0,0,0,3,21,0,38.397,3970,2366
+nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,plain_agent,answer,answer,10,shares_per_share,10,shares_per_share,1,1,0,2,2,1,7,8,24.321,4183,1459
+nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,temporal_prompt,answer,answer,10,shares_per_share,10,shares_per_share,1,1,0,2,2,1,7,6,27.615,3877,1358
+nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,metadata_filter,answer,answer,10,shares_per_share,10,shares_per_share,1,1,0,2,1,1,10,3,29.051,4319,1771
+nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,teg_validator,answer,answer,10,shares_per_share,10,shares_per_share,1,1,0,3,1,2,15,5,23.159,5243,2090
+tesla_2024_rd,Tesla 2024年的研发费用是多少？,plain_agent,answer,answer,4540,USD_million,4540,USD_million,1,1,0,2,2,1,9,3,29.357,3650,1228
+tesla_2024_rd,Tesla 2024年的研发费用是多少？,temporal_prompt,answer,answer,4540,USD_million,4540,USD_million,1,1,0,2,2,2,14,4,24.148,4619,1527
+tesla_2024_rd,Tesla 2024年的研发费用是多少？,metadata_filter,answer,answer,4540,USD_million,4540,USD_million,1,1,0,4,2,2,15,6,28.795,5179,2029
+tesla_2024_rd,Tesla 2024年的研发费用是多少？,teg_validator,answer,abstain,4540,USD_million,4540,USD_million,1,0,1,2,0,2,15,3,30.875,4749,1620

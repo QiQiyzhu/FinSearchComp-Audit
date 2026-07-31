@@ -43,11 +43,11 @@ def main() -> None:
     write_outputs(args.input, args.output, announce=False)
     print(f"[2/4] Generated core audit artifacts in {args.output}")
 
-    validate_output_dir(args.output, payload, strict_demo=strict_demo)
-    print("[3/4] Core audit reproducibility checks passed")
-
     run_temporal_experiment(check=True, site_dir=args.output)
-    print("[4/4] Temporal detector benchmark and report generated")
+    print("[3/4] Temporal detector benchmark and report generated")
+
+    validate_output_dir(args.output, payload, strict_demo=strict_demo)
+    print("[4/4] All reproducibility and site-link checks passed")
 
 
 if __name__ == "__main__":

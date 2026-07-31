@@ -195,9 +195,10 @@ python -m temporal_clash.run_live_pilot
 成功时会看到：
 
 ```text
-[1/3] Validated 12 recorded runs (6 success, 6 failure)
-[2/3] Generated 4 report artifacts in site
-[3/3] Reproducibility checks passed
+[1/4] Validated 12 recorded runs (6 success, 6 failure)
+[2/4] Generated core audit artifacts in site
+[3/4] Temporal detector benchmark and report generated
+[4/4] All reproducibility and site-link checks passed
 ```
 
 本地预览：
