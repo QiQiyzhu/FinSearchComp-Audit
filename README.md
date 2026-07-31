@@ -7,7 +7,7 @@
 [![Tests](https://img.shields.io/badge/Offline_Tests-18_passing-15803d)](https://github.com/QiQiyzhu/FinSearchComp-Audit/actions/workflows/finsearch-audit.yml)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab)](https://www.python.org/)
 
-## 老师先看这里：这个项目解决什么问题？
+## 这个项目解决什么问题？
 
 > 现有金融 Agent Benchmark 通常只检查最终答案是否正确。本项目进一步追问：<br>
 > **Agent 使用的证据，在问题指定的时间点是否真的已经存在，并且是否属于正确的期间、版本和单位？**
@@ -24,11 +24,11 @@
 | 可解释输出 | 每题保存搜索策略、引用、日期/期间/版本/单位检查和拒答原因 |
 | 真实 Agent | Claude 10题×4策略 pilot 已完成；40/40 trace 有搜索、完整来源、原生 citations、Structured Output 和 raw hash |
 
-**建议展示入口：**
+**展示入口：**
 
 - [打开在线项目首页](https://qiqiyzhu.github.io/FinSearchComp-Audit/)
 - [查看 100 条时间可靠性实验](https://qiqiyzhu.github.io/FinSearchComp-Audit/temporal-audit.html)
-- [查看 3 分钟教师演示稿](docs/TEACHER_DEMO.md)
+- [查看 3 分钟演示稿](docs/TEACHER_DEMO.md)
 - [查看真实 Agent 运行入口](temporal_clash/run_live_pilot.py)
 - [查看正式实验协议与 Claude 中转门禁](docs/LIVE_STUDY_PROTOCOL.md)
 - [查看 Claude 10×4 真实 pilot](temporal_clash/results/live_pilot_10q_claude_r1/README.md)
