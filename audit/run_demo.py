@@ -197,25 +197,43 @@ def html_report(payload: dict) -> str:
     )
     return f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="可复现的金融搜索 Agent 轨迹、来源支持与时间有效性审计">
-<title>FinSearchComp 审计</title>
+<meta name="description" content="金融研究 Agent 的时间可靠性 Benchmark、证据审计与真实搜索 pilot">
+<title>FinSearchComp-Audit · 金融 Agent 时间可靠性</title>
 <style>
 :root{{--ink:#172033;--muted:#667085;--blue:#2563eb;--green:#14804a;--red:#b42318;--bg:#f3f6fb}}
 *{{box-sizing:border-box}}body{{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,"Microsoft YaHei",sans-serif}}
 header{{background:linear-gradient(125deg,#102044,#244f9e);color:white;padding:60px 24px}}.wrap{{max-width:1100px;margin:auto}}
 h1{{font-size:clamp(30px,5vw,52px);line-height:1.12;margin:0 0 16px}}header p{{max-width:780px;color:#dbe7ff}}nav a{{color:white;margin-right:18px}}
-main{{padding:36px 24px 80px}}.summary,.grid,.compare{{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}}
+main{{padding:36px 24px 80px}}.summary,.grid,.compare,.research-grid{{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}}
 .summary{{grid-template-columns:repeat(4,1fr);margin-top:-62px}}.stat,.card,.panel,.compare section{{background:white;border:1px solid #e5eaf2;border-radius:16px;box-shadow:0 8px 28px #14264a12}}
 .stat,.card,.panel,.compare section{{padding:22px}}.stat b{{display:block;font-size:28px;color:var(--blue)}}h2{{margin-top:48px}}
 .success{{border-top:4px solid var(--green)}}.failure{{border-top:4px solid var(--red)}}.badge{{display:inline-block;padding:3px 10px;border-radius:99px;background:#eaf8f0;color:var(--green);font-weight:700}}.failure .badge{{background:#fff0ee;color:var(--red)}}
 .question,footer{{color:var(--muted)}}code{{background:#eef2f7;padding:2px 6px;border-radius:5px;word-break:break-word}}pre{{background:#101828;color:#eef4ff;padding:18px;border-radius:12px;overflow:auto}}pre code{{background:none;color:inherit;padding:0}}.metrics{{display:flex;gap:8px;flex-wrap:wrap}}.metrics span{{background:#f2f4f7;border-radius:8px;padding:5px 9px}}
-.panel{{overflow:auto}}table{{border-collapse:collapse;width:100%}}th,td{{padding:11px;border-bottom:1px solid #e7eaf0;text-align:left}}th{{background:#f8fafc}}footer{{margin-top:48px}}
-@media(max-width:760px){{.summary,.grid,.compare{{grid-template-columns:1fr}}.summary{{margin-top:-44px}}}}
-</style></head><body><header><div class="wrap"><p>FYP · Financial Search Agent</p>
-<h1>FinSearchComp<br>搜索轨迹与可信度审计</h1><p>完整轨迹、{success_count} 个成功、{failure_count} 个失败、引用支持、时间检查，以及普通搜索与金融 API 对比。</p>
-<nav><a href="#reproduce">一分钟复现</a><a href="temporal-audit.html">时间可靠性实验</a><a href="#trajectory">完整轨迹</a><a href="#cases">十二个案例</a><a href="report.md">汇报稿</a><a href="trace.json">JSON 轨迹</a></nav>
-</div></header><main class="wrap"><section class="summary"><div class="stat"><b>{run_count}</b>实验案例</div>
-<div class="stat"><b>{success_count} / {failure_count}</b>成功 / 失败</div><div class="stat"><b>100%</b>成功案例引用支持</div><div class="stat"><b>3 类</b>金融 API / 官方来源 / 搜索</div></section>
+.panel{{overflow:auto}}.research-grid section{{background:white;border-left:4px solid var(--blue);border-radius:12px;padding:18px;box-shadow:0 8px 28px #14264a12}}.research-grid h3{{margin-top:0}}
+.lead{{font-size:18px;background:#eaf1ff;border-radius:14px;padding:20px;border:1px solid #cbdcff}}.boundary{{background:#fff7df;border:1px solid #ead58d;border-radius:12px;padding:14px}}
+table{{border-collapse:collapse;width:100%}}th,td{{padding:11px;border-bottom:1px solid #e7eaf0;text-align:left}}th{{background:#f8fafc}}footer{{margin-top:48px}}
+@media(max-width:760px){{.summary,.grid,.compare,.research-grid{{grid-template-columns:1fr}}.summary{{margin-top:-44px}}}}
+</style></head><body><header><div class="wrap"><p>FYP · Temporal Reliability Benchmark</p>
+<h1>金融研究 Agent<br>时间可靠性审计</h1><p>答案即使正确，也可能使用未来信息、错误期间、修订版本或错误单位。本项目用 100 条受控实例、逐证据 trace 和真实搜索 pilot 检查这种风险。</p>
+<nav><a href="#teacher">研究结论</a><a href="temporal-audit.html">100 条受控实验</a><a href="#reproduce">一分钟复现</a><a href="#trajectory">完整轨迹</a><a href="#cases">十二个案例</a><a href="report.md">实验报告</a></nav>
+</div></header><main class="wrap"><section class="summary"><div class="stat"><b>{run_count}</b>完整搜索轨迹</div>
+<div class="stat"><b>100</b>受控冲突实例</div><div class="stat"><b>4</b>对照策略</div><div class="stat"><b>20 × 4</b>真实 Agent pilot</div></section>
+<h2 id="teacher">30 秒看懂研究</h2>
+<p class="lead"><b>研究问题：</b>当金融搜索 Agent 遇到未来信息、错期间、错版本或错单位时，显式的证据审计能否降低错误证据采用率，同时保留安全证据？</p>
+<div class="research-grid">
+<section><h3>研究空白</h3><p>现有 Benchmark 多关注最终答案正确率，难以发现“答案碰巧正确，但证据在当时不可用”的时间穿越。</p></section>
+<section><h3>我构建的内容</h3><p>20 个真实金融问题、100 条人工控制证据、四种策略、Temporal Robustness Gap 和逐证据审计 trace。</p></section>
+<section><h3>初步发现</h3><p>普通策略决策准确率为 20%；完整证据验证器在受控集达到 100%，说明日期、期间、版本和单位需要显式检查。</p></section>
+<section><h3>下一阶段</h3><p>真实 Web Search Agent 接口已经接入。先跑 1 题 × 4 策略验证引用和费用，再扩展到 20 题。</p></section>
+</div>
+<h2>100 条受控实验：四策略对照</h2>
+<div class="panel"><table><thead><tr><th>方法</th><th>决策准确率 ↑</th><th>挑战准确率 ↑</th><th>TRG ↓</th><th>检测 F1 ↑</th></tr></thead><tbody>
+<tr><td>普通 Agent</td><td>20.0%</td><td>0.0%</td><td>100.0%</td><td>0.0%</td></tr>
+<tr><td>时间约束 Prompt</td><td>40.0%</td><td>25.0%</td><td>75.0%</td><td>40.0%</td></tr>
+<tr><td>元数据过滤器</td><td>80.0%</td><td>75.0%</td><td>25.0%</td><td>85.7%</td></tr>
+<tr><td><b>完整证据验证器</b></td><td><b>100.0%</b></td><td><b>100.0%</b></td><td><b>0.0%</b></td><td><b>100.0%</b></td></tr>
+</tbody></table></div>
+<p class="boundary"><b>结论边界：</b>这是确定性协议验证，不是真实 LLM 排名。完整验证器的 100% 是人工标注元数据下的设计上限；开放网页实验仍需处理日期缺失、来源噪声和 Agent 自报元数据不可靠的问题。</p>
 <h2 id="reproduce">一分钟复现</h2><div class="panel"><p><b>确定性复现：</b>从保存的 Agent 轨迹重新生成报告并验证一致性；不会把记录数据冒充成实时搜索。</p>
 <pre><code>git clone https://github.com/QiQiyzhu/FinSearchComp-Audit.git
 cd FinSearchComp-Audit

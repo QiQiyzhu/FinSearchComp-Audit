@@ -36,9 +36,10 @@ python reproduce.py
 预期结果：
 
 ```text
-[1/3] Validated 12 recorded runs (6 success, 6 failure)
-[2/3] Generated 4 report artifacts in site
-[3/3] Reproducibility checks passed
+[1/4] Validated 12 recorded runs (6 success, 6 failure)
+[2/4] Generated core audit artifacts in site
+[3/4] Core audit reproducibility checks passed
+[4/4] Temporal detector benchmark and report generated
 ```
 
 验证器会检查：
@@ -54,6 +55,7 @@ python reproduce.py
 - `trace.json` 与输入的运行顺序一致；
 - `metrics.csv` 的行数和运行 ID 一致；
 - HTML 包含所有案例，报告包含要求的核心章节。
+- HTML 包含教师展示所需的研究问题、100 条受控实验、真实 Agent 下一阶段和结论边界。
 
 ## 4. 可信成功的定义
 

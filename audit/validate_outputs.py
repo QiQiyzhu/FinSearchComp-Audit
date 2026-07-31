@@ -207,6 +207,16 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
     report_text = (output_dir / "report.md").read_text(encoding="utf-8")
     for run in payload["runs"]:
         require(html.escape(run["label"]) in html_text, f"index.html is missing label: {run['label']}")
+    for required_showcase_text in (
+        "30 秒看懂研究",
+        "100 条受控实验",
+        "真实 Web Search Agent",
+        "确定性协议验证",
+    ):
+        require(
+            required_showcase_text in html_text,
+            f"index.html is missing teacher-showcase text: {required_showcase_text}",
+        )
     for heading in ("完整任务轨迹", "6 个成功案例和 6 个失败案例", "普通网页搜索 vs 金融数据接口"):
         require(heading in report_text, f"report.md is missing section: {heading}")
 

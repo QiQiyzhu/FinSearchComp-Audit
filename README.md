@@ -1,3 +1,120 @@
+# FinSearchComp-Audit
+
+> **Auditing Financial Research Agents: A Temporal Reliability Benchmark for Trustworthy Evaluation**
+
+[![Live demo](https://img.shields.io/badge/Live_Demo-Open-2563eb)](https://qiqiyzhu.github.io/FinSearchComp-Audit/)
+[![Temporal benchmark](https://img.shields.io/badge/Controlled_Benchmark-100_cases-0f766e)](https://qiqiyzhu.github.io/FinSearchComp-Audit/temporal-audit.html)
+[![Tests](https://img.shields.io/badge/Offline_Tests-13_passing-15803d)](https://github.com/QiQiyzhu/FinSearchComp-Audit/actions/workflows/finsearch-audit.yml)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab)](https://www.python.org/)
+
+## 老师先看这里：这个项目解决什么问题？
+
+> 现有金融 Agent Benchmark 通常只检查最终答案是否正确。本项目进一步追问：<br>
+> **Agent 使用的证据，在问题指定的时间点是否真的已经存在，并且是否属于正确的期间、版本和单位？**
+
+一个答案可能“数字碰巧正确”，但仍然使用了未来发布的数据、修订后的最终值、
+错误财年列或错误金额单位。对于金融研究，这类错误会造成时间穿越和虚假的回测结论。
+
+| 项目要点 | 本仓库已经完成的内容 |
+|---|---|
+| 研究问题 | 把金融 Agent 评测从“答案正确”扩展为“答案、引用和时间版本同时可靠” |
+| 受控数据 | 20 个真实金融问题 × 5 种证据条件，共 100 条实例 |
+| 对照方法 | 普通 Agent、时间约束 Prompt、元数据过滤器、完整证据验证器 |
+| 新指标 | Temporal Robustness Gap、时间违规率、扰动采用率、证据检测 F1 |
+| 可解释输出 | 每题保存搜索策略、引用、日期/期间/版本/单位检查和拒答原因 |
+| 真实 Agent | 20 题 × 4 策略的 Web Search pilot 接口已接入，带费用上限和断点续跑 |
+
+**建议展示入口：**
+
+- [打开在线项目首页](https://qiqiyzhu.github.io/FinSearchComp-Audit/)
+- [查看 100 条时间可靠性实验](https://qiqiyzhu.github.io/FinSearchComp-Audit/temporal-audit.html)
+- [查看 3 分钟教师演示稿](docs/TEACHER_DEMO.md)
+- [查看真实 Agent 运行入口](temporal_clash/run_live_pilot.py)
+
+## 初步实验结果
+
+下表来自 100 条人工控制的证据冲突实例：
+
+| 方法 | 决策准确率 ↑ | 挑战条件准确率 ↑ | TRG ↓ | 证据检测 F1 ↑ |
+|---|---:|---:|---:|---:|
+| 普通 Agent | 20.0% | 0.0% | 100.0% | 0.0% |
+| 时间约束 Prompt | 40.0% | 25.0% | 75.0% | 40.0% |
+| 元数据过滤器 | 80.0% | 75.0% | 25.0% | 85.7% |
+| 完整证据验证器 | **100.0%** | **100.0%** | **0.0%** | **100.0%** |
+
+**如何理解：** 仅在 Prompt 中提醒“不要使用未来信息”还不够；显式检查
+发布日期、目标期间、数据版本和单位，才能稳定拒绝受污染证据。
+
+> **实验边界：** 这张表验证的是受控协议和消融关系，不是真实 LLM 排名。
+> 完整验证器能达到 100%，是因为测试集中的冲突元数据已人工标注。
+> 下一阶段用真实搜索 Agent 检验开放网页中的隐含日期、缺失元数据和检索噪声。
+
+## 方法概览
+
+```mermaid
+flowchart LR
+    Q["金融问题 + 截止日期"] --> A["金融搜索 Agent"]
+    A --> E["候选证据 + 答案 + 引用"]
+    E --> D{"Temporal Audit"}
+    D --> C1["发布日期"]
+    D --> C2["目标期间"]
+    D --> C3["数据版本"]
+    D --> C4["金额单位"]
+    C1 --> O["回答或拒答 + 逐证据 trace"]
+    C2 --> O
+    C3 --> O
+    C4 --> O
+    O --> M["Accuracy / Leakage / TRG / Citation"]
+```
+
+## 三层实验如何连接
+
+| 层次 | 输入 | 输出 | 当前状态 |
+|---|---|---|---|
+| 搜索审计案例 | 12 条保存的金融 Agent 轨迹 | 成功/失败分析、引用支持、时间合规、完整 trace | 已完成 |
+| 受控时间 Benchmark | 20 个问题、100 条干净或扰动证据 | 四策略对照表、TRG、泄露检测 F1 | 已完成 |
+| 真实 Web Search pilot | 20 个问题 × 4 个策略 | `trace.jsonl`、指标表、引用与时间泄露记录 | 接口已完成，先跑 1 题再扩展 |
+
+## 我的具体贡献
+
+1. 将“未来信息泄露”从模型记忆问题扩展到 **Agent 检索证据是否满足 point-in-time 约束**；
+2. 构建日期、期间、版本和单位四类人工扰动的 100 条受控测试集；
+3. 实现可解释的 Temporal Evidence Gate，以及答案选择与证据检测两组指标；
+4. 接入真实 Web Search Agent，同时保留同一数据、指标和逐题 trace 接口。
+
+## 3 分钟展示顺序
+
+1. **30 秒：** 阅读本页的研究问题和初步实验表；
+2. **60 秒：** 打开[时间可靠性页面](https://qiqiyzhu.github.io/FinSearchComp-Audit/temporal-audit.html)，展示未来证据、错期间、错版本、错单位四种 trace；
+3. **45 秒：** 打开[搜索审计主页](https://qiqiyzhu.github.io/FinSearchComp-Audit/)，说明为什么只保存最终答案不够；
+4. **30 秒：** 展示 [`run_live_pilot.py`](temporal_clash/run_live_pilot.py)，说明下一阶段只替换真实 Agent，数据和指标继续复用；
+5. **15 秒：** 用 `python reproduce.py` 说明整个受控实验无需 API Key、可以一键复现。
+
+## 一键复现
+
+```bash
+git clone https://github.com/QiQiyzhu/FinSearchComp-Audit.git
+cd FinSearchComp-Audit
+python reproduce.py
+```
+
+该命令验证 12 条保存轨迹，运行 100 条受控实例，并重新生成 GitHub Pages。
+真实搜索 pilot 默认只显示费用计划，不会发出 API 请求：
+
+```bash
+python -m temporal_clash.run_live_pilot
+```
+
+## 当前结论与下一步
+
+- **现在可以证明：** 显式元数据验证比仅靠 Prompt 更能抵抗受控的时间、期间、版本和单位冲突；
+- **现在不能声称：** 某个真实 LLM 或搜索产品已经在完整金融任务上达到 100%；
+- **下一步：** 先运行 1 题 × 4 策略的真实搜索 pilot，检查引用和 trace，再扩展到 20 题；
+- **仍需加强：** 独立抓取网页发布日期，避免只相信 Agent 自报的来源元数据。
+
+<details>
+<summary><b>展开技术细节、案例清单和上游 FinSearchComp 说明</b></summary>
+
 # FinSearchComp Audit Lab
 
 > 一个可复现、可审计的金融搜索 Agent 实验：不仅保存最终答案，还保存搜索关键词、工具调用、计算过程、引用支持关系和时间有效性。
@@ -216,3 +333,5 @@ python -m temporal_clash.run_experiment --check
   primaryClass={cs.LG}
 }
 ```
+
+</details>
