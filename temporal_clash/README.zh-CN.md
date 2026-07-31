@@ -91,3 +91,37 @@ Look-Ahead-Bench 通过比较两个市场时期的 Alpha Decay 诊断交易模�
 - Wu et al. [ClashEval](https://arxiv.org/abs/2404.10198), NeurIPS 2024.
 - Islam et al. [FinanceBench](https://arxiv.org/abs/2311.11944), 2023.
 - Benhenda. [Look-Ahead-Bench](https://arxiv.org/abs/2601.13770), 2026.
+
+## 真实 Web Search Agent pilot
+
+仓库提供了一个带费用保护的真实搜索接入。它使用 20 个基础金融问题，
+分别运行普通 Agent、时间 Prompt、元数据过滤器和完整证据验证器。输出写入
+`outputs/live_agent_pilot/`，不会覆盖 100 条受控实验的结果。
+
+先查看运行计划（不会访问 API，也不会产生费用）：
+
+```powershell
+python -m temporal_clash.run_live_pilot
+```
+
+建议先跑 1 题、4 个策略，确认账户、模型权限和 trace：
+
+```powershell
+$env:OPENAI_API_KEY = "你的临时环境变量"
+python -m temporal_clash.run_live_pilot --limit 1 --max-api-calls 4 --confirm-live
+```
+
+确认后再运行 20 题 pilot：
+
+```powershell
+python -m temporal_clash.run_live_pilot --limit 20 --max-api-calls 80 --confirm-live
+```
+
+安全边界：
+
+- API Key 只从 `OPENAI_API_KEY` 读取，不写入仓库；
+- 没有 `--confirm-live` 时只打印调用计划；
+- `--max-api-calls` 防止题目数或策略数意外扩大；
+- 默认断点续跑，只跳过已经成功的 `case × strategy`；
+- 真实 pilot 是外部有效性实验，不能替代人工扰动的因果受控实验；
+- 当前来源日期是 Agent 报告的元数据，后续需增加独立网页抓取验证。

@@ -32,6 +32,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Run offline unit tests
+        run: python -m unittest temporal_clash.test_detector temporal_clash.test_live_agent -v
       - name: Reproduce and validate audit
         run: python reproduce.py --output site
       - uses: actions/configure-pages@v5
