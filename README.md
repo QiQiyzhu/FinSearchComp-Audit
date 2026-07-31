@@ -22,7 +22,7 @@
 | 对照方法 | 普通 Agent、时间约束 Prompt、元数据过滤器、完整证据验证器 |
 | 新指标 | Temporal Robustness Gap、时间违规率、扰动采用率、证据检测 F1 |
 | 可解释输出 | 每题保存搜索策略、引用、日期/期间/版本/单位检查和拒答原因 |
-| 真实 Agent | OpenAI/Claude 双适配器；强制搜索、完整来源、搜索上限、Structured Output、原始 trace 与重复实验统计 |
+| 真实 Agent | Claude 1题×4策略门禁已真实跑通；4/4 trace 有搜索、完整来源、原生 citations、Structured Output 和 raw hash |
 
 **建议展示入口：**
 
@@ -31,6 +31,7 @@
 - [查看 3 分钟教师演示稿](docs/TEACHER_DEMO.md)
 - [查看真实 Agent 运行入口](temporal_clash/run_live_pilot.py)
 - [查看正式实验协议与 Claude 中转门禁](docs/LIVE_STUDY_PROTOCOL.md)
+- [查看已通过的 Claude 1×4 真实 pilot](temporal_clash/results/live_pilot_1q_claude/README.md)
 
 ## 初步实验结果
 
@@ -49,6 +50,20 @@
 > **实验边界：** 这张表验证的是受控协议和消融关系，不是真实 LLM 排名。
 > 完整验证器能达到 100%，是因为测试集中的冲突元数据已人工标注。
 > 下一阶段用真实搜索 Agent 检验开放网页中的隐含日期、缺失元数据和检索噪声。
+
+## 真实 Agent 检查点
+
+2026-07-31 已使用中转实际列出的 `claude-sonnet-5` 跑通
+**1 个真实问题 × 4 个策略**。四条记录均通过严格 trace 校验：
+
+- 8/8 HTTP 阶段成功，实际执行 10 次 Web Search；
+- 保存 84 个完整来源、18 条 Anthropic 原生 citations；
+- 保存两个阶段的模型/响应 ID、完整无密钥请求、token、UTC 时间和 raw response 哈希；
+- 普通 Agent 与时间 Prompt 在本题容差内回答正确；两个严格 gate 因来源发布日期或
+  版本字段缺失而拒答。
+
+这只能证明真实 Web Search Agent 接口和研究协议跑通，不能用 1 道题比较模型或策略。
+完整结果见[真实 pilot 研究卡](temporal_clash/results/live_pilot_1q_claude/README.md)。
 
 ## 方法概览
 
@@ -74,7 +89,7 @@ flowchart LR
 |---|---|---|---|
 | 搜索审计案例 | 12 条保存的金融 Agent 轨迹 | 成功/失败分析、引用支持、时间合规、完整 trace | 已完成 |
 | 受控时间 Benchmark | 20 个问题、100 条干净或扰动证据 | 四策略对照表、TRG、泄露检测 F1 | 已完成 |
-| 真实 Web Search pilot | 20 个问题 × 4 个策略 × 3 重复 | 完整 trace、来源、指标均值与标准差 | 严格协议已完成；需先用轮换后密钥通过 1×4 门禁 |
+| 真实 Web Search pilot | 20 个问题 × 4 个策略 × 3 重复 | 完整 trace、来源、指标均值与标准差 | 1×4 门禁已真实通过；正式扩展待确认约 480 次请求预算 |
 
 ## 我的具体贡献
 
@@ -110,7 +125,7 @@ python -m temporal_clash.run_live_pilot
 
 - **现在可以证明：** 显式元数据验证比仅靠 Prompt 更能抵抗受控的时间、期间、版本和单位冲突；
 - **现在不能声称：** 某个真实 LLM 或搜索产品已经在完整金融任务上达到 100%；
-- **下一步：** 用轮换后的本地密钥验证中转模型清单，再运行 1 题 × 4 策略门禁；通过后才扩展到 20 题 × 3 重复；
+- **下一步：** 在中转后台确认余额和计费后，扩展到 20 题 × 4 策略 × 3 重复并报告均值与样本标准差；
 - **仍需加强：** 独立抓取网页发布日期，避免只相信 Agent 自报的来源元数据。
 
 <details>

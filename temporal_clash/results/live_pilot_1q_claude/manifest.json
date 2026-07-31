@@ -1,0 +1,14 @@
+{
+  "repeat_index": 1,
+  "status": "completed",
+  "started_at": "2026-07-31T07:01:37.469198+00:00",
+  "completed_at": "2026-07-31T07:05:07.964558+00:00",
+  "expected_runs": 4,
+  "valid_runs": 4,
+  "protocol_sha256": "b4f6b257c22c3783b13d397e9fb3264b9aa71ae087beb6035103c5231c83abfa",
+  "protocol_validation_errors": [],
+  "trace": "trace.jsonl",
+  "metrics": "metrics.csv",
+  "summary": "summary.md",
+  "metadata_warning": "Publication dates in structured evidence remain model-declared until independently fetched and verified."
+}

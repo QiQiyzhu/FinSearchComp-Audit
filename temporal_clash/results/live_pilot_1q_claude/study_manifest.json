@@ -1,0 +1,102 @@
+{
+  "status": "completed",
+  "started_at": "2026-07-31T07:01:37.424215+00:00",
+  "completed_at": "2026-07-31T07:05:07.964898+00:00",
+  "protocol_sha256": "b4f6b257c22c3783b13d397e9fb3264b9aa71ae087beb6035103c5231c83abfa",
+  "protocol": {
+    "protocol_version": "live-study-2.0",
+    "provider": "anthropic",
+    "base_url": "https://ai.aiclick.cc",
+    "requested_model": "claude-sonnet-5",
+    "request_config": {
+      "model": "claude-sonnet-5",
+      "reasoning_effort": "medium",
+      "search_context_size": "medium",
+      "max_tool_calls": 3,
+      "max_output_tokens": 1200,
+      "timeout_seconds": 120,
+      "max_retries": 0,
+      "force_search": true,
+      "structured_output": true,
+      "save_raw_response": true
+    },
+    "fixed_controls": {
+      "reasoning_effort": "medium",
+      "search_context": "provider-managed (Anthropic has no search_context_size parameter)",
+      "max_web_search_calls_per_run": 3,
+      "forced_web_search": true,
+      "structured_output": true,
+      "raw_response_capture": true,
+      "same_question_batch": true,
+      "schedule": "cyclic counterbalancing by question and repeat"
+    },
+    "treatment_variable": "strategy",
+    "strategies": [
+      "plain_agent",
+      "temporal_prompt",
+      "metadata_filter",
+      "teg_validator"
+    ],
+    "repeats": 1,
+    "case_ids": [
+      "sp500_max_month"
+    ],
+    "case_batch_sha256": "4fd74aa2c431a3c582da38e5729c8700a646a0eac18285177514523c71aa7b7f",
+    "prompt_set_sha256": "9ce4fcebb3d9fbf8d11060ebd3d150b48adf73161601fa213e8374421c510d0e",
+    "prompt_hashes": [
+      {
+        "case_id": "sp500_max_month",
+        "strategy": "plain_agent",
+        "prompt_sha256": "d5277919b79d55ff59d8af0c99aa260cce2226240890f7bb610a2878f4dc24c5"
+      },
+      {
+        "case_id": "sp500_max_month",
+        "strategy": "temporal_prompt",
+        "prompt_sha256": "d1b83c2a776c5144ef8d50ab0c6b772913b97d032df82bbfe8bea7e3650e2022"
+      },
+      {
+        "case_id": "sp500_max_month",
+        "strategy": "metadata_filter",
+        "prompt_sha256": "f03aab13eb2125b2e6e2ed0cef68af449cfce49d20bd7086e934ebca08267403"
+      },
+      {
+        "case_id": "sp500_max_month",
+        "strategy": "teg_validator",
+        "prompt_sha256": "246aacd0d99579bc8d49b941b71e460d9194243a1115c827daa96dd96575a13c"
+      }
+    ],
+    "implementation_sha256": "1ec721862813fddf3123647a2994783e00e8977ac03d23206659ef1afe9e4aed",
+    "secret_storage": "environment only; credentials are never serialized"
+  },
+  "environment": {
+    "git_at_start": {
+      "commit": "1d6d0aab00bb9dc3c64876d9a08e45911598e0fd",
+      "dirty": false
+    }
+  },
+  "planned_http_attempts": 8,
+  "planned_max_web_search_calls": 12,
+  "repeat_manifests": [
+    {
+      "repeat_index": 1,
+      "status": "completed",
+      "started_at": "2026-07-31T07:01:37.469198+00:00",
+      "completed_at": "2026-07-31T07:05:07.964558+00:00",
+      "expected_runs": 4,
+      "valid_runs": 4,
+      "protocol_sha256": "b4f6b257c22c3783b13d397e9fb3264b9aa71ae087beb6035103c5231c83abfa",
+      "protocol_validation_errors": [],
+      "trace": "trace.jsonl",
+      "metrics": "metrics.csv",
+      "summary": "summary.md",
+      "metadata_warning": "Publication dates in structured evidence remain model-declared until independently fetched and verified.",
+      "directory": "."
+    }
+  ],
+  "artifacts": {
+    "repeat_trace": "trace.jsonl or repeat_NN/trace.jsonl",
+    "repeat_metrics": "metrics.csv",
+    "aggregate_metrics": null
+  },
+  "failure": null
+}

@@ -88,6 +88,11 @@ Structured Outputs，必须由下一步的 1题×4策略检查证明。
 
 ## 5. 1题 × 4策略正式门禁
 
+**当前状态：已于 2026-07-31 使用 `claude-sonnet-5` 真实通过。**
+4/4 记录严格有效，共 8 个 HTTP 阶段、10 次搜索、84 个完整来源和 18 条原生
+citations。见
+[`temporal_clash/results/live_pilot_1q_claude/README.md`](../temporal_clash/results/live_pilot_1q_claude/README.md)。
+
 Claude 每个策略固定使用 2 个 HTTP 阶段，所以 4 个策略最多需要 8 次请求；
 每个策略最多 3 次搜索，所以最多 12 次付费 Web Search。
 
