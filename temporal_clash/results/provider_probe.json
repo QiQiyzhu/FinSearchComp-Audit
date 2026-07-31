@@ -1,0 +1,33 @@
+{
+  "probed_at": "2026-07-31T06:55:08.057134+00:00",
+  "provider": "anthropic",
+  "base_url": "https://ai.aiclick.cc",
+  "endpoint": "https://ai.aiclick.cc/v1/models",
+  "http_status": 200,
+  "requested_model": "claude-sonnet-5",
+  "requested_model_listed": true,
+  "model_count": 20,
+  "model_ids": [
+    "claude-3-5-haiku-20241022",
+    "claude-3-5-sonnet-20240620",
+    "claude-3-5-sonnet-20241022",
+    "claude-3-7-sonnet-20250219",
+    "claude-fable-5",
+    "claude-haiku-4-5",
+    "claude-haiku-4-5-20251001",
+    "claude-opus-4-1-20250805",
+    "claude-opus-4-20250514",
+    "claude-opus-4-5-20251101",
+    "claude-opus-4-6",
+    "claude-opus-4-7",
+    "claude-opus-4-7-thinking",
+    "claude-opus-4-8",
+    "claude-opus-5",
+    "claude-sonnet-4-20250514",
+    "claude-sonnet-4-5-20250929",
+    "claude-sonnet-4-6",
+    "claude-sonnet-4-6-thinking",
+    "claude-sonnet-5"
+  ],
+  "interpretation": "This only verifies authentication and model listing. The paid 1x4 pilot must still verify native web search, complete sources and structured output."
+}

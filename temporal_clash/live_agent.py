@@ -24,6 +24,10 @@ DEFAULT_ANTHROPIC_BASE_URL = "https://api.anthropic.com"
 ANTHROPIC_VERSION = "2023-06-01"
 ANTHROPIC_WEB_SEARCH_TOOL = "web_search_20260318"
 TRACE_SCHEMA_VERSION = "2.0"
+HTTP_USER_AGENT = (
+    "FinSearchComp-Audit/1.0 "
+    "(https://github.com/QiQiyzhu/FinSearchComp-Audit)"
+)
 
 STRATEGIES = (
     "plain_agent",
@@ -625,6 +629,7 @@ class OpenAIResponsesWebSearch(_RetryingClient):
             headers={
                 "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json",
+                "User-Agent": HTTP_USER_AGENT,
             },
             method="POST",
         )
@@ -759,6 +764,7 @@ class AnthropicMessagesWebSearch(_RetryingClient):
         headers = {
             "Content-Type": "application/json",
             "anthropic-version": ANTHROPIC_VERSION,
+            "User-Agent": HTTP_USER_AGENT,
         }
         if auth_token:
             headers["Authorization"] = f"Bearer {auth_token}"

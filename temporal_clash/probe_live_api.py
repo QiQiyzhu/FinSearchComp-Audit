@@ -14,6 +14,7 @@ from .live_agent import (
     ANTHROPIC_VERSION,
     DEFAULT_ANTHROPIC_BASE_URL,
     DEFAULT_OPENAI_BASE_URL,
+    HTTP_USER_AGENT,
     OPENAI_PROVIDER,
     PROVIDERS,
     credential_help,
@@ -74,7 +75,11 @@ def probe(
     endpoint = models_endpoint(base_url)
     request = urllib.request.Request(
         endpoint,
-        headers={**auth_headers(provider), "Accept": "application/json"},
+        headers={
+            **auth_headers(provider),
+            "Accept": "application/json",
+            "User-Agent": HTTP_USER_AGENT,
+        },
         method="GET",
     )
     try:
