@@ -12,6 +12,7 @@
 ## 先看结果
 
 - [在线审计报告](https://qiqiyzhu.github.io/FinSearchComp-Audit/)：适合浏览和演示；
+- [时间可靠性实验](https://qiqiyzhu.github.io/FinSearchComp-Audit/temporal-audit.html)：100 条受控实例、Temporal Leakage Detector 指标与逐证据 trace；
 - [`site/report.md`](site/report.md)：可直接阅读的中文实验报告；
 - [`site/trace.json`](site/trace.json)：12 次运行的完整结构化轨迹；
 - [`site/metrics.csv`](site/metrics.csv)：真实性、完整性和效率指标。
@@ -42,6 +43,8 @@ git clone https://github.com/QiQiyzhu/FinSearchComp-Audit.git
 cd FinSearchComp-Audit
 python reproduce.py
 ```
+
+该命令会同时复现两部分：12 条保存的金融搜索 Agent 轨迹，以及 100 条时间/期间/版本/单位受控冲突实例。
 
 成功时会看到：
 

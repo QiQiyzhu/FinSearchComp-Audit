@@ -16,14 +16,14 @@ main{padding:36px 24px 80px}.summary,.grid,.compare{display:grid;grid-template-c
 @media(max-width:760px){.summary,.grid,.compare{grid-template-columns:1fr}.summary{margin-top:-44px}}
 </style></head><body><header><div class="wrap"><p>FYP · Financial Search Agent</p>
 <h1>FinSearchComp<br>搜索轨迹与可信度审计</h1><p>完整轨迹、6 个成功、6 个失败、引用支持、时间检查，以及普通搜索与金融 API 对比。</p>
-<nav><a href="#reproduce">一分钟复现</a><a href="#trajectory">完整轨迹</a><a href="#cases">十二个案例</a><a href="report.md">汇报稿</a><a href="trace.json">JSON 轨迹</a></nav>
+<nav><a href="#reproduce">一分钟复现</a><a href="temporal-audit.html">时间可靠性实验</a><a href="#trajectory">完整轨迹</a><a href="#cases">十二个案例</a><a href="report.md">汇报稿</a><a href="trace.json">JSON 轨迹</a></nav>
 </div></header><main class="wrap"><section class="summary"><div class="stat"><b>12</b>实验案例</div>
 <div class="stat"><b>6 / 6</b>成功 / 失败</div><div class="stat"><b>100%</b>成功案例引用支持</div><div class="stat"><b>3 类</b>金融 API / 官方来源 / 搜索</div></section>
 <h2 id="reproduce">一分钟复现</h2><div class="panel"><p><b>确定性复现：</b>从保存的 Agent 轨迹重新生成报告并验证一致性；不会把记录数据冒充成实时搜索。</p>
 <pre><code>git clone https://github.com/QiQiyzhu/FinSearchComp-Audit.git
 cd FinSearchComp-Audit
 python reproduce.py</code></pre>
-<p>无需 API Key。命令会验证 12 条轨迹、生成 4 个产物，并检查案例顺序、指标行数、来源审计和关键章节。</p></div>
+<p>无需 API Key。命令会验证 12 条保存轨迹，并运行 100 条受控时间可靠性实例，生成核心审计与 Temporal Leakage Detector 展示页。</p></div>
 <h2 id="trajectory">完整搜索任务轨迹</h2><div class="panel"><h3>S&P 500 最大单月涨幅</h3>
 <ol><li>规划：ticker → 时间窗 → 月频 → 相邻月收益 → 最大值。</li>
 <li>查询 <code>^GSPC monthly close 2009-12-01 to 2025-04-30</code>。</li>

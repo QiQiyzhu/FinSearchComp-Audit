@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "audit/**"
+      - "temporal_clash/**"
       - "reproduce.py"
       - "docs/REPRODUCIBILITY.md"
       - "README.md"

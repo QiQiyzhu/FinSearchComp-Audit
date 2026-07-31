@@ -27,12 +27,19 @@
 3. **元数据过滤器**：再检查目标期间和数据版本；
 4. **TEG 验证器**：同时检查日期、期间、版本和单位。
 
-当前四种方法是可审计的确定性代理策略，并非真实 LLM API 运行。它们的用途是先固定实验协议、评价指标和预期消融关系。将来可以在 `policies.py` 中替换为真实 Agent，同时保持数据和评价脚本不变。
+`detector.py` 将这四种检查封装为统一的 `TemporalLeakageDetector`。它对每条候选证据输出：
+
+- `accept` / `reject` 判定；
+- 0–1 风险分数；
+- 未通过的检查项；
+- 每项检查的期望值、实际值和中文解释。
+
+当前四种方法是可审计的确定性代理策略，并非真实 LLM API 运行。它们的用途是先固定实验协议、评价指标和预期消融关系。后续可把候选证据替换为真实搜索 Agent 的检索结果，同时保持检测器、数据结构和评价脚本不变。
 
 ## 复现
 
 ```bash
-python -m temporal_clash.run_experiment --check
+python -m temporal_clash.run_experiment --check --site-dir site
 ```
 
 输出：
@@ -41,7 +48,10 @@ python -m temporal_clash.run_experiment --check
 - `results/experiment_table.csv`：四种方法总表；
 - `results/per_condition.csv`：按冲突类型拆分；
 - `results/predictions.jsonl`：逐题决策；
+- `results/detector_table.csv`：候选级 Precision、Recall、F1 和安全证据保留率；
+- `results/detector_predictions.jsonl`：逐候选检查理由与风险分数；
 - `results/summary.md`：可直接阅读的实验摘要。
+- `site/temporal-audit.html`：GitHub Pages 展示页。
 
 ## 评价指标
 
@@ -52,6 +62,10 @@ python -m temporal_clash.run_experiment --check
 - **扰动采纳率**：是否选择人工扰动证据；
 - **引用支持率**：已回答样本中，所选证据是否支持金标准；
 - **覆盖率**：系统实际作答比例。
+- **挑战条件准确率**：只在四类受控冲突条件上计算；
+- **Temporal Robustness Gap（TRG）**：干净条件准确率减去挑战条件准确率，越接近 0 越稳定；
+- **候选级检测 F1**：把人工扰动证据视为正类，衡量拦截能力；
+- **安全证据保留率**：正确证据没有被误杀的比例。
 
 ## 研究边界
 
@@ -61,9 +75,19 @@ python -m temporal_clash.run_experiment --check
 - 真实 Agent 实验必须额外记录搜索日期、模型版本、提示词、费用和完整工具轨迹；
 - 本测试集不构成投资建议。
 
+## 与 Look-Ahead-Bench 的关系
+
+Look-Ahead-Bench 通过比较两个市场时期的 Alpha Decay 诊断交易模型的前视偏差。本项目保留“干净条件 vs 时间外条件”的核心思想，但把研究对象改为金融搜索 Agent 的证据链：
+
+- Look-Ahead-Bench 问：收益从可能记忆过的时期到未知时期衰减多少？
+- 本项目问：证据从干净状态变为未来/错期间/错版本/错单位时，决策稳定性下降多少？
+
+因此 TRG 是面向搜索与引用任务的审计指标，不应被解释为交易 Alpha。
+
 ## 相关论文
 
 - Zhang, Chen, Stadie. [All Leaks Count, Some Count More](https://arxiv.org/abs/2602.17234), 2026.
 - Yang et al. [Search-Time Data Contamination](https://arxiv.org/abs/2508.13180), 2025.
 - Wu et al. [ClashEval](https://arxiv.org/abs/2404.10198), NeurIPS 2024.
 - Islam et al. [FinanceBench](https://arxiv.org/abs/2311.11944), 2023.
+- Benhenda. [Look-Ahead-Bench](https://arxiv.org/abs/2601.13770), 2026.

@@ -1,0 +1,17 @@
+{
+  "cases": 100,
+  "base_questions": 20,
+  "methods": [
+    "plain_agent",
+    "temporal_prompt",
+    "metadata_filter",
+    "teg_validator"
+  ],
+  "artifacts": [
+    "temporal-audit.html",
+    "temporal-metrics.csv",
+    "temporal-detector-metrics.csv",
+    "temporal-predictions.jsonl",
+    "temporal-detector-trace.jsonl"
+  ]
+}

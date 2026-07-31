@@ -7,7 +7,8 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-from .policies import POLICIES
+from .detector import TemporalLeakageDetector
+from .policies import POLICIES, POLICY_PROFILES
 
 
 HERE = Path(__file__).resolve().parent
@@ -15,6 +16,8 @@ RESULTS_DIR = HERE / "results"
 SUMMARY_CSV = RESULTS_DIR / "experiment_table.csv"
 PER_CONDITION_CSV = RESULTS_DIR / "per_condition.csv"
 PREDICTIONS_JSONL = RESULTS_DIR / "predictions.jsonl"
+DETECTOR_SUMMARY_CSV = RESULTS_DIR / "detector_table.csv"
+DETECTOR_PREDICTIONS_JSONL = RESULTS_DIR / "detector_predictions.jsonl"
 SUMMARY_MD = RESULTS_DIR / "summary.md"
 
 
@@ -70,6 +73,10 @@ def _summarize(records: list[dict[str, Any]]) -> dict[str, float]:
     future_only = [r for r in records if r["condition"] == "future_only"]
     perturbed = [r for r in records if r["condition"] != "clean"]
     answered = [r for r in records if not r["abstained"]]
+    clean = [r for r in records if r["condition"] == "clean"]
+    challenge = [r for r in records if r["condition"] != "clean"]
+    clean_accuracy = _rate(clean, "decision_correct")
+    challenge_accuracy = _rate(challenge, "decision_correct")
     return {
         "decision_accuracy": _rate(records, "decision_correct"),
         "answer_accuracy": _rate(answerable, "answer_correct"),
@@ -80,6 +87,8 @@ def _summarize(records: list[dict[str, Any]]) -> dict[str, float]:
             _rate(answered, "citation_support") if answered else 0.0
         ),
         "coverage": len(answered) / len(records),
+        "challenge_accuracy": challenge_accuracy,
+        "temporal_robustness_gap": clean_accuracy - challenge_accuracy,
     }
 
 
@@ -87,7 +96,88 @@ def _pct(value: float) -> str:
     return f"{value * 100:.1f}%"
 
 
-def evaluate(cases: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
+def _divide(numerator: int, denominator: int) -> float:
+    return numerator / denominator if denominator else 0.0
+
+
+def _evaluate_candidate_detection(
+    cases: list[dict[str, Any]],
+) -> tuple[dict[str, dict[str, float]], list[dict[str, Any]]]:
+    summaries: dict[str, dict[str, float]] = {}
+    records: list[dict[str, Any]] = []
+
+    for method_key, (method_label, _) in POLICIES.items():
+        profile = POLICY_PROFILES[method_key]
+        detector = TemporalLeakageDetector(profile)
+        method_records: list[dict[str, Any]] = []
+
+        for case in cases:
+            for candidate in case["candidates"]:
+                audit = detector.audit(candidate, case)
+                record = {
+                    "method": method_key,
+                    "method_label": method_label,
+                    "profile": profile,
+                    "case_id": case["case_id"],
+                    "condition": case["evidence_condition"],
+                    "candidate_id": candidate["candidate_id"],
+                    "is_perturbed": candidate["is_perturbed"],
+                    "predicted_violation": not audit.accepted,
+                    "verdict": audit.verdict,
+                    "risk_score": audit.risk_score,
+                    "violations": list(audit.violations),
+                    "checks": [check.to_dict() for check in audit.checks],
+                }
+                method_records.append(record)
+                records.append(record)
+
+        tp = sum(
+            r["is_perturbed"] and r["predicted_violation"] for r in method_records
+        )
+        fp = sum(
+            (not r["is_perturbed"]) and r["predicted_violation"]
+            for r in method_records
+        )
+        fn = sum(
+            r["is_perturbed"] and (not r["predicted_violation"])
+            for r in method_records
+        )
+        tn = sum(
+            (not r["is_perturbed"]) and (not r["predicted_violation"])
+            for r in method_records
+        )
+        precision = _divide(tp, tp + fp)
+        recall = _divide(tp, tp + fn)
+        f1 = _divide(2 * precision * recall, precision + recall)
+        future = [
+            r
+            for r in method_records
+            if r["is_perturbed"] and r["condition"] == "future_only"
+        ]
+        metadata_conflicts = [
+            r
+            for r in method_records
+            if r["is_perturbed"] and r["condition"] != "future_only"
+        ]
+        summaries[method_key] = {
+            "precision": precision,
+            "recall": recall,
+            "f1": f1,
+            "future_leakage_recall": _divide(
+                sum(r["predicted_violation"] for r in future), len(future)
+            ),
+            "metadata_conflict_recall": _divide(
+                sum(r["predicted_violation"] for r in metadata_conflicts),
+                len(metadata_conflicts),
+            ),
+            "false_positive_rate": _divide(fp, fp + tn),
+            "safe_evidence_retention_rate": _divide(tn, tn + fp),
+        }
+
+    return summaries, records
+
+
+def evaluate(cases: list[dict[str, Any]]) -> dict[str, Any]:
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     predictions: list[dict[str, Any]] = []
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -101,8 +191,16 @@ def evaluate(cases: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
             grouped[method_key].append(record)
 
     summaries = {key: _summarize(items) for key, items in grouped.items()}
+    detector_summaries, detector_predictions = _evaluate_candidate_detection(cases)
     PREDICTIONS_JSONL.write_text(
         "".join(json.dumps(item, ensure_ascii=False) + "\n" for item in predictions),
+        encoding="utf-8",
+    )
+    DETECTOR_PREDICTIONS_JSONL.write_text(
+        "".join(
+            json.dumps(item, ensure_ascii=False) + "\n"
+            for item in detector_predictions
+        ),
         encoding="utf-8",
     )
 
@@ -115,6 +213,8 @@ def evaluate(cases: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
         "perturbation_adoption_rate",
         "citation_support_rate",
         "coverage",
+        "challenge_accuracy",
+        "temporal_robustness_gap",
     ]
     with SUMMARY_CSV.open("w", encoding="utf-8-sig", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
@@ -124,6 +224,32 @@ def evaluate(cases: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
                 {
                     "method": label,
                     **{name: _pct(summaries[key][name]) for name in fields[1:]},
+                }
+            )
+
+    detector_fields = [
+        "method",
+        "precision",
+        "recall",
+        "f1",
+        "future_leakage_recall",
+        "metadata_conflict_recall",
+        "false_positive_rate",
+        "safe_evidence_retention_rate",
+    ]
+    with DETECTOR_SUMMARY_CSV.open(
+        "w", encoding="utf-8-sig", newline=""
+    ) as handle:
+        writer = csv.DictWriter(handle, fieldnames=detector_fields)
+        writer.writeheader()
+        for key, (label, _) in POLICIES.items():
+            writer.writerow(
+                {
+                    "method": label,
+                    **{
+                        name: _pct(detector_summaries[key][name])
+                        for name in detector_fields[1:]
+                    },
                 }
             )
 
@@ -186,6 +312,38 @@ def evaluate(cases: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
     lines.extend(
         [
             "",
+            "## Temporal Leakage Detector 候选级检测",
+            "",
+            "| 方法 | Precision | Recall | F1 | 未来泄露召回率 | 元数据冲突召回率 | 安全证据保留率 |",
+            "|---|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for key, (label, _) in POLICIES.items():
+        metrics = detector_summaries[key]
+        lines.append(
+            "| "
+            + " | ".join(
+                [
+                    label,
+                    _pct(metrics["precision"]),
+                    _pct(metrics["recall"]),
+                    _pct(metrics["f1"]),
+                    _pct(metrics["future_leakage_recall"]),
+                    _pct(metrics["metadata_conflict_recall"]),
+                    _pct(metrics["safe_evidence_retention_rate"]),
+                ]
+            )
+            + " |"
+        )
+    lines.extend(
+        [
+            "",
+            "## 新指标",
+            "",
+            "- **挑战条件准确率**：只在未来、错期间、错单位、错版本四类压力测试上计算。",
+            "- **Temporal Robustness Gap (TRG)**：干净条件准确率减去挑战条件准确率；越接近 0 越稳定。",
+            "- **候选级检测 F1**：把人工扰动证据视为正类，衡量检测器是否既能拦截冲突，又不误杀安全证据。",
+            "",
             "## 解释",
             "",
             "- 普通 Agent 代理策略总是使用第一条证据，因此直接暴露于所有人工冲突。",
@@ -195,8 +353,13 @@ def evaluate(cases: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
             "",
             "## 下一步",
             "",
-            "将四个确定性策略接口替换为真实检索 Agent 调用，保留同一批实例与指标；另行记录模型、提示词、搜索引擎、运行日期、费用和完整 trace。",
+            "先运行 20 条分层真实 Agent pilot，保留同一批实例与指标；另行记录模型、提示词、搜索引擎、运行日期、费用和完整 trace。验证协议无误后，再扩展到完整 100 条。",
         ]
     )
     SUMMARY_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    return summaries
+    return {
+        "selection": summaries,
+        "detection": detector_summaries,
+        "predictions": predictions,
+        "detector_predictions": detector_predictions,
+    }
