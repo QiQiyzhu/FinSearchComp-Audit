@@ -12,12 +12,17 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LIVE_PILOT_DIR = (
-    REPO_ROOT / "temporal_clash" / "results" / "live_pilot_10q_claude_r1"
+    REPO_ROOT
+    / "temporal_clash"
+    / "results"
+    / "live_pilot_20q_claude_complete"
 )
 LIVE_PILOT_FILES = (
     "README.md",
     "metrics.csv",
     "case_outcomes.csv",
+    "case_analysis.md",
+    "confidence_intervals.csv",
     "exclusions.json",
     "study_manifest.json",
     "trace.jsonl",
@@ -100,9 +105,11 @@ def load_live_pilot(result_dir: Path = LIVE_PILOT_DIR) -> dict:
     exclusions = json.loads(
         (result_dir / "exclusions.json").read_text(encoding="utf-8")
     )
-    if len(metrics) != 4 or len(outcomes) != 40:
+    expected_runs = int(manifest["scope"]["valid_runs"])
+    if len(metrics) != 4 or len(outcomes) != expected_runs:
         raise ValueError(
-            "Published live pilot must contain 4 metric rows and 40 outcomes"
+            "Published live pilot must contain 4 metric rows and "
+            f"{expected_runs} outcomes"
         )
     return {
         "result_dir": result_dir,
@@ -110,6 +117,46 @@ def load_live_pilot(result_dir: Path = LIVE_PILOT_DIR) -> dict:
         "outcomes": outcomes,
         "manifest": manifest,
         "exclusions": exclusions,
+    }
+
+
+def metric_for(live_pilot: dict, strategy: str) -> dict:
+    label = STRATEGY_LABELS[strategy]
+    return next(
+        row for row in live_pilot["metrics"] if row["strategy"] == label
+    )
+
+
+def live_finding(live_pilot: dict) -> dict[str, str | int]:
+    plain = metric_for(live_pilot, "plain_agent")
+    teg = metric_for(live_pilot, "teg_validator")
+    plain_accuracy = float(plain["decision_accuracy"])
+    teg_accuracy = float(teg["decision_accuracy"])
+    over_rejections = sum(
+        row["strategy"] in {"metadata_filter", "teg_validator"}
+        and row["model_draft_correct"] == "1"
+        and row["final_decision_correct"] == "0"
+        and row["final_action"] == "abstain"
+        for row in live_pilot["outcomes"]
+    )
+    if teg_accuracy < plain_accuracy:
+        title = "真实结果没有复制受控实验"
+        conclusion = "因此当前不能声称 TEG 已在真实网络上优于基线。"
+    elif teg_accuracy > plain_accuracy:
+        title = "完整验证器在本轮提高了最终正确率"
+        conclusion = "这一差异仍需重复运行和置信区间验证，不能据此做模型总体排名。"
+    else:
+        title = "完整验证器与普通 Agent 最终正确率相同"
+        conclusion = "相同准确率可能对应不同覆盖率和泄漏风险，必须联合阅读各项指标。"
+    return {
+        "title": title,
+        "big": f"{plain_accuracy:.0%} → {teg_accuracy:.0%}",
+        "plain_accuracy": f"{plain_accuracy:.0%}",
+        "teg_accuracy": f"{teg_accuracy:.0%}",
+        "teg_draft_accuracy": f"{float(teg['model_decision_accuracy']):.0%}",
+        "teg_coverage": f"{float(teg['answer_coverage']):.0%}",
+        "over_rejections": over_rejections,
+        "conclusion": conclusion,
     }
 
 
@@ -180,6 +227,81 @@ def live_case_cards(live_pilot: dict) -> str:
             </article>"""
         )
     return "".join(cards)
+
+
+def live_all_case_rows(live_pilot: dict) -> str:
+    grouped: dict[str, list[dict]] = {}
+    for row in live_pilot["outcomes"]:
+        grouped.setdefault(row["case_id"], []).append(row)
+    strategy_order = {
+        strategy: index for index, strategy in enumerate(STRATEGY_LABELS)
+    }
+    rendered = []
+    for case_rows in grouped.values():
+        case_rows.sort(key=lambda row: strategy_order[row["strategy"]])
+        by_strategy = {row["strategy"]: row for row in case_rows}
+        correct = {
+            strategy: row["final_decision_correct"] == "1"
+            for strategy, row in by_strategy.items()
+        }
+        over_rejected = any(
+            row["strategy"] in {"metadata_filter", "teg_validator"}
+            and row["model_draft_correct"] == "1"
+            and row["final_decision_correct"] == "0"
+            and row["final_action"] == "abstain"
+            for row in case_rows
+        )
+        if all(correct.values()):
+            category = "四策略一致正确"
+        elif over_rejected:
+            category = "过度拒答候选"
+        elif correct.get("temporal_prompt") and not correct.get("plain_agent"):
+            category = "Prompt 修正基线"
+        elif (
+            correct.get("metadata_filter") or correct.get("teg_validator")
+        ) and not correct.get("plain_agent"):
+            category = "验证策略修正基线"
+        elif correct.get("plain_agent") and not (
+            correct.get("metadata_filter") or correct.get("teg_validator")
+        ):
+            category = "严格策略降低覆盖"
+        elif not any(correct.values()):
+            category = "四策略均未解决"
+        else:
+            category = "策略结果分化"
+
+        cells = []
+        for row in case_rows:
+            if row["final_action"] == "abstain":
+                value = (
+                    "正确初稿→拒答"
+                    if row["model_draft_correct"] == "1"
+                    else "拒答"
+                )
+                css_class = "warn" if row["model_draft_correct"] == "1" else "neutral"
+            else:
+                value = display_value_with_unit(
+                    row["answer_value"], row["unit"]
+                )
+                is_correct = row["final_decision_correct"] == "1"
+                value = f"{value} · {'正确' if is_correct else '错误'}"
+                css_class = "correct" if is_correct else "wrong"
+            cells.append(
+                f'<td class="{css_class}">{html.escape(value)}</td>'
+            )
+        first = case_rows[0]
+        gold = display_value_with_unit(
+            first["gold_answer"], first["canonical_unit"]
+        )
+        rendered.append(
+            "<tr><td>{}</td><td><b>{}</b></td><td>{}</td>{}</tr>".format(
+                html.escape(first["question_zh"]),
+                html.escape(category),
+                html.escape(gold),
+                "".join(cells),
+            )
+        )
+    return "".join(rendered)
 
 
 def overall_truth(metrics: dict) -> bool:
@@ -324,6 +446,9 @@ def html_report(payload: dict, live_pilot: dict | None = None) -> str:
     live_date = live_manifest["selected_run_window"]["first_record_at"][:10]
     metric_rows = live_metrics_rows(live_pilot)
     case_cards = live_case_cards(live_pilot)
+    finding = live_finding(live_pilot)
+    live_questions = int(live_scope["questions"])
+    live_runs = int(live_scope["valid_runs"])
     runs = payload["runs"]
     successes = [run for run in runs if run["outcome"] == "success"]
     failures = [run for run in runs if run["outcome"] == "failure"]
@@ -410,10 +535,11 @@ footer{{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}}
 <p class="hero-copy">FinSearchComp-Audit 检查金融研究 Agent 是否使用了未来发布、错误期间、
 错误版本或错误单位的证据。项目同时提供 100 条受控冲突实验，以及
 {live_scope['valid_runs']} 条真实 Claude Web Search trace。</p>
-<div class="hero-actions"><a class="button primary" href="#live-pilot">查看 40 条真实实验</a>
+<div class="hero-actions"><a class="button primary" href="#live-pilot">查看 {live_runs} 条真实实验</a>
 <a class="button secondary" href="temporal-audit.html">查看 100 条受控实验</a></div>
 <nav><a href="#teacher">研究问题</a><a href="#live-pilot">真实结果</a><a href="#live-cases">实际案例</a>
-<a href="#reproduce">复现</a><a href="#cases">历史审计案例</a><a href="live-pilot.html">完整 Pilot 报告</a></nav>
+<a href="#reproduce">复现</a><a href="#cases">历史审计案例</a><a href="live-pilot.html">完整 Pilot 报告</a>
+<a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/LITERATURE_AND_ROADMAP.md">论文与升级路线</a></nav>
 </div></header><main class="wrap"><section class="summary">
 <div class="stat"><b>{live_scope['valid_runs']}</b><small>严格验证的真实 trace</small></div>
 <div class="stat"><b>{int(live_usage['web_search_calls'])}</b><small>真实 Web Search</small></div>
@@ -428,24 +554,26 @@ footer{{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}}
 <section><h3>真实实验发现</h3><p>严格 Gate 在开放网页上因日期元数据缺失而过度拒答。真实结果与受控上限不同，这正是当前最重要的研究发现。</p></section>
 </div>
 <span class="section-label">LIVE WEB SEARCH STUDY</span>
-<h2 id="live-pilot">10 题 × 4 策略的真实 Web Search Agent pilot</h2>
+<h2 id="live-pilot">{live_questions} 题 × 4 策略的真实 Web Search Agent pilot</h2>
 <p class="section-copy">同一个 <code>{html.escape(live_model)}</code>、同一批问题、相同推理强度与搜索上限，
-只改变四种策略。40 条记录全部通过严格 trace 校验；所有已回答记录都有原生引用，
+只改变四种策略。{live_runs} 条记录全部通过严格 trace 校验；所有已回答记录都有原生引用，
 所有运行都保存了完整搜索来源。</p>
 <div class="pilot-grid"><div class="panel"><table><thead><tr><th>策略</th><th>最终正确率</th>
 <th>模型初稿正确率</th><th>回答覆盖率</th><th>引用覆盖</th><th>完整来源</th></tr></thead>
 <tbody>{metric_rows}</tbody></table></div>
-<aside class="finding"><h3>真实结果没有复制受控实验</h3><div class="big">70% → 30%</div>
-<p>普通 Agent 最终正确率为 70%，完整证据验证器为 30%。下降主要来自
-<b>网页发布日期缺失导致的过度拒答</b>，不是接口没有搜索或没有保存引用。</p>
-<p>因此当前不能声称 TEG 已在真实网络上优于基线。</p></aside></div>
+<aside class="finding"><h3>{finding['title']}</h3><div class="big">{finding['big']}</div>
+<p>普通 Agent 最终正确率为 {finding['plain_accuracy']}，完整证据验证器为
+{finding['teg_accuracy']}。严格策略共有 <b>{finding['over_rejections']} 条正确初稿最终被拒答</b>；
+网页元数据缺失是需要独立验证的主要机制之一。</p>
+<p>{finding['conclusion']}</p></aside></div>
 <div class="artifact-links"><a href="live-pilot.html">阅读完整研究卡</a>
 <a href="live-pilot/case_outcomes.csv">下载逐题结果</a>
-<a href="live-pilot/trace.jsonl">查看 40 条 trace</a>
+<a href="live-pilot/case_analysis.md">阅读 20 道逐题说明</a>
+<a href="live-pilot/trace.jsonl">查看 {live_runs} 条 trace</a>
 <a href="live-pilot/exclusions.json">查看排除记录</a></div>
 <h2 id="live-cases">三个来自真实 trace 的例子</h2>
 <p class="section-copy">以下不是演示脚本，而是 2026-07-31 实际运行记录的逐题对照。
-每张卡片都汇总同一道题的四种策略；完整 10 题结果可从上方下载。</p>
+每张卡片都汇总同一道题的四种策略；完整 {live_questions} 题结果和中文解释可从上方下载。</p>
 <div class="live-cases">{case_cards}</div>
 <h2>100 条受控实验：四策略对照</h2>
 <div class="panel"><table><thead><tr><th>方法</th><th>决策准确率 ↑</th><th>挑战准确率 ↑</th><th>TRG ↓</th><th>检测 F1 ↑</th></tr></thead><tbody>
@@ -455,7 +583,7 @@ footer{{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}}
 <tr><td><b>完整证据验证器</b></td><td><b>100.0%</b></td><td><b>100.0%</b></td><td><b>0.0%</b></td><td><b>100.0%</b></td></tr>
 </tbody></table></div>
 <p class="boundary"><b>结论边界：</b>受控实验是确定性协议验证，不是真实 LLM 排名。
-真实 10×4 pilot 已证明开放网页中的日期缺失会改变结论，因此两层实验必须分开报告。</p>
+真实 {live_questions}×4 pilot 表明开放网页中的日期缺失会改变结论，因此两层实验必须分开报告。</p>
 <h2 id="reproduce">一分钟复现</h2><div class="panel"><p><b>确定性复现：</b>从保存的 Agent 轨迹重新生成报告并验证一致性；不会把记录数据冒充成实时搜索。</p>
 <pre><code>git clone https://github.com/QiQiyzhu/FinSearchComp-Audit.git
 cd FinSearchComp-Audit
@@ -473,7 +601,7 @@ python reproduce.py</code></pre>
 <h2>评价框架</h2><div class="panel"><p><b>真实性：</b>答案正确 + 引用真的支持 + 时间版本正确。</p>
 <p><b>完整性：</b>题目每个评分点都回答。</p><p><b>效率：</b>比较工具数、耗时和无效搜索；结构化题尽早切换金融 API。</p></div>
 <footer>真实实验：<a href="live-pilot.html">研究卡</a> ·
-<a href="live-pilot/trace.jsonl">40 条 trace</a> ·
+<a href="live-pilot/trace.jsonl">{live_runs} 条 trace</a> ·
 受控实验：<a href="temporal-audit.html">100 条实例</a> ·
 历史审计：<a href="report.md">report.md</a> ·
 <a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/REPRODUCIBILITY.md">复现说明</a></footer>
@@ -482,19 +610,34 @@ python reproduce.py</code></pre>
 
 def live_pilot_report(live_pilot: dict) -> str:
     manifest = live_pilot["manifest"]
+    scope = manifest["scope"]
     usage = manifest["selected_usage"]
     source = manifest["source_run"]
     metric_rows = live_metrics_rows(live_pilot)
     case_cards = live_case_cards(live_pilot)
+    all_case_rows = live_all_case_rows(live_pilot)
+    finding = live_finding(live_pilot)
     model = manifest["source_protocol"]["requested_model"]
+    questions = int(scope["questions"])
+    valid_runs = int(scope["valid_runs"])
     transport_errors = len(live_pilot["exclusions"]["transport_errors"])
     excluded_successes = len(
         live_pilot["exclusions"]["successful_records_outside_subset"]
     )
+    if excluded_successes:
+        selection_text = (
+            f"公开指标按固定数据集顺序保留前 {questions} 道四策略完整的问题，"
+            f"共 {valid_runs} 条；另有 {excluded_successes} 条完整前缀外的成功记录未纳入比较。"
+        )
+    else:
+        selection_text = (
+            f"公开指标保留预定的全部 {questions} 道问题与四种策略，共 "
+            f"{valid_runs} 条有效记录；没有按结果排除任何成功的 case–strategy 单元。"
+        )
     return f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Claude 真实 Web Search Agent 10题×4策略 pilot 的结果、案例和审计产物">
-<title>真实 10×4 Pilot · FinSearchComp-Audit</title>
+<meta name="description" content="Claude 真实 Web Search Agent {questions}题×4策略 pilot 的结果、案例和审计产物">
+<title>真实 {questions}×4 Pilot · FinSearchComp-Audit</title>
 <style>
 :root{{--ink:#101828;--muted:#667085;--line:#e4e7ec;--green:#14804a;--red:#b42318;--amber:#b54708}}
 *{{box-sizing:border-box}}body{{margin:0;background:#f6f8fb;color:var(--ink);font:16px/1.65 Inter,system-ui,"Microsoft YaHei",sans-serif}}
@@ -502,7 +645,7 @@ header{{background:linear-gradient(130deg,#07111f,#163b59);color:white;padding:5
 .back{{color:#a5f3fc;text-decoration:none;font-weight:700}}h1{{font-size:clamp(34px,5vw,58px);line-height:1.08;letter-spacing:-.035em;margin:28px 0 16px}}header p{{color:#d7e5f4;max-width:820px;font-size:18px}}
 main{{padding:38px 24px 80px}}h2{{font-size:clamp(26px,4vw,38px);margin-top:52px}}.facts,.live-cases{{display:grid;gap:18px}}.facts{{grid-template-columns:repeat(4,1fr);margin-top:-65px}}
 .fact,.panel,.live-case,.note{{background:white;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px #14264a12}}.fact,.panel,.live-case,.note{{padding:22px}}.fact b{{display:block;font-size:30px;color:#155e75}}.fact span{{color:var(--muted);font-size:13px}}
-.panel{{overflow:auto}}table{{border-collapse:collapse;width:100%}}th,td{{padding:11px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}}th{{background:#f8fafc;font-size:13px}}
+.panel{{overflow:auto}}table{{border-collapse:collapse;width:100%}}th,td{{padding:11px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}}th{{background:#f8fafc;font-size:13px}}.all-cases td:first-child{{min-width:280px;white-space:normal}}.all-cases td:not(:first-child){{min-width:125px}}
 .live-cases{{grid-template-columns:repeat(3,1fr)}}.live-case{{display:flex;flex-direction:column}}.live-case h3{{min-height:76px}}.case-kicker{{display:inline-block;background:#ecfdf3;color:var(--green);border-radius:999px;padding:3px 9px;font-size:12px;font-weight:800}}
 .gold{{background:#f0f9ff;border-radius:9px;padding:9px 11px}}.strategy-results{{list-style:none;margin:4px 0 15px;padding:0;border-top:1px solid var(--line)}}.strategy-results li{{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:9px 0;font-size:14px}}.strategy-results b{{text-align:right}}
 .correct{{color:var(--green)}}.wrong{{color:var(--red)}}.warn{{color:var(--amber)}}.neutral{{color:var(--muted)}}.case-meta,.links{{display:flex;gap:8px;flex-wrap:wrap}}.case-meta{{margin-top:auto;font-size:12px}}.case-meta span{{background:#f2f4f7;border-radius:8px;padding:5px 9px}}
@@ -511,37 +654,46 @@ footer{{margin-top:48px;color:var(--muted)}}code{{background:#eef2f6;border-radi
 @media(max-width:850px){{.facts{{grid-template-columns:repeat(2,1fr)}}.live-cases{{grid-template-columns:1fr}}.live-case h3{{min-height:0}}}}
 @media(max-width:520px){{.facts{{grid-template-columns:1fr}}.strategy-results li{{flex-direction:column;gap:2px}}.strategy-results b{{text-align:left}}}}
 </style></head><body><header><div class="wrap"><a class="back" href="index.html">← 返回项目首页</a>
-<h1>Claude 真实 Web Search Agent<br>10 题 × 4 策略 Pilot</h1>
+<h1>Claude 真实 Web Search Agent<br>{questions} 题 × 4 策略 Pilot</h1>
 <p>一个模型、同一批问题、相同推理强度和搜索上限，只改变策略。
 这是外部有效性 pilot，不是完整 benchmark 或模型排名。</p></div></header>
 <main class="wrap"><section class="facts">
-<div class="fact"><b>40</b><span>严格有效记录</span></div>
+<div class="fact"><b>{valid_runs}</b><span>严格有效记录</span></div>
 <div class="fact"><b>{int(usage['web_search_calls'])}</b><span>真实 Web Search</span></div>
 <div class="fact"><b>{int(usage['search_sources'])}</b><span>完整来源</span></div>
 <div class="fact"><b>{int(usage['api_citations'])}</b><span>原生 citations</span></div>
 </section>
 <h2>核心结果</h2><p>请求和实际模型均为 <code>{html.escape(model)}</code>。
-所有已回答记录的引用覆盖率为 100%，全部 40 条记录都保存了完整来源。</p>
+所有已回答记录的引用覆盖率为 100%，全部 {valid_runs} 条记录都保存了完整来源。</p>
 <div class="panel"><table><thead><tr><th>策略</th><th>最终正确率</th>
 <th>模型初稿正确率</th><th>回答覆盖率</th><th>引用覆盖</th><th>完整来源</th></tr></thead>
 <tbody>{metric_rows}</tbody></table></div>
-<h2>如何解释结果</h2><div class="note"><b>严格策略没有在真实网页上胜出。</b>
-元数据过滤器和完整验证器的模型初稿准确率分别为 70% 和 60%，经过 Gate 后降为
-50% 和 30%。原因是网页日期等字段缺失时，当前规则会把正确初稿一并拒绝。
-这说明下一步应改进独立元数据获取和拒答校准，而不是宣称规则已经达到真实网络上的 100%。</div>
+<h2>如何解释结果</h2><div class="note"><b>{finding['title']}。</b>
+完整验证器的模型初稿正确率为 {finding['teg_draft_accuracy']}，最终正确率为
+{finding['teg_accuracy']}，回答覆盖率为 {finding['teg_coverage']}。元数据过滤器和完整验证器合计有
+{finding['over_rejections']} 条正确初稿最终被拒答。这说明下一步需要独立元数据获取和拒答校准；
+{finding['conclusion']}</div>
 <h2>实际逐题例子</h2><div class="live-cases">{case_cards}</div>
-<h2>选择规则与排除</h2><div class="panel"><p>源运行在人工停止时产生
-<b>{source['successful_records_at_stop']} 条成功记录</b>。公开指标按固定数据集顺序保留
-前 10 道四策略完整的问题，共 40 条；第 11 题的 {excluded_successes} 条不完整成功记录未纳入比较。</p>
+<h2>全部 {questions} 题的结果说明</h2>
+<p>“正确初稿→拒答”表示模型给出的数字正确，但 Gate 因证据元数据未通过而改变为拒答；
+它是需要复核的过度拒答候选。完整证据与触发原因保存在 trace 和中文逐题说明中。</p>
+<div class="panel"><table class="all-cases"><thead><tr><th>问题</th><th>结论类型</th><th>参考答案</th>
+<th>普通 Agent</th><th>时间 Prompt</th><th>元数据过滤</th><th>完整验证器</th></tr></thead>
+<tbody>{all_case_rows}</tbody></table></div>
+<h2>选择规则与排除</h2><div class="panel"><p>源运行共产生
+<b>{source['successful_records']} 条成功记录</b>。{selection_text}</p>
 <p>另有 {transport_errors} 次中转连接中断。总 HTTP 尝试估计为
 {source['http_attempts_lower_bound']}–{source['http_attempts_upper_bound']} 次，
-低于批准上限 {source['approved_http_cap']}。这些错误均写入排除记录。</p></div>
+未超过批准上限 {source['approved_http_cap']}。这些错误均写入排除记录。</p></div>
 <h2>下载可审计产物</h2><div class="links">
 <a href="live-pilot/case_outcomes.csv">逐题结果 CSV</a>
+<a href="live-pilot/case_analysis.md">{questions} 道中文逐题说明</a>
 <a href="live-pilot/metrics.csv">策略指标 CSV</a>
-<a href="live-pilot/trace.jsonl">40 条标准化 trace</a>
+<a href="live-pilot/confidence_intervals.csv">Bootstrap 95% CI</a>
+<a href="live-pilot/trace.jsonl">{valid_runs} 条标准化 trace</a>
 <a href="live-pilot/exclusions.json">排除记录</a>
-<a href="live-pilot/study_manifest.json">研究清单</a></div>
+<a href="live-pilot/study_manifest.json">研究清单</a>
+<a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/LITERATURE_AND_ROADMAP.md">相关论文与升级路线</a></div>
 <footer>原始供应商响应仅保存在本地，公开 trace 保存其相对路径和 SHA-256；API 密钥没有进入仓库。</footer>
 </main></body></html>"""
 

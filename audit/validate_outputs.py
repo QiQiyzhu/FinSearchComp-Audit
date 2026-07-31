@@ -55,6 +55,8 @@ LIVE_PILOT_FILES = (
     "README.md",
     "metrics.csv",
     "case_outcomes.csv",
+    "case_analysis.md",
+    "confidence_intervals.csv",
     "exclusions.json",
     "study_manifest.json",
     "trace.jsonl",
@@ -247,6 +249,11 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
             target.is_file() and target.stat().st_size > 0,
             f"missing or empty live-pilot output: {target}",
         )
+    live_manifest = json.loads(
+        (live_dir / "study_manifest.json").read_text(encoding="utf-8")
+    )
+    expected_live_runs = int(live_manifest["scope"]["valid_runs"])
+    expected_live_cases = int(live_manifest["scope"]["questions"])
 
     trace = json.loads((output_dir / "trace.json").read_text(encoding="utf-8"))
     trace_summary = validate_payload(trace, strict_demo=strict_demo)
@@ -269,7 +276,7 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
         "真实 Web Search Agent",
         "确定性协议验证",
         "三个来自真实 trace 的例子",
-        "40 条记录全部通过严格 trace 校验",
+        f"{expected_live_runs} 条记录全部通过严格 trace 校验",
     ):
         require(
             required_showcase_text in html_text,
@@ -280,8 +287,9 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
 
     live_html = (output_dir / "live-pilot.html").read_text(encoding="utf-8")
     for required_live_text in (
-        "10 题 × 4 策略 Pilot",
-        "严格策略没有在真实网页上胜出",
+        f"{expected_live_cases} 题 × 4 策略 Pilot",
+        "如何解释结果",
+        f"全部 {expected_live_cases} 题的结果说明",
         "选择规则与排除",
         "实际逐题例子",
     ):
@@ -297,6 +305,10 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
         encoding="utf-8-sig", newline=""
     ) as handle:
         live_outcomes = list(csv.DictReader(handle))
+    with (live_dir / "confidence_intervals.csv").open(
+        encoding="utf-8-sig", newline=""
+    ) as handle:
+        confidence_rows = list(csv.DictReader(handle))
     live_trace_lines = [
         line
         for line in (live_dir / "trace.jsonl").read_text(
@@ -305,11 +317,29 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
         if line.strip()
     ]
     require(len(live_metric_rows) == 4, "live pilot must contain four strategy rows")
-    require(len(live_outcomes) == 40, "live pilot must contain 40 outcomes")
-    require(len(live_trace_lines) == 40, "live pilot must contain 40 trace records")
     require(
-        len({row["case_id"] for row in live_outcomes}) == 10,
-        "live pilot must contain 10 unique cases",
+        len(confidence_rows) == 15,
+        "live pilot must contain 12 strategy intervals and 3 paired differences",
+    )
+    require(
+        all(
+            int(row["n_questions"]) == expected_live_cases
+            for row in confidence_rows
+        ),
+        "bootstrap rows must use the complete question batch",
+    )
+    require(
+        len(live_outcomes) == expected_live_runs,
+        f"live pilot must contain {expected_live_runs} outcomes",
+    )
+    require(
+        len(live_trace_lines) == expected_live_runs,
+        f"live pilot must contain {expected_live_runs} trace records",
+    )
+    require(
+        len({row["case_id"] for row in live_outcomes})
+        == expected_live_cases,
+        f"live pilot must contain {expected_live_cases} unique cases",
     )
     for line_number, line in enumerate(live_trace_lines, start=1):
         try:

@@ -6,10 +6,11 @@
 
 ## 当前真实 pilot
 
-2026-07-31 已完成 `claude-sonnet-5` 的 10 题 × 4 策略真实 Web Search pilot，
-共 40 条严格验证记录。公开产物包含逐次 trace、聚合指标、逐题配对结果、排除说明和研究清单：
+2026-07-31 已完成 `claude-sonnet-5` 的 20 题 × 4 策略真实 Web Search pilot，
+共 80 条严格验证记录。公开产物包含逐次 trace、聚合指标、逐题配对结果、
+bootstrap 区间、排除说明和研究清单：
 
-[查看真实 10×4 pilot](results/live_pilot_10q_claude_r1/README.md)
+[查看真实 20×4 pilot](results/live_pilot_20q_claude_complete/README.md)
 
 真实结果显示严格时间过滤会因开放网页缺少可验证日期而过度拒答；因此它是机制与局限性的
 初步证据，不是策略优越性的最终结论。
@@ -81,7 +82,7 @@ python -m temporal_clash.run_experiment --check --site-dir site
 
 - 满分只说明验证规则正确执行，不代表能处理开放网页中的隐含冲突；
 - 人工扰动的措辞和位置可能低估真实检索噪声；
-- 当前没有运行付费 LLM，不能把表格用于模型排名；
+- 受控表格不是付费 LLM 排名；真实 pilot 也只有单模型、单次运行，不能外推为总体排名；
 - 真实 Agent 实验必须额外记录搜索日期、模型版本、提示词、费用和完整工具轨迹；
 - 本测试集不构成投资建议。
 
@@ -116,7 +117,7 @@ python -m temporal_clash.run_live_pilot
 ```
 
 首次接入新的 Claude 中转时，先运行模型清单预检，再跑 1 题、4 个策略门禁；
-当前中转的门禁与 10×4 pilot 均已完成：
+当前中转的门禁与 20×4 pilot 均已完成：
 
 ```powershell
 $env:ANTHROPIC_BASE_URL = "https://ai.aiclick.cc"
