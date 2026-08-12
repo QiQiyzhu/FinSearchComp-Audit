@@ -19,6 +19,7 @@
 4. **从独立文本块到图结构**：显式表达实体、事件、多跳关系和冲突；
 5. **从无条件信任上下文到冲突仲裁**：处理检索文档之间及文档与模型记忆之间的冲突；
 6. **从最终准确率到模块化诊断与选择性回答**：分别评估检索、引用、生成、拒答和成本。
+7. **从自由文本计算到结构化工具执行**：让LLM规划查询，由数据库/API提供原始事实，再由受限程序完成数值推理。
 
 对本 FYP 最适合的不是训练一个大模型或照搬通用 GraphRAG，而是围绕已有的“金融时点可靠性”形成：
 
@@ -40,6 +41,8 @@
 | [SPARKLE](https://aclanthology.org/2026.acl-long.1793/) | ACL 2026 Long | 用结构化、可插拔控制器规划图推理与检索 | 把来源路由和检索状态独立于底层 LLM，保留 PLAN trace |
 | [ReflectiveRAG](https://aclanthology.org/2026.eacl-industry.27/) | EACL 2026 Industry | 反思证据充分性并迭代改写查询，同时去除冗余噪声 | 缺少操作数或一手来源时继续搜索，而不是立刻拒答 |
 | [RouteRAG](https://aclanthology.org/2026.findings-acl.1502/) | ACL 2026 Findings | 在文本、图检索、继续推理和最终回答之间自适应路由 | 金融问题按结构化行情、申报文件和官方网页选择不同路径 |
+| [Query Decomposition for RAG](https://aclanthology.org/2026.eacl-long.322/) | EACL 2026 Long | 将复杂问题分解为子查询并动态平衡探索与利用 | 将财务公式拆成2–8个有序操作数请求，逐项获取可验证事实 |
+| [FinMRAGBench](https://aclanthology.org/2026.findings-acl.187/) | ACL 2026 Findings | 真实财报需要跨页/跨文档证据和多步金融分析工具 | 把财报问答落到SEC XBRL、accession与程序化计算trace |
 
 ### B. 2025：冲突与不完美检索
 
@@ -50,6 +53,9 @@
 | [SeCon-RAG](https://proceedings.neurips.cc/paper_files/paper/2025/hash/668563ef18fbfef0b66af491ea334d5f-Abstract-Conference.html) | NeurIPS 2025 Main | 两阶段语义过滤与冲突过滤，避免过度删除有用证据 | 先相关性/来源过滤，再做字段与数值冲突过滤 |
 | [GFM-RAG](https://proceedings.neurips.cc/paper_files/paper/2025/hash/33ca0b1102b54c191a9a45a05adafaf4-Abstract-Conference.html) | NeurIPS 2025 Main | 图基础模型在未见数据集上做图检索 | 后续可把手工图升级为可学习图检索，但当前 FYP 不必承担大规模训练成本 |
 | [HyperGraphRAG](https://proceedings.neurips.cc/paper_files/paper/2025/hash/df55ee6e59f8ac4a625219e11fe9ddba-Abstract-Conference.html) | NeurIPS 2025 Main | 用超边表达多元关系 | 金融事实天然是“公司—指标—期间—版本—单位—发布日期”的多元关系 |
+| [Question Decomposition for RAG](https://aclanthology.org/2025.acl-srw.32/) | ACL 2025 Student Research Workshop | 分解复杂问题、分别检索并合并重排，多跳问答优于标准RAG | 每个公司/指标/年度独立取数，避免操作数只在不同文档中出现时漏检 |
+| [ChainRAG](https://aclanthology.org/2025.acl-long.1089/) | ACL 2025 Long | 渐进检索与查询改写，减少多跳链条中的实体丢失 | 程序显式保存公司、财务指标、期间和操作数顺序 |
+| [FinGEAR](https://aclanthology.org/2025.findings-emnlp.382/) | EMNLP 2025 Findings | 用金融术语映射和财报层级结构改善10-K检索 | 以US-GAAP taxonomy白名单替代扁平网页文本检索 |
 
 ### C. 2024：高级 RAG 的基础路线
 
@@ -86,6 +92,8 @@
 - 事实级冲突图与 listwise 仲裁；
 - 低置信度纠错检索和选择性回答；
 - 分层离线评测、完整 trace、HTTP 服务、缓存、健康检查和 CI。
+- ATLAS-XBRL：LLM语义编译、label-free程序校准、SEC Company Facts取数、Decimal白名单公式执行；
+- 20道真实SEC计算题的运行前gold审计、40条真实Claude trace和逐题配对bootstrap。
 
 ### 下一阶段：P1
 
@@ -102,6 +110,17 @@
 - Fusion 最终准确率 55%，与普通 Agent 持平；仲裁初稿 65%，达到五轨迹 oracle 上限；
 - 该负结果把下一步从泛泛的“继续优化 RAG”收敛到两个可检验问题：派生答案的证据单位兼容，
   以及在新开发集上校准拒答风险；不能继续用同一 20 题调参后再当作独立测试。
+
+### 2026-08-13 ATLAS-XBRL 正式更新
+
+- 先运行6题ATLAS-Compute开发实验：普通搜索66.7%，Compute 50%；公开保留该负结果；
+- 失败诊断显示，程序化公式能修复NVIDIA利润率题，但自由Web检索仍缺一手操作数，且“下降多少”方向规则不完整；
+- 随后冻结20道新的SEC XBRL计算题，并用独立`reference_program`在运行前审计20/20个gold；
+- 正式使用`claude-sonnet-5`运行20题×2方法，共40/40条有效trace；
+- 普通Web Search Agent达到75%（15/20），ATLAS-XBRL达到100%（20/20）；
+- 配对提升+25个百分点，逐题5胜/15平/0负，配对bootstrap 95% CI为+5至+45个百分点；
+- ATLAS-XBRL不是继续堆Prompt：Claude只负责编译，事实来自SEC Company Facts，数值由Decimal程序执行；
+- 结果适用于可映射到SEC XBRL的结构化金融数值推理，不外推为开放域RAG SOTA。
 
 ### 投稿级：P2
 

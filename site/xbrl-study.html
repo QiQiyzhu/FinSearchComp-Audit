@@ -1,0 +1,99 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="ATLAS-XBRL 20题真实实验逐题结果">
+<title>20题正式实验 · ATLAS-XBRL</title><style>
+:root{--ink:#eaf2ff;--muted:#9eb0c7;--night:#07111f;--panel:#101e31;
+--line:#263b53;--blue:#6ed8ff;--green:#58e3a1;--lime:#d9ff66;--red:#ff8b8b;
+--paper:#f5f7fb;--paper-ink:#172033;--paper-muted:#667085}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--night);
+color:var(--ink);font:16px/1.68 Inter,ui-sans-serif,system-ui,"Microsoft YaHei",sans-serif}
+a{color:inherit}.wrap{width:min(1160px,calc(100% - 40px));margin:auto}.nav{display:flex;
+align-items:center;justify-content:space-between;padding:22px 0}.brand{font-weight:900;letter-spacing:-.03em;
+text-decoration:none}.brand i{font-style:normal;color:var(--lime)}.navlinks{display:flex;gap:22px;
+color:var(--muted);font-size:14px}.navlinks a{text-decoration:none}.navlinks a:hover{color:white}
+.hero{position:relative;overflow:hidden;padding-bottom:88px;background:
+radial-gradient(circle at 75% 8%,#143e5f 0,transparent 38%),
+radial-gradient(circle at 18% 45%,#143a2d 0,transparent 34%),var(--night)}
+.hero:after{content:"";position:absolute;inset:auto -10% -180px;width:65%;height:300px;
+background:#6ed8ff1a;filter:blur(90px);border-radius:50%}.eyebrow{display:inline-flex;gap:8px;
+align-items:center;border:1px solid #31506f;background:#11243a;border-radius:999px;padding:7px 12px;
+color:#b9d9f1;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.dot{width:7px;height:7px;background:var(--green);border-radius:99px;box-shadow:0 0 16px var(--green)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:center;padding-top:72px}
+h1{font-size:clamp(46px,7vw,84px);line-height:.98;letter-spacing:-.065em;margin:20px 0 24px;
+max-width:820px}.gradient{background:linear-gradient(100deg,var(--lime),var(--blue));color:transparent;
+background-clip:text;-webkit-background-clip:text}.lead{max-width:760px;color:#bfd0e4;font-size:clamp(17px,2vw,21px)}
+.actions,.chips,.artifact-links{display:flex;gap:12px;flex-wrap:wrap}.actions{margin-top:30px}.button{
+display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-weight:850;border-radius:11px;
+padding:12px 17px;background:var(--lime);color:#10170b;border:1px solid var(--lime)}.button.secondary{
+background:#ffffff08;color:white;border-color:#3a536d}.score-card{position:relative;background:linear-gradient(150deg,#152a40,#0d1b2b);
+border:1px solid #31506b;border-radius:22px;padding:26px;box-shadow:0 30px 70px #0006}.score-card:before{
+content:"REAL LLM × REAL SEC";font-size:10px;letter-spacing:.16em;color:var(--blue);font-weight:900}
+.score-line{display:flex;justify-content:space-between;align-items:flex-end;margin:24px 0 8px}.score-line span{
+color:var(--muted);font-size:13px}.score-line b{font-size:32px}.meter{height:10px;background:#07111f;border-radius:99px;
+overflow:hidden}.meter i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#3b82f6,var(--blue))}
+.meter.winner i{background:linear-gradient(90deg,#1ebd75,var(--lime))}.delta{margin-top:26px;border-top:1px solid var(--line);
+padding-top:20px;display:flex;justify-content:space-between}.delta b{font-size:28px;color:var(--lime)}
+.light{background:var(--paper);color:var(--paper-ink);padding:86px 0}.section-kicker{color:#08775a;
+font-size:12px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}.section-title{font-size:clamp(32px,5vw,54px);
+letter-spacing:-.045em;line-height:1.08;margin:10px 0 18px;max-width:850px}.section-copy{color:var(--paper-muted);
+font-size:18px;max-width:820px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-top:38px}
+.stat{background:white;border:1px solid #e1e6ee;border-radius:16px;padding:22px;box-shadow:0 8px 26px #1720330d}
+.stat b{display:block;font-size:31px;letter-spacing:-.04em}.stat span{color:var(--paper-muted);font-size:13px}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:36px}.flow article{position:relative;
+background:white;border:1px solid #dfe6ed;border-radius:14px;padding:18px}.flow article:not(:last-child):after{content:"→";
+position:absolute;right:-12px;top:38%;z-index:2;color:#668099;font-weight:900}.flow small{color:#08775a;font-weight:900}
+.flow h3{font-size:16px;margin:8px 0}.flow p{font-size:13px;color:var(--paper-muted);margin:0}
+.dark{padding:86px 0;background:#091522}.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:32px}
+.method{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:27px}.method.winner{
+border-color:#3fa976;box-shadow:inset 0 0 0 1px #3fa97644}.method h3{font-size:24px;margin:0}.method .big{
+font-size:56px;line-height:1;font-weight:950;letter-spacing:-.06em;margin:24px 0 12px}.method.winner .big{color:var(--lime)}
+.method ul{padding-left:20px;color:var(--muted)}.method strong{color:white}.error-grid{display:grid;
+grid-template-columns:repeat(5,1fr);gap:12px;margin-top:34px}.error-card{background:#111f31;border:1px solid var(--line);
+border-radius:14px;padding:18px}.error-card b{color:var(--red);font-size:20px}.error-card h3{font-size:15px;
+line-height:1.35}.error-card p{color:var(--muted);font-size:13px;margin-bottom:0}.papers{display:grid;
+grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}.paper{background:white;border:1px solid #e0e6ee;
+border-radius:15px;padding:21px;text-decoration:none;transition:.18s ease}.paper:hover{transform:translateY(-3px);
+box-shadow:0 14px 32px #17203312}.paper small{color:#08775a;font-weight:900}.paper h3{line-height:1.35;margin:8px 0}
+.paper p{color:var(--paper-muted);font-size:14px}.audit{background:#0d1c2c;border:1px solid #29425b;
+border-radius:20px;padding:28px;margin-top:36px}.audit code{display:block;overflow-wrap:anywhere;background:#07111f;
+border-radius:10px;padding:13px;color:var(--blue);font-size:12px}.audit-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.chips span{background:#14283d;border:1px solid #2d465f;border-radius:999px;padding:6px 10px;color:#bad0e5;font-size:12px}
+.artifact-links a{text-decoration:none;background:white;color:#174ea6;border:1px solid #dce4ee;border-radius:11px;
+padding:11px 14px;font-weight:800}.boundary{background:#fff8dc;border:1px solid #ead58a;border-radius:16px;
+padding:23px;margin-top:30px;color:#5f4b16}.boundary b{color:#493600}.footer{padding:38px 0;color:#8499b2;
+border-top:1px solid #20354b;font-size:13px}.footer-row{display:flex;justify-content:space-between;gap:25px}
+.study-hero{padding:40px 0 70px;background:radial-gradient(circle at 80% 0,#143e5f,transparent 35%),var(--night)}
+.facts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:28px}.fact{background:#102137;
+border:1px solid #29445f;border-radius:14px;padding:18px}.fact b{display:block;font-size:29px}.fact span{color:var(--muted);font-size:12px}
+.table-shell{overflow:auto;background:white;border:1px solid #e1e6ec;border-radius:16px;margin-top:28px}
+table{border-collapse:collapse;width:100%}th,td{padding:13px 14px;border-bottom:1px solid #e8ecf1;text-align:left;
+white-space:nowrap}th{background:#eef3f7;font-size:12px;color:#526174;position:sticky;top:0}.question{white-space:normal;
+min-width:360px}.ok{color:#08775a;font-weight:900}.bad{color:#b42318;font-weight:900}.tag{display:inline-block;
+border-radius:99px;padding:3px 8px;background:#e8f7ef;font-size:11px;color:#08775a;font-weight:900}
+@media(max-width:900px){.hero-grid,.audit-grid{grid-template-columns:1fr}.score-card{max-width:620px}.stats,.facts-grid{
+grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:1fr 1fr}.flow article:after{display:none}.error-grid{grid-template-columns:1fr 1fr}
+.papers{grid-template-columns:1fr 1fr}}@media(max-width:620px){.wrap{width:min(100% - 26px,1160px)}.navlinks{display:none}
+.hero-grid{padding-top:42px}.compare-grid,.stats,.facts-grid,.flow,.error-grid,.papers{grid-template-columns:1fr}.footer-row{display:block}
+h1{font-size:48px}.light,.dark{padding:64px 0}}
+</style></head><body>
+<header class="study-hero"><nav class="nav wrap"><a class="brand" href="index.html">← FinSearchComp<i> / ATLAS</i></a>
+<div class="navlinks"><a href="atlas-xbrl/README.md">研究卡</a><a href="atlas-xbrl/trace.jsonl">Trace</a><a href="atlas-xbrl/gold_audit.json">Gold审计</a></div></nav>
+<div class="wrap" style="padding-top:36px"><span class="eyebrow"><i class="dot"></i>20 Questions · 2 Systems · 40 Valid Traces</span>
+<h1 style="max-width:920px">ATLAS-XBRL<br><span class="gradient">正式逐题结果</span></h1>
+<p class="lead">同一个Claude Sonnet 5，普通Web Search Agent与“LLM编译 + SEC XBRL + Decimal执行”的完整配对对照。</p>
+<div class="facts-grid"><div class="fact"><b>75%</b><span>普通搜索准确率</span></div>
+<div class="fact"><b>100%</b><span>ATLAS-XBRL准确率</span></div>
+<div class="fact"><b>+25%</b><span>配对提升</span></div>
+<div class="fact"><b>5 / 15 / 0</b><span>胜 / 平 / 负</span></div></div></div></header>
+<main class="light"><div class="wrap"><span class="section-kicker">Per-question evidence</span>
+<h2 class="section-title">20道题，每个结果都可检查。</h2><p class="section-copy">评分要求最终动作是answer、单位完全一致、数值与SEC复算gold在要求的两位小数上精确相等。</p>
+<div class="table-shell"><table><thead><tr><th>#</th><th>问题</th><th>Gold</th><th>普通搜索</th><th>ATLAS-XBRL</th><th>程序</th></tr></thead>
+<tbody><tr><td>1</td><td class="question">使用SEC XBRL中未经四舍五入的美元数，微软FY2024研发费用同比增长率是多少？保留两位小数。</td><td>8.51 percent</td><td class="ok">✓ 8.51</td><td class="ok">✓ 8.51</td><td><span class="tag">relative_change_percent</span></td></tr><tr><td>2</td><td class="question">使用SEC XBRL中未经四舍五入的美元数，Apple FY2024研发费用同比增长率是多少？保留两位小数。</td><td>4.86 percent</td><td class="ok">✓ 4.86</td><td class="ok">✓ 4.86</td><td><span class="tag">relative_change_percent</span></td></tr><tr><td>3</td><td class="question">使用SEC XBRL中未经四舍五入的美元数，NVIDIA FY2024研发费用同比增长率是多少？保留两位小数。</td><td>18.20 percent</td><td class="ok">✓ 18.20</td><td class="ok">✓ 18.20</td><td><span class="tag">relative_change_percent</span></td></tr><tr><td>4</td><td class="question">使用SEC XBRL中未经四舍五入的美元数，Tesla FY2024研发费用同比增长率是多少？保留两位小数。</td><td>14.39 percent</td><td class="ok">✓ 14.39</td><td class="ok">✓ 14.39</td><td><span class="tag">relative_change_percent</span></td></tr><tr><td>5</td><td class="question">按SEC XBRL中的营业利润/收入计算，微软营业利润率从FY2023到FY2024提高了多少个百分点？保留两位小数。</td><td>2.87 percentage_point</td><td class="ok">✓ 2.87</td><td class="ok">✓ 2.87</td><td><span class="tag">ratio_change_pp</span></td></tr><tr><td>6</td><td class="question">按SEC XBRL中的营业利润/收入计算，Apple营业利润率从FY2023到FY2024提高了多少个百分点？保留两位小数。</td><td>1.69 percentage_point</td><td class="ok">✓ 1.69</td><td class="ok">✓ 1.69</td><td><span class="tag">ratio_change_pp</span></td></tr><tr><td>7</td><td class="question">按SEC XBRL中的营业利润/收入计算，NVIDIA营业利润率从FY2023到FY2024提高了多少个百分点？保留两位小数。</td><td>38.46 percentage_point</td><td class="ok">✓ 38.46</td><td class="ok">✓ 38.46</td><td><span class="tag">ratio_change_pp</span></td></tr><tr><td>8</td><td class="question">按SEC XBRL中的营业利润/收入计算，Tesla营业利润率从FY2023到FY2024下降了多少个百分点？保留两位小数。</td><td>1.94 percentage_point</td><td class="bad">✕ -1.94</td><td class="ok">✓ 1.94</td><td><span class="tag">ratio_change_pp</span></td></tr><tr><td>9</td><td class="question">按研发强度=研发费用/收入并使用SEC XBRL原始值，FY2024微软研发强度比Apple高多少个百分点？保留两位小数。</td><td>4.02 percentage_point</td><td class="ok">✓ 4.02</td><td class="ok">✓ 4.02</td><td><span class="tag">ratio_gap_pp</span></td></tr><tr><td>10</td><td class="question">按研发强度=研发费用/收入并使用SEC XBRL原始值，FY2024 Apple研发强度比Tesla高多少个百分点？保留两位小数。</td><td>3.37 percentage_point</td><td class="ok">✓ 3.37</td><td class="ok">✓ 3.37</td><td><span class="tag">ratio_gap_pp</span></td></tr><tr><td>11</td><td class="question">按研发强度=研发费用/收入并使用SEC XBRL原始值，FY2024 NVIDIA研发强度比微软高多少个百分点？保留两位小数。</td><td>2.20 percentage_point</td><td class="ok">✓ 2.20</td><td class="ok">✓ 2.20</td><td><span class="tag">ratio_gap_pp</span></td></tr><tr><td>12</td><td class="question">按研发强度=研发费用/收入并使用SEC XBRL原始值，FY2023 Meta研发强度比Alphabet高多少个百分点？保留两位小数。</td><td>13.75 percentage_point</td><td class="ok">✓ 13.75</td><td class="ok">✓ 13.75</td><td><span class="tag">ratio_gap_pp</span></td></tr><tr><td>13</td><td class="question">按营业利润率=营业利润/收入并使用SEC XBRL原始值，Meta从FY2022到FY2023的营业利润率增幅比Alphabet大多少个百分点？保留两位小数。</td><td>8.87 percentage_point</td><td class="bad">✕ 8.88</td><td class="ok">✓ 8.87</td><td><span class="tag">ratio_change_gap_pp</span></td></tr><tr><td>14</td><td class="question">按研发强度=研发费用/收入并使用SEC XBRL原始值，AMD从FY2022到FY2023的研发强度增幅比Intel大多少个百分点？保留两位小数。</td><td>2.89 percentage_point</td><td class="bad">✕ 2.88</td><td class="ok">✓ 2.89</td><td><span class="tag">ratio_change_gap_pp</span></td></tr><tr><td>15</td><td class="question">按营业利润率=营业利润/收入并使用SEC XBRL原始值，NVIDIA的营业利润率变化（FY2024-FY2023）比Tesla高多少个百分点？保留两位小数。</td><td>40.41 percentage_point</td><td class="bad">✕ 46.03</td><td class="ok">✓ 40.41</td><td><span class="tag">ratio_change_gap_pp</span></td></tr><tr><td>16</td><td class="question">按营业利润率=营业利润/收入并使用SEC XBRL原始值，微软的营业利润率变化（FY2024-FY2023）比Apple高多少个百分点？保留两位小数。</td><td>1.18 percentage_point</td><td class="ok">✓ 1.18</td><td class="ok">✓ 1.18</td><td><span class="tag">ratio_change_gap_pp</span></td></tr><tr><td>17</td><td class="question">使用SEC XBRL原始值，FY2023 Alphabet研发费用同比增长率比Meta高多少个百分点？保留两位小数。</td><td>6.11 percentage_point</td><td class="bad">✕ 6.10</td><td class="ok">✓ 6.11</td><td><span class="tag">growth_gap_pp</span></td></tr><tr><td>18</td><td class="question">使用SEC XBRL原始值，FY2023 Intel收入同比降幅比AMD大多少个百分点？保留两位小数。</td><td>10.10 percentage_point</td><td class="ok">✓ 10.10</td><td class="ok">✓ 10.10</td><td><span class="tag">growth_gap_pp</span></td></tr><tr><td>19</td><td class="question">使用SEC XBRL原始值，FY2024 NVIDIA研发费用同比增长率比Tesla高多少个百分点？保留两位小数。</td><td>3.82 percentage_point</td><td class="ok">✓ 3.82</td><td class="ok">✓ 3.82</td><td><span class="tag">growth_gap_pp</span></td></tr><tr><td>20</td><td class="question">使用SEC XBRL原始值，FY2024微软研发费用同比增长率比Apple高多少个百分点？保留两位小数。</td><td>3.65 percentage_point</td><td class="ok">✓ 3.65</td><td class="ok">✓ 3.65</td><td><span class="tag">growth_gap_pp</span></td></tr></tbody></table></div>
+<div class="stats"><div class="stat"><b>52</b><span>普通Agent Web Searches</span></div><div class="stat"><b>383</b><span>普通Agent捕获来源</span></div>
+<div class="stat"><b>8 + 80</b><span>SEC下载 + 缓存命中</span></div><div class="stat"><b>88</b><span>SEC事实citations</span></div></div>
+<div class="boundary"><b>统计边界：</b>配对bootstrap 95% CI为+5至+45个百分点；20题、单模型、单次运行仍不足以宣称通用SOTA。</div>
+<h2 class="section-title" style="margin-top:62px">下载审计产物</h2><div class="artifact-links"><a href="atlas-xbrl/case_outcomes.csv">逐题CSV</a>
+<a href="atlas-xbrl/metrics.json">聚合指标</a><a href="atlas-xbrl/gold_audit.json">Gold审计</a><a href="atlas-xbrl/study_manifest.json">协议清单</a>
+<a href="atlas-xbrl/exclusions.json">排除记录</a><a href="atlas-xbrl/trace.jsonl">40条Trace</a></div></div></main>
+<footer class="footer"><div class="wrap footer-row"><span>ATLAS-XBRL formal live study</span><span>Preregistered · Trace-complete · SEC-grounded</span></div></footer>
+</body></html>
