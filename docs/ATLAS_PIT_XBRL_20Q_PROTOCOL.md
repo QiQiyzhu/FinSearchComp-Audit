@@ -62,3 +62,11 @@
 - 计划60个成功模型HTTP阶段，`max_retries=0`，模型尝试上限60；
 - 普通Agent每题最多3次Web Search；ATLAS使用SEC Company Facts和运行级缓存；
 - 原始供应商响应仅本地保存，公开标准化trace、来源、引用、计算、哈希和排除记录。
+
+## 7. 运行中传输修订记录
+
+正式批次在第21个case-system单元、`pit_alphabet_vs_meta_2022_operating_margin/plain_agent`
+首次尝试时收到中转HTTP 524，未产生可评分答案；runner按`max_retries=0`立即停止。此前20个有效单元
+全部保留。为完成原定40个有效单元，允许对该传输失败做且仅做一次替代尝试：成功模型阶段仍为60，
+累计HTTP尝试上限由60修订为61。该修订不改变题目、Gold、方法、评分、日期解析或成功判据；
+原始524记录必须保留在`trace.jsonl`和`exclusions.json`。
