@@ -1,11 +1,11 @@
 {
   "status": "completed",
-  "generated_at": "2026-08-12T16:39:16.427414+00:00",
+  "generated_at": "2026-08-12T18:31:24.544873+00:00",
   "study_type": "real_web_search_agent_pilot",
   "scope": {
     "questions": 20,
-    "strategies": 4,
-    "valid_runs": 80,
+    "strategies": 5,
+    "valid_runs": 100,
     "case_ids": [
       "sp500_max_month",
       "sp500_hike_drawdown",
@@ -32,31 +32,31 @@
     "case_batch_sha256": "555821ffd1063fbd13569c9cc01e5508c69b6cb9db058d62730190dcd5b95acc"
   },
   "selected_run_window": {
-    "first_record_at": "2026-08-12T16:25:11.294223+00:00",
-    "last_record_at": "2026-08-12T16:38:44.058153+00:00"
+    "first_record_at": "2026-08-12T17:32:49.489438+00:00",
+    "last_record_at": "2026-08-12T18:28:46.494181+00:00"
   },
   "source_run": {
-    "directory_name": "live_pilot_20q_claude_haiku_promptfix_20260813",
+    "directory_name": "live_atlas_20q_sonnet5_v2_20260813",
     "source_manifest_status": "completed",
-    "protocol_sha256": "e254480dc62021777674b7f93079c7650a8c78824d0baa521d223ad375d2e672",
-    "trace_sha256": "0cafeabf5a2e3c2d920c33ac6f5549fd9616c37dcfe824bcd19432444602644f",
-    "study_manifest_sha256": "71a6646beff40dff4dde8aff7263a7bf83a3224e61d44073719225f95d57b707",
-    "successful_records": 80,
-    "transport_errors": 1,
-    "invalid_records": 2,
+    "protocol_sha256": "670d7b1f9bf3b8e05abcc57338dec574f922a8876ee59cb8fbfa4c1aad2d8421",
+    "trace_sha256": "04764528c29a176d8724289fb2ebe4dc9a7fc0853f1e0d6818bec1fbb8e767d0",
+    "study_manifest_sha256": "dc4a85ece590d84ee83a936156c06ddb1daa85f996dfd425d33d53c601bfbe00",
+    "successful_records": 100,
+    "transport_errors": 0,
+    "invalid_records": 0,
     "successful_records_excluded": 0,
-    "approved_http_cap": 168,
-    "http_attempts_lower_bound": 161,
-    "http_attempts_upper_bound": 162,
-    "web_search_calls": 80
+    "approved_http_cap": 200,
+    "http_attempts_lower_bound": 200,
+    "http_attempts_upper_bound": 200,
+    "web_search_calls": 214
   },
   "selected_usage": {
-    "http_stages": 160,
-    "web_search_calls": 80,
-    "search_sources": 800,
-    "api_citations": 152,
-    "input_tokens": 376653,
-    "output_tokens": 35009
+    "http_stages": 200,
+    "web_search_calls": 214,
+    "search_sources": 1554,
+    "api_citations": 481,
+    "input_tokens": 498874,
+    "output_tokens": 251656
   },
   "validation": {
     "record_errors": {},
@@ -64,17 +64,18 @@
     "all_raw_response_hashes_verified": true
   },
   "source_protocol": {
-    "protocol_version": "live-study-2.0",
+    "protocol_version": "live-study-3.0",
+    "atlas_method_version": "live-atlas-1.1",
     "provider": "anthropic",
     "base_url": "https://ai.aiclick.cc",
-    "requested_model": "claude-haiku-4-5-20251001",
+    "requested_model": "claude-sonnet-5",
     "request_config": {
-      "model": "claude-haiku-4-5-20251001",
+      "model": "claude-sonnet-5",
       "reasoning_effort": "medium",
       "search_context_size": "medium",
       "max_tool_calls": 3,
-      "max_output_tokens": 1200,
-      "timeout_seconds": 120,
+      "max_output_tokens": 4800,
+      "timeout_seconds": 300,
       "max_retries": 0,
       "force_search": true,
       "structured_output": true,
@@ -95,7 +96,8 @@
       "plain_agent",
       "temporal_prompt",
       "metadata_filter",
-      "teg_validator"
+      "teg_validator",
+      "atlas_rag"
     ],
     "repeats": 1,
     "case_ids": [
@@ -121,7 +123,7 @@
       "activision_capex_revenue_avg"
     ],
     "case_batch_sha256": "f7358d3a8c57720d7198fff464d31374c723bdf18dca822bf56386f5b04975e7",
-    "prompt_set_sha256": "a22a547f57887a14a97e5e6201f333f963be1dc47426c363f92dae201318e8e5",
+    "prompt_set_sha256": "cc8d7797e8e25a8b64e25673064ef9ea9a11d947e0d4daabf2e54b0b6bd8162b",
     "prompt_hashes": [
       {
         "case_id": "sp500_max_month",
@@ -144,6 +146,11 @@
         "prompt_sha256": "246aacd0d99579bc8d49b941b71e460d9194243a1115c827daa96dd96575a13c"
       },
       {
+        "case_id": "sp500_max_month",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "96dc2f558e9935456a3d7bbc59873ab1240ac08ebbfb5ebeb60bed3613746019"
+      },
+      {
         "case_id": "sp500_hike_drawdown",
         "strategy": "plain_agent",
         "prompt_sha256": "5b703d73fd1677d27a9d19482bd3b6433edb0622355e4ef683fd678f4f9e2e45"
@@ -162,6 +169,11 @@
         "case_id": "sp500_hike_drawdown",
         "strategy": "teg_validator",
         "prompt_sha256": "4c21ae80383cc75d14d0249cf12b0d3398209ce676f0e50ff7b668bc87e0f29c"
+      },
+      {
+        "case_id": "sp500_hike_drawdown",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "6515b85fca1d821a7eb523e84e79edcf04dd1d006a6999d3f02a67b2f4b66cd5"
       },
       {
         "case_id": "nasdaq_vs_sp500_2024",
@@ -184,6 +196,11 @@
         "prompt_sha256": "828ca2599f125faf137fed17af1737bd96ad0d8f18d7692e68dc17fd45e78b6a"
       },
       {
+        "case_id": "nasdaq_vs_sp500_2024",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "e7d00a6c455a0da9b2f0ec6fcbe14d222545ba533872bf80baee05d21e8405b6"
+      },
+      {
         "case_id": "apple_2024_sales",
         "strategy": "plain_agent",
         "prompt_sha256": "127d24c5e806537e92ea0cf04786665ea8ade2237577cb8bbb5eac05d747277d"
@@ -202,6 +219,11 @@
         "case_id": "apple_2024_sales",
         "strategy": "teg_validator",
         "prompt_sha256": "2053ca45cfdedcce38532a5a85bd2d3e0354037bebf1c27b26e22fbca065dbe4"
+      },
+      {
+        "case_id": "apple_2024_sales",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "6bc931901860ba19f284ec2c51432a40a30aa7c8b8a0050769faad5b19688bb8"
       },
       {
         "case_id": "us_cpi_dec_2024",
@@ -224,6 +246,11 @@
         "prompt_sha256": "f596657bc6e8c921ddfdfe5695b5470211ec883f23388367a5007dde1bff98cc"
       },
       {
+        "case_id": "us_cpi_dec_2024",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "ab4879c822845311769031fed60b8ac6b724f20e2be7dd84fb51b28548e8d78b"
+      },
+      {
         "case_id": "fomc_sep_2024_cut",
         "strategy": "plain_agent",
         "prompt_sha256": "38207a0f74efc0f8c75e62dfcfc7f49f6e5619fb79f8407141d3cf6dc7e36da0"
@@ -242,6 +269,11 @@
         "case_id": "fomc_sep_2024_cut",
         "strategy": "teg_validator",
         "prompt_sha256": "4918cbb84b94fd62316b065b533bc845e419ca3aa9a1ea7e565e0826cd1bdd1b"
+      },
+      {
+        "case_id": "fomc_sep_2024_cut",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "359499891ecb812bd39450c47545b2c35e9530e451868aa25478563d837da9d6"
       },
       {
         "case_id": "china_current_account_2024",
@@ -264,6 +296,11 @@
         "prompt_sha256": "9c19a64727969f0a3c0309252e032dcc4c4e4b7d6ca6a87134fcf3047fc89292"
       },
       {
+        "case_id": "china_current_account_2024",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "81dbc0c266cdfbc3334b5b9c3bad0ae2dfb64ef76ec780e3549097ff5b30ddfb"
+      },
+      {
         "case_id": "nvidia_2022_dta",
         "strategy": "plain_agent",
         "prompt_sha256": "9346ebfbe4b0546b1f45b428bf25ba32a246254e0d5da8edd0bbed4fa53f1974"
@@ -282,6 +319,11 @@
         "case_id": "nvidia_2022_dta",
         "strategy": "teg_validator",
         "prompt_sha256": "e88e0abc301cea0b31caeebd6a1bdd2a6637e37f0f2261c5885e691977de2487"
+      },
+      {
+        "case_id": "nvidia_2022_dta",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "ab551efe43d8b13d88883ae62bf0c0d7e90e26434e8230e16619ac693fee5c88"
       },
       {
         "case_id": "nvidia_2024_split",
@@ -304,6 +346,11 @@
         "prompt_sha256": "2eb7e5bef4d2436a53ab021533a4e24050a527457070bf7a17ac51b52c590e56"
       },
       {
+        "case_id": "nvidia_2024_split",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "75920f7fb00a2352dad5b948ac041163ad0969a089b41e7022e50cab30e64127"
+      },
+      {
         "case_id": "tesla_2024_rd",
         "strategy": "plain_agent",
         "prompt_sha256": "06d862d0d7712e7a8c45d8c1eda8028a787e54f51d90a36bde3f79211d8ef071"
@@ -322,6 +369,11 @@
         "case_id": "tesla_2024_rd",
         "strategy": "teg_validator",
         "prompt_sha256": "a29cec755836f5a0f104b0c9af7e89be5f2aec13bbaca5981dbca1904906a14f"
+      },
+      {
+        "case_id": "tesla_2024_rd",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "a70b9ed387f17ca05af7c5963ad26f6703cbe6dbfeca9c20a3c8ab6da5897c03"
       },
       {
         "case_id": "sp500_return_2024",
@@ -344,6 +396,11 @@
         "prompt_sha256": "16e8216d60b382c145f73e88608072aff9bfaa1652da9d1fb4413d7c6ade1e54"
       },
       {
+        "case_id": "sp500_return_2024",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "bfea6dd97e08c2befd08bfa803328288aaf9430121609b494a016fe70f0630f1"
+      },
+      {
         "case_id": "mmm_2018_capex",
         "strategy": "plain_agent",
         "prompt_sha256": "a83fb1b1033def2030603c98cec9082bb585a15c98d5e4fe5002a4dbe6a48748"
@@ -362,6 +419,11 @@
         "case_id": "mmm_2018_capex",
         "strategy": "teg_validator",
         "prompt_sha256": "3f91242fd4c7f855f8c852962cda7e4712991cd5bc2101612f42e0fc9b0d67b7"
+      },
+      {
+        "case_id": "mmm_2018_capex",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "4e88db41d8dbb5df846a4141f1b339f5000256f532bb3108b18932160809d71d"
       },
       {
         "case_id": "mmm_2018_net_ppe",
@@ -384,6 +446,11 @@
         "prompt_sha256": "abd1b481b9eb220e80853b865578c3ee048664e4a93adad522dc54609f2e4229"
       },
       {
+        "case_id": "mmm_2018_net_ppe",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "4e265b2fd8246749782cde5d207aa8c6ea614c520514f3c7ab5143fb7f2487b9"
+      },
+      {
         "case_id": "adobe_2015_ocf_ratio",
         "strategy": "plain_agent",
         "prompt_sha256": "fa630cab50956a726b6210eb30be5fdafced5eb82df5de3b295a5a1ead340c0f"
@@ -402,6 +469,11 @@
         "case_id": "adobe_2015_ocf_ratio",
         "strategy": "teg_validator",
         "prompt_sha256": "d558cc0b6beee76fb4c031bed571fb2797caff6a0a4005c7870e76a8e4b603d6"
+      },
+      {
+        "case_id": "adobe_2015_ocf_ratio",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "f4c516872c93b0de0bd218cdc40aab0f657c5f09893dfa2f64a865d64c449c7a"
       },
       {
         "case_id": "adobe_2016_operating_income_growth",
@@ -424,6 +496,11 @@
         "prompt_sha256": "45c31f27f50710b7bd49bcb1eb686867049b9c8636d95c7407a727e54823af0c"
       },
       {
+        "case_id": "adobe_2016_operating_income_growth",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "80e6ec8eb45a36d3cae385489aacc0eb68e2d7c4dcd4cdec11ea1bb17869f126"
+      },
+      {
         "case_id": "adobe_2017_ocf_ratio",
         "strategy": "plain_agent",
         "prompt_sha256": "351a6b07ee1193fd28a9a0c4790d1b033c77d75e60649c818c1d2f9eaeabd8db"
@@ -442,6 +519,11 @@
         "case_id": "adobe_2017_ocf_ratio",
         "strategy": "teg_validator",
         "prompt_sha256": "041dacad71fdbc6495ae5b2f383f99b3e2f88cb92184065d15ff8bfa5768fd64"
+      },
+      {
+        "case_id": "adobe_2017_ocf_ratio",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "4c79b499442cd93480798acb8fcded5df5c70f3ab3a86476ec8c6ae4876ccf1e"
       },
       {
         "case_id": "adobe_2022_operating_margin",
@@ -464,6 +546,11 @@
         "prompt_sha256": "2c52ad334e0d1626a0a71b64625177c10ca9a5c907c81e82c16def0856f4c1c8"
       },
       {
+        "case_id": "adobe_2022_operating_margin",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "868b8f814fd0dec56b6387dae44ac1e2c21700617419abf9d1eab4d8f4f60c8b"
+      },
+      {
         "case_id": "aes_2022_inventory_turnover",
         "strategy": "plain_agent",
         "prompt_sha256": "dc81a1f4f416df17ee29767107dde7b919f7fa66d2b001339cffcb7ec32ffbb1"
@@ -482,6 +569,11 @@
         "case_id": "aes_2022_inventory_turnover",
         "strategy": "teg_validator",
         "prompt_sha256": "d4bc977714df11be6be0177a9d46301e8f28ae1bb44ae411d8e16aae977c777c"
+      },
+      {
+        "case_id": "aes_2022_inventory_turnover",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "dcbb8f532e79bdd27060a2c3dde15838c428e202c971a3ca4cc693bdb3665eb8"
       },
       {
         "case_id": "activision_2019_fixed_asset_turnover",
@@ -504,6 +596,11 @@
         "prompt_sha256": "955db97a77821364d70c908eaf96ef75d809035085053f71992649382080d0de"
       },
       {
+        "case_id": "activision_2019_fixed_asset_turnover",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "dddb9ad70ba8d86bae2c0e70eb883447f7cd359780f9506ab70f0aea04aa45bf"
+      },
+      {
         "case_id": "activision_capex_revenue_avg",
         "strategy": "plain_agent",
         "prompt_sha256": "2fc71f3ee16e0f873f587d4dc3a9a3567db0ff20333cb371a4767abd34eaa556"
@@ -522,22 +619,28 @@
         "case_id": "activision_capex_revenue_avg",
         "strategy": "teg_validator",
         "prompt_sha256": "42d5de3ee0efb6e7cf8173e8cbfd4676f09b66e7b5cee0dcaca1206dd40725ff"
+      },
+      {
+        "case_id": "activision_capex_revenue_avg",
+        "strategy": "atlas_rag",
+        "prompt_sha256": "20bdd1b4e338c8ee6916aa3221fbe2503697f68044ac8a3cc78e0148c5b7ff69"
       }
     ],
-    "implementation_sha256": "bc239d822b82237d62c8d35b95ffeb7e39e36766399cd48f5db1f3fa6a1856f0",
+    "implementation_sha256": "9c93b5030d8711920c29d7a0637887f21f2eb3c4d32658cffc428809de0615c1",
     "secret_storage": "environment only; credentials are never serialized"
   },
   "case_analysis_categories": {
-    "四策略均未解决": 15,
-    "严格策略降低覆盖": 2,
-    "四策略一致正确": 2,
-    "策略结果分化": 1
+    "过度拒答候选": 5,
+    "验证策略修正基线": 1,
+    "5 策略一致正确": 6,
+    "5 策略均未解决": 7,
+    "严格策略降低覆盖": 1
   },
   "bootstrap": {
     "method": "paired question-cluster percentile bootstrap",
     "samples": 10000,
     "seed": 20260731,
-    "rows": 15
+    "rows": 19
   },
   "artifacts": {
     "trace": "trace.jsonl",
@@ -553,81 +656,99 @@
     "plain_agent": {
       "runs": 20.0,
       "api_success_rate": 1.0,
-      "answer_coverage": 0.35,
-      "decision_accuracy": 0.25,
-      "model_decision_accuracy": 0.25,
+      "answer_coverage": 0.75,
+      "decision_accuracy": 0.55,
+      "model_decision_accuracy": 0.55,
       "citation_coverage": 1.0,
       "source_capture_coverage": 1.0,
-      "declared_temporal_leakage_rate": 0.2857142857142857,
-      "missing_declared_date_rate": 0.42857142857142855,
-      "candidate_declared_future_rate": 0.2857142857142857,
+      "declared_temporal_leakage_rate": 0.0,
+      "missing_declared_date_rate": 0.7333333333333333,
+      "candidate_declared_future_rate": 0.0,
       "filter_trigger_rate": 0.0,
-      "average_latency_seconds": 8.2038,
-      "web_search_calls": 20.0,
-      "average_sources_per_run": 10.0,
-      "input_tokens": 93334.0,
-      "output_tokens": 8369.0
+      "average_latency_seconds": 31.175,
+      "web_search_calls": 39.0,
+      "average_sources_per_run": 14.25,
+      "input_tokens": 90768.0,
+      "output_tokens": 44091.0
     },
     "temporal_prompt": {
       "runs": 20.0,
       "api_success_rate": 1.0,
-      "answer_coverage": 0.15,
-      "decision_accuracy": 0.15,
-      "model_decision_accuracy": 0.15,
+      "answer_coverage": 0.7,
+      "decision_accuracy": 0.55,
+      "model_decision_accuracy": 0.55,
       "citation_coverage": 1.0,
       "source_capture_coverage": 1.0,
       "declared_temporal_leakage_rate": 0.0,
-      "missing_declared_date_rate": 0.3333333333333333,
+      "missing_declared_date_rate": 0.7857142857142857,
       "candidate_declared_future_rate": 0.0,
       "filter_trigger_rate": 0.0,
-      "average_latency_seconds": 8.2644,
-      "web_search_calls": 20.0,
-      "average_sources_per_run": 10.0,
-      "input_tokens": 90038.0,
-      "output_tokens": 8875.0
+      "average_latency_seconds": 35.8692,
+      "web_search_calls": 41.0,
+      "average_sources_per_run": 15.7,
+      "input_tokens": 98383.0,
+      "output_tokens": 53003.0
     },
     "metadata_filter": {
       "runs": 20.0,
       "api_success_rate": 1.0,
-      "answer_coverage": 0.15,
-      "decision_accuracy": 0.15,
-      "model_decision_accuracy": 0.15,
+      "answer_coverage": 0.4,
+      "decision_accuracy": 0.4,
+      "model_decision_accuracy": 0.55,
       "citation_coverage": 1.0,
       "source_capture_coverage": 1.0,
       "declared_temporal_leakage_rate": 0.0,
       "missing_declared_date_rate": 0.0,
       "candidate_declared_future_rate": 0.0,
-      "filter_trigger_rate": 0.05,
-      "average_latency_seconds": 10.029399999999999,
-      "web_search_calls": 20.0,
-      "average_sources_per_run": 10.0,
-      "input_tokens": 95198.0,
-      "output_tokens": 8812.0
+      "filter_trigger_rate": 0.3,
+      "average_latency_seconds": 32.15,
+      "web_search_calls": 40.0,
+      "average_sources_per_run": 14.6,
+      "input_tokens": 95491.0,
+      "output_tokens": 46612.0
     },
     "teg_validator": {
       "runs": 20.0,
       "api_success_rate": 1.0,
-      "answer_coverage": 0.1,
-      "decision_accuracy": 0.1,
-      "model_decision_accuracy": 0.1,
+      "answer_coverage": 0.4,
+      "decision_accuracy": 0.35,
+      "model_decision_accuracy": 0.55,
       "citation_coverage": 1.0,
       "source_capture_coverage": 1.0,
       "declared_temporal_leakage_rate": 0.0,
       "missing_declared_date_rate": 0.0,
       "candidate_declared_future_rate": 0.0,
-      "filter_trigger_rate": 0.0,
-      "average_latency_seconds": 9.46805,
-      "web_search_calls": 20.0,
-      "average_sources_per_run": 10.0,
-      "input_tokens": 98083.0,
-      "output_tokens": 8953.0
+      "filter_trigger_rate": 0.25,
+      "average_latency_seconds": 36.1925,
+      "web_search_calls": 46.0,
+      "average_sources_per_run": 15.9,
+      "input_tokens": 101842.0,
+      "output_tokens": 53100.0
+    },
+    "atlas_rag": {
+      "runs": 20.0,
+      "api_success_rate": 1.0,
+      "answer_coverage": 0.5,
+      "decision_accuracy": 0.45,
+      "model_decision_accuracy": 0.45,
+      "citation_coverage": 1.0,
+      "source_capture_coverage": 1.0,
+      "declared_temporal_leakage_rate": 0.0,
+      "missing_declared_date_rate": 0.9,
+      "candidate_declared_future_rate": 0.0,
+      "filter_trigger_rate": 0.1,
+      "average_latency_seconds": 35.97935,
+      "web_search_calls": 48.0,
+      "average_sources_per_run": 17.25,
+      "input_tokens": 112390.0,
+      "output_tokens": 54850.0
     }
   },
   "limitations": [
     "This is the complete planned 20-question pilot, but it remains too small for a general model ranking.",
     "The completion decision followed a previously stopped partial run; all 20 fixed questions are retained, so no successful case-strategy cell was selected by outcome.",
     "Publication dates remain model-declared until independently verified.",
-    "1 transport failure(s) occurred in the source run and are excluded from strategy metrics but disclosed in exclusions.json.",
+    "0 transport failure(s) occurred in the source run and are excluded from strategy metrics but disclosed in exclusions.json.",
     "This is one run with one model and one relay; repeated and multi-model experiments are still required."
   ]
 }

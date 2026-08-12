@@ -1,30 +1,5 @@
 {
-  "transport_errors": [
-    {
-      "case_id": "sp500_hike_drawdown",
-      "strategy": "temporal_prompt",
-      "run_at": "2026-08-12T16:25:48.737333+00:00",
-      "error_type": "JSONDecodeError",
-      "error": "Expecting ',' delimiter: line 9 column 37 (char 479)"
-    }
-  ],
-  "invalid_records": [
-    {
-      "case_id": "activision_capex_revenue_avg",
-      "strategy": "plain_agent",
-      "run_at": "2026-08-12T16:37:37.115752+00:00",
-      "trace_validation_errors": [
-        "evidence_url_not_retrieved"
-      ]
-    },
-    {
-      "case_id": "activision_capex_revenue_avg",
-      "strategy": "temporal_prompt",
-      "run_at": "2026-08-12T16:38:18.510378+00:00",
-      "trace_validation_errors": [
-        "evidence_url_not_retrieved"
-      ]
-    }
-  ],
+  "transport_errors": [],
+  "invalid_records": [],
   "successful_records_outside_subset": []
 }

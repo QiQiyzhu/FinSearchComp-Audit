@@ -106,8 +106,10 @@ Look-Ahead-Bench 通过比较两个市场时期的 Alpha Decay 诊断交易模�
 ## 真实 Web Search Agent pilot
 
 仓库提供了 OpenAI Responses 和 Anthropic Messages 两种真实搜索接入。它使用
-20 个基础金融问题，分别运行普通 Agent、时间 Prompt、元数据过滤器和完整证据
-验证器。runner 强制搜索、保存完整来源、限制内部搜索次数、使用 JSON Schema，
+20 个基础金融问题，分别运行普通 Agent、时间 Prompt、元数据过滤器、完整证据
+验证器和校准版 ATLAS-RAG。ATLAS 进一步加入来源路由、查询改写、证据充分性、
+明确冲突/元数据未知分离和状态 trace。runner
+强制搜索、保存完整来源、限制内部搜索次数、使用 JSON Schema，
 并把原始响应、模型、日期、提示词哈希、响应 ID、token、引用和结果写入 trace。
 
 先查看运行计划（不会访问 API，也不会产生费用）：
@@ -116,8 +118,8 @@ Look-Ahead-Bench 通过比较两个市场时期的 Alpha Decay 诊断交易模�
 python -m temporal_clash.run_live_pilot
 ```
 
-首次接入新的 Claude 中转时，先运行模型清单预检，再跑 1 题、4 个策略门禁；
-当前中转的门禁与 20×4 pilot 均已完成：
+首次接入新的 Claude 中转时，先运行模型清单预检，再跑 1 题、5 个策略门禁；
+当前 Sonnet 5 的门禁与 20×5 pilot 均已完成：
 
 ```powershell
 $env:ANTHROPIC_BASE_URL = "https://ai.aiclick.cc"
@@ -127,18 +129,18 @@ python -m temporal_clash.probe_live_api `
   --provider anthropic --model $model --confirm-network
 python -m temporal_clash.run_live_pilot `
   --provider anthropic --limit 1 --model $model `
-  --max-tool-calls 3 --max-api-calls 8 `
+  --max-tool-calls 3 --max-output-tokens 4800 --max-api-calls 10 `
   --output-dir temporal_clash/results/live_pilot_1q_gate `
   --confirm-live
 ```
 
-确认后运行 20 题 × 4 策略 × 3 重复：
+确认后运行 20 题 × 5 策略 × 3 重复：
 
 ```powershell
 python -m temporal_clash.run_live_pilot `
   --provider anthropic --limit 20 --model $model `
   --reasoning-effort medium --search-context-size medium `
-  --max-tool-calls 3 --repeats 3 --max-api-calls 480 `
+  --max-tool-calls 3 --max-output-tokens 4800 --repeats 3 --max-api-calls 600 `
   --output-dir temporal_clash/results/live_pilot_20q_claude_3x `
   --confirm-live
 ```

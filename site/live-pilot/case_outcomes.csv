@@ -1,81 +1,101 @@
 ﻿case_id,question_zh,strategy,model_action,final_action,answer_value,unit,gold_answer,canonical_unit,model_draft_correct,final_decision_correct,filter_triggered,evidence_count,accepted_evidence_count,web_search_calls,source_count,citation_count,latency_seconds,input_tokens,output_tokens
-sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,plain_agent,abstain,abstain,,,12.68,percent,0,0,0,1,1,1,10,1,9.822,4747,318
-sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,temporal_prompt,abstain,abstain,,,12.68,percent,0,0,0,1,1,1,10,1,9.99,4776,304
-sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,metadata_filter,abstain,abstain,,,12.68,percent,0,0,0,2,0,1,10,1,9.644,4976,559
-sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,teg_validator,abstain,abstain,,,12.68,percent,0,0,0,1,0,1,10,1,7.932,4987,314
-sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,plain_agent,abstain,abstain,,,20.83,percent,0,0,0,1,1,1,10,1,8.112,4796,294
-sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,temporal_prompt,abstain,abstain,,,20.83,percent,0,0,0,2,2,1,10,1,7.523,4818,428
-sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,metadata_filter,abstain,abstain,,,20.83,percent,0,0,0,1,0,1,10,1,8.488,4984,319
-sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,teg_validator,abstain,abstain,,,20.83,percent,0,0,0,0,0,1,10,1,15.397,5111,198
-nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,plain_agent,abstain,abstain,,,5.33,percentage_point,0,0,0,1,1,1,10,1,7.503,5477,392
-nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,temporal_prompt,abstain,abstain,,,5.33,percentage_point,0,0,0,1,1,1,10,10,8.279,3078,924
-nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,metadata_filter,abstain,abstain,,,5.33,percentage_point,0,0,0,1,0,1,10,1,8.775,5516,369
-nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,teg_validator,abstain,abstain,,,5.33,percentage_point,0,0,0,1,0,1,10,1,7.28,5739,398
-apple_2024_sales,Apple 2024财年的净销售额是多少？,plain_agent,answer,answer,391035,USD_million,391035,USD_million,1,1,0,2,2,1,10,6,8.971,4696,585
-apple_2024_sales,Apple 2024财年的净销售额是多少？,temporal_prompt,abstain,abstain,,,391035,USD_million,0,0,0,2,2,1,10,3,10.06,4545,652
-apple_2024_sales,Apple 2024财年的净销售额是多少？,metadata_filter,abstain,abstain,,,391035,USD_million,0,0,0,2,0,1,10,2,9.774,4563,618
-apple_2024_sales,Apple 2024财年的净销售额是多少？,teg_validator,abstain,abstain,,,391035,USD_million,0,0,0,2,0,1,10,5,12.092,5013,758
-us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,plain_agent,answer,answer,2.9,percent,2.9,percent,1,1,0,1,1,1,10,4,8.501,4625,475
-us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,temporal_prompt,answer,answer,2.9,percent,2.9,percent,1,1,0,1,1,1,10,4,8.621,4643,479
-us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,metadata_filter,answer,answer,2.9,percent,2.9,percent,1,1,0,1,1,1,10,1,8.067,4550,439
-us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,teg_validator,answer,answer,2.9,percent,2.9,percent,1,1,0,1,1,1,10,2,9.499,4760,542
-fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,plain_agent,answer,answer,50,basis_point,50,basis_point,1,1,0,1,1,1,10,2,8.626,5100,590
-fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,temporal_prompt,answer,answer,50,basis_point,50,basis_point,1,1,0,1,1,1,10,2,8.069,5020,562
-fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,metadata_filter,answer,answer,50,basis_point,50,basis_point,1,1,0,1,1,1,10,1,8.812,4887,525
-fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,teg_validator,answer,answer,50,basis_point,50,basis_point,1,1,0,1,1,1,10,2,9.501,5250,499
-china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,plain_agent,abstain,abstain,,,4220,USD_100million,0,0,0,2,2,1,10,1,8.367,4395,398
-china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,temporal_prompt,abstain,abstain,,,4220,USD_100million,0,0,0,0,0,1,10,1,7.408,4425,166
-china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,metadata_filter,abstain,abstain,,,4220,USD_100million,0,0,0,1,0,1,10,1,7.416,4500,311
-china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,teg_validator,abstain,abstain,,,4220,USD_100million,0,0,0,0,0,1,10,1,8.124,4656,177
-nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,plain_agent,abstain,abstain,,,1408,USD_million,0,0,0,1,1,1,10,1,7.216,4380,325
-nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,temporal_prompt,abstain,abstain,,,1408,USD_million,0,0,0,1,1,1,10,1,8.092,4398,307
-nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,metadata_filter,abstain,abstain,,,1408,USD_million,0,0,0,0,0,1,10,1,7.037,4482,179
-nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,teg_validator,abstain,abstain,,,1408,USD_million,0,0,0,1,0,1,10,1,7.984,4616,313
-nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,plain_agent,answer,answer,10,shares_per_share,10,shares_per_share,1,1,0,2,2,1,10,7,9.857,5281,617
-nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,temporal_prompt,answer,answer,10,shares_per_share,10,shares_per_share,1,1,0,2,2,1,10,7,10.419,5306,687
-nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,metadata_filter,answer,answer,10,shares_per_share,10,shares_per_share,1,1,0,1,1,1,10,7,9.266,5399,560
-nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,teg_validator,abstain,abstain,,,10,shares_per_share,0,0,0,2,0,1,10,8,13.414,5901,808
-tesla_2024_rd,Tesla 2024年的研发费用是多少？,plain_agent,answer,answer,4540,USD_million,4540,USD_million,1,1,0,1,1,1,10,3,7.959,4557,459
-tesla_2024_rd,Tesla 2024年的研发费用是多少？,temporal_prompt,abstain,abstain,,,4540,USD_million,0,0,0,2,2,1,10,1,8.136,4365,533
-tesla_2024_rd,Tesla 2024年的研发费用是多少？,metadata_filter,abstain,abstain,,,4540,USD_million,0,0,0,2,0,1,10,2,10.1,4603,658
-tesla_2024_rd,Tesla 2024年的研发费用是多少？,teg_validator,abstain,abstain,,,4540,USD_million,0,0,0,2,0,1,10,1,8.532,4504,420
-sp500_return_2024,按年末收盘价计算，标普500指数2024年的价格回报率是多少？,plain_agent,answer,answer,25.02,percent,23.31,percent,0,0,0,1,1,1,10,2,9.324,5049,568
-sp500_return_2024,按年末收盘价计算，标普500指数2024年的价格回报率是多少？,temporal_prompt,abstain,abstain,,,23.31,percent,0,0,0,1,1,1,10,1,9.461,4908,564
-sp500_return_2024,按年末收盘价计算，标普500指数2024年的价格回报率是多少？,metadata_filter,abstain,abstain,,,23.31,percent,0,0,0,1,0,1,10,5,9.835,5530,589
-sp500_return_2024,按年末收盘价计算，标普500指数2024年的价格回报率是多少？,teg_validator,abstain,abstain,,,23.31,percent,0,0,0,1,0,1,10,4,10.293,5609,599
-mmm_2018_capex,3M 2018财年的资本性支出是多少？,plain_agent,abstain,abstain,,,1577,USD_million,0,0,0,1,1,1,10,1,7.119,4056,309
-mmm_2018_capex,3M 2018财年的资本性支出是多少？,temporal_prompt,abstain,abstain,,,1577,USD_million,0,0,0,1,1,1,10,1,6.876,4036,306
-mmm_2018_capex,3M 2018财年的资本性支出是多少？,metadata_filter,abstain,abstain,,,1577,USD_million,0,0,0,1,0,1,10,1,38.33,4127,308
-mmm_2018_capex,3M 2018财年的资本性支出是多少？,teg_validator,abstain,abstain,,,1577,USD_million,0,0,0,1,0,1,10,1,7.011,4321,331
-mmm_2018_net_ppe,3M 2018财年末的不动产、厂房及设备净额是多少？,plain_agent,abstain,abstain,,,8700,USD_million,0,0,0,1,1,1,10,1,8.402,4497,283
-mmm_2018_net_ppe,3M 2018财年末的不动产、厂房及设备净额是多少？,temporal_prompt,abstain,abstain,,,8700,USD_million,0,0,0,0,0,1,10,1,6.872,4487,161
-mmm_2018_net_ppe,3M 2018财年末的不动产、厂房及设备净额是多少？,metadata_filter,abstain,abstain,,,8700,USD_million,0,0,0,1,0,1,10,1,7.029,4603,289
-mmm_2018_net_ppe,3M 2018财年末的不动产、厂房及设备净额是多少？,teg_validator,abstain,abstain,,,8700,USD_million,0,0,0,1,0,1,10,1,10.064,4753,278
-adobe_2015_ocf_ratio,Adobe 2015财年经营活动现金流占总现金流入的比例是多少？,plain_agent,abstain,abstain,,,0.66,ratio,0,0,0,1,1,1,10,1,7.4,4524,309
-adobe_2015_ocf_ratio,Adobe 2015财年经营活动现金流占总现金流入的比例是多少？,temporal_prompt,abstain,abstain,,,0.66,ratio,0,0,0,1,1,1,10,1,8.682,4544,324
-adobe_2015_ocf_ratio,Adobe 2015财年经营活动现金流占总现金流入的比例是多少？,metadata_filter,abstain,abstain,,,0.66,ratio,0,0,0,1,0,1,10,1,7.999,4579,308
-adobe_2015_ocf_ratio,Adobe 2015财年经营活动现金流占总现金流入的比例是多少？,teg_validator,abstain,abstain,,,0.66,ratio,0,0,0,4,0,1,10,1,9.261,4744,670
-adobe_2016_operating_income_growth,Adobe 2016财年经营利润同比增长多少？,plain_agent,abstain,abstain,,,65.4,percent,0,0,0,1,1,1,10,1,7.367,4418,253
-adobe_2016_operating_income_growth,Adobe 2016财年经营利润同比增长多少？,temporal_prompt,abstain,abstain,,,65.4,percent,0,0,0,1,1,1,10,1,7.266,4479,297
-adobe_2016_operating_income_growth,Adobe 2016财年经营利润同比增长多少？,metadata_filter,abstain,abstain,,,65.4,percent,0,0,0,1,0,1,10,1,6.915,4525,276
-adobe_2016_operating_income_growth,Adobe 2016财年经营利润同比增长多少？,teg_validator,abstain,abstain,,,65.4,percent,0,0,0,1,0,1,10,1,7.728,4682,271
-adobe_2017_ocf_ratio,Adobe 2017财年经营活动现金流占总现金流入的比例是多少？,plain_agent,abstain,abstain,,,0.83,ratio,0,0,0,2,2,1,10,1,7.582,4397,405
-adobe_2017_ocf_ratio,Adobe 2017财年经营活动现金流占总现金流入的比例是多少？,temporal_prompt,abstain,abstain,,,0.83,ratio,0,0,0,2,2,1,10,1,7.598,4399,397
-adobe_2017_ocf_ratio,Adobe 2017财年经营活动现金流占总现金流入的比例是多少？,metadata_filter,abstain,abstain,,,0.83,ratio,0,0,0,2,0,1,10,1,8.088,4501,441
-adobe_2017_ocf_ratio,Adobe 2017财年经营活动现金流占总现金流入的比例是多少？,teg_validator,abstain,abstain,,,0.83,ratio,0,0,0,1,0,1,10,1,9.889,4619,281
-adobe_2022_operating_margin,Adobe 2022财年的经营利润率是多少？,plain_agent,answer,answer,26.8,percent,34.6,percent,0,0,0,1,1,1,10,1,6.987,4344,291
-adobe_2022_operating_margin,Adobe 2022财年的经营利润率是多少？,temporal_prompt,abstain,abstain,,,34.6,percent,0,0,0,1,1,1,10,1,7.931,4374,286
-adobe_2022_operating_margin,Adobe 2022财年的经营利润率是多少？,metadata_filter,answer,abstain,20.88,percent,34.6,percent,0,0,1,1,0,1,10,1,7.022,4438,288
-adobe_2022_operating_margin,Adobe 2022财年的经营利润率是多少？,teg_validator,abstain,abstain,,,34.6,percent,0,0,0,3,0,1,10,1,9.795,4611,605
-aes_2022_inventory_turnover,AES 2022财年的存货周转率是多少？,plain_agent,abstain,abstain,,,9.5,times,0,0,0,2,2,1,10,1,7.438,4182,447
-aes_2022_inventory_turnover,AES 2022财年的存货周转率是多少？,temporal_prompt,abstain,abstain,,,9.5,times,0,0,0,2,2,1,10,1,8.011,4165,410
-aes_2022_inventory_turnover,AES 2022财年的存货周转率是多少？,metadata_filter,abstain,abstain,,,9.5,times,0,0,0,1,0,1,10,1,9.04,4320,393
-aes_2022_inventory_turnover,AES 2022财年的存货周转率是多少？,teg_validator,abstain,abstain,,,9.5,times,0,0,0,2,0,1,10,1,8.449,4395,438
-activision_2019_fixed_asset_turnover,Activision Blizzard 2019财年的固定资产周转率是多少？,plain_agent,abstain,abstain,,,24.26,times,0,0,0,2,2,1,10,3,10.328,5190,811
-activision_2019_fixed_asset_turnover,Activision Blizzard 2019财年的固定资产周转率是多少？,temporal_prompt,abstain,abstain,,,24.26,times,0,0,0,1,1,1,10,1,7.245,4663,351
-activision_2019_fixed_asset_turnover,Activision Blizzard 2019财年的固定资产周转率是多少？,metadata_filter,abstain,abstain,,times,24.26,times,0,0,0,1,0,1,10,4,10.649,5434,688
-activision_2019_fixed_asset_turnover,Activision Blizzard 2019财年的固定资产周转率是多少？,teg_validator,abstain,abstain,,,24.26,times,0,0,0,1,0,1,10,1,8.846,4948,415
-activision_capex_revenue_avg,Activision Blizzard 2017至2019财年资本性支出占收入比例的三年平均值是多少？,plain_agent,abstain,abstain,,,1.9,percent,0,0,0,0,0,1,10,1,7.195,4623,240
-activision_capex_revenue_avg,Activision Blizzard 2017至2019财年资本性支出占收入比例的三年平均值是多少？,temporal_prompt,abstain,abstain,,,1.9,percent,0,0,0,3,3,1,10,1,8.749,4609,737
-activision_capex_revenue_avg,Activision Blizzard 2017至2019财年资本性支出占收入比例的三年平均值是多少？,metadata_filter,abstain,abstain,,,1.9,percent,0,0,0,3,0,1,10,1,8.302,4681,695
-activision_capex_revenue_avg,Activision Blizzard 2017至2019财年资本性支出占收入比例的三年平均值是多少？,teg_validator,abstain,abstain,,,1.9,percent,0,0,0,3,0,1,10,1,8.27,4864,638
+sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,plain_agent,answer,answer,12.7,percent,12.68,percent,1,1,0,5,5,2,19,7,40.71,5299,2900
+sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,temporal_prompt,answer,answer,12.7,percent,12.68,percent,1,1,0,3,3,2,19,4,25.633,4503,2100
+sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,metadata_filter,answer,abstain,12.7,percent,12.68,percent,1,0,1,2,0,2,19,6,33.107,5461,2421
+sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,teg_validator,abstain,abstain,,,12.68,percent,0,0,0,4,0,3,18,5,40.836,5178,2673
+sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,atlas_rag,answer,answer,12.7,percent,12.68,percent,1,1,0,3,2,3,26,5,53.048,6281,3738
+sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,plain_agent,abstain,abstain,,,20.83,percent,0,0,0,3,3,3,22,6,41.17,5393,2922
+sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,temporal_prompt,abstain,abstain,,,20.83,percent,0,0,0,3,3,3,18,5,50.697,4961,3468
+sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,metadata_filter,abstain,abstain,,percent,20.83,percent,0,0,0,3,2,3,24,6,43.429,5831,2989
+sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,teg_validator,answer,answer,20.8,percent,20.83,percent,1,1,0,2,1,3,26,5,47.799,5828,3252
+sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,atlas_rag,abstain,abstain,,,20.83,percent,0,0,0,1,0,3,21,3,49.784,5566,3532
+nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,plain_agent,answer,answer,5.33,percentage_point,5.33,percentage_point,1,1,0,3,3,2,14,4,34.83,4843,2132
+nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,temporal_prompt,answer,answer,5.33,percentage_point,5.33,percentage_point,1,1,0,2,2,2,15,5,29.086,5146,1887
+nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,metadata_filter,answer,abstain,5.33,percentage_point,5.33,percentage_point,1,0,1,2,0,2,15,6,29.201,5277,2091
+nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,teg_validator,answer,abstain,5.33,percentage_point,5.33,percentage_point,1,0,1,3,0,2,15,3,33.275,5047,2651
+nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,atlas_rag,answer,abstain,4.69,percentage_point,5.33,percentage_point,0,0,1,3,0,3,24,5,36.03,5929,2937
+apple_2024_sales,Apple 2024财年的净销售额是多少？,plain_agent,answer,answer,391035,USD_million,391035,USD_million,1,1,0,2,2,1,9,5,21.181,3720,1334
+apple_2024_sales,Apple 2024财年的净销售额是多少？,temporal_prompt,answer,answer,391035,USD_million,391035,USD_million,1,1,0,2,2,1,9,3,20.536,3483,1425
+apple_2024_sales,Apple 2024财年的净销售额是多少？,metadata_filter,answer,abstain,391035,USD_million,391035,USD_million,1,0,1,2,0,1,9,3,25.104,3844,1876
+apple_2024_sales,Apple 2024财年的净销售额是多少？,teg_validator,answer,abstain,391035,USD_million,391035,USD_million,1,0,1,2,0,2,12,3,26.365,4400,1850
+apple_2024_sales,Apple 2024财年的净销售额是多少？,atlas_rag,answer,answer,391035,USD_million,391035,USD_million,1,1,0,3,1,1,9,3,22.672,4228,1929
+us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,plain_agent,answer,answer,2.9,percent,2.9,percent,1,1,0,1,1,1,7,7,20.219,3537,1249
+us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,temporal_prompt,answer,answer,2.9,percent,2.9,percent,1,1,0,2,2,1,7,7,21.533,3441,1224
+us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,metadata_filter,answer,answer,2.9,percent,2.9,percent,1,1,0,1,1,1,7,4,19.781,3256,1136
+us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,teg_validator,answer,answer,2.9,percent,2.9,percent,1,1,0,2,1,1,7,5,23.015,3732,1496
+us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,atlas_rag,answer,answer,2.9,percent,2.9,percent,1,1,0,2,2,2,13,6,26.646,5090,1859
+fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,plain_agent,answer,answer,50,basis_point,50,basis_point,1,1,0,4,4,1,9,7,25.322,4224,1797
+fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,temporal_prompt,answer,answer,50,basis_point,50,basis_point,1,1,0,3,3,1,9,7,20.634,4020,1578
+fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,metadata_filter,answer,answer,50,basis_point,50,basis_point,1,1,0,2,2,1,9,6,25.026,4011,1436
+fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,teg_validator,answer,answer,50,basis_point,50,basis_point,1,1,0,3,2,1,9,7,25.49,4451,1725
+fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,atlas_rag,answer,answer,50,basis_point,50,basis_point,1,1,0,3,2,1,10,5,28.278,4632,1807
+china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,plain_agent,answer,answer,4220,USD_100million,4220,USD_100million,1,1,0,2,2,1,8,4,25.943,4034,1459
+china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,temporal_prompt,answer,answer,4220,USD_100million,4220,USD_100million,1,1,0,3,3,1,8,5,25.429,4571,1978
+china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,metadata_filter,answer,answer,4220,USD_100million,4220,USD_100million,1,1,0,3,3,1,9,5,28.482,4926,2002
+china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,teg_validator,answer,answer,4220,USD_100million,4220,USD_100million,1,1,0,3,3,1,8,5,26.745,4805,2053
+china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,atlas_rag,answer,answer,4220,USD_100million,4220,USD_100million,1,1,0,2,2,2,14,3,27.939,5413,2164
+nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,plain_agent,answer,answer,1222,USD_million,1408,USD_million,0,0,0,2,2,3,18,5,33.013,5294,2644
+nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,temporal_prompt,answer,answer,1222,USD_million,1408,USD_million,0,0,0,2,2,3,25,5,41.495,6279,2848
+nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,metadata_filter,answer,abstain,1222,USD_million,1408,USD_million,0,0,1,2,0,2,13,4,36.142,4722,2549
+nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,teg_validator,answer,answer,1222,USD_million,1408,USD_million,0,0,0,2,1,3,15,4,46.234,5393,3244
+nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,atlas_rag,answer,answer,1222,USD_million,1408,USD_million,0,0,0,3,2,3,16,5,45.688,6199,3490
+nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,plain_agent,answer,answer,10,shares_per_share,10,shares_per_share,1,1,0,3,3,1,8,6,22.268,3630,1441
+nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,temporal_prompt,answer,answer,10,shares_per_share,10,shares_per_share,1,1,0,3,3,1,8,8,26.922,4247,1734
+nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,metadata_filter,answer,answer,10,shares_per_share,10,shares_per_share,1,1,0,2,1,1,8,8,27.537,4372,1734
+nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,teg_validator,answer,answer,10,shares_per_share,10,shares_per_share,1,1,0,1,1,1,10,4,22.366,4050,1358
+nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,atlas_rag,answer,answer,10,shares_per_share,10,shares_per_share,1,1,0,4,4,2,16,6,24.817,5528,2217
+tesla_2024_rd,Tesla 2024年的研发费用是多少？,plain_agent,answer,answer,4540,USD_million,4540,USD_million,1,1,0,2,2,1,10,4,23.799,3590,1290
+tesla_2024_rd,Tesla 2024年的研发费用是多少？,temporal_prompt,answer,answer,4540,USD_million,4540,USD_million,1,1,0,3,3,1,9,4,29.55,3970,2084
+tesla_2024_rd,Tesla 2024年的研发费用是多少？,metadata_filter,answer,answer,4540,USD_million,4540,USD_million,1,1,0,3,2,2,16,5,21.548,4821,1867
+tesla_2024_rd,Tesla 2024年的研发费用是多少？,teg_validator,answer,answer,4540,USD_million,4540,USD_million,1,1,0,3,1,2,16,5,24.564,4752,1732
+tesla_2024_rd,Tesla 2024年的研发费用是多少？,atlas_rag,answer,answer,4540,USD_million,4540,USD_million,1,1,0,3,3,2,16,5,25.475,5430,2019
+sp500_return_2024,按年末收盘价计算，标普500指数2024年的价格回报率是多少？,plain_agent,answer,answer,23.31,percent,23.31,percent,1,1,0,2,2,1,10,7,25.511,4324,1917
+sp500_return_2024,按年末收盘价计算，标普500指数2024年的价格回报率是多少？,temporal_prompt,answer,answer,23.31,percent,23.31,percent,1,1,0,4,4,2,19,7,31.193,5447,2151
+sp500_return_2024,按年末收盘价计算，标普500指数2024年的价格回报率是多少？,metadata_filter,answer,answer,23.31,percent,23.31,percent,1,1,0,4,3,2,19,8,35.344,5903,2998
+sp500_return_2024,按年末收盘价计算，标普500指数2024年的价格回报率是多少？,teg_validator,answer,answer,23.31,percent,23.31,percent,1,1,0,3,1,2,20,9,34.331,5853,2600
+sp500_return_2024,按年末收盘价计算，标普500指数2024年的价格回报率是多少？,atlas_rag,answer,answer,23.31,percent,23.31,percent,1,1,0,6,2,2,16,7,35.112,5901,2847
+mmm_2018_capex,3M 2018财年的资本性支出是多少？,plain_agent,abstain,abstain,,,1577,USD_million,0,0,0,2,2,3,20,3,33.92,4710,2324
+mmm_2018_capex,3M 2018财年的资本性支出是多少？,temporal_prompt,abstain,abstain,,,1577,USD_million,0,0,0,3,3,3,27,5,36.373,5906,2749
+mmm_2018_capex,3M 2018财年的资本性支出是多少？,metadata_filter,answer,answer,1577,USD_million,1577,USD_million,1,1,0,2,1,3,19,3,26.747,4637,1722
+mmm_2018_capex,3M 2018财年的资本性支出是多少？,teg_validator,answer,abstain,1577,USD_million,1577,USD_million,1,0,1,4,0,3,20,5,40.399,5914,3495
+mmm_2018_capex,3M 2018财年的资本性支出是多少？,atlas_rag,abstain,abstain,,,1577,USD_million,0,0,0,3,1,3,19,4,42.1,5488,2902
+mmm_2018_net_ppe,3M 2018财年末的不动产、厂房及设备净额是多少？,plain_agent,answer,answer,8738,USD_million,8700,USD_million,0,0,0,2,2,1,10,5,25.544,4298,1783
+mmm_2018_net_ppe,3M 2018财年末的不动产、厂房及设备净额是多少？,temporal_prompt,answer,answer,8738,USD_million,8700,USD_million,0,0,0,2,2,1,10,7,25.851,4823,1908
+mmm_2018_net_ppe,3M 2018财年末的不动产、厂房及设备净额是多少？,metadata_filter,answer,abstain,8738,USD_million,8700,USD_million,0,0,1,2,0,1,8,3,23.774,3745,1723
+mmm_2018_net_ppe,3M 2018财年末的不动产、厂房及设备净额是多少？,teg_validator,answer,abstain,8738,USD_million,8700,USD_million,0,0,1,3,0,1,10,3,20.423,4033,1593
+mmm_2018_net_ppe,3M 2018财年末的不动产、厂房及设备净额是多少？,atlas_rag,answer,abstain,8738,USD_million,8700,USD_million,0,0,1,3,0,2,19,3,27.747,5614,2071
+adobe_2015_ocf_ratio,Adobe 2015财年经营活动现金流占总现金流入的比例是多少？,plain_agent,abstain,abstain,,,0.66,ratio,0,0,0,3,3,3,17,3,54.029,5114,4356
+adobe_2015_ocf_ratio,Adobe 2015财年经营活动现金流占总现金流入的比例是多少？,temporal_prompt,abstain,abstain,,,0.66,ratio,0,0,0,3,3,3,21,6,56.414,5878,4183
+adobe_2015_ocf_ratio,Adobe 2015财年经营活动现金流占总现金流入的比例是多少？,metadata_filter,abstain,abstain,,,0.66,ratio,0,0,0,3,0,3,17,3,49.779,5352,3593
+adobe_2015_ocf_ratio,Adobe 2015财年经营活动现金流占总现金流入的比例是多少？,teg_validator,abstain,abstain,,ratio,0.66,ratio,0,0,0,3,0,3,20,5,51.766,5963,3962
+adobe_2015_ocf_ratio,Adobe 2015财年经营活动现金流占总现金流入的比例是多少？,atlas_rag,abstain,abstain,,,0.66,ratio,0,0,0,2,2,3,19,3,35.13,5825,2522
+adobe_2016_operating_income_growth,Adobe 2016财年经营利润同比增长多少？,plain_agent,abstain,abstain,,,65.4,percent,0,0,0,3,3,3,22,4,38.833,5197,3002
+adobe_2016_operating_income_growth,Adobe 2016财年经营利润同比增长多少？,temporal_prompt,abstain,abstain,,,65.4,percent,0,0,0,2,2,3,22,3,42.498,5211,2780
+adobe_2016_operating_income_growth,Adobe 2016财年经营利润同比增长多少？,metadata_filter,abstain,abstain,,percent,65.4,percent,0,0,0,2,2,3,20,4,42.325,5372,2893
+adobe_2016_operating_income_growth,Adobe 2016财年经营利润同比增长多少？,teg_validator,abstain,abstain,,,65.4,percent,0,0,0,2,0,3,18,2,31.551,4794,2334
+adobe_2016_operating_income_growth,Adobe 2016财年经营利润同比增长多少？,atlas_rag,abstain,abstain,,percent,65.4,percent,0,0,0,3,1,3,26,3,45.088,6262,3206
+adobe_2017_ocf_ratio,Adobe 2017财年经营活动现金流占总现金流入的比例是多少？,plain_agent,answer,answer,100,ratio,0.83,ratio,0,0,0,1,1,3,26,1,42.357,5850,2999
+adobe_2017_ocf_ratio,Adobe 2017财年经营活动现金流占总现金流入的比例是多少？,temporal_prompt,answer,answer,0.64,ratio,0.83,ratio,0,0,0,4,4,3,22,4,57.566,6147,4575
+adobe_2017_ocf_ratio,Adobe 2017财年经营活动现金流占总现金流入的比例是多少？,metadata_filter,abstain,abstain,,,0.83,ratio,0,0,0,1,0,1,9,3,27.623,3913,1893
+adobe_2017_ocf_ratio,Adobe 2017财年经营活动现金流占总现金流入的比例是多少？,teg_validator,abstain,abstain,,,0.83,ratio,0,0,0,3,0,3,20,5,58.076,5890,4256
+adobe_2017_ocf_ratio,Adobe 2017财年经营活动现金流占总现金流入的比例是多少？,atlas_rag,abstain,abstain,,ratio,0.83,ratio,0,0,0,1,1,3,20,3,37.781,6094,3018
+adobe_2022_operating_margin,Adobe 2022财年的经营利润率是多少？,plain_agent,answer,answer,34.6,percent,34.6,percent,1,1,0,2,2,1,9,4,22.616,3671,1591
+adobe_2022_operating_margin,Adobe 2022财年的经营利润率是多少？,temporal_prompt,answer,answer,34.6,percent,34.6,percent,1,1,0,2,2,1,9,3,20.92,3535,1459
+adobe_2022_operating_margin,Adobe 2022财年的经营利润率是多少？,metadata_filter,answer,answer,34.6,percent,34.6,percent,1,1,0,3,1,3,22,5,36.465,5262,2823
+adobe_2022_operating_margin,Adobe 2022财年的经营利润率是多少？,teg_validator,answer,abstain,34.6,percent,34.6,percent,1,0,1,3,0,3,21,6,30.63,5538,2374
+adobe_2022_operating_margin,Adobe 2022财年的经营利润率是多少？,atlas_rag,answer,answer,34.6,percent,34.6,percent,1,1,0,4,1,1,9,6,30.564,4981,2609
+aes_2022_inventory_turnover,AES 2022财年的存货周转率是多少？,plain_agent,abstain,abstain,,,9.5,times,0,0,0,2,2,3,18,2,25.217,3926,1423
+aes_2022_inventory_turnover,AES 2022财年的存货周转率是多少？,temporal_prompt,abstain,abstain,,,9.5,times,0,0,0,3,3,3,18,3,35.914,4511,2666
+aes_2022_inventory_turnover,AES 2022财年的存货周转率是多少？,metadata_filter,abstain,abstain,,,9.5,times,0,0,0,2,1,3,15,3,35.569,4440,2528
+aes_2022_inventory_turnover,AES 2022财年的存货周转率是多少？,teg_validator,abstain,abstain,,times,9.5,times,0,0,0,2,0,3,16,4,32.884,5043,2211
+aes_2022_inventory_turnover,AES 2022财年的存货周转率是多少？,atlas_rag,abstain,abstain,,,9.5,times,0,0,0,2,2,3,18,5,39.082,5855,2653
+activision_2019_fixed_asset_turnover,Activision Blizzard 2019财年的固定资产周转率是多少？,plain_agent,answer,answer,25.65,times,24.26,times,0,0,0,2,2,2,12,6,34.109,4803,2798
+activision_2019_fixed_asset_turnover,Activision Blizzard 2019财年的固定资产周转率是多少？,temporal_prompt,abstain,abstain,,,24.26,times,0,0,0,2,2,3,18,11,65.194,6462,5499
+activision_2019_fixed_asset_turnover,Activision Blizzard 2019财年的固定资产周转率是多少？,metadata_filter,answer,abstain,25.65,times,24.26,times,0,0,1,2,0,2,12,5,40.351,4922,3181
+activision_2019_fixed_asset_turnover,Activision Blizzard 2019财年的固定资产周转率是多少？,teg_validator,abstain,abstain,,times,24.26,times,0,0,0,2,0,3,16,3,34.929,5067,2349
+activision_2019_fixed_asset_turnover,Activision Blizzard 2019财年的固定资产周转率是多少？,atlas_rag,abstain,abstain,,,24.26,times,0,0,0,3,1,3,13,5,46.92,5654,3590
+activision_capex_revenue_avg,Activision Blizzard 2017至2019财年资本性支出占收入比例的三年平均值是多少？,plain_agent,answer,answer,1.92,percent,1.9,percent,1,1,0,3,3,3,17,5,32.909,5311,2730
+activision_capex_revenue_avg,Activision Blizzard 2017至2019财年资本性支出占收入比例的三年平均值是多少？,temporal_prompt,answer,answer,2.05,percent,1.9,percent,1,1,0,4,4,3,21,5,53.946,5842,4707
+activision_capex_revenue_avg,Activision Blizzard 2017至2019财年资本性支出占收入比例的三年平均值是多少？,metadata_filter,abstain,abstain,,percent,1.9,percent,0,0,0,4,0,3,22,4,35.666,5424,3157
+activision_capex_revenue_avg,Activision Blizzard 2017至2019财年资本性支出占收入比例的三年平均值是多少？,teg_validator,abstain,abstain,,,1.9,percent,0,0,0,4,0,3,21,6,72.172,6111,5892
+activision_capex_revenue_avg,Activision Blizzard 2017至2019财年资本性支出占收入比例的三年平均值是多少？,atlas_rag,abstain,abstain,,,1.9,percent,0,0,0,6,0,3,21,6,39.686,6420,3740

@@ -1,0 +1,43 @@
+{
+  "status": "completed",
+  "started_at": "2026-08-12T18:35:57.320337+00:00",
+  "completed_at": "2026-08-12T18:39:40.531791+00:00",
+  "protocol_sha256": "d4adf7c1e7a14c7716e61241ea4611e3f9fd40d8c3bd00ad9c90df6d20cd4334",
+  "protocol": {
+    "protocol_version": "atlas-fusion-study-1.0",
+    "source_protocol_sha256": "670d7b1f9bf3b8e05abcc57338dec574f922a8876ee59cb8fbfa4c1aad2d8421",
+    "source_strategies": [
+      "plain_agent",
+      "temporal_prompt",
+      "metadata_filter",
+      "teg_validator",
+      "atlas_rag"
+    ],
+    "source_trajectories_per_case": 5,
+    "model": "claude-sonnet-5",
+    "reasoning_effort": "medium",
+    "max_output_tokens": 4800,
+    "no_additional_web_search": true,
+    "evaluation_labels_excluded_from_prompt": true
+  },
+  "source_directory": "live_atlas_20q_sonnet5_v2_20260813",
+  "planned_calls": 20,
+  "valid_runs": 20,
+  "metrics": {
+    "runs": 20,
+    "decision_accuracy": 0.55,
+    "model_decision_accuracy": 0.65,
+    "answer_coverage": 0.65,
+    "filter_trigger_rate": 0.15,
+    "source_plain_decision_accuracy": 0.55,
+    "http_attempts": 20,
+    "input_search_calls": 214,
+    "input_sources": 753,
+    "input_citations": 172,
+    "paired_difference_vs_plain": 0.0,
+    "paired_difference_ci95": [
+      -0.2,
+      0.2
+    ]
+  }
+}

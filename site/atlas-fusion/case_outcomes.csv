@@ -1,0 +1,21 @@
+﻿case_id,question_zh,fusion_action,fusion_answer,unit,gold_answer,fusion_correct,plain_correct,filter_triggered,input_search_calls,input_source_count,input_citation_count
+sp500_max_month,2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？,answer,12.7,percent,12.68,1,1,0,12,39,12
+sp500_hike_drawdown,2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？,answer,20.8,percent,20.83,1,0,0,15,63,9
+nasdaq_vs_sp500_2024,2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？,abstain,5.33,percentage_point,5.33,0,1,1,11,51,17
+apple_2024_sales,Apple 2024财年的净销售额是多少？,answer,391035,USD_million,391035,1,1,0,6,13,7
+us_cpi_dec_2024,截至2024年12月的12个月，美国CPI-U同比上涨多少？,answer,2.9,percent,2.9,1,1,0,6,18,7
+fomc_sep_2024_cut,2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？,answer,50,basis_point,50,1,1,0,5,18,9
+china_current_account_2024,中国2024年国际收支初步数中的经常账户顺差是多少亿美元？,answer,4220,USD_100million,4220,1,1,0,6,21,9
+nvidia_2022_dta,NVIDIA 2022财年的递延所得税资产总额是多少？,answer,1222,USD_million,1408,0,0,0,14,48,5
+nvidia_2024_split,NVIDIA 2024年实施的股票拆分比例是多少？,answer,10,shares_per_share,10,1,1,0,6,25,12
+tesla_2024_rd,Tesla 2024年的研发费用是多少？,answer,4540,USD_million,4540,1,1,0,8,24,5
+sp500_return_2024,按年末收盘价计算，标普500指数2024年的价格回报率是多少？,answer,23.31,percent,23.31,1,1,0,9,49,13
+mmm_2018_capex,3M 2018财年的资本性支出是多少？,answer,1577,USD_million,1577,1,0,0,15,66,11
+mmm_2018_net_ppe,3M 2018财年末的不动产、厂房及设备净额是多少？,answer,8738,USD_million,8700,0,0,0,6,31,5
+adobe_2015_ocf_ratio,Adobe 2015财年经营活动现金流占总现金流入的比例是多少？,abstain,,,0.66,0,0,0,15,48,6
+adobe_2016_operating_income_growth,Adobe 2016财年经营利润同比增长多少？,abstain,,,65.4,0,0,0,15,51,6
+adobe_2017_ocf_ratio,Adobe 2017财年经营活动现金流占总现金流入的比例是多少？,abstain,,,0.83,0,0,0,13,49,6
+adobe_2022_operating_margin,Adobe 2022财年的经营利润率是多少？,answer,34.6,percent,34.6,1,1,0,9,35,10
+aes_2022_inventory_turnover,AES 2022财年的存货周转率是多少？,abstain,,,9.5,0,0,0,15,32,3
+activision_2019_fixed_asset_turnover,Activision Blizzard 2019财年的固定资产周转率是多少？,abstain,25.65,times,24.26,0,0,1,13,28,8
+activision_capex_revenue_avg,Activision Blizzard 2017至2019财年资本性支出占收入比例的三年平均值是多少？,abstain,1.91,percent,1.9,0,1,1,15,44,12

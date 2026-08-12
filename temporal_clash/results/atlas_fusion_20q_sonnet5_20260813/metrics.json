@@ -1,0 +1,17 @@
+{
+  "runs": 20,
+  "decision_accuracy": 0.55,
+  "model_decision_accuracy": 0.65,
+  "answer_coverage": 0.65,
+  "filter_trigger_rate": 0.15,
+  "source_plain_decision_accuracy": 0.55,
+  "http_attempts": 20,
+  "input_search_calls": 214,
+  "input_sources": 753,
+  "input_citations": 172,
+  "paired_difference_vs_plain": 0.0,
+  "paired_difference_ci95": [
+    -0.2,
+    0.2
+  ]
+}

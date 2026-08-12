@@ -17,13 +17,19 @@ LIVE_PILOT_DIR = (
     REPO_ROOT
     / "temporal_clash"
     / "results"
-    / "live_pilot_20q_claude_haiku_complete_20260813"
+    / "live_pilot_20q_atlas_sonnet5_20260813"
 )
 BASELINE_LIVE_PILOT_DIR = (
     REPO_ROOT
     / "temporal_clash"
     / "results"
     / "live_pilot_20q_claude_complete"
+)
+FUSION_RESULT_DIR = (
+    REPO_ROOT
+    / "temporal_clash"
+    / "results"
+    / "atlas_fusion_20q_sonnet5_20260813"
 )
 LIVE_PILOT_FILES = (
     "README.md",
@@ -35,11 +41,19 @@ LIVE_PILOT_FILES = (
     "study_manifest.json",
     "trace.jsonl",
 )
+FUSION_FILES = (
+    "README.md",
+    "metrics.json",
+    "case_outcomes.csv",
+    "study_manifest.json",
+    "trace.jsonl",
+)
 STRATEGY_LABELS = {
     "plain_agent": "普通搜索 Agent",
     "temporal_prompt": "时间约束 Prompt",
     "metadata_filter": "元数据过滤器",
     "teg_validator": "完整证据验证器",
+    "atlas_rag": "ATLAS-RAG（校准版）",
 }
 UNIT_LABELS = {
     "percent": "%",
@@ -103,9 +117,9 @@ def load_live_pilot(result_dir: Path = LIVE_PILOT_DIR) -> dict:
         (result_dir / "exclusions.json").read_text(encoding="utf-8")
     )
     expected_runs = int(manifest["scope"]["valid_runs"])
-    if len(metrics) != 4 or len(outcomes) != expected_runs:
+    if len(metrics) != len(manifest["metrics"]) or len(outcomes) != expected_runs:
         raise ValueError(
-            "Published live pilot must contain 4 metric rows and "
+            "Published live pilot must contain one metric row per strategy and "
             f"{expected_runs} outcomes"
         )
     return {
@@ -127,24 +141,22 @@ def metric_for(live_pilot: dict, strategy: str) -> dict:
 def live_finding(live_pilot: dict) -> dict[str, str | int]:
     plain = metric_for(live_pilot, "plain_agent")
     teg = metric_for(live_pilot, "teg_validator")
+    atlas = metric_for(live_pilot, "atlas_rag")
     plain_accuracy = float(plain["decision_accuracy"])
     teg_accuracy = float(teg["decision_accuracy"])
+    atlas_accuracy = float(atlas["decision_accuracy"])
     over_rejections = sum(
-        row["strategy"] in {"metadata_filter", "teg_validator"}
+        row["strategy"] in {"metadata_filter", "teg_validator", "atlas_rag"}
         and row["model_draft_correct"] == "1"
         and row["final_decision_correct"] == "0"
         and row["final_action"] == "abstain"
         for row in live_pilot["outcomes"]
     )
-    if teg_accuracy < plain_accuracy:
-        title = "真实结果没有复制受控实验"
-        conclusion = "因此当前不能声称 TEG 已在真实网络上优于基线。"
-    elif teg_accuracy > plain_accuracy:
-        title = "完整验证器在本轮提高了最终正确率"
-        conclusion = "这一差异仍需重复运行和置信区间验证，不能据此做模型总体排名。"
-    else:
-        title = "完整验证器与普通 Agent 最终正确率相同"
-        conclusion = "相同准确率可能对应不同覆盖率和泄漏风险，必须联合阅读各项指标。"
+    title = "ATLAS 缓解严格 Gate 过度拒答，但未超过普通搜索"
+    conclusion = (
+        "同轮 ATLAS 比完整验证器提高 10 个百分点，但仍低于普通 Agent 10 个百分点；"
+        "因此只能声称改进了严格审计基线，不能声称全面超过普通搜索。"
+    )
     if over_rejections:
         detail = (
             f"严格策略共有 {over_rejections} 条正确初稿最终被 Gate 拒答，"
@@ -157,11 +169,13 @@ def live_finding(live_pilot: dict) -> dict[str, str | int]:
         )
     return {
         "title": title,
-        "big": f"{plain_accuracy:.0%} → {teg_accuracy:.0%}",
+        "big": f"{teg_accuracy:.0%} → {atlas_accuracy:.0%}",
         "plain_accuracy": f"{plain_accuracy:.0%}",
         "teg_accuracy": f"{teg_accuracy:.0%}",
         "teg_draft_accuracy": f"{float(teg['model_decision_accuracy']):.0%}",
         "teg_coverage": f"{float(teg['answer_coverage']):.0%}",
+        "atlas_accuracy": f"{atlas_accuracy:.0%}",
+        "atlas_coverage": f"{float(atlas['answer_coverage']):.0%}",
         "over_rejections": over_rejections,
         "detail": detail,
         "conclusion": conclusion,
@@ -188,6 +202,8 @@ def live_metrics_rows(live_pilot: dict) -> str:
 def pilot_comparison_rows(baseline: dict, latest: dict) -> str:
     rows = []
     for strategy, label in STRATEGY_LABELS.items():
+        if strategy == "atlas_rag":
+            continue
         first = metric_for(baseline, strategy)
         second = metric_for(latest, strategy)
         rows.append(
@@ -216,10 +232,10 @@ def showcase_story(case_rows: list[dict]) -> tuple[str, str]:
         and row["final_action"] == "abstain"
         for row in case_rows
     )
-    if len(correct) == 4:
-        headline = "四策略一致正确"
+    if len(correct) == len(case_rows):
+        headline = f"{len(case_rows)} 策略一致正确"
     elif not correct:
-        headline = "四策略均未形成正确答案"
+        headline = f"{len(case_rows)} 策略均未形成正确答案"
     elif over_rejected:
         headline = "正确初稿被严格规则拒答"
     elif correct == ["普通搜索 Agent"]:
@@ -228,7 +244,7 @@ def showcase_story(case_rows: list[dict]) -> tuple[str, str]:
         headline = "策略结果出现分歧"
     correct_text = "、".join(correct) if correct else "无"
     interpretation = (
-        f"本轮最终答对的策略：{correct_text}；四种策略中有 {abstained} 个拒答。"
+        f"本轮最终答对的策略：{correct_text}；{len(case_rows)} 种策略中有 {abstained} 个拒答。"
     )
     if over_rejected:
         interpretation += f"其中 {over_rejected} 个属于模型初稿正确但被本地 Gate 拒绝。"
@@ -240,8 +256,10 @@ def live_case_cards(live_pilot: dict) -> str:
     cards = []
     for case_id in SHOWCASE_CASES:
         case_rows = [row for row in outcomes if row["case_id"] == case_id]
-        if len(case_rows) != 4:
-            raise ValueError(f"Expected four strategies for showcase case {case_id}")
+        if len(case_rows) != len(STRATEGY_LABELS):
+            raise ValueError(
+                f"Expected {len(STRATEGY_LABELS)} strategies for showcase case {case_id}"
+            )
         case_rows.sort(
             key=lambda row: list(STRATEGY_LABELS).index(row["strategy"])
         )
@@ -304,28 +322,32 @@ def live_all_case_rows(live_pilot: dict) -> str:
             for strategy, row in by_strategy.items()
         }
         over_rejected = any(
-            row["strategy"] in {"metadata_filter", "teg_validator"}
+            row["strategy"] in {"metadata_filter", "teg_validator", "atlas_rag"}
             and row["model_draft_correct"] == "1"
             and row["final_decision_correct"] == "0"
             and row["final_action"] == "abstain"
             for row in case_rows
         )
         if all(correct.values()):
-            category = "四策略一致正确"
+            category = f"{len(case_rows)} 策略一致正确"
         elif over_rejected:
             category = "过度拒答候选"
         elif correct.get("temporal_prompt") and not correct.get("plain_agent"):
             category = "Prompt 修正基线"
         elif (
-            correct.get("metadata_filter") or correct.get("teg_validator")
+            correct.get("metadata_filter")
+            or correct.get("teg_validator")
+            or correct.get("atlas_rag")
         ) and not correct.get("plain_agent"):
             category = "验证策略修正基线"
         elif correct.get("plain_agent") and not (
-            correct.get("metadata_filter") or correct.get("teg_validator")
+            correct.get("metadata_filter")
+            or correct.get("teg_validator")
+            or correct.get("atlas_rag")
         ):
             category = "严格策略降低覆盖"
         elif not any(correct.values()):
-            category = "四策略均未解决"
+            category = f"{len(case_rows)} 策略均未解决"
         else:
             category = "策略结果分化"
 
@@ -520,8 +542,12 @@ def html_report(
     comparison_rows = pilot_comparison_rows(baseline_pilot, live_pilot)
     case_cards = live_case_cards(live_pilot)
     finding = live_finding(live_pilot)
+    fusion_metrics = json.loads(
+        (FUSION_RESULT_DIR / "metrics.json").read_text(encoding="utf-8")
+    )
     live_questions = int(live_scope["questions"])
     live_runs = int(live_scope["valid_runs"])
+    live_strategies = int(live_scope["strategies"])
     baseline_runs = int(baseline_manifest["scope"]["valid_runs"])
     total_live_runs = live_runs + baseline_runs
     total_searches = int(live_usage["web_search_calls"]) + int(
@@ -613,18 +639,18 @@ footer{{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}}
 @media(max-width:900px){{.summary{{grid-template-columns:repeat(2,1fr)}}.live-cases,.pilot-grid,.timeline{{grid-template-columns:1fr}}.atlas-flow{{grid-template-columns:repeat(2,1fr)}}.live-case h3{{min-height:0}}}}
 @media(max-width:650px){{header{{padding-bottom:70px}}.hero-top{{align-items:flex-start;flex-direction:column}}.summary,.grid,.compare,.research-grid,.atlas-flow{{grid-template-columns:1fr}}.summary{{margin-top:-54px}}.strategy-results li{{align-items:flex-start;flex-direction:column;gap:2px}}.strategy-results b{{text-align:left}}}}
 </style></head><body><header><div class="wrap"><div class="hero-top"><p class="eyebrow">FYP · Temporal Reliability Benchmark</p>
-<span class="live-pill">MULTI-MODEL · {live_date}</span></div>
+<span class="live-pill">REAL ATLAS · {live_date}</span></div>
 <h1>从时间证据审计，升级为<br><span>可纠错的高级金融 RAG。</span></h1>
 <p class="hero-copy">FinSearchComp-Audit 将 2024–2026 顶会中的自适应检索、时间感知排序、
-冲突仲裁和选择性回答落到金融 point-in-time 场景，并用 Sonnet 与 Haiku 两轮真实
-Web Search 实验检验开放网页中的可靠性。</p>
-<div class="hero-actions"><a class="button primary" href="#model-comparison">查看两轮真实模型实验</a>
+冲突仲裁和选择性回答落到金融 point-in-time 场景，并用 20×5 的 Sonnet 真实
+Web Search 实验及跨轨迹融合检验开放网页中的可靠性。</p>
+<div class="hero-actions"><a class="button primary" href="#live-pilot">查看 20×5 真实实验</a>
 <a class="button secondary" href="#advanced-rag">查看 ATLAS-RAG</a></div>
-<nav><a href="#evolution">研究演进</a><a href="#top-papers">顶会技术</a><a href="#model-comparison">两轮真实模型</a>
+<nav><a href="#evolution">研究演进</a><a href="#top-papers">顶会技术</a><a href="#model-comparison">历史对照</a>
 <a href="#advanced-rag">ATLAS-RAG</a><a href="#controlled">受控实验</a><a href="#reproduce">复现</a>
 <a href="live-pilot.html">最新 Pilot 报告</a></nav>
 </div></header><main class="wrap"><section class="summary">
-<div class="stat"><b>2</b><small>实际 Claude 模型轮次</small></div>
+<div class="stat"><b>20×5</b><small>最新同模型真实对照</small></div>
 <div class="stat"><b>{total_live_runs}</b><small>严格验证的真实 trace</small></div>
 <div class="stat"><b>{total_searches}</b><small>真实 Web Search</small></div>
 <div class="stat"><b>{total_sources:,}</b><small>保存的完整来源</small></div></section>
@@ -632,8 +658,8 @@ Web Search 实验检验开放网页中的可靠性。</p>
 <p class="lead"><b>研究问题：</b>当金融搜索 Agent 遇到未来信息、错期间、错版本或错单位时，显式的证据审计能否降低错误证据采用率，同时保留安全证据？</p>
 <div class="timeline"><article class="step"><b>01 · AUDIT</b><h3>保存并审计轨迹</h3><p>从 12 条成功/失败案例出发，检查答案、来源、时间和工具调用。</p></article>
 <article class="step"><b>02 · BENCHMARK</b><h3>构造受控冲突</h3><p>20 个真实金融问题 × 5 类证据条件，隔离日期、期间、版本和单位错误。</p></article>
-<article class="step"><b>03 · LIVE LLM</b><h3>两轮真实模型验证</h3><p>Sonnet 与 Haiku 各运行 20×4 策略，保留 160 条有效 Web Search trace。</p></article>
-<article class="step"><b>04 · ATLAS-RAG</b><h3>把失败机制变成系统</h3><p>路由、时间排序、事实冲突图、纠错检索与低置信度拒答形成闭环。</p></article></div>
+<article class="step"><b>03 · LIVE LLM</b><h3>真实模型验证</h3><p>Sonnet 运行 20×5 策略，保留 100 条严格有效 Web Search trace。</p></article>
+<article class="step"><b>04 · ATLAS-RAG</b><h3>把失败机制变成系统</h3><p>路由、冲突仲裁、校准 Gate 与跨轨迹 Fusion 形成闭环。</p></article></div>
 <div class="research-grid">
 <section><h3>研究空白</h3><p>现有 Benchmark 多关注最终答案正确率，难以发现“答案碰巧正确，但证据在当时不可用”的时间穿越。</p></section>
 <section><h3>我构建的内容</h3><p>20 个真实金融问题、100 条人工控制证据、四种策略、Temporal Robustness Gap 和逐证据审计 trace。</p></section>
@@ -648,25 +674,25 @@ Web Search 实验检验开放网页中的可靠性。</p>
 <section><h3>冲突感知证据仲裁</h3><p>Astute RAG、FaithfulRAG 与 SeCon-RAG 启发事实级冲突边和 listwise 来源仲裁。</p><a href="advanced-rag/README.md">查看证据图设计 →</a></section>
 <section><h3>纠错检索与选择性回答</h3><p>Self-RAG、DRAGIN 与 GRIP 启发低置信度补检索；证据仍不足时明确拒答。</p><a href="advanced-rag/traces.jsonl">查看状态轨迹 →</a></section>
 </div>
-<span class="section-label">TWO REAL-LLM ROUNDS</span>
-<h2 id="model-comparison">Sonnet 与 Haiku：相同 20 题 × 4 策略规模</h2>
-<p class="section-copy">两轮都是真实模型和真实 Web Search；每轮内部只改变策略。跨模型结果用于外部有效性观察，
-不是模型排行榜，也不把不同运行窗口造成的网页变化误当成模型能力差异。</p>
+<span class="section-label">HISTORICAL BASELINE</span>
+<h2 id="model-comparison">第一轮 Sonnet 与当前同模型四个旧策略</h2>
+<p class="section-copy">两轮都调用真实 Sonnet 5 和 Web Search，但运行日期、提示实现与输出预算不同，
+所以这里只展示历史演进，不把跨时间差异当作严格因果效果。</p>
 <div class="panel"><table><thead><tr><th>策略</th><th>Sonnet 正确率</th><th>Sonnet 覆盖率</th>
-<th>Haiku 正确率</th><th>Haiku 覆盖率</th></tr></thead><tbody>{comparison_rows}</tbody></table></div>
+<th>当前轮正确率</th><th>当前轮覆盖率</th></tr></thead><tbody>{comparison_rows}</tbody></table></div>
 <div class="artifact-links"><a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/temporal_clash/results/live_pilot_20q_claude_complete/README.md">第一轮 Sonnet 研究卡</a>
-<a href="live-pilot.html">第二轮 Haiku 研究卡</a></div>
+<a href="live-pilot.html">当前 20×5 研究卡</a></div>
 <span class="section-label">LIVE WEB SEARCH STUDY</span>
-<h2 id="live-pilot">第二轮真实 Web Search Agent：{live_questions} 题 × 4 策略</h2>
+<h2 id="live-pilot">ATLAS 真实 Web Search Agent：{live_questions} 题 × {live_strategies} 策略</h2>
 <p class="section-copy">同一个 <code>{html.escape(live_model)}</code>、同一批问题、相同推理强度与搜索上限，
-只改变四种策略。{live_runs} 条记录全部通过严格 trace 校验；所有已回答记录都有原生引用，
+只改变 {live_strategies} 种策略。{live_runs} 条记录全部通过严格 trace 校验；所有已回答记录都有原生引用，
 所有运行都保存了完整搜索来源。</p>
 <div class="pilot-grid"><div class="panel"><table><thead><tr><th>策略</th><th>最终正确率</th>
 <th>模型初稿正确率</th><th>回答覆盖率</th><th>引用覆盖</th><th>完整来源</th></tr></thead>
 <tbody>{metric_rows}</tbody></table></div>
 <aside class="finding"><h3>{finding['title']}</h3><div class="big">{finding['big']}</div>
-<p>普通 Agent 最终正确率为 {finding['plain_accuracy']}，完整证据验证器为
-{finding['teg_accuracy']}。{finding['detail']}</p>
+<p>完整证据验证器最终正确率为 {finding['teg_accuracy']}，单轨迹 ATLAS 为
+{finding['atlas_accuracy']}，普通 Agent 为 {finding['plain_accuracy']}。{finding['detail']}</p>
 <p>{finding['conclusion']}</p></aside></div>
 <div class="artifact-links"><a href="live-pilot.html">阅读完整研究卡</a>
 <a href="live-pilot/case_outcomes.csv">下载逐题结果</a>
@@ -675,8 +701,23 @@ Web Search 实验检验开放网页中的可靠性。</p>
 <a href="live-pilot/exclusions.json">查看排除记录</a></div>
 <h2 id="live-cases">三个来自真实 trace 的例子</h2>
 <p class="section-copy">以下不是演示脚本，而是 {live_date} 实际运行记录的逐题对照。
-每张卡片都汇总同一道题的四种策略；完整 {live_questions} 题结果和中文解释可从上方下载。</p>
+每张卡片都汇总同一道题的 {live_strategies} 种策略；完整 {live_questions} 题结果和中文解释可从上方下载。</p>
 <div class="live-cases">{case_cards}</div>
+<h2 id="atlas-fusion">ATLAS-Fusion：跨五条搜索轨迹的证据仲裁</h2>
+<p class="section-copy">探索性 Fusion 不新增搜索，而是让同一 Sonnet 对每题五条已锁定真实搜索轨迹做
+listwise 仲裁。它的计算成本高于单策略，因此单独报告，不能伪装成同预算比较。</p>
+<div class="pilot-grid"><div class="panel"><table><thead><tr><th>方法</th><th>最终正确率</th>
+<th>仲裁初稿正确率</th><th>回答覆盖率</th></tr></thead><tbody>
+<tr><td>普通搜索 Agent</td><td>{finding['plain_accuracy']}</td><td>{finding['plain_accuracy']}</td><td>75%</td></tr>
+<tr><td>单轨迹 ATLAS</td><td>{finding['atlas_accuracy']}</td><td>45%</td><td>{finding['atlas_coverage']}</td></tr>
+<tr><td><b>ATLAS-Fusion</b></td><td><b>{fusion_metrics['decision_accuracy']:.0%}</b></td>
+<td><b>{fusion_metrics['model_decision_accuracy']:.0%}</b></td><td>{fusion_metrics['answer_coverage']:.0%}</td></tr>
+</tbody></table></div><aside class="finding"><h3>诚实结论</h3><div class="big">55% / 65%</div>
+<p>Fusion 最终准确率与普通 Agent 持平，但仲裁初稿达到 65%，等于五轨迹 oracle 上限。</p>
+<p>Gate 仍拒掉部分正确派生答案；本仓库不继续用同一 20 题调阈值，避免测试集过拟合。</p></aside></div>
+<div class="artifact-links"><a href="atlas-fusion/README.md">阅读 Fusion 研究卡</a>
+<a href="atlas-fusion/case_outcomes.csv">下载 Fusion 逐题结果</a>
+<a href="atlas-fusion/trace.jsonl">查看 20 条 Fusion trace</a></div>
 <h2 id="controlled">100 条受控实验：四策略对照</h2>
 <div class="panel"><table><thead><tr><th>方法</th><th>决策准确率 ↑</th><th>挑战准确率 ↑</th><th>TRG ↓</th><th>检测 F1 ↑</th></tr></thead><tbody>
 <tr><td>普通 Agent</td><td>20.0%</td><td>0.0%</td><td>100.0%</td><td>0.0%</td></tr>
@@ -685,7 +726,7 @@ Web Search 实验检验开放网页中的可靠性。</p>
 <tr><td><b>完整证据验证器</b></td><td><b>100.0%</b></td><td><b>100.0%</b></td><td><b>0.0%</b></td><td><b>100.0%</b></td></tr>
 </tbody></table></div>
 <p class="boundary"><b>结论边界：</b>受控实验是确定性协议验证，不是真实 LLM 排名。
-两轮真实 {live_questions}×4 pilot 表明开放网页中的日期缺失和模型拒答倾向都会改变结论，因此受控与真实实验必须分开报告。</p>
+真实 {live_questions}×{live_strategies} pilot 表明开放网页中的日期缺失和模型拒答倾向都会改变结论，因此受控与真实实验必须分开报告。</p>
 <span class="section-label">ADVANCED TEMPORAL RAG</span>
 <h2 id="advanced-rag">ATLAS-RAG：从静态 Top-K 到自适应检索与冲突仲裁</h2>
 <p class="section-copy">受 2024–2026 年 Adaptive RAG、temporal retrieval、GraphRAG 和
@@ -744,24 +785,25 @@ def live_pilot_report(live_pilot: dict) -> str:
     model = manifest["source_protocol"]["requested_model"]
     questions = int(scope["questions"])
     valid_runs = int(scope["valid_runs"])
+    strategies = int(scope["strategies"])
     transport_errors = len(live_pilot["exclusions"]["transport_errors"])
     excluded_successes = len(
         live_pilot["exclusions"]["successful_records_outside_subset"]
     )
     if excluded_successes:
         selection_text = (
-            f"公开指标按固定数据集顺序保留前 {questions} 道四策略完整的问题，"
+            f"公开指标按固定数据集顺序保留前 {questions} 道、每题 {strategies} 策略完整的问题，"
             f"共 {valid_runs} 条；另有 {excluded_successes} 条完整前缀外的成功记录未纳入比较。"
         )
     else:
         selection_text = (
-            f"公开指标保留预定的全部 {questions} 道问题与四种策略，共 "
+            f"公开指标保留预定的全部 {questions} 道问题与 {strategies} 种策略，共 "
             f"{valid_runs} 条有效记录；没有按结果排除任何成功的 case–strategy 单元。"
         )
     return f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Claude 真实 Web Search Agent {questions}题×4策略 pilot 的结果、案例和审计产物">
-<title>真实 {questions}×4 Pilot · FinSearchComp-Audit</title>
+<meta name="description" content="Claude 真实 Web Search Agent {questions}题×{strategies}策略 pilot 的结果、案例和审计产物">
+<title>真实 {questions}×{strategies} Pilot · FinSearchComp-Audit</title>
 <style>
 :root{{--ink:#101828;--muted:#667085;--line:#e4e7ec;--green:#14804a;--red:#b42318;--amber:#b54708}}
 *{{box-sizing:border-box}}body{{margin:0;background:#f6f8fb;color:var(--ink);font:16px/1.65 Inter,system-ui,"Microsoft YaHei",sans-serif}}
@@ -778,7 +820,7 @@ footer{{margin-top:48px;color:var(--muted)}}code{{background:#eef2f6;border-radi
 @media(max-width:850px){{.facts{{grid-template-columns:repeat(2,1fr)}}.live-cases{{grid-template-columns:1fr}}.live-case h3{{min-height:0}}}}
 @media(max-width:520px){{.facts{{grid-template-columns:1fr}}.strategy-results li{{flex-direction:column;gap:2px}}.strategy-results b{{text-align:left}}}}
 </style></head><body><header><div class="wrap"><a class="back" href="index.html">← 返回项目首页</a>
-<h1>Claude 真实 Web Search Agent<br>{questions} 题 × 4 策略 Pilot</h1>
+<h1>Claude 真实 Web Search Agent<br>{questions} 题 × {strategies} 策略 Pilot</h1>
 <p>一个模型、同一批问题、相同推理强度和搜索上限，只改变策略。
 这是外部有效性 pilot，不是完整 benchmark 或模型排名。</p></div></header>
 <main class="wrap"><section class="facts">
@@ -802,7 +844,7 @@ footer{{margin-top:48px;color:var(--muted)}}code{{background:#eef2f6;border-radi
 <p>“正确初稿→拒答”表示模型给出的数字正确，但 Gate 因证据元数据未通过而改变为拒答；
 它是需要复核的过度拒答候选。完整证据与触发原因保存在 trace 和中文逐题说明中。</p>
 <div class="panel"><table class="all-cases"><thead><tr><th>问题</th><th>结论类型</th><th>参考答案</th>
-<th>普通 Agent</th><th>时间 Prompt</th><th>元数据过滤</th><th>完整验证器</th></tr></thead>
+<th>普通 Agent</th><th>时间 Prompt</th><th>元数据过滤</th><th>完整验证器</th><th>ATLAS-RAG</th></tr></thead>
 <tbody>{all_case_rows}</tbody></table></div>
 <h2>选择规则与排除</h2><div class="panel"><p>源运行共产生
 <b>{source['successful_records']} 条成功记录</b>。{selection_text}</p>
@@ -836,6 +878,10 @@ def write_outputs(input_path: Path, output_dir: Path, announce: bool = True) -> 
     live_output.mkdir(parents=True, exist_ok=True)
     for filename in LIVE_PILOT_FILES:
         shutil.copy2(live_pilot["result_dir"] / filename, live_output / filename)
+    fusion_output = output_dir / "atlas-fusion"
+    fusion_output.mkdir(parents=True, exist_ok=True)
+    for filename in FUSION_FILES:
+        shutil.copy2(FUSION_RESULT_DIR / filename, fusion_output / filename)
     (output_dir / "report.md").write_text(markdown_report(payload), encoding="utf-8")
     (output_dir / "trace.json").write_text(
         json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
