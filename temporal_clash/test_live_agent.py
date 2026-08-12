@@ -258,6 +258,11 @@ class LiveAgentTests(unittest.TestCase):
             "Return only one JSON object",
             research["messages"][0]["content"],
         )
+        self.assertEqual(
+            research["messages"][0]["content"], CASE["question_zh"]
+        )
+        self.assertIn("Complete research task", research["system"])
+        self.assertIn(CASE["cutoff_date"], research["system"])
         self.assertIn(
             "native citations",
             build_research_prompt(CASE, "teg_validator"),

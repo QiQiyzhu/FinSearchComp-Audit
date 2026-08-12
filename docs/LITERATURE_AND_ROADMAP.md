@@ -3,6 +3,11 @@
 > 检索日期：2026-07-31  
 > 项目定位：Auditing Financial Research Agents: A Temporal Reliability Benchmark for Trustworthy Evaluation
 
+> 2026-08-13 更新：已完成 ATLAS-RAG 第一版，实现自适应来源路由、时间感知混合检索、
+> 事实冲突图、纠错检索和选择性回答。最新正式顶会论文与实现映射见
+> [`TOP_CONFERENCE_RAG_2026.md`](TOP_CONFERENCE_RAG_2026.md)，代码与离线结果见
+> [`../advanced_rag/README.md`](../advanced_rag/README.md)。
+
 ## 1. 这项工作位于什么研究空缺？
 
 现有工作已经分别研究了金融搜索、知识时效、检索冲突、引用质量和拒答，但这几个问题很少在同一条

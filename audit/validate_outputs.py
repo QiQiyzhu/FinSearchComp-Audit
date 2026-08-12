@@ -249,6 +249,21 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
             target.is_file() and target.stat().st_size > 0,
             f"missing or empty live-pilot output: {target}",
         )
+    advanced_dir = output_dir / "advanced-rag"
+    advanced_files = (
+        "README.md",
+        "retrieval_per_query.csv",
+        "retrieval_summary.csv",
+        "system_per_query.csv",
+        "system_summary.csv",
+        "traces.jsonl",
+    )
+    for filename in advanced_files:
+        target = advanced_dir / filename
+        require(
+            target.is_file() and target.stat().st_size > 0,
+            f"missing or empty advanced-rag output: {target}",
+        )
     live_manifest = json.loads(
         (live_dir / "study_manifest.json").read_text(encoding="utf-8")
     )
@@ -271,11 +286,14 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
     for run in payload["runs"]:
         require(html.escape(run["label"]) in html_text, f"index.html is missing label: {run['label']}")
     for required_showcase_text in (
-        "30 秒看懂研究",
+        "研究如何从审计基线升级到 ATLAS-RAG",
+        "顶会技术如何进入项目",
+        "Sonnet 与 Haiku：相同 20 题 × 4 策略规模",
         "100 条受控实验",
         "真实 Web Search Agent",
         "确定性协议验证",
         "三个来自真实 trace 的例子",
+        "ATLAS-RAG：从静态 Top-K 到自适应检索与冲突仲裁",
         f"{expected_live_runs} 条记录全部通过严格 trace 校验",
     ):
         require(
@@ -352,7 +370,10 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
     validate_local_links(output_dir, output_dir / "live-pilot.html")
     validate_local_links(output_dir, output_dir / "temporal-audit.html")
 
-    return {"files": len(OUTPUT_FILES), **trace_summary}
+    return {
+        "files": len(OUTPUT_FILES) + len(advanced_files),
+        **trace_summary,
+    }
 
 
 def main() -> None:

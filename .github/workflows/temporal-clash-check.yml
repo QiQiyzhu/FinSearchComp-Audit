@@ -5,11 +5,13 @@ on:
   pull_request:
     paths:
       - "temporal_clash/**"
+      - "advanced_rag/**"
       - ".github/workflows/temporal-clash-check.yml"
   push:
     branches-ignore: [main]
     paths:
       - "temporal_clash/**"
+      - "advanced_rag/**"
       - ".github/workflows/temporal-clash-check.yml"
 
 permissions:
@@ -25,5 +27,9 @@ jobs:
           python-version: "3.11"
       - name: Generate and validate 100 controlled cases
         run: python -m temporal_clash.run_experiment --check
+      - name: Test and evaluate ATLAS-RAG
+        run: |
+          python -m unittest advanced_rag.test_advanced_rag -v
+          python -m advanced_rag.evaluate
       - name: Show experiment table
         run: cat temporal_clash/results/experiment_table.csv

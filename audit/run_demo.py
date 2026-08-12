@@ -7,11 +7,19 @@ import csv
 import html
 import json
 import shutil
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LIVE_PILOT_DIR = (
+    REPO_ROOT
+    / "temporal_clash"
+    / "results"
+    / "live_pilot_20q_claude_haiku_complete_20260813"
+)
+BASELINE_LIVE_PILOT_DIR = (
     REPO_ROOT
     / "temporal_clash"
     / "results"
@@ -41,22 +49,11 @@ UNIT_LABELS = {
     "USD_100million": "亿美元",
     "shares_per_share": "股/股",
 }
-SHOWCASE_CASES = {
-    "apple_2024_sales": (
-        "真实的过度拒答案例",
-        "元数据与 TEG 的模型初稿都正确，但 SEC 页面在结构化结果中没有发布日期，"
-        "Gate 最终拒答。",
-    ),
-    "us_cpi_dec_2024": (
-        "四策略一致通过",
-        "四种策略都得到 2.9%，说明元数据足够明确时，严格验证不会必然牺牲覆盖率。",
-    ),
-    "nasdaq_vs_sp500_2024": (
-        "Prompt 修正了普通搜索",
-        "普通搜索给出 4.6 个百分点，时间约束 Prompt 得到正确的 5.33；"
-        "严格策略没有在本题形成更好的最终答案。",
-    ),
-}
+SHOWCASE_CASES = (
+    "apple_2024_sales",
+    "us_cpi_dec_2024",
+    "nasdaq_vs_sp500_2024",
+)
 
 
 def percent(value: float | None) -> str:
@@ -148,6 +145,16 @@ def live_finding(live_pilot: dict) -> dict[str, str | int]:
     else:
         title = "完整验证器与普通 Agent 最终正确率相同"
         conclusion = "相同准确率可能对应不同覆盖率和泄漏风险，必须联合阅读各项指标。"
+    if over_rejections:
+        detail = (
+            f"严格策略共有 {over_rejections} 条正确初稿最终被 Gate 拒答，"
+            "说明元数据缺失会直接损失覆盖率。"
+        )
+    else:
+        detail = (
+            "本轮没有出现正确初稿被 Gate 拒答；准确率下降主要来自模型更早拒答"
+            "或初稿本身错误，仍需与第一轮共同解读。"
+        )
     return {
         "title": title,
         "big": f"{plain_accuracy:.0%} → {teg_accuracy:.0%}",
@@ -156,6 +163,7 @@ def live_finding(live_pilot: dict) -> dict[str, str | int]:
         "teg_draft_accuracy": f"{float(teg['model_decision_accuracy']):.0%}",
         "teg_coverage": f"{float(teg['answer_coverage']):.0%}",
         "over_rejections": over_rejections,
+        "detail": detail,
         "conclusion": conclusion,
     }
 
@@ -177,16 +185,67 @@ def live_metrics_rows(live_pilot: dict) -> str:
     return "".join(rows)
 
 
+def pilot_comparison_rows(baseline: dict, latest: dict) -> str:
+    rows = []
+    for strategy, label in STRATEGY_LABELS.items():
+        first = metric_for(baseline, strategy)
+        second = metric_for(latest, strategy)
+        rows.append(
+            "<tr><td>{}</td><td><b>{}</b></td><td>{}</td><td><b>{}</b></td>"
+            "<td>{}</td></tr>".format(
+                html.escape(label),
+                live_percent(first["decision_accuracy"]),
+                live_percent(first["answer_coverage"]),
+                live_percent(second["decision_accuracy"]),
+                live_percent(second["answer_coverage"]),
+            )
+        )
+    return "".join(rows)
+
+
+def showcase_story(case_rows: list[dict]) -> tuple[str, str]:
+    correct = [
+        STRATEGY_LABELS[row["strategy"]]
+        for row in case_rows
+        if row["final_decision_correct"] == "1"
+    ]
+    abstained = sum(row["final_action"] == "abstain" for row in case_rows)
+    over_rejected = sum(
+        row["model_draft_correct"] == "1"
+        and row["final_decision_correct"] == "0"
+        and row["final_action"] == "abstain"
+        for row in case_rows
+    )
+    if len(correct) == 4:
+        headline = "四策略一致正确"
+    elif not correct:
+        headline = "四策略均未形成正确答案"
+    elif over_rejected:
+        headline = "正确初稿被严格规则拒答"
+    elif correct == ["普通搜索 Agent"]:
+        headline = "只有普通搜索回答正确"
+    else:
+        headline = "策略结果出现分歧"
+    correct_text = "、".join(correct) if correct else "无"
+    interpretation = (
+        f"本轮最终答对的策略：{correct_text}；四种策略中有 {abstained} 个拒答。"
+    )
+    if over_rejected:
+        interpretation += f"其中 {over_rejected} 个属于模型初稿正确但被本地 Gate 拒绝。"
+    return headline, interpretation
+
+
 def live_case_cards(live_pilot: dict) -> str:
     outcomes = live_pilot["outcomes"]
     cards = []
-    for case_id, (headline, interpretation) in SHOWCASE_CASES.items():
+    for case_id in SHOWCASE_CASES:
         case_rows = [row for row in outcomes if row["case_id"] == case_id]
         if len(case_rows) != 4:
             raise ValueError(f"Expected four strategies for showcase case {case_id}")
         case_rows.sort(
             key=lambda row: list(STRATEGY_LABELS).index(row["strategy"])
         )
+        headline, interpretation = showcase_story(case_rows)
         first = case_rows[0]
         gold = display_value_with_unit(
             first["gold_answer"], first["canonical_unit"]
@@ -437,18 +496,41 @@ def markdown_report(payload: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def html_report(payload: dict, live_pilot: dict | None = None) -> str:
+def html_report(
+    payload: dict,
+    live_pilot: dict | None = None,
+    baseline_pilot: dict | None = None,
+) -> str:
     live_pilot = live_pilot or load_live_pilot()
+    baseline_pilot = baseline_pilot or load_live_pilot(BASELINE_LIVE_PILOT_DIR)
     live_manifest = live_pilot["manifest"]
+    baseline_manifest = baseline_pilot["manifest"]
     live_scope = live_manifest["scope"]
     live_usage = live_manifest["selected_usage"]
     live_model = live_manifest["source_protocol"]["requested_model"]
-    live_date = live_manifest["selected_run_window"]["first_record_at"][:10]
+    live_date = (
+        datetime.fromisoformat(
+            live_manifest["selected_run_window"]["first_record_at"]
+        )
+        .astimezone(ZoneInfo("Asia/Shanghai"))
+        .date()
+        .isoformat()
+    )
     metric_rows = live_metrics_rows(live_pilot)
+    comparison_rows = pilot_comparison_rows(baseline_pilot, live_pilot)
     case_cards = live_case_cards(live_pilot)
     finding = live_finding(live_pilot)
     live_questions = int(live_scope["questions"])
     live_runs = int(live_scope["valid_runs"])
+    baseline_runs = int(baseline_manifest["scope"]["valid_runs"])
+    total_live_runs = live_runs + baseline_runs
+    total_searches = int(live_usage["web_search_calls"]) + int(
+        baseline_manifest["selected_usage"]["web_search_calls"]
+    )
+    total_sources = int(live_usage["search_sources"]) + int(
+        baseline_manifest["selected_usage"]["search_sources"]
+    )
+    baseline_model = baseline_manifest["source_protocol"]["requested_model"]
     runs = payload["runs"]
     successes = [run for run in runs if run["outcome"] == "success"]
     failures = [run for run in runs if run["outcome"] == "failure"]
@@ -511,7 +593,7 @@ h1{{font-size:clamp(38px,6vw,68px);line-height:1.04;letter-spacing:-.045em;margi
 .hero-copy{{max-width:820px;color:#d8e6fb;font-size:19px}}.hero-actions{{display:flex;gap:12px;flex-wrap:wrap;margin:30px 0}}
 .button{{display:inline-block;padding:11px 17px;border-radius:10px;text-decoration:none;font-weight:800}}.button.primary{{background:#67e8f9;color:#082f49}}.button.secondary{{border:1px solid #ffffff55;color:white}}
 nav{{margin-top:34px;display:flex;gap:22px;flex-wrap:wrap}}nav a{{color:#c7d7ee;text-decoration:none;font-size:14px}}nav a:hover{{color:white}}
-main{{padding:36px 24px 80px}}.summary,.grid,.compare,.research-grid,.live-cases,.pilot-grid{{display:grid;gap:18px}}
+main{{padding:36px 24px 80px}}.summary,.grid,.compare,.research-grid,.live-cases,.pilot-grid,.timeline,.atlas-flow{{display:grid;gap:18px}}
 .grid,.compare,.research-grid{{grid-template-columns:repeat(2,1fr)}}.summary{{grid-template-columns:repeat(4,1fr);margin-top:-74px}}
 .stat,.card,.panel,.compare section,.live-case,.finding{{background:white;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 32px #14264a12}}
 .stat,.card,.panel,.compare section{{padding:22px}}.stat b{{display:block;font-size:30px;line-height:1.2;color:#164e63}}.stat small{{display:block;margin-top:5px;color:var(--muted)}}
@@ -520,6 +602,7 @@ h2{{font-size:clamp(27px,4vw,38px);line-height:1.2;letter-spacing:-.025em;margin
 .success{{border-top:4px solid var(--green)}}.failure{{border-top:4px solid var(--red)}}.badge,.case-kicker{{display:inline-block;padding:3px 10px;border-radius:99px;background:#eaf8f0;color:var(--green);font-weight:800;font-size:13px}}.failure .badge{{background:#fff0ee;color:var(--red)}}
 .question,footer,.section-copy{{color:var(--muted)}}code{{background:#eef2f7;padding:2px 6px;border-radius:5px;word-break:break-word}}pre{{background:#101828;color:#eef4ff;padding:18px;border-radius:12px;overflow:auto}}pre code{{background:none;color:inherit;padding:0}}.metrics,.case-meta,.artifact-links{{display:flex;gap:8px;flex-wrap:wrap}}.metrics span,.case-meta span{{background:#f2f4f7;border-radius:8px;padding:5px 9px}}
 .panel{{overflow:auto}}.research-grid section{{background:white;border-top:4px solid #164e63;border-radius:14px;padding:20px;box-shadow:0 8px 28px #14264a12}}.research-grid h3{{margin-top:0}}
+.research-grid a{{color:#1d4ed8;font-weight:750;text-decoration:none}}.timeline{{grid-template-columns:repeat(4,1fr);margin:24px 0}}.step{{position:relative;background:#0f1f38;color:#e6f2ff;border-radius:15px;padding:20px;min-height:174px}}.step b{{display:block;color:#67e8f9;font-size:12px;letter-spacing:.12em;margin-bottom:12px}}.step h3{{margin:0 0 8px}}.step p{{margin:0;color:#bdd0e8;font-size:14px}}.atlas-flow{{grid-template-columns:repeat(5,1fr);margin:22px 0}}.atlas-flow div{{background:#e9f7fa;border:1px solid #b6e3e8;border-radius:12px;padding:15px;text-align:center;font-weight:800;color:#164e63}}.archive{{margin-top:48px;background:white;border:1px solid var(--line);border-radius:16px;padding:20px}}.archive summary{{cursor:pointer;font-size:20px;font-weight:850;color:#164e63}}.archive[open] summary{{margin-bottom:24px}}
 .lead{{font-size:18px;background:#e9f7fa;border-radius:14px;padding:20px;border:1px solid #b6e3e8}}.boundary{{background:#fff8e8;border:1px solid #efd99d;border-radius:12px;padding:15px}}
 .pilot-grid{{grid-template-columns:minmax(0,1.65fr) minmax(260px,.75fr);align-items:stretch}}.finding{{padding:25px;background:linear-gradient(145deg,#fff7ed,#fff);border-color:#fed7aa}}.finding h3{{color:#9a3412;margin-top:0}}.finding .big{{font-size:44px;line-height:1;font-weight:900;color:#c2410c;margin:18px 0 8px}}.finding p:last-child{{margin-bottom:0}}
 .live-cases{{grid-template-columns:repeat(3,1fr)}}.live-case{{padding:22px;display:flex;flex-direction:column}}.live-case h3{{min-height:76px}}.live-case p{{color:#475467}}.gold{{background:#f0f9ff;border-radius:9px;padding:9px 11px}}
@@ -527,34 +610,54 @@ h2{{font-size:clamp(27px,4vw,38px);line-height:1.2;letter-spacing:-.025em;margin
 .artifact-links{{margin:18px 0 0}}.artifact-links a{{background:#e8f1ff;color:#1d4ed8;text-decoration:none;border-radius:9px;padding:8px 12px;font-weight:700}}
 table{{border-collapse:collapse;width:100%}}th,td{{padding:11px;border-bottom:1px solid #e7eaf0;text-align:left;white-space:nowrap}}th{{background:#f8fafc;color:#344054;font-size:13px}}
 footer{{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}}
-@media(max-width:900px){{.summary{{grid-template-columns:repeat(2,1fr)}}.live-cases,.pilot-grid{{grid-template-columns:1fr}}.live-case h3{{min-height:0}}}}
-@media(max-width:650px){{header{{padding-bottom:70px}}.hero-top{{align-items:flex-start;flex-direction:column}}.summary,.grid,.compare,.research-grid{{grid-template-columns:1fr}}.summary{{margin-top:-54px}}.strategy-results li{{align-items:flex-start;flex-direction:column;gap:2px}}.strategy-results b{{text-align:left}}}}
+@media(max-width:900px){{.summary{{grid-template-columns:repeat(2,1fr)}}.live-cases,.pilot-grid,.timeline{{grid-template-columns:1fr}}.atlas-flow{{grid-template-columns:repeat(2,1fr)}}.live-case h3{{min-height:0}}}}
+@media(max-width:650px){{header{{padding-bottom:70px}}.hero-top{{align-items:flex-start;flex-direction:column}}.summary,.grid,.compare,.research-grid,.atlas-flow{{grid-template-columns:1fr}}.summary{{margin-top:-54px}}.strategy-results li{{align-items:flex-start;flex-direction:column;gap:2px}}.strategy-results b{{text-align:left}}}}
 </style></head><body><header><div class="wrap"><div class="hero-top"><p class="eyebrow">FYP · Temporal Reliability Benchmark</p>
-<span class="live-pill">REAL PILOT · {live_date}</span></div>
-<h1>别只问答案对不对。<br><span>还要问证据当时是否存在。</span></h1>
-<p class="hero-copy">FinSearchComp-Audit 检查金融研究 Agent 是否使用了未来发布、错误期间、
-错误版本或错误单位的证据。项目同时提供 100 条受控冲突实验，以及
-{live_scope['valid_runs']} 条真实 Claude Web Search trace。</p>
-<div class="hero-actions"><a class="button primary" href="#live-pilot">查看 {live_runs} 条真实实验</a>
-<a class="button secondary" href="temporal-audit.html">查看 100 条受控实验</a></div>
-<nav><a href="#teacher">研究问题</a><a href="#live-pilot">真实结果</a><a href="#live-cases">实际案例</a>
-<a href="#reproduce">复现</a><a href="#cases">历史审计案例</a><a href="live-pilot.html">完整 Pilot 报告</a>
-<a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/LITERATURE_AND_ROADMAP.md">论文与升级路线</a></nav>
+<span class="live-pill">MULTI-MODEL · {live_date}</span></div>
+<h1>从时间证据审计，升级为<br><span>可纠错的高级金融 RAG。</span></h1>
+<p class="hero-copy">FinSearchComp-Audit 将 2024–2026 顶会中的自适应检索、时间感知排序、
+冲突仲裁和选择性回答落到金融 point-in-time 场景，并用 Sonnet 与 Haiku 两轮真实
+Web Search 实验检验开放网页中的可靠性。</p>
+<div class="hero-actions"><a class="button primary" href="#model-comparison">查看两轮真实模型实验</a>
+<a class="button secondary" href="#advanced-rag">查看 ATLAS-RAG</a></div>
+<nav><a href="#evolution">研究演进</a><a href="#top-papers">顶会技术</a><a href="#model-comparison">两轮真实模型</a>
+<a href="#advanced-rag">ATLAS-RAG</a><a href="#controlled">受控实验</a><a href="#reproduce">复现</a>
+<a href="live-pilot.html">最新 Pilot 报告</a></nav>
 </div></header><main class="wrap"><section class="summary">
-<div class="stat"><b>{live_scope['valid_runs']}</b><small>严格验证的真实 trace</small></div>
-<div class="stat"><b>{int(live_usage['web_search_calls'])}</b><small>真实 Web Search</small></div>
-<div class="stat"><b>{int(live_usage['search_sources'])}</b><small>保存的完整来源</small></div>
-<div class="stat"><b>100</b><small>受控冲突实例</small></div></section>
-<h2 id="teacher">30 秒看懂研究</h2>
+<div class="stat"><b>2</b><small>实际 Claude 模型轮次</small></div>
+<div class="stat"><b>{total_live_runs}</b><small>严格验证的真实 trace</small></div>
+<div class="stat"><b>{total_searches}</b><small>真实 Web Search</small></div>
+<div class="stat"><b>{total_sources:,}</b><small>保存的完整来源</small></div></section>
+<h2 id="evolution">研究如何从审计基线升级到 ATLAS-RAG</h2>
 <p class="lead"><b>研究问题：</b>当金融搜索 Agent 遇到未来信息、错期间、错版本或错单位时，显式的证据审计能否降低错误证据采用率，同时保留安全证据？</p>
+<div class="timeline"><article class="step"><b>01 · AUDIT</b><h3>保存并审计轨迹</h3><p>从 12 条成功/失败案例出发，检查答案、来源、时间和工具调用。</p></article>
+<article class="step"><b>02 · BENCHMARK</b><h3>构造受控冲突</h3><p>20 个真实金融问题 × 5 类证据条件，隔离日期、期间、版本和单位错误。</p></article>
+<article class="step"><b>03 · LIVE LLM</b><h3>两轮真实模型验证</h3><p>Sonnet 与 Haiku 各运行 20×4 策略，保留 160 条有效 Web Search trace。</p></article>
+<article class="step"><b>04 · ATLAS-RAG</b><h3>把失败机制变成系统</h3><p>路由、时间排序、事实冲突图、纠错检索与低置信度拒答形成闭环。</p></article></div>
 <div class="research-grid">
 <section><h3>研究空白</h3><p>现有 Benchmark 多关注最终答案正确率，难以发现“答案碰巧正确，但证据在当时不可用”的时间穿越。</p></section>
 <section><h3>我构建的内容</h3><p>20 个真实金融问题、100 条人工控制证据、四种策略、Temporal Robustness Gap 和逐证据审计 trace。</p></section>
 <section><h3>受控实验发现</h3><p>普通策略准确率 20%，完整验证器在人工标注元数据下达到 100%，验证了日期、期间、版本和单位检查机制。</p></section>
 <section><h3>真实实验发现</h3><p>严格 Gate 在开放网页上因日期元数据缺失而过度拒答。真实结果与受控上限不同，这正是当前最重要的研究发现。</p></section>
 </div>
+<span class="section-label">TOP-CONFERENCE RAG · 2024–2026</span>
+<h2 id="top-papers">顶会技术如何进入项目</h2>
+<div class="research-grid">
+<section><h3>自适应检索与路由</h3><p>Adaptive-RAG、R³AG 启发系统先判断问题类型，再选择行情、财报、官方统计或 Web 来源。</p><a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/TOP_CONFERENCE_RAG_2026.md">查看论文与实现映射 →</a></section>
+<section><h3>相关性 × 时间新鲜度</h3><p>Re³ 启发检索阶段同时考虑语义相关性、截止日、数据期间、版本与来源效用。</p><a href="#advanced-rag">查看 ATLAS 检索结果 →</a></section>
+<section><h3>冲突感知证据仲裁</h3><p>Astute RAG、FaithfulRAG 与 SeCon-RAG 启发事实级冲突边和 listwise 来源仲裁。</p><a href="advanced-rag/README.md">查看证据图设计 →</a></section>
+<section><h3>纠错检索与选择性回答</h3><p>Self-RAG、DRAGIN 与 GRIP 启发低置信度补检索；证据仍不足时明确拒答。</p><a href="advanced-rag/traces.jsonl">查看状态轨迹 →</a></section>
+</div>
+<span class="section-label">TWO REAL-LLM ROUNDS</span>
+<h2 id="model-comparison">Sonnet 与 Haiku：相同 20 题 × 4 策略规模</h2>
+<p class="section-copy">两轮都是真实模型和真实 Web Search；每轮内部只改变策略。跨模型结果用于外部有效性观察，
+不是模型排行榜，也不把不同运行窗口造成的网页变化误当成模型能力差异。</p>
+<div class="panel"><table><thead><tr><th>策略</th><th>Sonnet 正确率</th><th>Sonnet 覆盖率</th>
+<th>Haiku 正确率</th><th>Haiku 覆盖率</th></tr></thead><tbody>{comparison_rows}</tbody></table></div>
+<div class="artifact-links"><a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/temporal_clash/results/live_pilot_20q_claude_complete/README.md">第一轮 Sonnet 研究卡</a>
+<a href="live-pilot.html">第二轮 Haiku 研究卡</a></div>
 <span class="section-label">LIVE WEB SEARCH STUDY</span>
-<h2 id="live-pilot">{live_questions} 题 × 4 策略的真实 Web Search Agent pilot</h2>
+<h2 id="live-pilot">第二轮真实 Web Search Agent：{live_questions} 题 × 4 策略</h2>
 <p class="section-copy">同一个 <code>{html.escape(live_model)}</code>、同一批问题、相同推理强度与搜索上限，
 只改变四种策略。{live_runs} 条记录全部通过严格 trace 校验；所有已回答记录都有原生引用，
 所有运行都保存了完整搜索来源。</p>
@@ -563,8 +666,7 @@ footer{{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}}
 <tbody>{metric_rows}</tbody></table></div>
 <aside class="finding"><h3>{finding['title']}</h3><div class="big">{finding['big']}</div>
 <p>普通 Agent 最终正确率为 {finding['plain_accuracy']}，完整证据验证器为
-{finding['teg_accuracy']}。严格策略共有 <b>{finding['over_rejections']} 条正确初稿最终被拒答</b>；
-网页元数据缺失是需要独立验证的主要机制之一。</p>
+{finding['teg_accuracy']}。{finding['detail']}</p>
 <p>{finding['conclusion']}</p></aside></div>
 <div class="artifact-links"><a href="live-pilot.html">阅读完整研究卡</a>
 <a href="live-pilot/case_outcomes.csv">下载逐题结果</a>
@@ -572,10 +674,10 @@ footer{{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}}
 <a href="live-pilot/trace.jsonl">查看 {live_runs} 条 trace</a>
 <a href="live-pilot/exclusions.json">查看排除记录</a></div>
 <h2 id="live-cases">三个来自真实 trace 的例子</h2>
-<p class="section-copy">以下不是演示脚本，而是 2026-07-31 实际运行记录的逐题对照。
+<p class="section-copy">以下不是演示脚本，而是 {live_date} 实际运行记录的逐题对照。
 每张卡片都汇总同一道题的四种策略；完整 {live_questions} 题结果和中文解释可从上方下载。</p>
 <div class="live-cases">{case_cards}</div>
-<h2>100 条受控实验：四策略对照</h2>
+<h2 id="controlled">100 条受控实验：四策略对照</h2>
 <div class="panel"><table><thead><tr><th>方法</th><th>决策准确率 ↑</th><th>挑战准确率 ↑</th><th>TRG ↓</th><th>检测 F1 ↑</th></tr></thead><tbody>
 <tr><td>普通 Agent</td><td>20.0%</td><td>0.0%</td><td>100.0%</td><td>0.0%</td></tr>
 <tr><td>时间约束 Prompt</td><td>40.0%</td><td>25.0%</td><td>75.0%</td><td>40.0%</td></tr>
@@ -583,12 +685,32 @@ footer{{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}}
 <tr><td><b>完整证据验证器</b></td><td><b>100.0%</b></td><td><b>100.0%</b></td><td><b>0.0%</b></td><td><b>100.0%</b></td></tr>
 </tbody></table></div>
 <p class="boundary"><b>结论边界：</b>受控实验是确定性协议验证，不是真实 LLM 排名。
-真实 {live_questions}×4 pilot 表明开放网页中的日期缺失会改变结论，因此两层实验必须分开报告。</p>
+两轮真实 {live_questions}×4 pilot 表明开放网页中的日期缺失和模型拒答倾向都会改变结论，因此受控与真实实验必须分开报告。</p>
+<span class="section-label">ADVANCED TEMPORAL RAG</span>
+<h2 id="advanced-rag">ATLAS-RAG：从静态 Top-K 到自适应检索与冲突仲裁</h2>
+<p class="section-copy">受 2024–2026 年 Adaptive RAG、temporal retrieval、GraphRAG 和
+conflict-aware RAG 启发，新增自适应来源路由、BM25/向量特征/时间/来源效用融合、
+事实级冲突图、低置信度纠错检索与选择性回答。实现不会读取 gold、是否扰动等评测标签。</p>
+<div class="atlas-flow"><div>问题分析<br>来源路由</div><div>混合检索<br>时间排序</div><div>事实冲突图<br>listwise 仲裁</div><div>低置信度<br>纠错检索</div><div>回答 / 拒答<br>完整 trace</div></div>
+<div class="pilot-grid"><div class="panel"><table><thead><tr><th>方法</th><th>Recall@5 ↑</th>
+<th>MRR@10 ↑</th><th>Top-5 未来证据率 ↓</th></tr></thead><tbody>
+<tr><td>BM25</td><td>95%</td><td>0.563</td><td>37%</td></tr>
+<tr><td>Hybrid RRF</td><td>95%</td><td>0.642</td><td>42%</td></tr>
+<tr><td><b>ATLAS temporal</b></td><td><b>100%</b></td><td><b>0.929</b></td><td><b>30%</b></td></tr>
+</tbody></table></div><aside class="finding"><h3>选择性回答</h3><div class="big">95% / 100%</div>
+<p>20 题回答覆盖率为 95%，已回答样本准确率为 100%；一道低置信度题在纠错检索后仍选择拒答。</p>
+<p>这些是受控离线结果，不是论文复现或真实 Web 的 SOTA 声明。</p></aside></div>
+<div class="artifact-links"><a href="advanced-rag/README.md">阅读离线实验报告</a>
+<a href="advanced-rag/retrieval_per_query.csv">下载逐题检索结果</a>
+<a href="advanced-rag/system_per_query.csv">下载逐题决策结果</a>
+<a href="advanced-rag/traces.jsonl">查看完整状态 trace</a></div>
 <h2 id="reproduce">一分钟复现</h2><div class="panel"><p><b>确定性复现：</b>从保存的 Agent 轨迹重新生成报告并验证一致性；不会把记录数据冒充成实时搜索。</p>
 <pre><code>git clone https://github.com/QiQiyzhu/FinSearchComp-Audit.git
 cd FinSearchComp-Audit
 python reproduce.py</code></pre>
-<p>无需 API Key。命令会验证 {run_count} 条保存轨迹，并运行 100 条受控时间可靠性实例，生成核心审计与 Temporal Leakage Detector 展示页。</p></div>
+<p>无需 API Key。命令会验证 {run_count} 条保存轨迹，运行 100 条受控时间可靠性实例，
+并重建 ATLAS-RAG 的检索与选择性回答评测。</p></div>
+<details class="archive"><summary>展开早期搜索审计基线：12 个成功/失败案例</summary>
 <h2 id="trajectory">完整搜索任务轨迹</h2><div class="panel"><h3>S&P 500 最大单月涨幅</h3>
 <ol><li>规划：ticker → 时间窗 → 月频 → 相邻月收益 → 最大值。</li>
 <li>查询 <code>^GSPC monthly close 2009-12-01 to 2025-04-30</code>。</li>
@@ -600,9 +722,11 @@ python reproduce.py</code></pre>
 <section><h3>金融数据接口</h3><p>擅长 OHLC 和长时间序列；结构化、易复算、效率高。仍需明确 ticker、复权、时区和供应商口径。</p></section></div>
 <h2>评价框架</h2><div class="panel"><p><b>真实性：</b>答案正确 + 引用真的支持 + 时间版本正确。</p>
 <p><b>完整性：</b>题目每个评分点都回答。</p><p><b>效率：</b>比较工具数、耗时和无效搜索；结构化题尽早切换金融 API。</p></div>
+</details>
 <footer>真实实验：<a href="live-pilot.html">研究卡</a> ·
 <a href="live-pilot/trace.jsonl">{live_runs} 条 trace</a> ·
 受控实验：<a href="temporal-audit.html">100 条实例</a> ·
+高级 RAG：<a href="advanced-rag/README.md">ATLAS-RAG</a> ·
 历史审计：<a href="report.md">report.md</a> ·
 <a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/REPRODUCIBILITY.md">复现说明</a></footer>
 </main></body></html>"""

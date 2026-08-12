@@ -23,55 +23,55 @@ footer{margin-top:48px;color:var(--muted)}code{background:#eef2f6;border-radius:
 这是外部有效性 pilot，不是完整 benchmark 或模型排名。</p></div></header>
 <main class="wrap"><section class="facts">
 <div class="fact"><b>80</b><span>严格有效记录</span></div>
-<div class="fact"><b>167</b><span>真实 Web Search</span></div>
-<div class="fact"><b>1228</b><span>完整来源</span></div>
-<div class="fact"><b>256</b><span>原生 citations</span></div>
+<div class="fact"><b>80</b><span>真实 Web Search</span></div>
+<div class="fact"><b>800</b><span>完整来源</span></div>
+<div class="fact"><b>152</b><span>原生 citations</span></div>
 </section>
-<h2>核心结果</h2><p>请求和实际模型均为 <code>claude-sonnet-5</code>。
+<h2>核心结果</h2><p>请求和实际模型均为 <code>claude-haiku-4-5-20251001</code>。
 所有已回答记录的引用覆盖率为 100%，全部 80 条记录都保存了完整来源。</p>
 <div class="panel"><table><thead><tr><th>策略</th><th>最终正确率</th>
 <th>模型初稿正确率</th><th>回答覆盖率</th><th>引用覆盖</th><th>完整来源</th></tr></thead>
-<tbody><tr><td>普通搜索 Agent</td><td><b>50%</b></td><td>50%</td><td>65%</td><td>100%</td><td>100%</td></tr><tr><td>时间约束 Prompt</td><td><b>45%</b></td><td>45%</td><td>65%</td><td>100%</td><td>100%</td></tr><tr><td>元数据过滤器</td><td><b>25%</b></td><td>45%</td><td>30%</td><td>100%</td><td>100%</td></tr><tr><td>完整证据验证器</td><td><b>20%</b></td><td>40%</td><td>25%</td><td>100%</td><td>100%</td></tr></tbody></table></div>
+<tbody><tr><td>普通搜索 Agent</td><td><b>25%</b></td><td>25%</td><td>35%</td><td>100%</td><td>100%</td></tr><tr><td>时间约束 Prompt</td><td><b>15%</b></td><td>15%</td><td>15%</td><td>100%</td><td>100%</td></tr><tr><td>元数据过滤器</td><td><b>15%</b></td><td>15%</td><td>15%</td><td>100%</td><td>100%</td></tr><tr><td>完整证据验证器</td><td><b>10%</b></td><td>10%</td><td>10%</td><td>100%</td><td>100%</td></tr></tbody></table></div>
 <h2>如何解释结果</h2><div class="note"><b>真实结果没有复制受控实验。</b>
-完整验证器的模型初稿正确率为 40%，最终正确率为
-20%，回答覆盖率为 25%。元数据过滤器和完整验证器合计有
-8 条正确初稿最终被拒答。这说明下一步需要独立元数据获取和拒答校准；
+完整验证器的模型初稿正确率为 10%，最终正确率为
+10%，回答覆盖率为 10%。元数据过滤器和完整验证器合计有
+0 条正确初稿最终被拒答。这说明下一步需要独立元数据获取和拒答校准；
 因此当前不能声称 TEG 已在真实网络上优于基线。</div>
 <h2>实际逐题例子</h2><div class="live-cases"><article class="live-case">
-            <div class="case-kicker">真实的过度拒答案例</div>
+            <div class="case-kicker">只有普通搜索回答正确</div>
             <h3>Apple 2024财年的净销售额是多少？</h3>
             <p class="gold">参考答案：<b>391,035 百万美元</b></p>
-            <ul class="strategy-results"><li><span>普通搜索 Agent</span><b class="correct">391,035 百万美元 · 正确</b></li><li><span>时间约束 Prompt</span><b class="wrong">390,035 百万美元 · 错误</b></li><li><span>元数据过滤器</span><b class="warn">正确初稿 → Gate 拒答</b></li><li><span>完整证据验证器</span><b class="warn">正确初稿 → Gate 拒答</b></li></ul>
-            <p>元数据与 TEG 的模型初稿都正确，但 SEC 页面在结构化结果中没有发布日期，Gate 最终拒答。</p>
+            <ul class="strategy-results"><li><span>普通搜索 Agent</span><b class="correct">391,035 百万美元 · 正确</b></li><li><span>时间约束 Prompt</span><b class="neutral">拒答</b></li><li><span>元数据过滤器</span><b class="neutral">拒答</b></li><li><span>完整证据验证器</span><b class="neutral">拒答</b></li></ul>
+            <p>本轮最终答对的策略：普通搜索 Agent；四种策略中有 3 个拒答。</p>
             <div class="case-meta"><span>4 次搜索</span>
-            <span>35 个来源</span><span>15 条引用</span></div>
+            <span>40 个来源</span><span>16 条引用</span></div>
             </article><article class="live-case">
-            <div class="case-kicker">四策略一致通过</div>
+            <div class="case-kicker">四策略一致正确</div>
             <h3>截至2024年12月的12个月，美国CPI-U同比上涨多少？</h3>
             <p class="gold">参考答案：<b>2.9%</b></p>
             <ul class="strategy-results"><li><span>普通搜索 Agent</span><b class="correct">2.9% · 正确</b></li><li><span>时间约束 Prompt</span><b class="correct">2.9% · 正确</b></li><li><span>元数据过滤器</span><b class="correct">2.9% · 正确</b></li><li><span>完整证据验证器</span><b class="correct">2.9% · 正确</b></li></ul>
-            <p>四种策略都得到 2.9%，说明元数据足够明确时，严格验证不会必然牺牲覆盖率。</p>
+            <p>本轮最终答对的策略：普通搜索 Agent、时间约束 Prompt、元数据过滤器、完整证据验证器；四种策略中有 0 个拒答。</p>
             <div class="case-meta"><span>4 次搜索</span>
-            <span>34 个来源</span><span>20 条引用</span></div>
+            <span>40 个来源</span><span>11 条引用</span></div>
             </article><article class="live-case">
-            <div class="case-kicker">Prompt 修正了普通搜索</div>
+            <div class="case-kicker">四策略均未形成正确答案</div>
             <h3>2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？</h3>
             <p class="gold">参考答案：<b>5.33 个百分点</b></p>
-            <ul class="strategy-results"><li><span>普通搜索 Agent</span><b class="wrong">4.6 个百分点 · 错误</b></li><li><span>时间约束 Prompt</span><b class="correct">5.33 个百分点 · 正确</b></li><li><span>元数据过滤器</span><b class="neutral">拒答</b></li><li><span>完整证据验证器</span><b class="neutral">拒答</b></li></ul>
-            <p>普通搜索给出 4.6 个百分点，时间约束 Prompt 得到正确的 5.33；严格策略没有在本题形成更好的最终答案。</p>
-            <div class="case-meta"><span>6 次搜索</span>
-            <span>50 个来源</span><span>10 条引用</span></div>
+            <ul class="strategy-results"><li><span>普通搜索 Agent</span><b class="neutral">拒答</b></li><li><span>时间约束 Prompt</span><b class="neutral">拒答</b></li><li><span>元数据过滤器</span><b class="neutral">拒答</b></li><li><span>完整证据验证器</span><b class="neutral">拒答</b></li></ul>
+            <p>本轮最终答对的策略：无；四种策略中有 4 个拒答。</p>
+            <div class="case-meta"><span>4 次搜索</span>
+            <span>40 个来源</span><span>13 条引用</span></div>
             </article></div>
 <h2>全部 20 题的结果说明</h2>
 <p>“正确初稿→拒答”表示模型给出的数字正确，但 Gate 因证据元数据未通过而改变为拒答；
 它是需要复核的过度拒答候选。完整证据与触发原因保存在 trace 和中文逐题说明中。</p>
 <div class="panel"><table class="all-cases"><thead><tr><th>问题</th><th>结论类型</th><th>参考答案</th>
 <th>普通 Agent</th><th>时间 Prompt</th><th>元数据过滤</th><th>完整验证器</th></tr></thead>
-<tbody><tr><td>2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？</td><td><b>过度拒答候选</b></td><td>12.68%</td><td class="correct">12.7% · 正确</td><td class="correct">12.7% · 正确</td><td class="warn">正确初稿→拒答</td><td class="neutral">拒答</td></tr><tr><td>2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？</td><td><b>四策略均未解决</b></td><td>20.83%</td><td class="wrong">-20.8% · 错误</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？</td><td><b>Prompt 修正基线</b></td><td>5.33 个百分点</td><td class="wrong">4.6 个百分点 · 错误</td><td class="correct">5.33 个百分点 · 正确</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Apple 2024财年的净销售额是多少？</td><td><b>过度拒答候选</b></td><td>391,035 百万美元</td><td class="correct">391,035 百万美元 · 正确</td><td class="wrong">390,035 百万美元 · 错误</td><td class="warn">正确初稿→拒答</td><td class="warn">正确初稿→拒答</td></tr><tr><td>截至2024年12月的12个月，美国CPI-U同比上涨多少？</td><td><b>四策略一致正确</b></td><td>2.9%</td><td class="correct">2.9% · 正确</td><td class="correct">2.9% · 正确</td><td class="correct">2.9% · 正确</td><td class="correct">2.9% · 正确</td></tr><tr><td>2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？</td><td><b>过度拒答候选</b></td><td>50 个基点</td><td class="correct">50 个基点 · 正确</td><td class="correct">50 个基点 · 正确</td><td class="correct">50 个基点 · 正确</td><td class="warn">正确初稿→拒答</td></tr><tr><td>中国2024年国际收支初步数中的经常账户顺差是多少亿美元？</td><td><b>四策略一致正确</b></td><td>4,220 亿美元</td><td class="correct">4,220 亿美元 · 正确</td><td class="correct">4,220 亿美元 · 正确</td><td class="correct">4,220 亿美元 · 正确</td><td class="correct">4,220 亿美元 · 正确</td></tr><tr><td>NVIDIA 2022财年的递延所得税资产总额是多少？</td><td><b>四策略均未解决</b></td><td>1,408 百万美元</td><td class="neutral">拒答</td><td class="wrong">1,222 百万美元 · 错误</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>NVIDIA 2024年实施的股票拆分比例是多少？</td><td><b>四策略一致正确</b></td><td>10 股/股</td><td class="correct">10 股/股 · 正确</td><td class="correct">10 股/股 · 正确</td><td class="correct">10 股/股 · 正确</td><td class="correct">10 股/股 · 正确</td></tr><tr><td>Tesla 2024年的研发费用是多少？</td><td><b>过度拒答候选</b></td><td>4,540 百万美元</td><td class="correct">4,540 百万美元 · 正确</td><td class="correct">4,540 百万美元 · 正确</td><td class="correct">4,540 百万美元 · 正确</td><td class="warn">正确初稿→拒答</td></tr><tr><td>按年末收盘价计算，标普500指数2024年的价格回报率是多少？</td><td><b>过度拒答候选</b></td><td>23.31%</td><td class="correct">23.31% · 正确</td><td class="correct">23.31% · 正确</td><td class="warn">正确初稿→拒答</td><td class="correct">23.31% · 正确</td></tr><tr><td>3M 2018财年的资本性支出是多少？</td><td><b>严格策略降低覆盖</b></td><td>1,577 百万美元</td><td class="correct">1,577 百万美元 · 正确</td><td class="wrong">1,600 百万美元 · 错误</td><td class="neutral">拒答</td><td class="wrong">1,600 百万美元 · 错误</td></tr><tr><td>3M 2018财年末的不动产、厂房及设备净额是多少？</td><td><b>四策略均未解决</b></td><td>8,700 百万美元</td><td class="wrong">8,738 百万美元 · 错误</td><td class="wrong">8,738 百万美元 · 错误</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Adobe 2015财年经营活动现金流占总现金流入的比例是多少？</td><td><b>四策略均未解决</b></td><td>0.66 ratio</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Adobe 2016财年经营利润同比增长多少？</td><td><b>四策略均未解决</b></td><td>65.4%</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Adobe 2017财年经营活动现金流占总现金流入的比例是多少？</td><td><b>四策略均未解决</b></td><td>0.83 ratio</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Adobe 2022财年的经营利润率是多少？</td><td><b>过度拒答候选</b></td><td>34.6%</td><td class="correct">34.6% · 正确</td><td class="correct">34.6% · 正确</td><td class="warn">正确初稿→拒答</td><td class="warn">正确初稿→拒答</td></tr><tr><td>AES 2022财年的存货周转率是多少？</td><td><b>四策略均未解决</b></td><td>9.5 times</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Activision Blizzard 2019财年的固定资产周转率是多少？</td><td><b>四策略均未解决</b></td><td>24.26 times</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="wrong">25.65 times · 错误</td><td class="neutral">拒答</td></tr><tr><td>Activision Blizzard 2017至2019财年资本性支出占收入比例的三年平均值是多少？</td><td><b>四策略均未解决</b></td><td>1.9%</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr></tbody></table></div>
+<tbody><tr><td>2010年1月至2025年4月，标普500指数最大的单月涨幅是多少？</td><td><b>四策略均未解决</b></td><td>12.68%</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>2022年3月16日美联储首次加息后的三个月内，标普500最大回撤是多少？</td><td><b>四策略均未解决</b></td><td>20.83%</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？</td><td><b>四策略均未解决</b></td><td>5.33 个百分点</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Apple 2024财年的净销售额是多少？</td><td><b>严格策略降低覆盖</b></td><td>391,035 百万美元</td><td class="correct">391,035 百万美元 · 正确</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>截至2024年12月的12个月，美国CPI-U同比上涨多少？</td><td><b>四策略一致正确</b></td><td>2.9%</td><td class="correct">2.9% · 正确</td><td class="correct">2.9% · 正确</td><td class="correct">2.9% · 正确</td><td class="correct">2.9% · 正确</td></tr><tr><td>2024年9月18日FOMC将联邦基金利率目标区间下调了多少个基点？</td><td><b>四策略一致正确</b></td><td>50 个基点</td><td class="correct">50 个基点 · 正确</td><td class="correct">50 个基点 · 正确</td><td class="correct">50 个基点 · 正确</td><td class="correct">50 个基点 · 正确</td></tr><tr><td>中国2024年国际收支初步数中的经常账户顺差是多少亿美元？</td><td><b>四策略均未解决</b></td><td>4,220 亿美元</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>NVIDIA 2022财年的递延所得税资产总额是多少？</td><td><b>四策略均未解决</b></td><td>1,408 百万美元</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>NVIDIA 2024年实施的股票拆分比例是多少？</td><td><b>策略结果分化</b></td><td>10 股/股</td><td class="correct">10 股/股 · 正确</td><td class="correct">10 股/股 · 正确</td><td class="correct">10 股/股 · 正确</td><td class="neutral">拒答</td></tr><tr><td>Tesla 2024年的研发费用是多少？</td><td><b>严格策略降低覆盖</b></td><td>4,540 百万美元</td><td class="correct">4,540 百万美元 · 正确</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>按年末收盘价计算，标普500指数2024年的价格回报率是多少？</td><td><b>四策略均未解决</b></td><td>23.31%</td><td class="wrong">25.02% · 错误</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>3M 2018财年的资本性支出是多少？</td><td><b>四策略均未解决</b></td><td>1,577 百万美元</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>3M 2018财年末的不动产、厂房及设备净额是多少？</td><td><b>四策略均未解决</b></td><td>8,700 百万美元</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Adobe 2015财年经营活动现金流占总现金流入的比例是多少？</td><td><b>四策略均未解决</b></td><td>0.66 ratio</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Adobe 2016财年经营利润同比增长多少？</td><td><b>四策略均未解决</b></td><td>65.4%</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Adobe 2017财年经营活动现金流占总现金流入的比例是多少？</td><td><b>四策略均未解决</b></td><td>0.83 ratio</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Adobe 2022财年的经营利润率是多少？</td><td><b>四策略均未解决</b></td><td>34.6%</td><td class="wrong">26.8% · 错误</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>AES 2022财年的存货周转率是多少？</td><td><b>四策略均未解决</b></td><td>9.5 times</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Activision Blizzard 2019财年的固定资产周转率是多少？</td><td><b>四策略均未解决</b></td><td>24.26 times</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr><tr><td>Activision Blizzard 2017至2019财年资本性支出占收入比例的三年平均值是多少？</td><td><b>四策略均未解决</b></td><td>1.9%</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td><td class="neutral">拒答</td></tr></tbody></table></div>
 <h2>选择规则与排除</h2><div class="panel"><p>源运行共产生
 <b>80 条成功记录</b>。公开指标保留预定的全部 20 道问题与四种策略，共 80 条有效记录；没有按结果排除任何成功的 case–strategy 单元。</p>
-<p>另有 4 次中转连接中断。总 HTTP 尝试估计为
-164–168 次，
+<p>另有 1 次中转连接中断。总 HTTP 尝试估计为
+161–162 次，
 未超过批准上限 168。这些错误均写入排除记录。</p></div>
 <h2>下载可审计产物</h2><div class="links">
 <a href="live-pilot/case_outcomes.csv">逐题结果 CSV</a>
