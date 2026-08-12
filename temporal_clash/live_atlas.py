@@ -7,7 +7,7 @@ from urllib.parse import urlsplit, urlunsplit
 
 
 ATLAS_STRATEGY = "atlas_rag"
-ATLAS_METHOD_VERSION = "live-atlas-1.0"
+ATLAS_METHOD_VERSION = "live-atlas-1.1"
 
 
 _MARKET_TERMS = (
@@ -221,9 +221,56 @@ def _source_metadata(
     return None, "unavailable", _source_tier(evidence_url)
 
 
+def _period_bound(value: str, *, upper: bool) -> tuple[int, int, int] | None:
+    match = re.fullmatch(
+        r"(?i)(?:FY)?((?:19|20)\d{2})(?:-(\d{2})(?:-(\d{2}))?)?",
+        value.strip(),
+    )
+    if not match:
+        return None
+    year, month, day = match.groups()
+    if day:
+        return int(year), int(month or 1), int(day)
+    if month:
+        return int(year), int(month), 31 if upper else 1
+    return int(year), 12 if upper else 1, 31 if upper else 1
+
+
+def _period_compatible(observed: Any, expected: Any) -> bool | None:
+    if observed is None or not str(observed).strip():
+        return None
+    observed_text = str(observed).strip()
+    expected_text = str(expected).strip()
+    if observed_text.casefold() == expected_text.casefold():
+        return True
+
+    expected_parts = expected_text.split("/")
+    observed_parts = observed_text.split("/")
+    expected_lower = _period_bound(expected_parts[0], upper=False)
+    expected_upper = _period_bound(expected_parts[-1], upper=True)
+    observed_lower = _period_bound(observed_parts[0], upper=False)
+    observed_upper = _period_bound(observed_parts[-1], upper=True)
+    if any(
+        item is None
+        for item in (expected_lower, expected_upper, observed_lower, observed_upper)
+    ):
+        return None
+    return bool(
+        expected_lower <= observed_lower
+        and observed_upper <= expected_upper
+    )
+
+
 def _field_status(observed: Any, expected: Any, field: str) -> tuple[str, str | None]:
     if observed is None or not str(observed).strip():
         return "unknown", f"{field}_unknown"
+    if field == "target_period":
+        compatible = _period_compatible(observed, expected)
+        if compatible is None:
+            return "unknown", "target_period_unparseable"
+        if compatible:
+            return "matched", None
+        return "conflict", "target_period_mismatch"
     if str(observed).strip() != str(expected):
         return "conflict", f"{field}_mismatch"
     return "matched", None

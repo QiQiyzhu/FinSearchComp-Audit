@@ -311,6 +311,62 @@ class LiveAgentTests(unittest.TestCase):
         self.assertEqual(audit["source_date_provenance"], "search_result_page_age")
         self.assertEqual(rejected["action"], "abstain")
 
+    def test_atlas_accepts_evidence_subperiod_inside_requested_range(self) -> None:
+        range_case = {
+            **CASE,
+            "target_period": "2010-01/2025-04",
+            "cutoff_date": "2025-05-01",
+        }
+        result = {
+            "action": "answer",
+            "answer_value": "12.68",
+            "unit": "percent",
+            "explanation": "fixture",
+            "evidence": [
+                {
+                    "url": "https://example.com/2020-05-04",
+                    "title": "April 2020",
+                    "published_at": "2020-05-04",
+                    "target_period": "2020-04",
+                    "revision": "final",
+                    "unit": "percent",
+                    "evidence_text": "April 2020 return was 12.68%",
+                }
+            ],
+        }
+        accepted = apply_local_validation("atlas_rag", result, range_case, [])
+        self.assertEqual(accepted["action"], "answer")
+        self.assertEqual(
+            accepted["evidence_audits"][0]["field_states"]["target_period"],
+            "matched",
+        )
+
+    def test_atlas_rejects_evidence_period_outside_requested_range(self) -> None:
+        range_case = {**CASE, "target_period": "FY2017/FY2019"}
+        result = {
+            "action": "answer",
+            "answer_value": "1.9",
+            "unit": "percent",
+            "explanation": "fixture",
+            "evidence": [
+                {
+                    "url": "https://example.com/report",
+                    "title": "Report",
+                    "published_at": "2020-01-01",
+                    "target_period": "FY2021",
+                    "revision": "final",
+                    "unit": "percent",
+                    "evidence_text": "outside-period value",
+                }
+            ],
+        }
+        rejected = apply_local_validation("atlas_rag", result, range_case, [])
+        self.assertEqual(rejected["action"], "abstain")
+        self.assertIn(
+            "target_period_mismatch",
+            rejected["evidence_audits"][0]["violations"],
+        )
+
     def test_live_client_uses_injected_transport(self) -> None:
         client = OpenAIResponsesWebSearch(
             RequestConfig(model="fixture-model", max_retries=0),
