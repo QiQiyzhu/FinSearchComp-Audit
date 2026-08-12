@@ -22,6 +22,7 @@ from .live_agent import (
     redact_sensitive,
 )
 from .live_atlas import atlas_initial_query, atlas_route
+from .atlas_fusion import build_fusion_packet, build_fusion_payload
 from .live_evaluate import (
     answer_is_correct,
     model_answer_is_correct,
@@ -365,6 +366,43 @@ class LiveAgentTests(unittest.TestCase):
         self.assertIn(
             "target_period_mismatch",
             rejected["evidence_audits"][0]["violations"],
+        )
+
+    def test_atlas_fusion_packet_excludes_evaluation_labels_and_tools(self) -> None:
+        source_record = {
+            "case": {
+                **CASE,
+                "source_url": "https://labels.invalid",
+                "evidence_text_zh": "hidden evidence",
+            },
+            "strategy": "plain_agent",
+            "result": {
+                "model_action": "answer",
+                "answer_value": "23.31",
+                "unit": "percent",
+                "explanation": "fixture",
+                "evidence": [
+                    {
+                        "url": "https://example.com/source",
+                        "evidence_text": "23.31%",
+                    }
+                ],
+            },
+            "research_output_text": "cited research memo",
+            "api_citations": [{"url": "https://example.com/source"}],
+            "search_sources": [
+                {"url": "https://example.com/source", "page_age": "2024-12-31"}
+            ],
+        }
+        packet = build_fusion_packet([source_record])
+        serialized = json.dumps(packet, ensure_ascii=False)
+        self.assertNotIn("gold_answer", serialized)
+        self.assertNotIn("labels.invalid", serialized)
+        self.assertNotIn("hidden evidence", serialized)
+        payload, _ = build_fusion_payload([source_record], model="fixture")
+        self.assertNotIn("tools", payload)
+        self.assertEqual(
+            payload["output_config"]["format"]["type"], "json_schema"
         )
 
     def test_live_client_uses_injected_transport(self) -> None:
