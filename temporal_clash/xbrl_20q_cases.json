@@ -1,0 +1,222 @@
+[
+  {
+    "id": "msft_2024_rd_growth_xbrl",
+    "question_zh": "使用SEC XBRL中未经四舍五入的美元数，微软FY2024研发费用同比增长率是多少？保留两位小数。",
+    "cutoff_date": "2024-07-31",
+    "target_period": "FY2024/FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percent",
+    "gold_answer": "8.51",
+    "gold_calculation": "abs((29510/27195-1)*100)=8.512594...",
+    "reference_program": {"operation": "relative_change_percent", "facts": [["MSFT", "research_and_development", 2024], ["MSFT", "research_and_development", 2023]]}
+  },
+  {
+    "id": "apple_2024_rd_growth_xbrl",
+    "question_zh": "使用SEC XBRL中未经四舍五入的美元数，Apple FY2024研发费用同比增长率是多少？保留两位小数。",
+    "cutoff_date": "2024-11-02",
+    "target_period": "FY2024/FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percent",
+    "gold_answer": "4.86",
+    "gold_calculation": "abs((31370/29915-1)*100)=4.863781...",
+    "reference_program": {"operation": "relative_change_percent", "facts": [["AAPL", "research_and_development", 2024], ["AAPL", "research_and_development", 2023]]}
+  },
+  {
+    "id": "nvidia_2024_rd_growth_xbrl",
+    "question_zh": "使用SEC XBRL中未经四舍五入的美元数，NVIDIA FY2024研发费用同比增长率是多少？保留两位小数。",
+    "cutoff_date": "2024-02-22",
+    "target_period": "FY2024/FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percent",
+    "gold_answer": "18.20",
+    "gold_calculation": "abs((8675/7339-1)*100)=18.204115...",
+    "reference_program": {"operation": "relative_change_percent", "facts": [["NVDA", "research_and_development", 2024], ["NVDA", "research_and_development", 2023]]}
+  },
+  {
+    "id": "tesla_2024_rd_growth_xbrl",
+    "question_zh": "使用SEC XBRL中未经四舍五入的美元数，Tesla FY2024研发费用同比增长率是多少？保留两位小数。",
+    "cutoff_date": "2025-01-31",
+    "target_period": "FY2024/FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percent",
+    "gold_answer": "14.39",
+    "gold_calculation": "abs((4540/3969-1)*100)=14.386495...",
+    "reference_program": {"operation": "relative_change_percent", "facts": [["TSLA", "research_and_development", 2024], ["TSLA", "research_and_development", 2023]]}
+  },
+  {
+    "id": "msft_2024_operating_margin_change_xbrl",
+    "question_zh": "按SEC XBRL中的营业利润/收入计算，微软营业利润率从FY2023到FY2024提高了多少个百分点？保留两位小数。",
+    "cutoff_date": "2024-07-31",
+    "target_period": "FY2024/FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "2.87",
+    "gold_calculation": "abs((109433/245122-88523/211915)*100)=2.871419...",
+    "reference_program": {"operation": "ratio_change_pp", "facts": [["MSFT", "operating_income", 2024], ["MSFT", "revenue", 2024], ["MSFT", "operating_income", 2023], ["MSFT", "revenue", 2023]]}
+  },
+  {
+    "id": "apple_2024_operating_margin_change_xbrl",
+    "question_zh": "按SEC XBRL中的营业利润/收入计算，Apple营业利润率从FY2023到FY2024提高了多少个百分点？保留两位小数。",
+    "cutoff_date": "2024-11-02",
+    "target_period": "FY2024/FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "1.69",
+    "gold_calculation": "abs((123216/391035-114301/383285)*100)=1.688811...",
+    "reference_program": {"operation": "ratio_change_pp", "facts": [["AAPL", "operating_income", 2024], ["AAPL", "revenue", 2024], ["AAPL", "operating_income", 2023], ["AAPL", "revenue", 2023]]}
+  },
+  {
+    "id": "nvidia_2024_operating_margin_change_xbrl",
+    "question_zh": "按SEC XBRL中的营业利润/收入计算，NVIDIA营业利润率从FY2023到FY2024提高了多少个百分点？保留两位小数。",
+    "cutoff_date": "2024-02-22",
+    "target_period": "FY2024/FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "38.46",
+    "gold_calculation": "abs((32972/60922-4224/26974)*100)=38.462140...",
+    "reference_program": {"operation": "ratio_change_pp", "facts": [["NVDA", "operating_income", 2024], ["NVDA", "revenue", 2024], ["NVDA", "operating_income", 2023], ["NVDA", "revenue", 2023]]}
+  },
+  {
+    "id": "tesla_2024_operating_margin_change_xbrl",
+    "question_zh": "按SEC XBRL中的营业利润/收入计算，Tesla营业利润率从FY2023到FY2024下降了多少个百分点？保留两位小数。",
+    "cutoff_date": "2025-01-31",
+    "target_period": "FY2024/FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "1.94",
+    "gold_calculation": "abs((7076/97690-8891/96773)*100)=1.944159...",
+    "reference_program": {"operation": "ratio_change_pp", "facts": [["TSLA", "operating_income", 2024], ["TSLA", "revenue", 2024], ["TSLA", "operating_income", 2023], ["TSLA", "revenue", 2023]]}
+  },
+  {
+    "id": "msft_vs_apple_2024_rd_intensity_xbrl",
+    "question_zh": "按研发强度=研发费用/收入并使用SEC XBRL原始值，FY2024微软研发强度比Apple高多少个百分点？保留两位小数。",
+    "cutoff_date": "2024-11-02",
+    "target_period": "FY2024",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "4.02",
+    "gold_calculation": "abs((29510/245122-31370/391035)*100)=4.016603...",
+    "reference_program": {"operation": "ratio_gap_pp", "facts": [["MSFT", "research_and_development", 2024], ["MSFT", "revenue", 2024], ["AAPL", "research_and_development", 2024], ["AAPL", "revenue", 2024]]}
+  },
+  {
+    "id": "apple_vs_tesla_2024_rd_intensity_xbrl",
+    "question_zh": "按研发强度=研发费用/收入并使用SEC XBRL原始值，FY2024 Apple研发强度比Tesla高多少个百分点？保留两位小数。",
+    "cutoff_date": "2025-01-31",
+    "target_period": "FY2024",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "3.37",
+    "gold_calculation": "abs((31370/391035-4540/97690)*100)=3.374946...",
+    "reference_program": {"operation": "ratio_gap_pp", "facts": [["AAPL", "research_and_development", 2024], ["AAPL", "revenue", 2024], ["TSLA", "research_and_development", 2024], ["TSLA", "revenue", 2024]]}
+  },
+  {
+    "id": "nvidia_vs_msft_2024_rd_intensity_xbrl",
+    "question_zh": "按研发强度=研发费用/收入并使用SEC XBRL原始值，FY2024 NVIDIA研发强度比微软高多少个百分点？保留两位小数。",
+    "cutoff_date": "2024-07-31",
+    "target_period": "FY2024",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "2.20",
+    "gold_calculation": "abs((8675/60922-29510/245122)*100)=2.200616...",
+    "reference_program": {"operation": "ratio_gap_pp", "facts": [["NVDA", "research_and_development", 2024], ["NVDA", "revenue", 2024], ["MSFT", "research_and_development", 2024], ["MSFT", "revenue", 2024]]}
+  },
+  {
+    "id": "meta_vs_alphabet_2023_rd_intensity_xbrl",
+    "question_zh": "按研发强度=研发费用/收入并使用SEC XBRL原始值，FY2023 Meta研发强度比Alphabet高多少个百分点？保留两位小数。",
+    "cutoff_date": "2024-02-03",
+    "target_period": "FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "13.75",
+    "gold_calculation": "abs((38483/134902-45427/307394)*100)=13.748532...",
+    "reference_program": {"operation": "ratio_gap_pp", "facts": [["META", "research_and_development", 2023], ["META", "revenue", 2023], ["GOOGL", "research_and_development", 2023], ["GOOGL", "revenue", 2023]]}
+  },
+  {
+    "id": "meta_vs_alphabet_2023_op_margin_change_gap_xbrl",
+    "question_zh": "按营业利润率=营业利润/收入并使用SEC XBRL原始值，Meta从FY2022到FY2023的营业利润率增幅比Alphabet大多少个百分点？保留两位小数。",
+    "cutoff_date": "2024-02-03",
+    "target_period": "FY2023/FY2022",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "8.87",
+    "gold_calculation": "abs(((46751/134902-28944/116609)-(84293/307394-74842/282836))*100)=8.873576...",
+    "reference_program": {"operation": "ratio_change_gap_pp", "facts": [["META", "operating_income", 2023], ["META", "revenue", 2023], ["META", "operating_income", 2022], ["META", "revenue", 2022], ["GOOGL", "operating_income", 2023], ["GOOGL", "revenue", 2023], ["GOOGL", "operating_income", 2022], ["GOOGL", "revenue", 2022]]}
+  },
+  {
+    "id": "amd_vs_intel_2023_rd_intensity_change_gap_xbrl",
+    "question_zh": "按研发强度=研发费用/收入并使用SEC XBRL原始值，AMD从FY2022到FY2023的研发强度增幅比Intel大多少个百分点？保留两位小数。",
+    "cutoff_date": "2024-02-01",
+    "target_period": "FY2023/FY2022",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "2.89",
+    "gold_calculation": "abs(((5872/22680-5005/23601)-(16046/54228-17528/63054))*100)=2.892439...",
+    "reference_program": {"operation": "ratio_change_gap_pp", "facts": [["AMD", "research_and_development", 2023], ["AMD", "revenue", 2023], ["AMD", "research_and_development", 2022], ["AMD", "revenue", 2022], ["INTC", "research_and_development", 2023], ["INTC", "revenue", 2023], ["INTC", "research_and_development", 2022], ["INTC", "revenue", 2022]]}
+  },
+  {
+    "id": "nvidia_vs_tesla_2024_op_margin_change_gap_xbrl",
+    "question_zh": "按营业利润率=营业利润/收入并使用SEC XBRL原始值，NVIDIA的营业利润率变化（FY2024-FY2023）比Tesla高多少个百分点？保留两位小数。",
+    "cutoff_date": "2025-01-31",
+    "target_period": "FY2024/FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "40.41",
+    "gold_calculation": "abs(((32972/60922-4224/26974)-(7076/97690-8891/96773))*100)=40.406299...",
+    "reference_program": {"operation": "ratio_change_gap_pp", "facts": [["NVDA", "operating_income", 2024], ["NVDA", "revenue", 2024], ["NVDA", "operating_income", 2023], ["NVDA", "revenue", 2023], ["TSLA", "operating_income", 2024], ["TSLA", "revenue", 2024], ["TSLA", "operating_income", 2023], ["TSLA", "revenue", 2023]]}
+  },
+  {
+    "id": "msft_vs_apple_2024_op_margin_change_gap_xbrl",
+    "question_zh": "按营业利润率=营业利润/收入并使用SEC XBRL原始值，微软的营业利润率变化（FY2024-FY2023）比Apple高多少个百分点？保留两位小数。",
+    "cutoff_date": "2024-11-02",
+    "target_period": "FY2024/FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "1.18",
+    "gold_calculation": "abs(((109433/245122-88523/211915)-(123216/391035-114301/383285))*100)=1.182608...",
+    "reference_program": {"operation": "ratio_change_gap_pp", "facts": [["MSFT", "operating_income", 2024], ["MSFT", "revenue", 2024], ["MSFT", "operating_income", 2023], ["MSFT", "revenue", 2023], ["AAPL", "operating_income", 2024], ["AAPL", "revenue", 2024], ["AAPL", "operating_income", 2023], ["AAPL", "revenue", 2023]]}
+  },
+  {
+    "id": "alphabet_vs_meta_2023_rd_growth_gap_xbrl",
+    "question_zh": "使用SEC XBRL原始值，FY2023 Alphabet研发费用同比增长率比Meta高多少个百分点？保留两位小数。",
+    "cutoff_date": "2024-02-03",
+    "target_period": "FY2023/FY2022",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "6.11",
+    "gold_calculation": "abs(((45427/39500-1)-(38483/35338-1))*100)=6.105295...",
+    "reference_program": {"operation": "growth_gap_pp", "facts": [["GOOGL", "research_and_development", 2023], ["GOOGL", "research_and_development", 2022], ["META", "research_and_development", 2023], ["META", "research_and_development", 2022]]}
+  },
+  {
+    "id": "intel_vs_amd_2023_revenue_decline_gap_xbrl",
+    "question_zh": "使用SEC XBRL原始值，FY2023 Intel收入同比降幅比AMD大多少个百分点？保留两位小数。",
+    "cutoff_date": "2024-02-01",
+    "target_period": "FY2023/FY2022",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "10.10",
+    "gold_calculation": "abs(((54228/63054-1)-(22680/23601-1))*100)=10.095149...",
+    "reference_program": {"operation": "growth_gap_pp", "facts": [["INTC", "revenue", 2023], ["INTC", "revenue", 2022], ["AMD", "revenue", 2023], ["AMD", "revenue", 2022]]}
+  },
+  {
+    "id": "nvidia_vs_tesla_2024_rd_growth_gap_xbrl",
+    "question_zh": "使用SEC XBRL原始值，FY2024 NVIDIA研发费用同比增长率比Tesla高多少个百分点？保留两位小数。",
+    "cutoff_date": "2025-01-31",
+    "target_period": "FY2024/FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "3.82",
+    "gold_calculation": "abs(((8675/7339-1)-(4540/3969-1))*100)=3.817620...",
+    "reference_program": {"operation": "growth_gap_pp", "facts": [["NVDA", "research_and_development", 2024], ["NVDA", "research_and_development", 2023], ["TSLA", "research_and_development", 2024], ["TSLA", "research_and_development", 2023]]}
+  },
+  {
+    "id": "msft_vs_apple_2024_rd_growth_gap_xbrl",
+    "question_zh": "使用SEC XBRL原始值，FY2024微软研发费用同比增长率比Apple高多少个百分点？保留两位小数。",
+    "cutoff_date": "2024-11-02",
+    "target_period": "FY2024/FY2023",
+    "required_version": "filed",
+    "canonical_unit": "percentage_point",
+    "gold_answer": "3.65",
+    "gold_calculation": "abs(((29510/27195-1)-(31370/29915-1))*100)=3.648814...",
+    "reference_program": {"operation": "growth_gap_pp", "facts": [["MSFT", "research_and_development", 2024], ["MSFT", "research_and_development", 2023], ["AAPL", "research_and_development", 2024], ["AAPL", "research_and_development", 2023]]}
+  }
+]
