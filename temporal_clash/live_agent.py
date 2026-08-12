@@ -826,6 +826,7 @@ class AnthropicMessagesWebSearch(_RetryingClient):
     def build_research_payload(
         self, case: dict[str, Any], strategy: str
     ) -> dict[str, Any]:
+        research_task = build_research_prompt(case, strategy)
         tool = {
             "type": ANTHROPIC_WEB_SEARCH_TOOL,
             "name": "web_search",
@@ -839,12 +840,15 @@ class AnthropicMessagesWebSearch(_RetryingClient):
             "system": (
                 "You are a financial research agent. Always search the live web "
                 "before answering. Prefer primary sources. Write a concise research "
-                "memo with native citations; do not output JSON in this stage."
+                "memo with native citations; do not output JSON in this stage. "
+                "The user message is deliberately only a compact first-search query. "
+                "Follow the complete research task below after the search.\n\n"
+                f"Complete research task:\n{research_task}"
             ),
             "messages": [
                 {
                     "role": "user",
-                    "content": build_research_prompt(case, strategy),
+                    "content": case["question_zh"],
                 }
             ],
             "tools": [tool],

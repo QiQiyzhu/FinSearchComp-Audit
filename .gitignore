@@ -8,3 +8,6 @@ temporal_clash/live_results/
 temporal_clash/results/**/raw_responses/
 temporal_clash/results/**/runner.*.log
 temporal_clash/results/live_pilot_*_failed*/
+temporal_clash/results/live_pilot_1q_*/
+temporal_clash/results/live_pilot_*_promptfix_*/
+tmp/

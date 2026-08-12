@@ -4,7 +4,7 @@
 
 [![Live demo](https://img.shields.io/badge/Live_Demo-Open-2563eb)](https://qiqiyzhu.github.io/FinSearchComp-Audit/)
 [![Temporal benchmark](https://img.shields.io/badge/Controlled_Benchmark-100_cases-0f766e)](https://qiqiyzhu.github.io/FinSearchComp-Audit/temporal-audit.html)
-[![Tests](https://img.shields.io/badge/Offline_Tests-18_passing-15803d)](https://github.com/QiQiyzhu/FinSearchComp-Audit/actions/workflows/finsearch-audit.yml)
+[![Tests](https://img.shields.io/badge/Offline_Tests-26_passing-15803d)](https://github.com/QiQiyzhu/FinSearchComp-Audit/actions/workflows/finsearch-audit.yml)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab)](https://www.python.org/)
 
 ## 这个项目解决什么问题？
@@ -22,7 +22,8 @@
 | 对照方法 | 普通 Agent、时间约束 Prompt、元数据过滤器、完整证据验证器 |
 | 新指标 | Temporal Robustness Gap、时间违规率、扰动采用率、证据检测 F1 |
 | 可解释输出 | 每题保存搜索策略、引用、日期/期间/版本/单位检查和拒答原因 |
-| 真实 Agent | Claude 20题×4策略 pilot 已完成；80/80 trace 有搜索、完整来源、原生 citations、Structured Output 和 raw hash |
+| 真实 Agent | 两轮 Claude 20题×4策略 pilot 已完成；共 160 条有效 trace，包含搜索、完整来源、原生 citations、Structured Output 和 raw hash |
+| 高级 RAG | ATLAS-RAG：自适应来源路由、时间感知混合检索、事实冲突图、纠错检索与选择性回答 |
 
 **展示入口：**
 
@@ -31,8 +32,42 @@
 - [查看 3 分钟演示稿](docs/TEACHER_DEMO.md)
 - [查看真实 Agent 运行入口](temporal_clash/run_live_pilot.py)
 - [查看正式实验协议与 Claude 中转门禁](docs/LIVE_STUDY_PROTOCOL.md)
-- [查看 Claude 20×4 真实 pilot](temporal_clash/results/live_pilot_20q_claude_complete/README.md)
+- [查看最新 Claude Haiku 20×4 真实 pilot](temporal_clash/results/live_pilot_20q_claude_haiku_complete_20260813/README.md)
+- [查看第一轮 Claude Sonnet 20×4 基线](temporal_clash/results/live_pilot_20q_claude_complete/README.md)
 - [查看相关论文与升级路线](docs/LITERATURE_AND_ROADMAP.md)
+- [查看 2024–2026 顶会 RAG 调研](docs/TOP_CONFERENCE_RAG_2026.md)
+- [查看 ATLAS-RAG 实现与结果](advanced_rag/README.md)
+
+## 项目演进总览
+
+```text
+12 条搜索审计案例
+  → 20 个真实金融问题 × 5 类受控证据条件
+  → 2024–2026 顶会 RAG 技术调研
+  → ATLAS-RAG 自适应时间感知检索与冲突仲裁
+  → Sonnet / Haiku 两轮真实 Web Search 验证（共 160 条有效 trace）
+```
+
+| 阶段 | 解决的问题 | 主要产物 |
+|---|---|---|
+| 搜索审计 | 答案、引用、时间与工具调用是否可信 | 6 个成功 + 6 个失败轨迹 |
+| 受控 Benchmark | 日期、期间、版本、单位错误能否被单独检测 | 100 条可复现实例与四策略消融 |
+| 顶会调研 | 传统静态 Top-K RAG 下一步如何升级 | 2024–2026 正式顶会论文路线 |
+| ATLAS-RAG | 如何把路由、时间排序、冲突处理和纠错连接起来 | 可解释状态机、离线指标与 JSON 服务 |
+| 真实大模型 | 受控结论在开放网页上是否仍成立 | Sonnet/Haiku 各 20×4，合计 160 条有效 trace |
+
+## 顶会技术与项目模块的对应关系
+
+| 研究方向 | 代表工作 | 本项目落地 |
+|---|---|---|
+| 自适应检索与路由 | Adaptive-RAG、R³AG | 按行情、财报、官方统计和 Web 问题类型选择来源 |
+| 相关性与时间新鲜度 | Re³ | 语义、截止日、期间、版本和来源效用联合排序 |
+| 冲突感知证据融合 | Astute RAG、FaithfulRAG、SeCon-RAG | 事实冲突图与 listwise 来源仲裁 |
+| 纠错检索与选择性回答 | Self-RAG、DRAGIN、GRIP | 低置信度补检索，证据不足时拒答 |
+| 模块化 RAG 评估 | RAGChecker | 分开报告 Recall、MRR、时间泄漏、覆盖率与选择性准确率 |
+
+详细论文、正式会议链接、技术选择和诚实声明见
+[顶会 RAG 调研与落地路线](docs/TOP_CONFERENCE_RAG_2026.md)。
 
 ## 初步实验结果
 
@@ -52,7 +87,53 @@
 > 完整验证器能达到 100%，是因为测试集中的冲突元数据已人工标注。
 > 下方真实搜索 pilot 已开始检验开放网页中的隐含日期、缺失元数据和检索噪声。
 
+## ATLAS-RAG 高级检索升级
+
+受 Re³、R³AG、GRIP、E²RAG、Astute RAG 等工作启发，本仓库新增一个依赖轻量、可解释的高级 RAG 原型：
+
+```text
+自适应来源路由
+→ BM25 / 确定性向量特征 / 时间兼容性 / 来源效用融合
+→ 日期、期间、版本、单位审计
+→ 事实级冲突图与 listwise 仲裁
+→ 低置信度纠错检索
+→ 回答或拒答
+```
+
+在清除候选 ID、`synthetic://` URL 和人工扰动提示等标签泄漏信号后，20 个真实金融问题、
+100 个去重证据文档的离线结果为：
+
+| 方法 | Recall@5 ↑ | MRR@10 ↑ | Top-5 未来证据率 ↓ |
+|---|---:|---:|---:|
+| BM25 | 95% | 0.563 | 37% |
+| Hybrid RRF | 95% | 0.642 | 42% |
+| ATLAS temporal | **100%** | **0.929** | **30%** |
+
+端到端 20 题决策准确率和回答覆盖率均为 95%；已回答样本准确率为 100%，5% 的问题触发纠错检索。
+这是受控离线实验，不是论文原方法复现或真实 Web 的 SOTA 声明。完整结果与边界见
+[ATLAS-RAG 说明](advanced_rag/README.md)和[生成结果](advanced_rag/results/README.md)。
+
 ## 真实 Agent pilot
+
+### 第二轮：Claude Haiku 4.5（2026-08-13）
+
+先完成 1 题 × 4 策略小样本，确认真实搜索、来源和引用均通过后，再按第一轮相同规模运行
+**20 题 × 4 策略**。最终 80/80 个 case–strategy 单元通过严格校验：
+
+| 策略 | 最终决策准确率 | 模型初稿准确率 | 回答覆盖率 | 已采用证据时间泄漏 |
+|---|---:|---:|---:|---:|
+| 普通搜索 Agent | 25% | 25% | 35% | 28.6% |
+| 时间约束 Prompt | 15% | 15% | 15% | 0% |
+| 元数据过滤器 | 15% | 15% | 15% | 0% |
+| 完整证据验证器 | 10% | 10% | 10% | 0% |
+
+本轮实际调用 `claude-haiku-4-5-20251001`，执行 80 次 Web Search，捕获 800 个来源、
+152 条原生 citations，使用 376,653 个输入 token 和 35,009 个输出 token。严格策略消除了
+最终采用证据中的时间泄漏，但回答覆盖率显著下降，进一步支持“开放网页元数据缺失会造成
+过度拒答”的结论。完整数据包见
+[第二轮研究卡](temporal_clash/results/live_pilot_20q_claude_haiku_complete_20260813/README.md)。
+
+### 第一轮：Claude Sonnet 5（2026-07-31）
 
 2026-07-31 已使用中转实际列出的 `claude-sonnet-5`，完成全部预定的
 **20 题 × 4 策略**，共 80 条严格验证 trace：
@@ -78,17 +159,20 @@
 
 ```mermaid
 flowchart LR
-    Q["金融问题 + 截止日期"] --> A["金融搜索 Agent"]
-    A --> E["候选证据 + 答案 + 引用"]
+    Q["金融问题 + 截止日期"] --> R["自适应来源路由"]
+    R --> E["混合时间检索"]
     E --> D{"Temporal Audit"}
     D --> C1["发布日期"]
     D --> C2["目标期间"]
     D --> C3["数据版本"]
     D --> C4["金额单位"]
-    C1 --> O["回答或拒答 + 逐证据 trace"]
-    C2 --> O
-    C3 --> O
-    C4 --> O
+    C1 --> G["事实冲突图 + listwise 仲裁"]
+    C2 --> G
+    C3 --> G
+    C4 --> G
+    G --> X{"置信度足够？"}
+    X -->|否| R
+    X -->|是| O["回答或拒答 + 逐状态 trace"]
     O --> M["Accuracy / Leakage / TRG / Citation"]
 ```
 
@@ -98,7 +182,8 @@ flowchart LR
 |---|---|---|---|
 | 搜索审计案例 | 12 条保存的金融 Agent 轨迹 | 成功/失败分析、引用支持、时间合规、完整 trace | 已完成 |
 | 受控时间 Benchmark | 20 个问题、100 条干净或扰动证据 | 四策略对照表、TRG、泄露检测 F1 | 已完成 |
-| 真实 Web Search pilot | 20 个问题 × 4 个策略 | 80 条完整 trace、来源、逐题、置信区间和聚合指标 | 已完成一轮；重复运行与多模型验证待做 |
+| 真实 Web Search pilot | 20 个问题 × 4 个策略 × 2 个实际模型轮次 | 160 条有效 trace、来源、逐题、置信区间和聚合指标 | Sonnet 与 Haiku 两轮已完成；同模型多次重复待做 |
+| ATLAS-RAG 离线检索 | 20 个问题、100 个去重证据文档 | Recall/MRR、未来证据率、冲突图、选择性回答 trace | 原型已实现；真实语料验证待做 |
 
 ## 我的具体贡献
 
@@ -106,6 +191,7 @@ flowchart LR
 2. 构建日期、期间、版本和单位四类人工扰动的 100 条受控测试集；
 3. 实现可解释的 Temporal Evidence Gate，以及答案选择与证据检测两组指标；
 4. 接入真实 Web Search Agent，同时保留同一数据、指标和逐题 trace 接口。
+5. 实现 ATLAS-RAG 的路由、混合时间检索、冲突图、纠错检索、选择性回答和线程化 JSON 服务。
 
 ## 3 分钟展示顺序
 
@@ -123,7 +209,7 @@ cd FinSearchComp-Audit
 python reproduce.py
 ```
 
-该命令验证 12 条保存轨迹，运行 100 条受控实例，并重新生成 GitHub Pages。
+该命令验证 12 条保存轨迹，运行 100 条受控实例，评测 ATLAS-RAG，并重新生成 GitHub Pages。
 真实搜索 pilot 默认只显示费用计划，不会发出 API 请求：
 
 ```bash
@@ -134,8 +220,9 @@ python -m temporal_clash.run_live_pilot
 
 - **现在可以证明：** 显式元数据验证比仅靠 Prompt 更能抵抗受控的时间、期间、版本和单位冲突；
 - **现在不能声称：** 某个真实 LLM 或搜索产品已经在完整金融任务上达到 100%；
-- **真实 pilot 发现：** 严格 gate 会因开放网页元数据缺失而过度拒答，当前不能宣称优于普通 Agent；
-- **下一步：** 先独立抓取网页发布日期并校准拒答规则，再对固定 20 题重复至少 3 次并加入第二模型。
+- **真实 pilot 发现：** 两轮实际模型实验都显示严格 gate 会因开放网页元数据缺失而过度拒答，当前不能宣称优于普通 Agent；
+- **高级 RAG 原型：** ATLAS-RAG 已完成离线路由、检索、冲突仲裁、纠错、服务化和标签泄漏审计；
+- **下一步：** 独立抓取网页发布日期、换用真实 dense encoder 并校准拒答规则，再对固定 20 题重复至少 3 次并加入第二模型。
 
 <details>
 <summary><b>展开技术细节、案例清单和上游 FinSearchComp 说明</b></summary>

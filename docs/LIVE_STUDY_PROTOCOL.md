@@ -59,6 +59,13 @@ $env:ANTHROPIC_BASE_URL = "https://ai.aiclick.cc"
 $env:ANTHROPIC_AUTH_TOKEN = "<ROTATED_TOKEN>"
 ```
 
+OpenAI-compatible GPT 中转使用另一组环境变量，不能复用 Anthropic 变量名：
+
+```powershell
+$env:OPENAI_BASE_URL = "https://<relay-host>/v1"
+$env:OPENAI_API_KEY = "<RELAY_TOKEN>"
+```
+
 关闭该 PowerShell 会话后，进程级环境变量即失效。
 
 ## 4. 中转服务能力预检
@@ -86,12 +93,19 @@ python -m temporal_clash.probe_live_api `
 `requested_model_listed=true` 只证明认证和模型清单可用。是否支持 Web Search 与
 Structured Outputs，必须由实际的多策略运行证明。
 
+所谓“GPT Pro 中转”还必须原样支持 `POST /v1/responses`、Responses API 的 Web Search、
+`include=["web_search_call.action.sources"]` 和 `text.format` JSON Schema。只有
+`/v1/chat/completions` 的中转不能直接用于本实验；“Pro”也只是套餐或中转标签，正式协议
+必须记录 `/v1/models` 返回的精确模型 ID。
+
 ## 5. 1题 × 4策略正式门禁
 
-**当前状态：已于 2026-07-31 使用 `claude-sonnet-5` 真实通过，并完成 20×4 pilot。**
-公开结果包含 80/80 条严格有效记录、160 个成功 HTTP 阶段、167 次搜索、
-1,228 个完整来源和 256 条原生 citations。见
-[`temporal_clash/results/live_pilot_20q_claude_complete/README.md`](../temporal_clash/results/live_pilot_20q_claude_complete/README.md)。
+**当前状态：Sonnet 5 与 Haiku 4.5 两个实际模型轮次均已完成 20×4 pilot。**
+第一轮见
+[`live_pilot_20q_claude_complete`](../temporal_clash/results/live_pilot_20q_claude_complete/README.md)，
+第二轮见
+[`live_pilot_20q_claude_haiku_complete_20260813`](../temporal_clash/results/live_pilot_20q_claude_haiku_complete_20260813/README.md)。
+两轮共包含 160 个有效 case–strategy 单元。
 
 Claude 每个策略固定使用 2 个 HTTP 阶段，所以 4 个策略最多需要 8 次请求；
 每个策略最多 3 次搜索，所以最多 12 次付费 Web Search。
@@ -121,9 +135,10 @@ python -m temporal_clash.run_live_pilot `
 如果中转不支持任一原生能力，程序会停止。不要通过关闭强制搜索或退回 Prompt JSON
 来“跑通”，因为那会改变研究对象。
 
-## 6. 已完成 20题 × 4策略；下一步做 3重复
+## 6. 已完成两个模型轮次；下一步做同模型 3 重复
 
-当前 20×4 是一次真实开放网页 pilot，但仍只有一个模型、一个运行窗口和一次重复。
+当前已有 Sonnet 与 Haiku 两轮真实开放网页 pilot，但每个模型仍只有一次重复，且都通过
+同一个中转执行。
 它发现严格过滤器会因网页时间元数据缺失而过度拒答。下一步应先改进元数据获取和校准，
 再在同一代码提交、同一模型和尽可能集中的时间窗口运行 3 次重复：
 

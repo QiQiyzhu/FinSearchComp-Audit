@@ -36,10 +36,11 @@ python reproduce.py
 预期结果：
 
 ```text
-[1/4] Validated 12 recorded runs (6 success, 6 failure)
-[2/4] Generated core audit artifacts in site
-[3/4] Temporal detector benchmark and report generated
-[4/4] All reproducibility and site-link checks passed
+[1/5] Validated 12 recorded runs (6 success, 6 failure)
+[2/5] Generated core audit artifacts in site
+[3/5] Temporal detector benchmark and report generated
+[4/5] ATLAS-RAG evaluated: MRR@10=0.929, selective_accuracy=100.0%
+[5/5] All reproducibility and site-link checks passed
 ```
 
 验证器会检查：
@@ -56,8 +57,27 @@ python reproduce.py
 - `metrics.csv` 的行数和运行 ID 一致；
 - HTML 包含所有案例，报告包含要求的核心章节。
 - HTML 包含教师展示所需的研究问题、100 条受控实验、真实 Agent 下一阶段和结论边界。
+- ATLAS-RAG 的检索逐题表、聚合表、决策表和状态 trace 均非空，并由网页入口引用。
 
-## 4. 可信成功的定义
+## 4. ATLAS-RAG 离线评测
+
+一键复现还会在 `site/advanced-rag/` 生成：
+
+- `retrieval_per_query.csv`：BM25、Hybrid RRF、ATLAS temporal 的逐题 Recall、MRR、未来证据率；
+- `retrieval_summary.csv`：检索层聚合结果；
+- `system_per_query.csv`：每题回答、置信度、纠错与冲突数；
+- `system_summary.csv`：覆盖率、选择性准确率与纠错比例；
+- `traces.jsonl`：PLAN 到 ANSWER/ABSTAIN 的状态轨迹；
+- `README.md`：人类可读报告和结果边界。
+
+也可以单独运行：
+
+```bash
+python -m advanced_rag.evaluate
+python -m unittest advanced_rag.test_advanced_rag -v
+```
+
+## 5. 可信成功的定义
 
 ```text
 current_fact_correct = true
@@ -73,7 +93,7 @@ answer_completeness = 1.0
 - 保存非空查询词；
 - 保存可访问的引用 URL。
 
-## 5. 为什么保留失败案例
+## 6. 为什么保留失败案例
 
 失败案例不是为了凑数量，而是验证审计框架能否识别不同故障层：
 
@@ -88,7 +108,7 @@ answer_completeness = 1.0
 
 只保留成功案例会掩盖系统何时不可信。
 
-## 6. 网页搜索与金融接口的可比实验
+## 7. 网页搜索与金融接口的可比实验
 
 更严格的后续比较应固定：
 
@@ -110,7 +130,7 @@ Hybrid
 
 建议报告正确率、引用支持率、时间合规率、答案完整性、工具调用数和耗时，而不是只比较最终答案。
 
-## 7. 添加自定义案例
+## 8. 添加自定义案例
 
 复制一条 `audit/sample_runs.json` 记录并修改以下内容：
 
@@ -131,7 +151,7 @@ python reproduce.py \
   --no-strict-demo
 ```
 
-## 8. 实时 Agent 模式
+## 9. 实时 Agent 模式
 
 正式的 OpenAI/Claude Web Search Agent 实验不再通过上游聊天脚本运行。当前已经公开
 [20题×4策略真实 pilot](../temporal_clash/results/live_pilot_20q_claude_complete/README.md)，
@@ -166,7 +186,7 @@ python finsearchcomp/chat/chat.py \
 - 搜索结果和网页内容会随时间改变；
 - 对实时结果仍应转换成与 `sample_runs.json` 类似的审计记录。
 
-## 9. 数据来源与时间说明
+## 10. 数据来源与时间说明
 
 - 指数价格案例使用 Yahoo Finance Chart JSON 进行可复算演示；
 - 公司财报案例使用 Apple、Tesla 和 NVIDIA 的 SEC 文件；
@@ -176,7 +196,7 @@ python finsearchcomp/chat/chat.py \
 - 记录的演示轨迹生成于 2026-07-17；
 - `sample_runs.json` 中保留每次获取时间、来源 URL 和审计原因。
 
-## 10. 已知局限
+## 11. 已知局限
 
 - 12 条案例仍不足以代表整个 FinSearchComp；
 - 记录轨迹复现验证的是证据链和报告生成，不是实时工具稳定性；
