@@ -1,0 +1,558 @@
+{
+  "status": "completed",
+  "started_at": "2026-08-12T20:30:59.106769+00:00",
+  "completed_at": "2026-08-12T20:48:24.119573+00:00",
+  "protocol_sha256": "e4bebd76f4788b9218068a693ea9c13670e95762a1e333e1542626c7f654c3c9",
+  "protocol": {
+    "protocol_version": "atlas-pit-xbrl-study-1.1",
+    "method_version": "atlas-xbrl-1.0",
+    "study_type": "real_llm_point_in_time_sec_xbrl_numeric_reasoning",
+    "model": "claude-sonnet-5",
+    "reasoning_effort": "medium",
+    "max_output_tokens": 4800,
+    "baseline_max_web_searches": 3,
+    "baseline_model_http_stages_per_run": 2,
+    "xbrl_model_http_stages_per_run": 1,
+    "xbrl_external_tool": "SEC Company Facts API with run-level cache",
+    "schedule": "cyclic counterbalancing by question",
+    "scoring": "exact numeric equality at requested two decimals and exact unit; joint reliability additionally requires fully dated non-future final evidence and complete provenance",
+    "temporal_audit": "pit-audit-1.0 over candidates, native citations, and accepted evidence",
+    "case_ids": [
+      "pit_msft_2023_rd_growth",
+      "pit_apple_2023_operating_margin_change",
+      "pit_nvidia_2023_sga_growth",
+      "pit_tesla_2023_operating_margin_change",
+      "pit_alphabet_2022_rd_growth",
+      "pit_meta_2022_rd_intensity_change",
+      "pit_intel_2022_revenue_decline",
+      "pit_amd_2022_operating_margin_change",
+      "pit_msft_vs_apple_2023_rd_intensity",
+      "pit_nvidia_vs_tesla_2023_rd_intensity",
+      "pit_alphabet_vs_meta_2022_operating_margin",
+      "pit_amd_vs_intel_2022_rd_intensity",
+      "pit_msft_vs_apple_2023_operating_margin_change_gap",
+      "pit_nvidia_vs_tesla_2023_rd_intensity_change_gap",
+      "pit_alphabet_vs_meta_2022_rd_growth_gap",
+      "pit_intel_vs_amd_2022_revenue_growth_gap",
+      "pit_msft_vs_apple_2023_operating_income_growth_gap",
+      "pit_nvidia_vs_tesla_2023_operating_margin_change_gap",
+      "pit_meta_vs_alphabet_2022_rd_intensity",
+      "pit_amd_vs_intel_2022_rd_growth_gap"
+    ],
+    "case_batch_sha256": "a11e93b6974a2dd5d41c0e5de590e4dedaafc317827f2de9c34dd0f6c467172a",
+    "gold_fields_excluded_from_prompts": true,
+    "request_config": {
+      "model": "claude-sonnet-5",
+      "reasoning_effort": "medium",
+      "search_context_size": "medium",
+      "max_tool_calls": 3,
+      "max_output_tokens": 4800,
+      "timeout_seconds": 300,
+      "max_retries": 0,
+      "force_search": true,
+      "structured_output": true,
+      "save_raw_response": true
+    }
+  },
+  "preregistered_commit": "ffda118f2a3a8ca51d5860bc47c55958c1f77188",
+  "gold_audit": {
+    "status": "verified",
+    "case_count": 20,
+    "case_batch_sha256": "a11e93b6974a2dd5d41c0e5de590e4dedaafc317827f2de9c34dd0f6c467172a",
+    "method": "Independent reference_program execution over official SEC Company Facts; Decimal ROUND_HALF_UP to two decimals",
+    "rows": [
+      {
+        "case_id": "pit_msft_2023_rd_growth",
+        "gold_answer": "10.95",
+        "unit": "percent",
+        "formula": "(x0 / x1 - 1) * 100",
+        "operands": [
+          "27195",
+          "24512"
+        ],
+        "accessions": [
+          "0000950170-23-035122"
+        ],
+        "sec_response_hashes": [
+          "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f"
+        ]
+      },
+      {
+        "case_id": "pit_apple_2023_operating_margin_change",
+        "gold_answer": "0.47",
+        "unit": "percentage_point",
+        "formula": "(x0 / x1 - x2 / x3) * 100",
+        "operands": [
+          "114301",
+          "383285",
+          "119437",
+          "394328"
+        ],
+        "accessions": [
+          "0000320193-23-000106"
+        ],
+        "sec_response_hashes": [
+          "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43"
+        ]
+      },
+      {
+        "case_id": "pit_nvidia_2023_sga_growth",
+        "gold_answer": "12.65",
+        "unit": "percent",
+        "formula": "(x0 / x1 - 1) * 100",
+        "operands": [
+          "2440",
+          "2166"
+        ],
+        "accessions": [
+          "0001045810-23-000017"
+        ],
+        "sec_response_hashes": [
+          "93edcffe24f55d08284ff1736e41aa1a8e743ab6e4a6eea52cb8e9392b0ae6be"
+        ]
+      },
+      {
+        "case_id": "pit_tesla_2023_operating_margin_change",
+        "gold_answer": "7.58",
+        "unit": "percentage_point",
+        "formula": "(x0 / x1 - x2 / x3) * 100",
+        "operands": [
+          "8891",
+          "96773",
+          "13656",
+          "81462"
+        ],
+        "accessions": [
+          "0001628280-24-002390"
+        ],
+        "sec_response_hashes": [
+          "d0c2b9288d027a6d735039a6fe874a348b65a7fdbc6c133130666c777c885204"
+        ]
+      },
+      {
+        "case_id": "pit_alphabet_2022_rd_growth",
+        "gold_answer": "25.15",
+        "unit": "percent",
+        "formula": "(x0 / x1 - 1) * 100",
+        "operands": [
+          "39500",
+          "31562"
+        ],
+        "accessions": [
+          "0001652044-23-000016"
+        ],
+        "sec_response_hashes": [
+          "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5"
+        ]
+      },
+      {
+        "case_id": "pit_meta_2022_rd_intensity_change",
+        "gold_answer": "9.40",
+        "unit": "percentage_point",
+        "formula": "(x0 / x1 - x2 / x3) * 100",
+        "operands": [
+          "35338",
+          "116609",
+          "24655",
+          "117929"
+        ],
+        "accessions": [
+          "0001326801-23-000013"
+        ],
+        "sec_response_hashes": [
+          "7518e76d6dac2d016e1a3d1dec1cc55ff9ea3bdd58a151b16fcaa067a6c9d94e"
+        ]
+      },
+      {
+        "case_id": "pit_intel_2022_revenue_decline",
+        "gold_answer": "20.21",
+        "unit": "percent",
+        "formula": "(x0 / x1 - 1) * 100",
+        "operands": [
+          "63054",
+          "79024"
+        ],
+        "accessions": [
+          "0000050863-23-000006"
+        ],
+        "sec_response_hashes": [
+          "70056711b8b04d3a27e4a42b6d86e26f85ddaa3d59e480039d66ccfb353eb0b8"
+        ]
+      },
+      {
+        "case_id": "pit_amd_2022_operating_margin_change",
+        "gold_answer": "16.84",
+        "unit": "percentage_point",
+        "formula": "(x0 / x1 - x2 / x3) * 100",
+        "operands": [
+          "1264",
+          "23601",
+          "3648",
+          "16434"
+        ],
+        "accessions": [
+          "0000002488-23-000047"
+        ],
+        "sec_response_hashes": [
+          "c9d1c506d334271b84818fe694b792fa122ce125e5a1a0f0631b15c0e21cad9b"
+        ]
+      },
+      {
+        "case_id": "pit_msft_vs_apple_2023_rd_intensity",
+        "gold_answer": "5.03",
+        "unit": "percentage_point",
+        "formula": "(x0 / x1 - x2 / x3) * 100",
+        "operands": [
+          "27195",
+          "211915",
+          "29915",
+          "383285"
+        ],
+        "accessions": [
+          "0000320193-23-000106",
+          "0000950170-23-035122"
+        ],
+        "sec_response_hashes": [
+          "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f"
+        ]
+      },
+      {
+        "case_id": "pit_nvidia_vs_tesla_2023_rd_intensity",
+        "gold_answer": "23.11",
+        "unit": "percentage_point",
+        "formula": "(x0 / x1 - x2 / x3) * 100",
+        "operands": [
+          "7339",
+          "26974",
+          "3969",
+          "96773"
+        ],
+        "accessions": [
+          "0001045810-23-000017",
+          "0001628280-24-002390"
+        ],
+        "sec_response_hashes": [
+          "93edcffe24f55d08284ff1736e41aa1a8e743ab6e4a6eea52cb8e9392b0ae6be",
+          "d0c2b9288d027a6d735039a6fe874a348b65a7fdbc6c133130666c777c885204"
+        ]
+      },
+      {
+        "case_id": "pit_alphabet_vs_meta_2022_operating_margin",
+        "gold_answer": "1.64",
+        "unit": "percentage_point",
+        "formula": "(x0 / x1 - x2 / x3) * 100",
+        "operands": [
+          "74842",
+          "282836",
+          "28944",
+          "116609"
+        ],
+        "accessions": [
+          "0001326801-23-000013",
+          "0001652044-23-000016"
+        ],
+        "sec_response_hashes": [
+          "7518e76d6dac2d016e1a3d1dec1cc55ff9ea3bdd58a151b16fcaa067a6c9d94e",
+          "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5"
+        ]
+      },
+      {
+        "case_id": "pit_amd_vs_intel_2022_rd_intensity",
+        "gold_answer": "6.59",
+        "unit": "percentage_point",
+        "formula": "(x0 / x1 - x2 / x3) * 100",
+        "operands": [
+          "5005",
+          "23601",
+          "17528",
+          "63054"
+        ],
+        "accessions": [
+          "0000002488-23-000047",
+          "0000050863-23-000006"
+        ],
+        "sec_response_hashes": [
+          "70056711b8b04d3a27e4a42b6d86e26f85ddaa3d59e480039d66ccfb353eb0b8",
+          "c9d1c506d334271b84818fe694b792fa122ce125e5a1a0f0631b15c0e21cad9b"
+        ]
+      },
+      {
+        "case_id": "pit_msft_vs_apple_2023_operating_margin_change_gap",
+        "gold_answer": "0.18",
+        "unit": "percentage_point",
+        "formula": "((x0/x1-x2/x3) - (x4/x5-x6/x7)) * 100",
+        "operands": [
+          "88523",
+          "211915",
+          "83383",
+          "198270",
+          "114301",
+          "383285",
+          "119437",
+          "394328"
+        ],
+        "accessions": [
+          "0000320193-23-000106",
+          "0000950170-23-035122"
+        ],
+        "sec_response_hashes": [
+          "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f"
+        ]
+      },
+      {
+        "case_id": "pit_nvidia_vs_tesla_2023_rd_intensity_change_gap",
+        "gold_answer": "7.31",
+        "unit": "percentage_point",
+        "formula": "((x0/x1-x2/x3) - (x4/x5-x6/x7)) * 100",
+        "operands": [
+          "7339",
+          "26974",
+          "5268",
+          "26914",
+          "3969",
+          "96773",
+          "3075",
+          "81462"
+        ],
+        "accessions": [
+          "0001045810-22-000036",
+          "0001045810-23-000017",
+          "0001628280-24-002390"
+        ],
+        "sec_response_hashes": [
+          "93edcffe24f55d08284ff1736e41aa1a8e743ab6e4a6eea52cb8e9392b0ae6be",
+          "d0c2b9288d027a6d735039a6fe874a348b65a7fdbc6c133130666c777c885204"
+        ]
+      },
+      {
+        "case_id": "pit_alphabet_vs_meta_2022_rd_growth_gap",
+        "gold_answer": "18.18",
+        "unit": "percentage_point",
+        "formula": "((x0/x1-1) - (x2/x3-1)) * 100",
+        "operands": [
+          "39500",
+          "31562",
+          "35338",
+          "24655"
+        ],
+        "accessions": [
+          "0001326801-23-000013",
+          "0001652044-23-000016"
+        ],
+        "sec_response_hashes": [
+          "7518e76d6dac2d016e1a3d1dec1cc55ff9ea3bdd58a151b16fcaa067a6c9d94e",
+          "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5"
+        ]
+      },
+      {
+        "case_id": "pit_intel_vs_amd_2022_revenue_growth_gap",
+        "gold_answer": "63.82",
+        "unit": "percentage_point",
+        "formula": "((x0/x1-1) - (x2/x3-1)) * 100",
+        "operands": [
+          "63054",
+          "79024",
+          "23601",
+          "16434"
+        ],
+        "accessions": [
+          "0000002488-23-000047",
+          "0000050863-23-000006"
+        ],
+        "sec_response_hashes": [
+          "70056711b8b04d3a27e4a42b6d86e26f85ddaa3d59e480039d66ccfb353eb0b8",
+          "c9d1c506d334271b84818fe694b792fa122ce125e5a1a0f0631b15c0e21cad9b"
+        ]
+      },
+      {
+        "case_id": "pit_msft_vs_apple_2023_operating_income_growth_gap",
+        "gold_answer": "10.46",
+        "unit": "percentage_point",
+        "formula": "((x0/x1-1) - (x2/x3-1)) * 100",
+        "operands": [
+          "88523",
+          "83383",
+          "114301",
+          "119437"
+        ],
+        "accessions": [
+          "0000320193-23-000106",
+          "0000950170-23-035122"
+        ],
+        "sec_response_hashes": [
+          "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f"
+        ]
+      },
+      {
+        "case_id": "pit_nvidia_vs_tesla_2023_operating_margin_change_gap",
+        "gold_answer": "14.07",
+        "unit": "percentage_point",
+        "formula": "((x0/x1-x2/x3) - (x4/x5-x6/x7)) * 100",
+        "operands": [
+          "4224",
+          "26974",
+          "10041",
+          "26914",
+          "8891",
+          "96773",
+          "13656",
+          "81462"
+        ],
+        "accessions": [
+          "0001045810-22-000036",
+          "0001045810-23-000017",
+          "0001628280-24-002390"
+        ],
+        "sec_response_hashes": [
+          "93edcffe24f55d08284ff1736e41aa1a8e743ab6e4a6eea52cb8e9392b0ae6be",
+          "d0c2b9288d027a6d735039a6fe874a348b65a7fdbc6c133130666c777c885204"
+        ]
+      },
+      {
+        "case_id": "pit_meta_vs_alphabet_2022_rd_intensity",
+        "gold_answer": "16.34",
+        "unit": "percentage_point",
+        "formula": "(x0 / x1 - x2 / x3) * 100",
+        "operands": [
+          "35338",
+          "116609",
+          "39500",
+          "282836"
+        ],
+        "accessions": [
+          "0001326801-23-000013",
+          "0001652044-23-000016"
+        ],
+        "sec_response_hashes": [
+          "7518e76d6dac2d016e1a3d1dec1cc55ff9ea3bdd58a151b16fcaa067a6c9d94e",
+          "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5"
+        ]
+      },
+      {
+        "case_id": "pit_amd_vs_intel_2022_rd_growth_gap",
+        "gold_answer": "60.53",
+        "unit": "percentage_point",
+        "formula": "((x0/x1-1) - (x2/x3-1)) * 100",
+        "operands": [
+          "5005",
+          "2845",
+          "17528",
+          "15190"
+        ],
+        "accessions": [
+          "0000002488-23-000047",
+          "0000050863-23-000006"
+        ],
+        "sec_response_hashes": [
+          "70056711b8b04d3a27e4a42b6d86e26f85ddaa3d59e480039d66ccfb353eb0b8",
+          "c9d1c506d334271b84818fe694b792fa122ce125e5a1a0f0631b15c0e21cad9b"
+        ]
+      }
+    ]
+  },
+  "planned_runs": 40,
+  "valid_runs": 40,
+  "planned_model_http_attempts": 60,
+  "metrics": {
+    "strategies": {
+      "plain_agent": {
+        "runs": 20,
+        "decision_accuracy": 0.65,
+        "answer_coverage": 0.9,
+        "model_http_stages": 40,
+        "external_tool_actions": 50,
+        "sources": 392,
+        "citations": 83,
+        "input_tokens": 103332,
+        "output_tokens": 56560,
+        "sec_http_calls": 0,
+        "sec_cache_hits": 0,
+        "compiler_repair_rate": 0.0,
+        "candidate_sources": 392,
+        "candidate_future_sources": 80,
+        "candidate_unknown_date_sources": 272,
+        "candidate_future_source_rate": 0.20408163265306123,
+        "candidate_temporal_metadata_coverage": 0.30612244897959184,
+        "candidate_sec_source_rate": 0.2372448979591837,
+        "runs_with_candidate_future_exposure": 19,
+        "accepted_evidence": 55,
+        "accepted_future_evidence": 7,
+        "accepted_unknown_date_evidence": 35,
+        "final_evidence_leakage_rate": 0.12727272727272726,
+        "final_evidence_temporal_metadata_coverage": 0.36363636363636365,
+        "final_evidence_provenance_completeness": 0.14545454545454545,
+        "runs_with_final_evidence_leakage": 6,
+        "temporally_compliant_run_rate": 0.05,
+        "joint_reliable_answer_rate": 0.0
+      },
+      "atlas_xbrl": {
+        "runs": 20,
+        "decision_accuracy": 1.0,
+        "answer_coverage": 1.0,
+        "model_http_stages": 20,
+        "external_tool_actions": 84,
+        "sources": 32,
+        "citations": 84,
+        "input_tokens": 13006,
+        "output_tokens": 5412,
+        "sec_http_calls": 16,
+        "sec_cache_hits": 68,
+        "compiler_repair_rate": 0.2,
+        "candidate_sources": 32,
+        "candidate_future_sources": 0,
+        "candidate_unknown_date_sources": 0,
+        "candidate_future_source_rate": 0.0,
+        "candidate_temporal_metadata_coverage": 1.0,
+        "candidate_sec_source_rate": 1.0,
+        "runs_with_candidate_future_exposure": 0,
+        "accepted_evidence": 84,
+        "accepted_future_evidence": 0,
+        "accepted_unknown_date_evidence": 0,
+        "final_evidence_leakage_rate": 0.0,
+        "final_evidence_temporal_metadata_coverage": 1.0,
+        "final_evidence_provenance_completeness": 1.0,
+        "runs_with_final_evidence_leakage": 0,
+        "temporally_compliant_run_rate": 1.0,
+        "joint_reliable_answer_rate": 1.0
+      }
+    },
+    "comparison": {
+      "paired_accuracy_difference": 0.35,
+      "paired_bootstrap_ci95": [
+        0.15,
+        0.55
+      ],
+      "wins": 7,
+      "ties": 13,
+      "losses": 0,
+      "n_questions": 20,
+      "metric": "exact numeric equality at the requested two-decimal answer"
+    },
+    "joint_reliability_comparison": {
+      "paired_difference": 1.0,
+      "paired_bootstrap_ci95": [
+        1.0,
+        1.0
+      ],
+      "wins": 20,
+      "ties": 0,
+      "losses": 0,
+      "metric": "correct answer + fully dated non-future evidence + complete provenance"
+    }
+  },
+  "exclusions": {
+    "errors": [
+      {
+        "case_id": "pit_alphabet_vs_meta_2022_operating_margin",
+        "strategy": "plain_agent",
+        "error_type": "RuntimeError",
+        "error": "Anthropic-compatible API HTTP 524: error code: 524\n"
+      }
+    ],
+    "invalid": []
+  },
+  "failure": null
+}

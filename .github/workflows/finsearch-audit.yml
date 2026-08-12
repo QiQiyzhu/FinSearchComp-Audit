@@ -40,6 +40,7 @@ jobs:
           temporal_clash.test_live_agent
           temporal_clash.test_atlas_compute
           temporal_clash.test_atlas_xbrl
+          temporal_clash.test_pit_audit
           advanced_rag.test_advanced_rag -v
       - name: Reproduce and validate audit
         run: python reproduce.py --output site

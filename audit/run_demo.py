@@ -893,7 +893,7 @@ def write_outputs(input_path: Path, output_dir: Path, announce: bool = True) -> 
     fusion_output.mkdir(parents=True, exist_ok=True)
     for filename in FUSION_FILES:
         shutil.copy2(FUSION_RESULT_DIR / filename, fusion_output / filename)
-    xbrl_output = output_dir / "atlas-xbrl"
+    xbrl_output = output_dir / "atlas-pit-xbrl"
     xbrl_output.mkdir(parents=True, exist_ok=True)
     for filename in XBRL_FILES:
         shutil.copy2(xbrl_result["result_dir"] / filename, xbrl_output / filename)

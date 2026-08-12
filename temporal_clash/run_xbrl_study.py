@@ -374,15 +374,18 @@ Python `Decimal` 执行公式。普通搜索Agent使用同一模型和真实Web 
 | 普通搜索 Agent | {plain['decision_accuracy']:.1%} | {plain['answer_coverage']:.1%} | {plain['candidate_future_sources']}/{plain['candidate_sources']} | {plain['accepted_future_evidence']}/{plain['accepted_evidence']} | {plain['joint_reliable_answer_rate']:.1%} |
 | **ATLAS-PIT-XBRL** | **{xbrl['decision_accuracy']:.1%}** | **{xbrl['answer_coverage']:.1%}** | **{xbrl['candidate_future_sources']}/{xbrl['candidate_sources']}** | **{xbrl['accepted_future_evidence']}/{xbrl['accepted_evidence']}** | **{xbrl['joint_reliable_answer_rate']:.1%}** |
 
-配对准确率差值为 **{comparison['paired_accuracy_difference']:+.1%}**，逐题
+配对准确率差值为 **{comparison['paired_accuracy_difference'] * 100:+.1f}个百分点**，逐题
 {comparison['wins']}胜 / {comparison['ties']}平 / {comparison['losses']}负；
-按题bootstrap 95% CI 为 {comparison['paired_bootstrap_ci95'][0]:+.1%} 到
-{comparison['paired_bootstrap_ci95'][1]:+.1%}。
+按题bootstrap 95% CI 为 {comparison['paired_bootstrap_ci95'][0] * 100:+.1f} 到
+{comparison['paired_bootstrap_ci95'][1] * 100:+.1f}个百分点。
 
 联合可靠回答要求“答案正确 + 最终证据全部有日期且不晚于截止日 + 来源字段完整”。
 普通Agent候选来源时间元数据覆盖率为 {plain['candidate_temporal_metadata_coverage']:.1%}，
 ATLAS-PIT-XBRL为 {xbrl['candidate_temporal_metadata_coverage']:.1%}；SEC来源占比分别为
 {plain['candidate_sec_source_rate']:.1%} 和 {xbrl['candidate_sec_source_rate']:.1%}。
+
+Web时间判定使用搜索供应商在本次运行返回的`page_age`并按URL映射到引用/最终证据；它是可观察的页面时间元数据，
+不等同于对所有网页首次发布时间的独立取证。unknown不算确认未来，也不算确认安全。SEC日期来自官方filing记录。
 
 ## 为什么它能超过普通搜索
 

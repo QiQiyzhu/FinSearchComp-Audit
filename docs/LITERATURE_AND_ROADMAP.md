@@ -3,10 +3,11 @@
 > 检索日期：2026-07-31  
 > 项目定位：Auditing Financial Research Agents: A Temporal Reliability Benchmark for Trustworthy Evaluation
 
-> 2026-08-13 更新：最新主方法为 **ATLAS-XBRL**，将Claude语义编译、SEC官方Company Facts、
-> label-free程序校准和Decimal确定性计算组合为可审计金融Agent。在20道运行前冻结的真实财报计算题上，
-> 同模型普通Web Search Agent为75%（15/20），ATLAS-XBRL为100%（20/20），逐题5胜、15平、0负。
-> 完整数据见[`20题正式研究卡`](../temporal_clash/results/atlas_xbrl_20q_sonnet5_20260813/README.md)。
+> 2026-08-13 更新：最新主方法为 **ATLAS-PIT-XBRL**，把Claude语义编译、SEC截止日取数、
+> Decimal确定性计算和候选/引用/最终证据三层时间审计组合为一个系统。在20道全新历史截止日题上，
+> 普通Web Search Agent准确率/覆盖率为65%/90%，ATLAS为100%/100%；候选未来来源80/392对0/32，
+> 最终未来证据7/55对0/84。完整数据见
+> [`综合正式研究卡`](../temporal_clash/results/atlas_pit_xbrl_20q_sonnet5_20260813/README.md)。
 
 > 早期ATLAS-RAG、ATLAS-Fusion和ATLAS-Compute负结果均保留为研究演进记录。它们共同表明：
 > 仅增加网页轨迹、严格Gate或程序化计算仍受一手操作数缺失影响；最终升级必须同时改进事实获取与计算执行。
@@ -60,6 +61,10 @@ look-ahead bias 转化为可追踪、可检测、可拒绝的证据级评测问�
 ATLAS-Compute进一步证明：即使公式改为程序执行，只要操作数仍来自开放网页，跨公司题就可能因为缺少
 可核验的一手事实而拒答。于是ATLAS-XBRL把“独立元数据获取”推进为“官方结构化事实工具”，并将
 LLM限制在语义编译阶段。正式20题结果为100%对75%，但仅适用于可映射到SEC XBRL的任务。
+
+随后独立PIT审计发现，旧“最终时间泄漏为0”没有惩罚日期缺失。新的历史截止日批次将unknown与safe分开：
+普通Agent在19/20题暴露未来候选，并在6/20题最终采用未来证据；ATLAS两项均为0，同时数值准确率
+保持100%。这把项目主线重新连接到point-in-time可靠性，而不只是数值计算优化。
 
 这意味着后续论文阅读不应只集中在prompt engineering，而应转向以下四条主线：
 

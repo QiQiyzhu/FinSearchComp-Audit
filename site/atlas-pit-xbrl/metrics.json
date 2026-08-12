@@ -1,0 +1,87 @@
+{
+  "strategies": {
+    "plain_agent": {
+      "runs": 20,
+      "decision_accuracy": 0.65,
+      "answer_coverage": 0.9,
+      "model_http_stages": 40,
+      "external_tool_actions": 50,
+      "sources": 392,
+      "citations": 83,
+      "input_tokens": 103332,
+      "output_tokens": 56560,
+      "sec_http_calls": 0,
+      "sec_cache_hits": 0,
+      "compiler_repair_rate": 0.0,
+      "candidate_sources": 392,
+      "candidate_future_sources": 80,
+      "candidate_unknown_date_sources": 272,
+      "candidate_future_source_rate": 0.20408163265306123,
+      "candidate_temporal_metadata_coverage": 0.30612244897959184,
+      "candidate_sec_source_rate": 0.2372448979591837,
+      "runs_with_candidate_future_exposure": 19,
+      "accepted_evidence": 55,
+      "accepted_future_evidence": 7,
+      "accepted_unknown_date_evidence": 35,
+      "final_evidence_leakage_rate": 0.12727272727272726,
+      "final_evidence_temporal_metadata_coverage": 0.36363636363636365,
+      "final_evidence_provenance_completeness": 0.14545454545454545,
+      "runs_with_final_evidence_leakage": 6,
+      "temporally_compliant_run_rate": 0.05,
+      "joint_reliable_answer_rate": 0.0
+    },
+    "atlas_xbrl": {
+      "runs": 20,
+      "decision_accuracy": 1.0,
+      "answer_coverage": 1.0,
+      "model_http_stages": 20,
+      "external_tool_actions": 84,
+      "sources": 32,
+      "citations": 84,
+      "input_tokens": 13006,
+      "output_tokens": 5412,
+      "sec_http_calls": 16,
+      "sec_cache_hits": 68,
+      "compiler_repair_rate": 0.2,
+      "candidate_sources": 32,
+      "candidate_future_sources": 0,
+      "candidate_unknown_date_sources": 0,
+      "candidate_future_source_rate": 0.0,
+      "candidate_temporal_metadata_coverage": 1.0,
+      "candidate_sec_source_rate": 1.0,
+      "runs_with_candidate_future_exposure": 0,
+      "accepted_evidence": 84,
+      "accepted_future_evidence": 0,
+      "accepted_unknown_date_evidence": 0,
+      "final_evidence_leakage_rate": 0.0,
+      "final_evidence_temporal_metadata_coverage": 1.0,
+      "final_evidence_provenance_completeness": 1.0,
+      "runs_with_final_evidence_leakage": 0,
+      "temporally_compliant_run_rate": 1.0,
+      "joint_reliable_answer_rate": 1.0
+    }
+  },
+  "comparison": {
+    "paired_accuracy_difference": 0.35,
+    "paired_bootstrap_ci95": [
+      0.15,
+      0.55
+    ],
+    "wins": 7,
+    "ties": 13,
+    "losses": 0,
+    "n_questions": 20,
+    "metric": "exact numeric equality at the requested two-decimal answer"
+  },
+  "joint_reliability_comparison": {
+    "paired_difference": 1.0,
+    "paired_bootstrap_ci95": [
+      1.0,
+      1.0
+    ],
+    "wins": 20,
+    "ties": 0,
+    "losses": 0,
+    "metric": "correct answer + fully dated non-future evidence + complete provenance"
+  }
+}
