@@ -46,6 +46,7 @@ RATIO_FIELDS = {
 }
 OUTPUT_FILES = (
     "index.html",
+    "xbrl-study.html",
     "live-pilot.html",
     "report.md",
     "trace.json",
@@ -59,6 +60,15 @@ LIVE_PILOT_FILES = (
     "confidence_intervals.csv",
     "exclusions.json",
     "study_manifest.json",
+    "trace.jsonl",
+)
+XBRL_FILES = (
+    "README.md",
+    "metrics.json",
+    "case_outcomes.csv",
+    "gold_audit.json",
+    "study_manifest.json",
+    "exclusions.json",
     "trace.jsonl",
 )
 
@@ -262,6 +272,13 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
             target.is_file() and target.stat().st_size > 0,
             f"missing or empty atlas-fusion output: {target}",
         )
+    xbrl_dir = output_dir / "atlas-xbrl"
+    for filename in XBRL_FILES:
+        target = xbrl_dir / filename
+        require(
+            target.is_file() and target.stat().st_size > 0,
+            f"missing or empty atlas-xbrl output: {target}",
+        )
     advanced_dir = output_dir / "advanced-rag"
     advanced_files = (
         "README.md",
@@ -297,24 +314,49 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
 
     html_text = (output_dir / "index.html").read_text(encoding="utf-8")
     report_text = (output_dir / "report.md").read_text(encoding="utf-8")
-    for run in payload["runs"]:
-        require(html.escape(run["label"]) in html_text, f"index.html is missing label: {run['label']}")
     for required_showcase_text in (
-        "研究如何从审计基线升级到 ATLAS-RAG",
-        "顶会技术如何进入项目",
-        "第一轮 Sonnet 与当前同模型四个旧策略",
-        "100 条受控实验",
-        "真实 Web Search Agent",
-        "确定性协议验证",
-        "三个来自真实 trace 的例子",
-        "ATLAS-RAG：从静态 Top-K 到自适应检索与冲突仲裁",
-        "ATLAS-Fusion：跨五条搜索轨迹的证据仲裁",
-        f"{expected_live_runs} 条记录全部通过严格 trace 校验",
+        "ATLAS-XBRL",
+        "20道冻结题上",
+        "结果不是挑出来的",
+        "普通搜索错的5题",
+        "每个100%都可以追溯",
+        "Query Decomposition for RAG",
+        "FinMRAGBench",
+        "40条Trace",
+        "20 / 20",
+        "15 / 20",
     ):
         require(
             required_showcase_text in html_text,
             f"index.html is missing teacher-showcase text: {required_showcase_text}",
         )
+    require("100 条受控实验" not in html_text, "homepage must not display offline benchmark data")
+    xbrl_html = (output_dir / "xbrl-study.html").read_text(encoding="utf-8")
+    for required_xbrl_text in (
+        "ATLAS-XBRL",
+        "20道题，每个结果都可检查",
+        "75%",
+        "100%",
+        "+25%",
+        "40条Trace",
+    ):
+        require(
+            required_xbrl_text in xbrl_html,
+            f"xbrl-study.html is missing text: {required_xbrl_text}",
+        )
+    with (xbrl_dir / "case_outcomes.csv").open(
+        encoding="utf-8-sig", newline=""
+    ) as handle:
+        xbrl_outcomes = list(csv.DictReader(handle))
+    require(len(xbrl_outcomes) == 20, "ATLAS-XBRL result must contain 20 questions")
+    require(
+        sum(int(row["plain_correct"]) for row in xbrl_outcomes) == 15,
+        "published baseline score must be 15/20",
+    )
+    require(
+        sum(int(row["xbrl_correct"]) for row in xbrl_outcomes) == 20,
+        "published ATLAS-XBRL score must be 20/20",
+    )
     for heading in ("完整任务轨迹", "6 个成功案例和 6 个失败案例", "普通网页搜索 vs 金融数据接口"):
         require(heading in report_text, f"report.md is missing section: {heading}")
 
@@ -385,6 +427,7 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
                 f"live trace line {line_number} is not valid JSON"
             ) from error
     validate_local_links(output_dir, output_dir / "index.html")
+    validate_local_links(output_dir, output_dir / "xbrl-study.html")
     validate_local_links(output_dir, output_dir / "live-pilot.html")
     validate_local_links(output_dir, output_dir / "temporal-audit.html")
 

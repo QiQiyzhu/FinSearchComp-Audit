@@ -1,7 +1,60 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="ATLAS-XBRL：Claude Sonnet 5语义编译、SEC官方XBRL取数与程序化金融计算。20题100%，普通搜索75%。">
-<title>ATLAS-XBRL · 真实金融Agent实验</title><style>
+from __future__ import annotations
+
+import csv
+import html
+import json
+from pathlib import Path
+from typing import Any
+
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+RESULT_DIR = (
+    REPO_ROOT
+    / "temporal_clash"
+    / "results"
+    / "atlas_xbrl_20q_sonnet5_20260813"
+)
+RESULT_FILES = (
+    "README.md",
+    "metrics.json",
+    "case_outcomes.csv",
+    "gold_audit.json",
+    "study_manifest.json",
+    "exclusions.json",
+    "trace.jsonl",
+)
+
+
+def load_xbrl_result(result_dir: Path = RESULT_DIR) -> dict[str, Any]:
+    missing = [name for name in RESULT_FILES if not (result_dir / name).is_file()]
+    if missing:
+        raise FileNotFoundError(f"ATLAS-XBRL result is incomplete: {missing}")
+    with (result_dir / "case_outcomes.csv").open(
+        encoding="utf-8-sig", newline=""
+    ) as handle:
+        outcomes = list(csv.DictReader(handle))
+    result = {
+        "result_dir": result_dir,
+        "metrics": json.loads((result_dir / "metrics.json").read_text(encoding="utf-8")),
+        "manifest": json.loads(
+            (result_dir / "study_manifest.json").read_text(encoding="utf-8")
+        ),
+        "gold_audit": json.loads(
+            (result_dir / "gold_audit.json").read_text(encoding="utf-8")
+        ),
+        "outcomes": outcomes,
+    }
+    if len(outcomes) != 20 or result["manifest"]["valid_runs"] != 40:
+        raise ValueError("Published ATLAS-XBRL result must be the complete 20x2 study")
+    return result
+
+
+def _pct(value: float) -> str:
+    return f"{value:.0%}"
+
+
+def _shared_css() -> str:
+    return """
 :root{--ink:#eaf2ff;--muted:#9eb0c7;--night:#07111f;--panel:#101e31;
 --line:#263b53;--blue:#6ed8ff;--green:#58e3a1;--lime:#d9ff66;--red:#ff8b8b;
 --paper:#f5f7fb;--paper-ink:#172033;--paper-muted:#667085}
@@ -76,7 +129,33 @@ grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:1fr 1fr}.flow ar
 .papers{grid-template-columns:1fr 1fr}}@media(max-width:620px){.wrap{width:min(100% - 26px,1160px)}.navlinks{display:none}
 .hero-grid{padding-top:42px}.compare-grid,.stats,.facts-grid,.flow,.error-grid,.papers{grid-template-columns:1fr}.footer-row{display:block}
 h1{font-size:48px}.light,.dark{padding:64px 0}}
-</style></head><body>
+"""
+
+
+def build_homepage(result: dict[str, Any]) -> str:
+    metrics = result["metrics"]
+    plain = metrics["strategies"]["plain_agent"]
+    xbrl = metrics["strategies"]["atlas_xbrl"]
+    comparison = metrics["comparison"]
+    manifest = result["manifest"]
+    gold_hash = result["gold_audit"]["case_batch_sha256"]
+    losing_rows = [row for row in result["outcomes"] if row["plain_correct"] == "0"]
+    error_copy = {
+        "tesla_2024_operating_margin_change_xbrl": ("−1.94 → 1.94", "把“下降多少”输出成负数"),
+        "meta_vs_alphabet_2023_op_margin_change_gap_xbrl": ("8.88 → 8.87", "中间比率提前舍入"),
+        "amd_vs_intel_2023_rd_intensity_change_gap_xbrl": ("2.88 → 2.89", "多步比率累计舍入"),
+        "nvidia_vs_tesla_2024_op_margin_change_gap_xbrl": ("46.03 → 40.41", "跨公司公式与方向错误"),
+        "alphabet_vs_meta_2023_rd_growth_gap_xbrl": ("6.10 → 6.11", "增长率提前舍入"),
+    }
+    errors = "".join(
+        f"""<article class="error-card"><b>{html.escape(error_copy[row['case_id']][0])}</b>
+        <h3>{html.escape(row['question_zh'])}</h3><p>{html.escape(error_copy[row['case_id']][1])}</p></article>"""
+        for row in losing_rows
+    )
+    return f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="ATLAS-XBRL：Claude Sonnet 5语义编译、SEC官方XBRL取数与程序化金融计算。20题100%，普通搜索75%。">
+<title>ATLAS-XBRL · 真实金融Agent实验</title><style>{_shared_css()}</style></head><body>
 <header class="hero"><nav class="nav wrap"><a class="brand" href="index.html">FinSearchComp<i> / ATLAS</i></a>
 <div class="navlinks"><a href="#result">结果</a><a href="#method">方法</a><a href="#failures">错误分析</a>
 <a href="#papers">顶会依据</a><a href="xbrl-study.html">20题报告</a></div></nav>
@@ -86,10 +165,10 @@ h1{font-size:48px}.light,.dark{padding:64px 0}}
 20道冻结题上，ATLAS-XBRL比同模型普通搜索高25个百分点。</p>
 <div class="actions"><a class="button" href="xbrl-study.html">查看20题逐题结果 →</a>
 <a class="button secondary" href="atlas-xbrl/trace.jsonl">打开40条Trace</a></div></div>
-<aside class="score-card"><div class="score-line"><span>普通 Web Search Agent</span><b>75%</b></div>
-<div class="meter"><i style="width:75%"></i></div>
-<div class="score-line"><span>ATLAS-XBRL</span><b>100%</b></div>
-<div class="meter winner"><i style="width:100%"></i></div>
+<aside class="score-card"><div class="score-line"><span>普通 Web Search Agent</span><b>{_pct(plain['decision_accuracy'])}</b></div>
+<div class="meter"><i style="width:{plain['decision_accuracy']:.0%}"></i></div>
+<div class="score-line"><span>ATLAS-XBRL</span><b>{_pct(xbrl['decision_accuracy'])}</b></div>
+<div class="meter winner"><i style="width:{xbrl['decision_accuracy']:.0%}"></i></div>
 <div class="delta"><span>配对提升<br><small>95% CI: +5～+45pp</small></span><b>+25pp</b></div></aside></div></header>
 
 <main><section class="light" id="result"><div class="wrap"><span class="section-kicker">Formal live study</span>
@@ -117,12 +196,7 @@ h1{font-size:48px}.light,.dark{padding:64px 0}}
 
 <section class="dark" id="failures" style="padding-top:10px"><div class="wrap"><span class="section-kicker" style="color:#ffb1b1">Failure analysis</span>
 <h2 class="section-title">普通搜索错的5题，ATLAS-XBRL全部修复。</h2><p class="lead">错误集中在方向、提前舍入和跨公司多步公式，
-说明检索到相关网页不等于完成了可靠的数值推理。</p><div class="error-grid"><article class="error-card"><b>−1.94 → 1.94</b>
-        <h3>按SEC XBRL中的营业利润/收入计算，Tesla营业利润率从FY2023到FY2024下降了多少个百分点？保留两位小数。</h3><p>把“下降多少”输出成负数</p></article><article class="error-card"><b>8.88 → 8.87</b>
-        <h3>按营业利润率=营业利润/收入并使用SEC XBRL原始值，Meta从FY2022到FY2023的营业利润率增幅比Alphabet大多少个百分点？保留两位小数。</h3><p>中间比率提前舍入</p></article><article class="error-card"><b>2.88 → 2.89</b>
-        <h3>按研发强度=研发费用/收入并使用SEC XBRL原始值，AMD从FY2022到FY2023的研发强度增幅比Intel大多少个百分点？保留两位小数。</h3><p>多步比率累计舍入</p></article><article class="error-card"><b>46.03 → 40.41</b>
-        <h3>按营业利润率=营业利润/收入并使用SEC XBRL原始值，NVIDIA的营业利润率变化（FY2024-FY2023）比Tesla高多少个百分点？保留两位小数。</h3><p>跨公司公式与方向错误</p></article><article class="error-card"><b>6.10 → 6.11</b>
-        <h3>使用SEC XBRL原始值，FY2023 Alphabet研发费用同比增长率比Meta高多少个百分点？保留两位小数。</h3><p>增长率提前舍入</p></article></div></div></section>
+说明检索到相关网页不等于完成了可靠的数值推理。</p><div class="error-grid">{errors}</div></div></section>
 
 <section class="light" id="papers"><div class="wrap"><span class="section-kicker">Research grounding</span>
 <h2 class="section-title">最新顶会思想，落成可以运行和审计的金融系统。</h2><div class="papers">
@@ -135,11 +209,63 @@ h1{font-size:48px}.light,.dark{padding:64px 0}}
 
 <section class="dark"><div class="wrap"><span class="section-kicker" style="color:var(--blue)">Auditability</span>
 <h2 class="section-title">每个100%都可以追溯。</h2><div class="audit"><div class="audit-grid"><div><h3>运行前Gold审计</h3>
-<p style="color:var(--muted)">20/20通过SEC官方Company Facts复算。正式预注册提交：<code>8aafe591651e68570e9913956f0452a332c344f7</code></p>
-<code>b42764184a6a7f1c5f26acf324f81b3cfef70bb82940a67985f84a194f094fa6</code></div><div><h3>公开产物</h3><div class="chips"><span>40 traces</span><span>88 SEC citations</span>
+<p style="color:var(--muted)">20/20通过SEC官方Company Facts复算。正式预注册提交：<code>{html.escape(manifest['preregistered_commit'])}</code></p>
+<code>{html.escape(gold_hash)}</code></div><div><h3>公开产物</h3><div class="chips"><span>40 traces</span><span>88 SEC citations</span>
 <span>0 transport error</span><span>0 invalid record</span><span>Claude Sonnet 5</span></div></div></div></div>
 <div class="artifact-links" style="margin-top:18px"><a href="xbrl-study.html">逐题研究报告</a><a href="atlas-xbrl/case_outcomes.csv">结果CSV</a>
 <a href="atlas-xbrl/gold_audit.json">Gold审计</a><a href="atlas-xbrl/study_manifest.json">研究清单</a>
 <a href="atlas-xbrl/trace.jsonl">完整Trace</a><a href="https://github.com/QiQiyzhu/FinSearchComp-Audit">GitHub源码</a></div></div></section></main>
 <footer class="footer"><div class="wrap footer-row"><span>FinSearchComp-Audit · ATLAS-XBRL · 2026</span>
-<span>真实模型 · 官方SEC数据 · 无密钥入库 · 不构成投资建议</span></div></footer></body></html>
+<span>真实模型 · 官方SEC数据 · 无密钥入库 · 不构成投资建议</span></div></footer></body></html>"""
+
+
+def build_study_page(result: dict[str, Any]) -> str:
+    metrics = result["metrics"]
+    plain = metrics["strategies"]["plain_agent"]
+    xbrl = metrics["strategies"]["atlas_xbrl"]
+    comparison = metrics["comparison"]
+    rows = []
+    for index, item in enumerate(result["outcomes"], start=1):
+        plain_ok = item["plain_correct"] == "1"
+        xbrl_ok = item["xbrl_correct"] == "1"
+        rows.append(
+            "<tr><td>{}</td><td class=\"question\">{}</td><td>{} {}</td>"
+            "<td class=\"{}\">{} {}</td><td class=\"{}\">{} {}</td>"
+            "<td><span class=\"tag\">{}</span></td></tr>".format(
+                index,
+                html.escape(item["question_zh"]),
+                html.escape(item["gold_answer"]),
+                html.escape(item["canonical_unit"]),
+                "ok" if plain_ok else "bad",
+                "✓" if plain_ok else "✕",
+                html.escape(item["plain_answer"] or "拒答"),
+                "ok" if xbrl_ok else "bad",
+                "✓" if xbrl_ok else "✕",
+                html.escape(item["xbrl_answer"] or "拒答"),
+                html.escape(item["operation"]),
+            )
+        )
+    return f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="ATLAS-XBRL 20题真实实验逐题结果">
+<title>20题正式实验 · ATLAS-XBRL</title><style>{_shared_css()}</style></head><body>
+<header class="study-hero"><nav class="nav wrap"><a class="brand" href="index.html">← FinSearchComp<i> / ATLAS</i></a>
+<div class="navlinks"><a href="atlas-xbrl/README.md">研究卡</a><a href="atlas-xbrl/trace.jsonl">Trace</a><a href="atlas-xbrl/gold_audit.json">Gold审计</a></div></nav>
+<div class="wrap" style="padding-top:36px"><span class="eyebrow"><i class="dot"></i>20 Questions · 2 Systems · 40 Valid Traces</span>
+<h1 style="max-width:920px">ATLAS-XBRL<br><span class="gradient">正式逐题结果</span></h1>
+<p class="lead">同一个Claude Sonnet 5，普通Web Search Agent与“LLM编译 + SEC XBRL + Decimal执行”的完整配对对照。</p>
+<div class="facts-grid"><div class="fact"><b>{_pct(plain['decision_accuracy'])}</b><span>普通搜索准确率</span></div>
+<div class="fact"><b>{_pct(xbrl['decision_accuracy'])}</b><span>ATLAS-XBRL准确率</span></div>
+<div class="fact"><b>+{comparison['paired_accuracy_difference']:.0%}</b><span>配对提升</span></div>
+<div class="fact"><b>5 / 15 / 0</b><span>胜 / 平 / 负</span></div></div></div></header>
+<main class="light"><div class="wrap"><span class="section-kicker">Per-question evidence</span>
+<h2 class="section-title">20道题，每个结果都可检查。</h2><p class="section-copy">评分要求最终动作是answer、单位完全一致、数值与SEC复算gold在要求的两位小数上精确相等。</p>
+<div class="table-shell"><table><thead><tr><th>#</th><th>问题</th><th>Gold</th><th>普通搜索</th><th>ATLAS-XBRL</th><th>程序</th></tr></thead>
+<tbody>{''.join(rows)}</tbody></table></div>
+<div class="stats"><div class="stat"><b>52</b><span>普通Agent Web Searches</span></div><div class="stat"><b>383</b><span>普通Agent捕获来源</span></div>
+<div class="stat"><b>8 + 80</b><span>SEC下载 + 缓存命中</span></div><div class="stat"><b>88</b><span>SEC事实citations</span></div></div>
+<div class="boundary"><b>统计边界：</b>配对bootstrap 95% CI为+5至+45个百分点；20题、单模型、单次运行仍不足以宣称通用SOTA。</div>
+<h2 class="section-title" style="margin-top:62px">下载审计产物</h2><div class="artifact-links"><a href="atlas-xbrl/case_outcomes.csv">逐题CSV</a>
+<a href="atlas-xbrl/metrics.json">聚合指标</a><a href="atlas-xbrl/gold_audit.json">Gold审计</a><a href="atlas-xbrl/study_manifest.json">协议清单</a>
+<a href="atlas-xbrl/exclusions.json">排除记录</a><a href="atlas-xbrl/trace.jsonl">40条Trace</a></div></div></main>
+<footer class="footer"><div class="wrap footer-row"><span>ATLAS-XBRL formal live study</span><span>Preregistered · Trace-complete · SEC-grounded</span></div></footer>
+</body></html>"""

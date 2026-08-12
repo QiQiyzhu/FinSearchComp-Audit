@@ -11,6 +11,13 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from audit.xbrl_site import (
+    RESULT_FILES as XBRL_FILES,
+    build_homepage,
+    build_study_page,
+    load_xbrl_result,
+)
+
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LIVE_PILOT_DIR = (
@@ -867,9 +874,13 @@ footer{{margin-top:48px;color:var(--muted)}}code{{background:#eef2f6;border-radi
 def write_outputs(input_path: Path, output_dir: Path, announce: bool = True) -> None:
     payload = json.loads(input_path.read_text(encoding="utf-8"))
     live_pilot = load_live_pilot()
+    xbrl_result = load_xbrl_result()
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "index.html").write_text(
-        html_report(payload, live_pilot), encoding="utf-8"
+        build_homepage(xbrl_result), encoding="utf-8"
+    )
+    (output_dir / "xbrl-study.html").write_text(
+        build_study_page(xbrl_result), encoding="utf-8"
     )
     (output_dir / "live-pilot.html").write_text(
         live_pilot_report(live_pilot), encoding="utf-8"
@@ -882,6 +893,10 @@ def write_outputs(input_path: Path, output_dir: Path, announce: bool = True) -> 
     fusion_output.mkdir(parents=True, exist_ok=True)
     for filename in FUSION_FILES:
         shutil.copy2(FUSION_RESULT_DIR / filename, fusion_output / filename)
+    xbrl_output = output_dir / "atlas-xbrl"
+    xbrl_output.mkdir(parents=True, exist_ok=True)
+    for filename in XBRL_FILES:
+        shutil.copy2(xbrl_result["result_dir"] / filename, xbrl_output / filename)
     (output_dir / "report.md").write_text(markdown_report(payload), encoding="utf-8")
     (output_dir / "trace.json").write_text(
         json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"

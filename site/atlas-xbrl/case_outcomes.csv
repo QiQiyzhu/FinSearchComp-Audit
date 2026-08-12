@@ -1,0 +1,21 @@
+﻿case_id,question_zh,gold_answer,canonical_unit,plain_action,plain_answer,plain_correct,xbrl_action,xbrl_answer,xbrl_correct,operation,operand_count,compiler_repaired
+msft_2024_rd_growth_xbrl,使用SEC XBRL中未经四舍五入的美元数，微软FY2024研发费用同比增长率是多少？保留两位小数。,8.51,percent,answer,8.51,1,answer,8.51,1,relative_change_percent,2,1
+apple_2024_rd_growth_xbrl,使用SEC XBRL中未经四舍五入的美元数，Apple FY2024研发费用同比增长率是多少？保留两位小数。,4.86,percent,answer,4.86,1,answer,4.86,1,relative_change_percent,2,1
+nvidia_2024_rd_growth_xbrl,使用SEC XBRL中未经四舍五入的美元数，NVIDIA FY2024研发费用同比增长率是多少？保留两位小数。,18.20,percent,answer,18.20,1,answer,18.20,1,relative_change_percent,2,1
+tesla_2024_rd_growth_xbrl,使用SEC XBRL中未经四舍五入的美元数，Tesla FY2024研发费用同比增长率是多少？保留两位小数。,14.39,percent,answer,14.39,1,answer,14.39,1,relative_change_percent,2,1
+msft_2024_operating_margin_change_xbrl,按SEC XBRL中的营业利润/收入计算，微软营业利润率从FY2023到FY2024提高了多少个百分点？保留两位小数。,2.87,percentage_point,answer,2.87,1,answer,2.87,1,ratio_change_pp,4,0
+apple_2024_operating_margin_change_xbrl,按SEC XBRL中的营业利润/收入计算，Apple营业利润率从FY2023到FY2024提高了多少个百分点？保留两位小数。,1.69,percentage_point,answer,1.69,1,answer,1.69,1,ratio_change_pp,4,0
+nvidia_2024_operating_margin_change_xbrl,按SEC XBRL中的营业利润/收入计算，NVIDIA营业利润率从FY2023到FY2024提高了多少个百分点？保留两位小数。,38.46,percentage_point,answer,38.46,1,answer,38.46,1,ratio_change_pp,4,0
+tesla_2024_operating_margin_change_xbrl,按SEC XBRL中的营业利润/收入计算，Tesla营业利润率从FY2023到FY2024下降了多少个百分点？保留两位小数。,1.94,percentage_point,answer,-1.94,0,answer,1.94,1,ratio_change_pp,4,0
+msft_vs_apple_2024_rd_intensity_xbrl,按研发强度=研发费用/收入并使用SEC XBRL原始值，FY2024微软研发强度比Apple高多少个百分点？保留两位小数。,4.02,percentage_point,answer,4.02,1,answer,4.02,1,ratio_gap_pp,4,0
+apple_vs_tesla_2024_rd_intensity_xbrl,按研发强度=研发费用/收入并使用SEC XBRL原始值，FY2024 Apple研发强度比Tesla高多少个百分点？保留两位小数。,3.37,percentage_point,answer,3.37,1,answer,3.37,1,ratio_gap_pp,4,0
+nvidia_vs_msft_2024_rd_intensity_xbrl,按研发强度=研发费用/收入并使用SEC XBRL原始值，FY2024 NVIDIA研发强度比微软高多少个百分点？保留两位小数。,2.20,percentage_point,answer,2.20,1,answer,2.20,1,ratio_gap_pp,4,0
+meta_vs_alphabet_2023_rd_intensity_xbrl,按研发强度=研发费用/收入并使用SEC XBRL原始值，FY2023 Meta研发强度比Alphabet高多少个百分点？保留两位小数。,13.75,percentage_point,answer,13.75,1,answer,13.75,1,ratio_gap_pp,4,0
+meta_vs_alphabet_2023_op_margin_change_gap_xbrl,按营业利润率=营业利润/收入并使用SEC XBRL原始值，Meta从FY2022到FY2023的营业利润率增幅比Alphabet大多少个百分点？保留两位小数。,8.87,percentage_point,answer,8.88,0,answer,8.87,1,ratio_change_gap_pp,8,0
+amd_vs_intel_2023_rd_intensity_change_gap_xbrl,按研发强度=研发费用/收入并使用SEC XBRL原始值，AMD从FY2022到FY2023的研发强度增幅比Intel大多少个百分点？保留两位小数。,2.89,percentage_point,answer,2.88,0,answer,2.89,1,ratio_change_gap_pp,8,0
+nvidia_vs_tesla_2024_op_margin_change_gap_xbrl,按营业利润率=营业利润/收入并使用SEC XBRL原始值，NVIDIA的营业利润率变化（FY2024-FY2023）比Tesla高多少个百分点？保留两位小数。,40.41,percentage_point,answer,46.03,0,answer,40.41,1,ratio_change_gap_pp,8,0
+msft_vs_apple_2024_op_margin_change_gap_xbrl,按营业利润率=营业利润/收入并使用SEC XBRL原始值，微软的营业利润率变化（FY2024-FY2023）比Apple高多少个百分点？保留两位小数。,1.18,percentage_point,answer,1.18,1,answer,1.18,1,ratio_change_gap_pp,8,0
+alphabet_vs_meta_2023_rd_growth_gap_xbrl,使用SEC XBRL原始值，FY2023 Alphabet研发费用同比增长率比Meta高多少个百分点？保留两位小数。,6.11,percentage_point,answer,6.10,0,answer,6.11,1,growth_gap_pp,4,0
+intel_vs_amd_2023_revenue_decline_gap_xbrl,使用SEC XBRL原始值，FY2023 Intel收入同比降幅比AMD大多少个百分点？保留两位小数。,10.10,percentage_point,answer,10.10,1,answer,10.10,1,growth_gap_pp,4,0
+nvidia_vs_tesla_2024_rd_growth_gap_xbrl,使用SEC XBRL原始值，FY2024 NVIDIA研发费用同比增长率比Tesla高多少个百分点？保留两位小数。,3.82,percentage_point,answer,3.82,1,answer,3.82,1,growth_gap_pp,4,0
+msft_vs_apple_2024_rd_growth_gap_xbrl,使用SEC XBRL原始值，FY2024微软研发费用同比增长率比Apple高多少个百分点？保留两位小数。,3.65,percentage_point,answer,3.65,1,answer,3.65,1,growth_gap_pp,4,0

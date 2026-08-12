@@ -1,0 +1,7 @@
+﻿case_id,question_zh,gold_answer,canonical_unit,plain_action,plain_answer,plain_correct,compute_action,compute_answer,compute_correct,compute_operation,compute_operand_count
+msft_2024_rd_exact_growth,使用10-K中未经四舍五入的百万美元数，微软FY2024研发费用同比增长率是多少？结果保留两位小数。,8.51,percent,answer,8.51,1,answer,8.51,1,relative_change_percent,2
+msft_2024_rd_intensity_drop,使用10-K中未经四舍五入的百万美元数，微软FY2024研发费用占收入的比例比FY2023下降了多少个百分点？结果保留两位小数。,0.79,percentage_point,answer,-0.79,0,answer,-0.79,0,difference_of_ratios_pp,4
+nvidia_2024_operating_margin_increase,使用10-K中的GAAP营业利润和收入，NVIDIA FY2024营业利润率比FY2023提高了多少个百分点？结果保留两位小数。,38.46,percentage_point,answer,33.44,0,answer,38.46,1,difference_of_ratios_pp,4
+msft_vs_apple_2024_rd_intensity,使用各自FY2024 10-K中未经四舍五入的百万美元数，微软研发费用占收入的比例比Apple高多少个百分点？结果保留两位小数。,4.02,percentage_point,answer,4.02,1,abstain,,0,none,0
+apple_vs_tesla_2024_rd_intensity,使用各自FY2024 10-K中未经四舍五入的百万美元数，Apple研发费用占收入的比例比Tesla高多少个百分点？结果保留两位小数。,3.37,percentage_point,answer,3.38,1,abstain,,0,none,0
+apple_2024_sga_intensity_change,使用Apple 10-K中未经四舍五入的百万美元数，FY2024销售、一般及管理费用占净销售额的比例比FY2023提高了多少个百分点？结果保留两位小数。,0.17,percentage_point,answer,0.17,1,answer,0.17,1,difference_of_ratios_pp,4

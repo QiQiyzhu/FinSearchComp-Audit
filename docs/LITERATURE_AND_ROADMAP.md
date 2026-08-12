@@ -3,16 +3,14 @@
 > 检索日期：2026-07-31  
 > 项目定位：Auditing Financial Research Agents: A Temporal Reliability Benchmark for Trustworthy Evaluation
 
-> 2026-08-13 更新：已完成 ATLAS-RAG 第一版，实现自适应来源路由、时间感知混合检索、
-> 事实冲突图、纠错检索和选择性回答。最新正式顶会论文与实现映射见
-> [`TOP_CONFERENCE_RAG_2026.md`](TOP_CONFERENCE_RAG_2026.md)，代码与离线结果见
-> [`../advanced_rag/README.md`](../advanced_rag/README.md)。
+> 2026-08-13 更新：最新主方法为 **ATLAS-XBRL**，将Claude语义编译、SEC官方Company Facts、
+> label-free程序校准和Decimal确定性计算组合为可审计金融Agent。在20道运行前冻结的真实财报计算题上，
+> 同模型普通Web Search Agent为75%（15/20），ATLAS-XBRL为100%（20/20），逐题5胜、15平、0负。
+> 完整数据见[`20题正式研究卡`](../temporal_clash/results/atlas_xbrl_20q_sonnet5_20260813/README.md)。
 
-> 2026-08-13 实证更新：已进一步完成 Sonnet 5 的 20×5 真实对照（100 条有效 trace）
-> 和 ATLAS-Fusion（20 条仲裁 trace）。单轨迹 ATLAS 从同轮完整验证器的 35% 提高到
-> 45%，但低于普通 Agent 的 55%；Fusion 最终 55%、仲裁初稿 65%。完整数据见
-> [`20×5 研究卡`](../temporal_clash/results/live_pilot_20q_atlas_sonnet5_20260813/README.md)
-> 和 [`Fusion 研究卡`](../temporal_clash/results/atlas_fusion_20q_sonnet5_20260813/README.md)。
+> 早期ATLAS-RAG、ATLAS-Fusion和ATLAS-Compute负结果均保留为研究演进记录。它们共同表明：
+> 仅增加网页轨迹、严格Gate或程序化计算仍受一手操作数缺失影响；最终升级必须同时改进事实获取与计算执行。
+> 最新顶会论文与实现映射见[`TOP_CONFERENCE_RAG_2026.md`](TOP_CONFERENCE_RAG_2026.md)。
 
 ## 1. 这项工作位于什么研究空缺？
 
@@ -47,7 +45,7 @@ look-ahead bias 转化为可追踪、可检测、可拒绝的证据级评测问�
 | 选择性回答 | [Selective QA under Domain Shift](https://aclanthology.org/2020.acl-main.503/) | 用 risk–coverage 衡量在准确率约束下的回答覆盖率 | 将二元 gate 改为可校准的风险分数，报告选择性准确率和覆盖率 |
 | 拒答训练 | [R-Tuning](https://aclanthology.org/2024.naacl-long.394/) | 训练模型区分已知和未知并适当拒答 | 为时间元数据缺失设计 refusal-aware 校准或轻量训练数据 |
 
-## 3. 当前真实 pilot 对论文阅读的具体改变
+## 3. 真实实验如何改变了技术路线
 
 受控实验中，完整验证器能够利用人工完整标注的元数据稳定拒绝污染证据；真实 Web Search 中，
 网页的发布日期、版本或单位经常缺失。于是同一套严格规则可能把“无法验证”直接等同为“错误”，
@@ -59,11 +57,16 @@ look-ahead bias 转化为可追踪、可检测、可拒绝的证据级评测问�
 减少了严格 Gate 的损失，但没有使单轨迹 ATLAS 超过普通搜索。所有运行都保存了搜索来源，
 但“有来源”不等于“来源元数据足以通过 point-in-time 验证”。
 
-这意味着后续论文阅读不应只集中在 prompt engineering，而应转向以下三条主线：
+ATLAS-Compute进一步证明：即使公式改为程序执行，只要操作数仍来自开放网页，跨公司题就可能因为缺少
+可核验的一手事实而拒答。于是ATLAS-XBRL把“独立元数据获取”推进为“官方结构化事实工具”，并将
+LLM限制在语义编译阶段。正式20题结果为100%对75%，但仅适用于可映射到SEC XBRL的任务。
+
+这意味着后续论文阅读不应只集中在prompt engineering，而应转向以下四条主线：
 
 1. **Temporal retrieval / point-in-time data**：怎样在检索阶段找到“当时可用”的页面或数据快照；
 2. **Evidence grounding and conflict resolution**：怎样在 claim 粒度判断来源是否支持答案及各来源是否冲突；
 3. **Selective prediction and abstention calibration**：怎样在可靠性与覆盖率之间做可量化的权衡。
+4. **Structured tool execution**：怎样把LLM规划、权威事实获取和确定性数值程序组合为可审计系统。
 
 换言之，真实 pilot 把论文问题从“更严格的规则会不会更好”推进为：
 

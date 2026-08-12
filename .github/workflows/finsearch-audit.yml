@@ -34,7 +34,13 @@ jobs:
         with:
           python-version: "3.11"
       - name: Run offline unit tests
-        run: python -m unittest temporal_clash.test_detector temporal_clash.test_live_agent advanced_rag.test_advanced_rag -v
+        run: >-
+          python -m unittest
+          temporal_clash.test_detector
+          temporal_clash.test_live_agent
+          temporal_clash.test_atlas_compute
+          temporal_clash.test_atlas_xbrl
+          advanced_rag.test_advanced_rag -v
       - name: Reproduce and validate audit
         run: python reproduce.py --output site
       - uses: actions/configure-pages@v5
