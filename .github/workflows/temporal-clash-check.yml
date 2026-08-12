@@ -29,7 +29,7 @@ jobs:
         run: python -m temporal_clash.run_experiment --check
       - name: Test and evaluate ATLAS-RAG
         run: |
-          python -m unittest advanced_rag.test_advanced_rag temporal_clash.test_atlas_compute temporal_clash.test_atlas_xbrl -v
+          python -m unittest advanced_rag.test_advanced_rag temporal_clash.test_atlas_compute temporal_clash.test_atlas_xbrl temporal_clash.test_pit_audit -v
           python -m advanced_rag.evaluate
       - name: Show experiment table
         run: cat temporal_clash/results/experiment_table.csv

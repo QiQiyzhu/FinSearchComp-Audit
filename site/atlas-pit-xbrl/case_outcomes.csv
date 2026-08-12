@@ -1,0 +1,21 @@
+﻿case_id,question_zh,gold_answer,canonical_unit,plain_action,plain_answer,plain_correct,xbrl_action,xbrl_answer,xbrl_correct,operation,operand_count,compiler_repaired,plain_candidate_future_sources,plain_final_future_evidence,plain_joint_reliable,xbrl_candidate_future_sources,xbrl_final_future_evidence,xbrl_joint_reliable
+pit_msft_2023_rd_growth,以题目给定截止日为准，使用当时已提交的SEC XBRL原始值，微软FY2023研发费用同比增长了多少？保留两位小数。,10.95,percent,answer,10.95,1,answer,10.95,1,relative_change_percent,2,1,2,0,0,0,0,1
+pit_apple_2023_operating_margin_change,以题目给定截止日为准，按SEC XBRL营业利润/收入计算，Apple营业利润率从FY2022到FY2023下降了多少个百分点？保留两位小数。,0.47,percentage_point,answer,-0.47,0,answer,0.47,1,ratio_change_pp,4,1,3,0,0,0,0,1
+pit_nvidia_2023_sga_growth,以题目给定截止日为准，NVIDIA FY2023销售、一般及管理费用同比增长了多少？使用SEC XBRL原始值并保留两位小数。,12.65,percent,answer,12.65,1,answer,12.65,1,relative_change_percent,2,1,4,1,0,0,0,1
+pit_tesla_2023_operating_margin_change,以题目给定截止日为准，按SEC XBRL营业利润/收入计算，Tesla营业利润率从FY2022到FY2023下降了多少个百分点？保留两位小数。,7.58,percentage_point,answer,-7.58,0,answer,7.58,1,ratio_change_pp,4,0,6,0,0,0,0,1
+pit_alphabet_2022_rd_growth,以题目给定截止日为准，Alphabet FY2022研发费用同比增长了多少？使用SEC XBRL原始值并保留两位小数。,25.15,percent,answer,25.15,1,answer,25.15,1,relative_change_percent,2,1,6,1,0,0,0,1
+pit_meta_2022_rd_intensity_change,以题目给定截止日为准，按研发强度=研发费用/收入计算，Meta研发强度从FY2021到FY2022提高了多少个百分点？保留两位小数。,9.40,percentage_point,answer,9.40,1,answer,9.40,1,ratio_change_pp,4,0,6,0,0,0,0,1
+pit_intel_2022_revenue_decline,以题目给定截止日为准，Intel FY2022收入同比下降了多少？使用SEC XBRL原始值并保留两位小数。,20.21,percent,answer,-20.21,0,answer,20.21,1,relative_change_percent,2,0,1,1,0,0,0,1
+pit_amd_2022_operating_margin_change,以题目给定截止日为准，按SEC XBRL营业利润/收入计算，AMD营业利润率从FY2021到FY2022下降了多少个百分点？保留两位小数。,16.84,percentage_point,answer,16.84,1,answer,16.84,1,ratio_change_pp,4,0,2,0,0,0,0,1
+pit_msft_vs_apple_2023_rd_intensity,以题目给定截止日为准，按研发强度=研发费用/收入计算，FY2023微软研发强度比Apple高多少个百分点？保留两位小数。,5.03,percentage_point,answer,5.03,1,answer,5.03,1,ratio_gap_pp,4,0,6,0,0,0,0,1
+pit_nvidia_vs_tesla_2023_rd_intensity,以题目给定截止日为准，按研发强度=研发费用/收入计算，FY2023 NVIDIA研发强度比Tesla高多少个百分点？保留两位小数。,23.11,percentage_point,answer,23.11,1,answer,23.11,1,ratio_gap_pp,4,0,3,0,0,0,0,1
+pit_alphabet_vs_meta_2022_operating_margin,以题目给定截止日为准，按营业利润率=营业利润/收入计算，FY2022 Alphabet与Meta营业利润率相差多少个百分点？保留两位小数。,1.64,percentage_point,answer,1.64,1,answer,1.64,1,ratio_gap_pp,4,0,0,0,0,0,0,1
+pit_amd_vs_intel_2022_rd_intensity,以题目给定截止日为准，按研发强度=研发费用/收入计算，FY2022 AMD与Intel研发强度相差多少个百分点？保留两位小数。,6.59,percentage_point,answer,6.74,0,answer,6.59,1,ratio_gap_pp,4,0,4,0,0,0,0,1
+pit_msft_vs_apple_2023_operating_margin_change_gap,以题目给定截止日为准，微软与Apple从FY2022到FY2023的营业利润率变化幅度相差多少个百分点？按营业利润/收入计算并保留两位小数。,0.18,percentage_point,answer,0.17,0,answer,0.18,1,ratio_change_gap_pp,8,0,3,1,0,0,0,1
+pit_nvidia_vs_tesla_2023_rd_intensity_change_gap,以题目给定截止日为准，NVIDIA与Tesla从FY2022到FY2023的研发强度变化幅度相差多少个百分点？保留两位小数。,7.31,percentage_point,answer,7.31,1,answer,7.31,1,ratio_change_gap_pp,8,0,5,0,0,0,0,1
+pit_alphabet_vs_meta_2022_rd_growth_gap,以题目给定截止日为准，FY2022 Alphabet与Meta研发费用同比增长率相差多少个百分点？使用SEC XBRL原始值并保留两位小数。,18.18,percentage_point,abstain,,0,answer,18.18,1,growth_gap_pp,4,0,7,0,0,0,0,1
+pit_intel_vs_amd_2022_revenue_growth_gap,以题目给定截止日为准，FY2022 Intel与AMD收入同比变化幅度相差多少个百分点？使用SEC XBRL原始值并保留两位小数。,63.82,percentage_point,answer,63.82,1,answer,63.82,1,growth_gap_pp,4,0,3,0,0,0,0,1
+pit_msft_vs_apple_2023_operating_income_growth_gap,以题目给定截止日为准，FY2023微软与Apple营业利润同比增长率相差多少个百分点？使用SEC XBRL原始值并保留两位小数。,10.46,percentage_point,answer,10.46,1,answer,10.46,1,growth_gap_pp,4,0,2,0,0,0,0,1
+pit_nvidia_vs_tesla_2023_operating_margin_change_gap,以题目给定截止日为准，NVIDIA与Tesla从FY2022到FY2023的营业利润率变化幅度相差多少个百分点？按营业利润/收入计算并保留两位小数。,14.07,percentage_point,answer,14.07,1,answer,14.07,1,ratio_change_gap_pp,8,0,3,0,0,0,0,1
+pit_meta_vs_alphabet_2022_rd_intensity,以题目给定截止日为准，按研发强度=研发费用/收入计算，FY2022 Meta与Alphabet研发强度相差多少个百分点？保留两位小数。,16.34,percentage_point,answer,16.34,1,answer,16.34,1,ratio_gap_pp,4,0,7,1,0,0,0,1
+pit_amd_vs_intel_2022_rd_growth_gap,以题目给定截止日为准，FY2022 AMD与Intel研发费用同比增长率相差多少个百分点？使用SEC XBRL原始值并保留两位小数。,60.53,percentage_point,abstain,,0,answer,60.53,1,growth_gap_pp,4,0,7,2,0,0,0,1

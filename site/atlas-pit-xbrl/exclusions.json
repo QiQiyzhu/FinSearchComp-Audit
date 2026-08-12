@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "case_id": "pit_alphabet_vs_meta_2022_operating_margin",
+      "strategy": "plain_agent",
+      "error_type": "RuntimeError",
+      "error": "Anthropic-compatible API HTTP 524: error code: 524\n"
+    }
+  ],
+  "invalid": []
+}

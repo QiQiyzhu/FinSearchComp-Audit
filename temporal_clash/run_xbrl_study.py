@@ -28,6 +28,7 @@ from .live_agent import (
     request_config_view,
 )
 from .live_validate import canonical_sha256
+from .pit_audit import aggregate_temporal_metrics, audit_record_temporality
 from .run_live_pilot import append_jsonl, load_existing, write_json
 
 
@@ -145,6 +146,9 @@ def validate_record(record: dict[str, Any]) -> list[str]:
         errors.append("missing_citations")
     if not prompt_is_label_free(record):
         errors.append("evaluation_label_leakage")
+    pit_audit = record.get("point_in_time_audit") or {}
+    if not pit_audit:
+        errors.append("missing_point_in_time_audit")
     result = record.get("result") or {}
     if result.get("action") not in {"answer", "abstain"}:
         errors.append("invalid_action")
@@ -155,6 +159,10 @@ def validate_record(record: dict[str, Any]) -> list[str]:
             errors.append("missing_xbrl_calculation_trace")
         if len(result.get("accepted_evidence") or []) != len(record.get("sec_facts") or []):
             errors.append("xbrl_evidence_count_mismatch")
+        if not pit_audit.get("final_temporally_compliant"):
+            errors.append("xbrl_point_in_time_violation")
+        if not pit_audit.get("final_provenance_complete"):
+            errors.append("xbrl_incomplete_provenance")
     return errors
 
 
@@ -184,6 +192,7 @@ def write_evaluation(records: list[dict[str, Any]], output_dir: Path) -> dict[st
     }
     metrics: dict[str, Any] = {}
     for strategy, items in by_strategy.items():
+        temporal = aggregate_temporal_metrics(items)
         metrics[strategy] = {
             "runs": len(items),
             "decision_accuracy": _rate(items, exact_two_decimal_correct),
@@ -206,6 +215,15 @@ def write_evaluation(records: list[dict[str, Any]], output_dir: Path) -> dict[st
                 _rate(items, lambda item: bool(item["result"].get("compiler_repaired")))
                 if strategy == XBRL_STRATEGY
                 else 0.0
+            ),
+            **temporal,
+            "joint_reliable_answer_rate": _rate(
+                items,
+                lambda item: (
+                    exact_two_decimal_correct(item)
+                    and item["point_in_time_audit"]["final_temporally_compliant"]
+                    and item["point_in_time_audit"]["final_provenance_complete"]
+                ),
             ),
         }
     by_case = {
@@ -236,7 +254,40 @@ def write_evaluation(records: list[dict[str, Any]], output_dir: Path) -> dict[st
         "n_questions": len(differences),
         "metric": "exact numeric equality at the requested two-decimal answer",
     }
-    result = {"strategies": metrics, "comparison": comparison}
+    joint_differences = [
+        float(
+            exact_two_decimal_correct(group[XBRL_STRATEGY])
+            and group[XBRL_STRATEGY]["point_in_time_audit"]["final_temporally_compliant"]
+            and group[XBRL_STRATEGY]["point_in_time_audit"]["final_provenance_complete"]
+        )
+        - float(
+            exact_two_decimal_correct(group["plain_agent"])
+            and group["plain_agent"]["point_in_time_audit"]["final_temporally_compliant"]
+            and group["plain_agent"]["point_in_time_audit"]["final_provenance_complete"]
+        )
+        for group in by_case.values()
+    ]
+    joint_boot = sorted(
+        sum(
+            joint_differences[rng.randrange(len(joint_differences))]
+            for _ in joint_differences
+        )
+        / len(joint_differences)
+        for _ in range(10_000)
+    )
+    joint_comparison = {
+        "paired_difference": sum(joint_differences) / len(joint_differences),
+        "paired_bootstrap_ci95": [joint_boot[249], joint_boot[9749]],
+        "wins": sum(value > 0 for value in joint_differences),
+        "ties": sum(value == 0 for value in joint_differences),
+        "losses": sum(value < 0 for value in joint_differences),
+        "metric": "correct answer + fully dated non-future evidence + complete provenance",
+    }
+    result = {
+        "strategies": metrics,
+        "comparison": comparison,
+        "joint_reliability_comparison": joint_comparison,
+    }
     write_json(output_dir / "metrics.json", result)
 
     fields = (
@@ -253,6 +304,12 @@ def write_evaluation(records: list[dict[str, Any]], output_dir: Path) -> dict[st
         "operation",
         "operand_count",
         "compiler_repaired",
+        "plain_candidate_future_sources",
+        "plain_final_future_evidence",
+        "plain_joint_reliable",
+        "xbrl_candidate_future_sources",
+        "xbrl_final_future_evidence",
+        "xbrl_joint_reliable",
     )
     with (output_dir / "case_outcomes.csv").open(
         "w", encoding="utf-8-sig", newline=""
@@ -278,6 +335,20 @@ def write_evaluation(records: list[dict[str, Any]], output_dir: Path) -> dict[st
                     "operation": trace["operation"],
                     "operand_count": len(trace["operand_values"]),
                     "compiler_repaired": int(bool(xbrl["result"]["compiler_repaired"])),
+                    "plain_candidate_future_sources": plain["point_in_time_audit"]["candidate_sources"]["future"],
+                    "plain_final_future_evidence": plain["point_in_time_audit"]["accepted_evidence"]["future"],
+                    "plain_joint_reliable": int(
+                        exact_two_decimal_correct(plain)
+                        and plain["point_in_time_audit"]["final_temporally_compliant"]
+                        and plain["point_in_time_audit"]["final_provenance_complete"]
+                    ),
+                    "xbrl_candidate_future_sources": xbrl["point_in_time_audit"]["candidate_sources"]["future"],
+                    "xbrl_final_future_evidence": xbrl["point_in_time_audit"]["accepted_evidence"]["future"],
+                    "xbrl_joint_reliable": int(
+                        exact_two_decimal_correct(xbrl)
+                        and xbrl["point_in_time_audit"]["final_temporally_compliant"]
+                        and xbrl["point_in_time_audit"]["final_provenance_complete"]
+                    ),
                 }
             )
     return result
@@ -289,28 +360,37 @@ def write_readme(output_dir: Path, manifest: dict[str, Any]) -> None:
     xbrl = metrics["strategies"][XBRL_STRATEGY]
     comparison = metrics["comparison"]
     exclusions = manifest["exclusions"]
-    text = f"""# ATLAS-XBRL：20题真实模型 × SEC官方数据实验
+    text = f"""# ATLAS-PIT-XBRL：20题答案正确性 × 时间可靠性综合实验
 
 这是项目当前的主实验。`claude-sonnet-5` 先把自然语言金融问题编译为受约束程序，
 系统再通过 SEC Company Facts XBRL 官方接口取得未经四舍五入的10-K数值，最后用
 Python `Decimal` 执行公式。普通搜索Agent使用同一模型和真实Web Search直接回答。
+独立PIT审计不再把缺失日期当成安全：它同时检查候选来源、原生引用和最终采用证据是否晚于题目截止日。
 
 ## 核心结果
 
-| 方法 | 最终准确率 | 回答覆盖率 | 模型HTTP阶段 | 外部工具动作 |
-|---|---:|---:|---:|---:|
-| 普通搜索 Agent | {plain['decision_accuracy']:.1%} | {plain['answer_coverage']:.1%} | {plain['model_http_stages']} | {plain['external_tool_actions']} 次Web Search |
-| **ATLAS-XBRL** | **{xbrl['decision_accuracy']:.1%}** | **{xbrl['answer_coverage']:.1%}** | {xbrl['model_http_stages']} | {xbrl['sec_http_calls']} 次SEC请求 + {xbrl['sec_cache_hits']} 次缓存命中 |
+| 方法 | 最终准确率 | 回答覆盖率 | 候选未来来源 | 最终未来证据 | 联合可靠回答率 |
+|---|---:|---:|---:|---:|---:|
+| 普通搜索 Agent | {plain['decision_accuracy']:.1%} | {plain['answer_coverage']:.1%} | {plain['candidate_future_sources']}/{plain['candidate_sources']} | {plain['accepted_future_evidence']}/{plain['accepted_evidence']} | {plain['joint_reliable_answer_rate']:.1%} |
+| **ATLAS-PIT-XBRL** | **{xbrl['decision_accuracy']:.1%}** | **{xbrl['answer_coverage']:.1%}** | **{xbrl['candidate_future_sources']}/{xbrl['candidate_sources']}** | **{xbrl['accepted_future_evidence']}/{xbrl['accepted_evidence']}** | **{xbrl['joint_reliable_answer_rate']:.1%}** |
 
-配对准确率差值为 **{comparison['paired_accuracy_difference']:+.1%}**，逐题
+配对准确率差值为 **{comparison['paired_accuracy_difference'] * 100:+.1f}个百分点**，逐题
 {comparison['wins']}胜 / {comparison['ties']}平 / {comparison['losses']}负；
-按题bootstrap 95% CI 为 {comparison['paired_bootstrap_ci95'][0]:+.1%} 到
-{comparison['paired_bootstrap_ci95'][1]:+.1%}。
+按题bootstrap 95% CI 为 {comparison['paired_bootstrap_ci95'][0] * 100:+.1f} 到
+{comparison['paired_bootstrap_ci95'][1] * 100:+.1f}个百分点。
+
+联合可靠回答要求“答案正确 + 最终证据全部有日期且不晚于截止日 + 来源字段完整”。
+普通Agent候选来源时间元数据覆盖率为 {plain['candidate_temporal_metadata_coverage']:.1%}，
+ATLAS-PIT-XBRL为 {xbrl['candidate_temporal_metadata_coverage']:.1%}；SEC来源占比分别为
+{plain['candidate_sec_source_rate']:.1%} 和 {xbrl['candidate_sec_source_rate']:.1%}。
+
+Web时间判定使用搜索供应商在本次运行返回的`page_age`并按URL映射到引用/最终证据；它是可观察的页面时间元数据，
+不等同于对所有网页首次发布时间的独立取证。unknown不算确认未来，也不算确认安全。SEC日期来自官方filing记录。
 
 ## 为什么它能超过普通搜索
 
 普通搜索必须同时完成找报表、识别口径、抄取多个数、保持方向、计算和四舍五入，任一环节都可能出错。
-ATLAS-XBRL把职责拆开：Claude只编译查询；label-free语法校准操作数顺序；SEC接口提供结构化原值；
+ATLAS-PIT-XBRL把职责拆开：Claude只编译查询；label-free语法校准操作数顺序；SEC接口提供结构化原值；
 Decimal程序只执行白名单公式。因此它不是“更强Prompt”，而是一个可审计的工具增强Agent。
 
 ## Gold重新审计
@@ -322,7 +402,7 @@ Decimal程序只执行白名单公式。因此它不是“更强Prompt”，而�
 ## 规模与异常
 
 - 模型：`{manifest['protocol']['model']}`；有效运行：{manifest['valid_runs']}/40；
-- ATLAS-XBRL方法版本：`{XBRL_METHOD_VERSION}`；
+- ATLAS-XBRL计算方法版本：`{XBRL_METHOD_VERSION}`；PIT审计版本：`pit-audit-1.0`；
 - 正式运行传输/无效记录：{len(exclusions['errors'])}/{len(exclusions['invalid'])}；
 - 运行前开发实验曾暴露方向错误和二手来源拒答，本方法以SEC结构化工具解决，开发结果不计入本表；
 - 本实验针对可映射到SEC XBRL的数值推理问题，不能外推到开放域所有问题。
@@ -334,7 +414,7 @@ Decimal程序只执行白名单公式。因此它不是“更强Prompt”，而�
 - `trace.jsonl`：40条真实调用trace、模型计划、SEC字段、accession、响应哈希和公式；
 - `gold_audit.json`：运行前20题gold的SEC复核；
 - `study_manifest.json`：协议、提交、预算、题集哈希和排除记录；
-- `../../xbrl_20q_cases.json`：冻结题集和不进入运行时的参考程序。
+- `study_manifest.json`中的题集哈希与case IDs：冻结题集和不进入运行时的参考程序标识。
 """
     (output_dir / "README.md").write_text(text, encoding="utf-8")
 
@@ -381,9 +461,9 @@ def run(args: argparse.Namespace) -> list[dict[str, Any]]:
     plain_client = AnthropicMessagesWebSearch(config, base_url=args.base_url)
     xbrl_client = AtlasXbrlClient(config, base_url=args.base_url)
     protocol = {
-        "protocol_version": "atlas-xbrl-study-1.0",
+        "protocol_version": "atlas-pit-xbrl-study-1.1",
         "method_version": XBRL_METHOD_VERSION,
-        "study_type": "real_llm_sec_xbrl_numeric_reasoning",
+        "study_type": "real_llm_point_in_time_sec_xbrl_numeric_reasoning",
         "model": args.model,
         "reasoning_effort": args.reasoning_effort,
         "max_output_tokens": args.max_output_tokens,
@@ -392,7 +472,14 @@ def run(args: argparse.Namespace) -> list[dict[str, Any]]:
         "xbrl_model_http_stages_per_run": 1,
         "xbrl_external_tool": "SEC Company Facts API with run-level cache",
         "schedule": "cyclic counterbalancing by question",
-        "scoring": "exact numeric equality at requested two decimals and exact unit",
+        "scoring": (
+            "exact numeric equality at requested two decimals and exact unit; "
+            "joint reliability additionally requires fully dated non-future final "
+            "evidence and complete provenance"
+        ),
+        "temporal_audit": (
+            "pit-audit-1.0 over candidates, native citations, and accepted evidence"
+        ),
         "case_ids": [case["id"] for case in cases],
         "case_batch_sha256": canonical_sha256(cases),
         "gold_fields_excluded_from_prompts": True,
@@ -452,6 +539,11 @@ def run(args: argparse.Namespace) -> list[dict[str, Any]]:
                     if strategy == "plain_agent"
                     else xbrl_client.run(case)
                 )
+                if strategy == XBRL_STRATEGY:
+                    result["strategy_label"] = (
+                        "ATLAS-PIT-XBRL（LLM编译 + 截止日SEC事实 + Decimal）"
+                    )
+                    result["integrated_method_version"] = "atlas-pit-xbrl-1.1"
                 raw = result.pop("raw_response")
                 suffix = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
                 raw_path = output_dir / "raw_responses" / f"{case['id']}_{strategy}_{suffix}.json"
@@ -461,6 +553,7 @@ def run(args: argparse.Namespace) -> list[dict[str, Any]]:
                     json.dumps(raw, ensure_ascii=False, sort_keys=True).encode("utf-8")
                 ).hexdigest()
                 record = {**base, **result}
+                record["point_in_time_audit"] = audit_record_temporality(record)
                 errors = validate_record(record)
                 record["trace_validation_errors"] = errors
                 if errors:
