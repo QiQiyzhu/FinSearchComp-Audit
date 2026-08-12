@@ -21,6 +21,7 @@ from .live_agent import (
     parse_json_object,
     redact_sensitive,
 )
+from .live_atlas import atlas_initial_query, atlas_route
 from .live_evaluate import (
     answer_is_correct,
     model_answer_is_correct,
@@ -190,6 +191,26 @@ class LiveAgentTests(unittest.TestCase):
         self.assertNotIn("strictly as of", plain)
         self.assertIn("strictly as of 2025-01-02", temporal)
         self.assertIn("percent", full)
+        atlas = build_prompt(CASE, "atlas_rag")
+        self.assertIn("metadata as uncertainty", atlas)
+
+    def test_atlas_route_does_not_require_labels(self) -> None:
+        market_case = {**CASE, "question_zh": "标普500指数2024年回报率是多少？"}
+        label_free = {
+            key: value
+            for key, value in market_case.items()
+            if key not in {"gold_answer", "source_url", "evidence_text_zh"}
+        }
+        route = atlas_route(label_free)
+        self.assertEqual(route["source_route"], "market_time_series")
+        self.assertIn(market_case["question_zh"], atlas_initial_query(label_free))
+        changed_labels = {
+            **label_free,
+            "gold_answer": "999999",
+            "source_url": "https://labels.invalid",
+            "evidence_text_zh": "should never affect routing",
+        }
+        self.assertEqual(route, atlas_route(changed_labels))
 
     def test_json_parser_accepts_fenced_output(self) -> None:
         parsed = parse_json_object('```json\n{"action":"abstain","evidence":[]}\n```')
@@ -221,6 +242,74 @@ class LiveAgentTests(unittest.TestCase):
             "published_after_cutoff",
             filtered["evidence_audits"][0]["violations"],
         )
+
+    def test_atlas_keeps_unknown_date_but_rejects_explicit_future(self) -> None:
+        base_result = {
+            "action": "answer",
+            "answer_value": "23.31",
+            "unit": "percent",
+            "explanation": "fixture",
+            "evidence": [
+                {
+                    "url": "https://query1.finance.yahoo.com/chart",
+                    "title": "Historical data",
+                    "published_at": None,
+                    "target_period": "2024",
+                    "revision": "final",
+                    "unit": "percent",
+                    "evidence_text": "calculated from year-end closes",
+                }
+            ],
+        }
+        kept = apply_local_validation("atlas_rag", base_result, CASE, [])
+        self.assertEqual(kept["action"], "answer")
+        self.assertIn(
+            "published_at_unknown",
+            kept["evidence_audits"][0]["metadata_unknown"],
+        )
+        self.assertFalse(kept["filter_triggered"])
+
+        future_result = json.loads(json.dumps(base_result))
+        future_result["evidence"][0]["published_at"] = "2025-03-01"
+        rejected = apply_local_validation("atlas_rag", future_result, CASE, [])
+        self.assertEqual(rejected["action"], "abstain")
+        self.assertIn(
+            "published_after_cutoff",
+            rejected["evidence_audits"][0]["violations"],
+        )
+
+    def test_atlas_uses_provider_page_age_as_independent_date(self) -> None:
+        result = {
+            "action": "answer",
+            "answer_value": "23.31",
+            "unit": "percent",
+            "explanation": "fixture",
+            "evidence": [
+                {
+                    "url": "https://example.com/source",
+                    "title": "Example",
+                    "published_at": None,
+                    "target_period": "2024",
+                    "revision": "final",
+                    "unit": "percent",
+                    "evidence_text": "23.31%",
+                }
+            ],
+        }
+        rejected = apply_local_validation(
+            "atlas_rag",
+            result,
+            CASE,
+            [
+                {
+                    "url": "https://example.com/source",
+                    "page_age": "March 1, 2025",
+                }
+            ],
+        )
+        audit = rejected["evidence_audits"][0]
+        self.assertEqual(audit["source_date_provenance"], "search_result_page_age")
+        self.assertEqual(rejected["action"], "abstain")
 
     def test_live_client_uses_injected_transport(self) -> None:
         client = OpenAIResponsesWebSearch(
@@ -395,7 +484,7 @@ class LiveAgentTests(unittest.TestCase):
                     "--repeats",
                     "2",
                     "--max-api-calls",
-                    "8",
+                    "10",
                     "--output-dir",
                     str(output_dir),
                     "--confirm-live",
@@ -415,7 +504,7 @@ class LiveAgentTests(unittest.TestCase):
             ):
                 records = run_live_pilot.run(args)
 
-            self.assertEqual(len(records), 8)
+            self.assertEqual(len(records), 10)
             manifest = json.loads(
                 (output_dir / "study_manifest.json").read_text(encoding="utf-8")
             )

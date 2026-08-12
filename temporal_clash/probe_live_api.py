@@ -108,8 +108,9 @@ def probe(
         "model_count": len(model_ids),
         "model_ids": model_ids,
         "interpretation": (
-            "This only verifies authentication and model listing. The paid 1x4 "
-            "pilot must still verify native web search, complete sources and "
+            "This only verifies authentication and model listing. A paid small "
+            "multi-strategy gate must still verify native web search, complete "
+            "sources and "
             "structured output."
         ),
     }

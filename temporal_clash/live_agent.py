@@ -12,6 +12,12 @@ from datetime import date
 from typing import Any, Callable
 from urllib.parse import urlsplit, urlunsplit
 
+from .live_atlas import (
+    ATLAS_STRATEGY,
+    apply_atlas_validation,
+    atlas_initial_query,
+)
+
 
 OPENAI_PROVIDER = "openai"
 ANTHROPIC_PROVIDER = "anthropic"
@@ -34,6 +40,7 @@ STRATEGIES = (
     "temporal_prompt",
     "metadata_filter",
     "teg_validator",
+    ATLAS_STRATEGY,
 )
 
 STRATEGY_LABELS = {
@@ -41,6 +48,7 @@ STRATEGY_LABELS = {
     "temporal_prompt": "时间约束 Prompt",
     "metadata_filter": "元数据过滤器",
     "teg_validator": "完整证据验证器",
+    ATLAS_STRATEGY: "ATLAS-RAG（校准版）",
 }
 
 LOCAL_VALIDATION_PROFILES = {
@@ -48,6 +56,7 @@ LOCAL_VALIDATION_PROFILES = {
     "temporal_prompt": (),
     "metadata_filter": ("published_at", "target_period", "revision"),
     "teg_validator": ("published_at", "target_period", "revision", "unit"),
+    ATLAS_STRATEGY: (),
 }
 
 EVIDENCE_SCHEMA: dict[str, Any] = {
@@ -203,6 +212,23 @@ def _strategy_rules(strategy: str, case: dict[str, Any]) -> str:
             f"{case['canonical_unit']}. Prefer regulator filings, official statistics, "
             "issuer reports, and market-data APIs. Abstain if no evidence passes every "
             "date, period, version, and unit check."
+        )
+    if strategy == ATLAS_STRATEGY:
+        return (
+            f"{temporal_rule} Use this auditable ATLAS workflow: "
+            "(1) PLAN a source route: historical market series for price/return "
+            "questions, regulator filings or annual reports for company accounts, "
+            "and official statistics/central-bank releases for macro questions; "
+            "(2) RETRIEVE with a focused query, assess whether the answer operands, "
+            "target period, version, unit and source authority are sufficient, and "
+            "use another focused search when something is missing; (3) RESOLVE "
+            "conflicting candidate values by preferring the source matching the "
+            "requested period/version and the strongest primary authority; "
+            "(4) ANSWER only from cited evidence. Treat an explicitly post-cutoff "
+            "date or a period/version/unit mismatch as a hard conflict. Treat "
+            "unavailable publication metadata as uncertainty, not automatically as "
+            "a violation; never invent it. For derived questions, retrieve every "
+            "operand and show the compact calculation in evidence_text."
         )
     raise ValueError(f"Unknown strategy: {strategy}")
 
@@ -517,7 +543,10 @@ def apply_local_validation(
     strategy: str,
     result: dict[str, Any],
     case: dict[str, Any],
+    search_sources: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
+    if strategy == ATLAS_STRATEGY:
+        return apply_atlas_validation(result, case, search_sources)
     checks = LOCAL_VALIDATION_PROFILES[strategy]
     audits = []
     accepted = []
@@ -721,7 +750,8 @@ class OpenAIResponsesWebSearch(_RetryingClient):
 
         output_text = extract_output_text(response)
         parsed = normalize_agent_result(parse_json_object(output_text))
-        validated = apply_local_validation(strategy, parsed, case)
+        sources = extract_search_sources(response)
+        validated = apply_local_validation(strategy, parsed, case, sources)
         record = {
             "trace_schema_version": TRACE_SCHEMA_VERSION,
             "provider": self.provider,
@@ -743,7 +773,7 @@ class OpenAIResponsesWebSearch(_RetryingClient):
             "http_attempts": attempts,
             "usage": response.get("usage") or {},
             "search_actions": extract_search_actions(response),
-            "search_sources": extract_search_sources(response),
+            "search_sources": sources,
             "api_citations": extract_api_citations(response),
             "output_text": output_text,
             "result": validated,
@@ -848,7 +878,11 @@ class AnthropicMessagesWebSearch(_RetryingClient):
             "messages": [
                 {
                     "role": "user",
-                    "content": case["question_zh"],
+                    "content": (
+                        atlas_initial_query(case)
+                        if strategy == ATLAS_STRATEGY
+                        else case["question_zh"]
+                    ),
                 }
             ],
             "tools": [tool],
@@ -930,7 +964,7 @@ class AnthropicMessagesWebSearch(_RetryingClient):
 
         latency = time.perf_counter() - started
         parsed = normalize_agent_result(parse_json_object(output_text))
-        validated = apply_local_validation(strategy, parsed, case)
+        validated = apply_local_validation(strategy, parsed, case, sources)
         model = research.get("model") or self.config.model
         normalize_model = (normalize or {}).get("model") if normalize else None
         usage = (
