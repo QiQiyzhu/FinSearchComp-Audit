@@ -1,5 +1,10 @@
 # 真实 LLM / Web Search Agent 正式实验协议
 
+> 最新升级实验已扩展为 Sonnet 5 的 20题×5策略，并加入 ATLAS-Fusion。冻结规则、门禁修订、
+> 公平预算和成功判定见 [`LIVE_ATLAS_PROTOCOL.md`](LIVE_ATLAS_PROTOCOL.md)；结果见
+> [`20×5 研究卡`](../temporal_clash/results/live_pilot_20q_atlas_sonnet5_20260813/README.md)。
+> 本页保留原四策略通用 runner 与历史两模型协议。
+
 ## 1. 目标与判定边界
 
 真实 pilot 检验四种策略在开放网页上的外部有效性。它不替代 100 条人工控制实验，

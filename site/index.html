@@ -32,27 +32,27 @@ footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
 @media(max-width:900px){.summary{grid-template-columns:repeat(2,1fr)}.live-cases,.pilot-grid,.timeline{grid-template-columns:1fr}.atlas-flow{grid-template-columns:repeat(2,1fr)}.live-case h3{min-height:0}}
 @media(max-width:650px){header{padding-bottom:70px}.hero-top{align-items:flex-start;flex-direction:column}.summary,.grid,.compare,.research-grid,.atlas-flow{grid-template-columns:1fr}.summary{margin-top:-54px}.strategy-results li{align-items:flex-start;flex-direction:column;gap:2px}.strategy-results b{text-align:left}}
 </style></head><body><header><div class="wrap"><div class="hero-top"><p class="eyebrow">FYP · Temporal Reliability Benchmark</p>
-<span class="live-pill">MULTI-MODEL · 2026-08-13</span></div>
+<span class="live-pill">REAL ATLAS · 2026-08-13</span></div>
 <h1>从时间证据审计，升级为<br><span>可纠错的高级金融 RAG。</span></h1>
 <p class="hero-copy">FinSearchComp-Audit 将 2024–2026 顶会中的自适应检索、时间感知排序、
-冲突仲裁和选择性回答落到金融 point-in-time 场景，并用 Sonnet 与 Haiku 两轮真实
-Web Search 实验检验开放网页中的可靠性。</p>
-<div class="hero-actions"><a class="button primary" href="#model-comparison">查看两轮真实模型实验</a>
+冲突仲裁和选择性回答落到金融 point-in-time 场景，并用 20×5 的 Sonnet 真实
+Web Search 实验及跨轨迹融合检验开放网页中的可靠性。</p>
+<div class="hero-actions"><a class="button primary" href="#live-pilot">查看 20×5 真实实验</a>
 <a class="button secondary" href="#advanced-rag">查看 ATLAS-RAG</a></div>
-<nav><a href="#evolution">研究演进</a><a href="#top-papers">顶会技术</a><a href="#model-comparison">两轮真实模型</a>
+<nav><a href="#evolution">研究演进</a><a href="#top-papers">顶会技术</a><a href="#model-comparison">历史对照</a>
 <a href="#advanced-rag">ATLAS-RAG</a><a href="#controlled">受控实验</a><a href="#reproduce">复现</a>
 <a href="live-pilot.html">最新 Pilot 报告</a></nav>
 </div></header><main class="wrap"><section class="summary">
-<div class="stat"><b>2</b><small>实际 Claude 模型轮次</small></div>
-<div class="stat"><b>160</b><small>严格验证的真实 trace</small></div>
-<div class="stat"><b>247</b><small>真实 Web Search</small></div>
-<div class="stat"><b>2,028</b><small>保存的完整来源</small></div></section>
+<div class="stat"><b>20×5</b><small>最新同模型真实对照</small></div>
+<div class="stat"><b>180</b><small>严格验证的真实 trace</small></div>
+<div class="stat"><b>381</b><small>真实 Web Search</small></div>
+<div class="stat"><b>2,782</b><small>保存的完整来源</small></div></section>
 <h2 id="evolution">研究如何从审计基线升级到 ATLAS-RAG</h2>
 <p class="lead"><b>研究问题：</b>当金融搜索 Agent 遇到未来信息、错期间、错版本或错单位时，显式的证据审计能否降低错误证据采用率，同时保留安全证据？</p>
 <div class="timeline"><article class="step"><b>01 · AUDIT</b><h3>保存并审计轨迹</h3><p>从 12 条成功/失败案例出发，检查答案、来源、时间和工具调用。</p></article>
 <article class="step"><b>02 · BENCHMARK</b><h3>构造受控冲突</h3><p>20 个真实金融问题 × 5 类证据条件，隔离日期、期间、版本和单位错误。</p></article>
-<article class="step"><b>03 · LIVE LLM</b><h3>两轮真实模型验证</h3><p>Sonnet 与 Haiku 各运行 20×4 策略，保留 160 条有效 Web Search trace。</p></article>
-<article class="step"><b>04 · ATLAS-RAG</b><h3>把失败机制变成系统</h3><p>路由、时间排序、事实冲突图、纠错检索与低置信度拒答形成闭环。</p></article></div>
+<article class="step"><b>03 · LIVE LLM</b><h3>真实模型验证</h3><p>Sonnet 运行 20×5 策略，保留 100 条严格有效 Web Search trace。</p></article>
+<article class="step"><b>04 · ATLAS-RAG</b><h3>把失败机制变成系统</h3><p>路由、冲突仲裁、校准 Gate 与跨轨迹 Fusion 形成闭环。</p></article></div>
 <div class="research-grid">
 <section><h3>研究空白</h3><p>现有 Benchmark 多关注最终答案正确率，难以发现“答案碰巧正确，但证据在当时不可用”的时间穿越。</p></section>
 <section><h3>我构建的内容</h3><p>20 个真实金融问题、100 条人工控制证据、四种策略、Temporal Robustness Gap 和逐证据审计 trace。</p></section>
@@ -67,59 +67,74 @@ Web Search 实验检验开放网页中的可靠性。</p>
 <section><h3>冲突感知证据仲裁</h3><p>Astute RAG、FaithfulRAG 与 SeCon-RAG 启发事实级冲突边和 listwise 来源仲裁。</p><a href="advanced-rag/README.md">查看证据图设计 →</a></section>
 <section><h3>纠错检索与选择性回答</h3><p>Self-RAG、DRAGIN 与 GRIP 启发低置信度补检索；证据仍不足时明确拒答。</p><a href="advanced-rag/traces.jsonl">查看状态轨迹 →</a></section>
 </div>
-<span class="section-label">TWO REAL-LLM ROUNDS</span>
-<h2 id="model-comparison">Sonnet 与 Haiku：相同 20 题 × 4 策略规模</h2>
-<p class="section-copy">两轮都是真实模型和真实 Web Search；每轮内部只改变策略。跨模型结果用于外部有效性观察，
-不是模型排行榜，也不把不同运行窗口造成的网页变化误当成模型能力差异。</p>
+<span class="section-label">HISTORICAL BASELINE</span>
+<h2 id="model-comparison">第一轮 Sonnet 与当前同模型四个旧策略</h2>
+<p class="section-copy">两轮都调用真实 Sonnet 5 和 Web Search，但运行日期、提示实现与输出预算不同，
+所以这里只展示历史演进，不把跨时间差异当作严格因果效果。</p>
 <div class="panel"><table><thead><tr><th>策略</th><th>Sonnet 正确率</th><th>Sonnet 覆盖率</th>
-<th>Haiku 正确率</th><th>Haiku 覆盖率</th></tr></thead><tbody><tr><td>普通搜索 Agent</td><td><b>50%</b></td><td>65%</td><td><b>25%</b></td><td>35%</td></tr><tr><td>时间约束 Prompt</td><td><b>45%</b></td><td>65%</td><td><b>15%</b></td><td>15%</td></tr><tr><td>元数据过滤器</td><td><b>25%</b></td><td>30%</td><td><b>15%</b></td><td>15%</td></tr><tr><td>完整证据验证器</td><td><b>20%</b></td><td>25%</td><td><b>10%</b></td><td>10%</td></tr></tbody></table></div>
+<th>当前轮正确率</th><th>当前轮覆盖率</th></tr></thead><tbody><tr><td>普通搜索 Agent</td><td><b>50%</b></td><td>65%</td><td><b>55%</b></td><td>75%</td></tr><tr><td>时间约束 Prompt</td><td><b>45%</b></td><td>65%</td><td><b>55%</b></td><td>70%</td></tr><tr><td>元数据过滤器</td><td><b>25%</b></td><td>30%</td><td><b>40%</b></td><td>40%</td></tr><tr><td>完整证据验证器</td><td><b>20%</b></td><td>25%</td><td><b>35%</b></td><td>40%</td></tr></tbody></table></div>
 <div class="artifact-links"><a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/temporal_clash/results/live_pilot_20q_claude_complete/README.md">第一轮 Sonnet 研究卡</a>
-<a href="live-pilot.html">第二轮 Haiku 研究卡</a></div>
+<a href="live-pilot.html">当前 20×5 研究卡</a></div>
 <span class="section-label">LIVE WEB SEARCH STUDY</span>
-<h2 id="live-pilot">第二轮真实 Web Search Agent：20 题 × 4 策略</h2>
-<p class="section-copy">同一个 <code>claude-haiku-4-5-20251001</code>、同一批问题、相同推理强度与搜索上限，
-只改变四种策略。80 条记录全部通过严格 trace 校验；所有已回答记录都有原生引用，
+<h2 id="live-pilot">ATLAS 真实 Web Search Agent：20 题 × 5 策略</h2>
+<p class="section-copy">同一个 <code>claude-sonnet-5</code>、同一批问题、相同推理强度与搜索上限，
+只改变 5 种策略。100 条记录全部通过严格 trace 校验；所有已回答记录都有原生引用，
 所有运行都保存了完整搜索来源。</p>
 <div class="pilot-grid"><div class="panel"><table><thead><tr><th>策略</th><th>最终正确率</th>
 <th>模型初稿正确率</th><th>回答覆盖率</th><th>引用覆盖</th><th>完整来源</th></tr></thead>
-<tbody><tr><td>普通搜索 Agent</td><td><b>25%</b></td><td>25%</td><td>35%</td><td>100%</td><td>100%</td></tr><tr><td>时间约束 Prompt</td><td><b>15%</b></td><td>15%</td><td>15%</td><td>100%</td><td>100%</td></tr><tr><td>元数据过滤器</td><td><b>15%</b></td><td>15%</td><td>15%</td><td>100%</td><td>100%</td></tr><tr><td>完整证据验证器</td><td><b>10%</b></td><td>10%</td><td>10%</td><td>100%</td><td>100%</td></tr></tbody></table></div>
-<aside class="finding"><h3>真实结果没有复制受控实验</h3><div class="big">25% → 10%</div>
-<p>普通 Agent 最终正确率为 25%，完整证据验证器为
-10%。本轮没有出现正确初稿被 Gate 拒答；准确率下降主要来自模型更早拒答或初稿本身错误，仍需与第一轮共同解读。</p>
-<p>因此当前不能声称 TEG 已在真实网络上优于基线。</p></aside></div>
+<tbody><tr><td>普通搜索 Agent</td><td><b>55%</b></td><td>55%</td><td>75%</td><td>100%</td><td>100%</td></tr><tr><td>时间约束 Prompt</td><td><b>55%</b></td><td>55%</td><td>70%</td><td>100%</td><td>100%</td></tr><tr><td>元数据过滤器</td><td><b>40%</b></td><td>55%</td><td>40%</td><td>100%</td><td>100%</td></tr><tr><td>完整证据验证器</td><td><b>35%</b></td><td>55%</td><td>40%</td><td>100%</td><td>100%</td></tr><tr><td>ATLAS-RAG（校准版）</td><td><b>45%</b></td><td>45%</td><td>50%</td><td>100%</td><td>100%</td></tr></tbody></table></div>
+<aside class="finding"><h3>ATLAS 缓解严格 Gate 过度拒答，但未超过普通搜索</h3><div class="big">35% → 45%</div>
+<p>完整证据验证器最终正确率为 35%，单轨迹 ATLAS 为
+45%，普通 Agent 为 55%。严格策略共有 7 条正确初稿最终被 Gate 拒答，说明元数据缺失会直接损失覆盖率。</p>
+<p>同轮 ATLAS 比完整验证器提高 10 个百分点，但仍低于普通 Agent 10 个百分点；因此只能声称改进了严格审计基线，不能声称全面超过普通搜索。</p></aside></div>
 <div class="artifact-links"><a href="live-pilot.html">阅读完整研究卡</a>
 <a href="live-pilot/case_outcomes.csv">下载逐题结果</a>
 <a href="live-pilot/case_analysis.md">阅读 20 道逐题说明</a>
-<a href="live-pilot/trace.jsonl">查看 80 条 trace</a>
+<a href="live-pilot/trace.jsonl">查看 100 条 trace</a>
 <a href="live-pilot/exclusions.json">查看排除记录</a></div>
 <h2 id="live-cases">三个来自真实 trace 的例子</h2>
 <p class="section-copy">以下不是演示脚本，而是 2026-08-13 实际运行记录的逐题对照。
-每张卡片都汇总同一道题的四种策略；完整 20 题结果和中文解释可从上方下载。</p>
+每张卡片都汇总同一道题的 5 种策略；完整 20 题结果和中文解释可从上方下载。</p>
 <div class="live-cases"><article class="live-case">
-            <div class="case-kicker">只有普通搜索回答正确</div>
+            <div class="case-kicker">正确初稿被严格规则拒答</div>
             <h3>Apple 2024财年的净销售额是多少？</h3>
             <p class="gold">参考答案：<b>391,035 百万美元</b></p>
-            <ul class="strategy-results"><li><span>普通搜索 Agent</span><b class="correct">391,035 百万美元 · 正确</b></li><li><span>时间约束 Prompt</span><b class="neutral">拒答</b></li><li><span>元数据过滤器</span><b class="neutral">拒答</b></li><li><span>完整证据验证器</span><b class="neutral">拒答</b></li></ul>
-            <p>本轮最终答对的策略：普通搜索 Agent；四种策略中有 3 个拒答。</p>
-            <div class="case-meta"><span>4 次搜索</span>
-            <span>40 个来源</span><span>16 条引用</span></div>
+            <ul class="strategy-results"><li><span>普通搜索 Agent</span><b class="correct">391,035 百万美元 · 正确</b></li><li><span>时间约束 Prompt</span><b class="correct">391,035 百万美元 · 正确</b></li><li><span>元数据过滤器</span><b class="warn">正确初稿 → Gate 拒答</b></li><li><span>完整证据验证器</span><b class="warn">正确初稿 → Gate 拒答</b></li><li><span>ATLAS-RAG（校准版）</span><b class="correct">391,035 百万美元 · 正确</b></li></ul>
+            <p>本轮最终答对的策略：普通搜索 Agent、时间约束 Prompt、ATLAS-RAG（校准版）；5 种策略中有 2 个拒答。其中 2 个属于模型初稿正确但被本地 Gate 拒绝。</p>
+            <div class="case-meta"><span>6 次搜索</span>
+            <span>48 个来源</span><span>17 条引用</span></div>
             </article><article class="live-case">
-            <div class="case-kicker">四策略一致正确</div>
+            <div class="case-kicker">5 策略一致正确</div>
             <h3>截至2024年12月的12个月，美国CPI-U同比上涨多少？</h3>
             <p class="gold">参考答案：<b>2.9%</b></p>
-            <ul class="strategy-results"><li><span>普通搜索 Agent</span><b class="correct">2.9% · 正确</b></li><li><span>时间约束 Prompt</span><b class="correct">2.9% · 正确</b></li><li><span>元数据过滤器</span><b class="correct">2.9% · 正确</b></li><li><span>完整证据验证器</span><b class="correct">2.9% · 正确</b></li></ul>
-            <p>本轮最终答对的策略：普通搜索 Agent、时间约束 Prompt、元数据过滤器、完整证据验证器；四种策略中有 0 个拒答。</p>
-            <div class="case-meta"><span>4 次搜索</span>
-            <span>40 个来源</span><span>11 条引用</span></div>
+            <ul class="strategy-results"><li><span>普通搜索 Agent</span><b class="correct">2.9% · 正确</b></li><li><span>时间约束 Prompt</span><b class="correct">2.9% · 正确</b></li><li><span>元数据过滤器</span><b class="correct">2.9% · 正确</b></li><li><span>完整证据验证器</span><b class="correct">2.9% · 正确</b></li><li><span>ATLAS-RAG（校准版）</span><b class="correct">2.9% · 正确</b></li></ul>
+            <p>本轮最终答对的策略：普通搜索 Agent、时间约束 Prompt、元数据过滤器、完整证据验证器、ATLAS-RAG（校准版）；5 种策略中有 0 个拒答。</p>
+            <div class="case-meta"><span>6 次搜索</span>
+            <span>41 个来源</span><span>29 条引用</span></div>
             </article><article class="live-case">
-            <div class="case-kicker">四策略均未形成正确答案</div>
+            <div class="case-kicker">正确初稿被严格规则拒答</div>
             <h3>2024全年纳斯达克综合指数涨幅比标普500高多少个百分点？</h3>
             <p class="gold">参考答案：<b>5.33 个百分点</b></p>
-            <ul class="strategy-results"><li><span>普通搜索 Agent</span><b class="neutral">拒答</b></li><li><span>时间约束 Prompt</span><b class="neutral">拒答</b></li><li><span>元数据过滤器</span><b class="neutral">拒答</b></li><li><span>完整证据验证器</span><b class="neutral">拒答</b></li></ul>
-            <p>本轮最终答对的策略：无；四种策略中有 4 个拒答。</p>
-            <div class="case-meta"><span>4 次搜索</span>
-            <span>40 个来源</span><span>13 条引用</span></div>
+            <ul class="strategy-results"><li><span>普通搜索 Agent</span><b class="correct">5.33 个百分点 · 正确</b></li><li><span>时间约束 Prompt</span><b class="correct">5.33 个百分点 · 正确</b></li><li><span>元数据过滤器</span><b class="warn">正确初稿 → Gate 拒答</b></li><li><span>完整证据验证器</span><b class="warn">正确初稿 → Gate 拒答</b></li><li><span>ATLAS-RAG（校准版）</span><b class="neutral">拒答</b></li></ul>
+            <p>本轮最终答对的策略：普通搜索 Agent、时间约束 Prompt；5 种策略中有 3 个拒答。其中 2 个属于模型初稿正确但被本地 Gate 拒绝。</p>
+            <div class="case-meta"><span>11 次搜索</span>
+            <span>83 个来源</span><span>23 条引用</span></div>
             </article></div>
+<h2 id="atlas-fusion">ATLAS-Fusion：跨五条搜索轨迹的证据仲裁</h2>
+<p class="section-copy">探索性 Fusion 不新增搜索，而是让同一 Sonnet 对每题五条已锁定真实搜索轨迹做
+listwise 仲裁。它的计算成本高于单策略，因此单独报告，不能伪装成同预算比较。</p>
+<div class="pilot-grid"><div class="panel"><table><thead><tr><th>方法</th><th>最终正确率</th>
+<th>仲裁初稿正确率</th><th>回答覆盖率</th></tr></thead><tbody>
+<tr><td>普通搜索 Agent</td><td>55%</td><td>55%</td><td>75%</td></tr>
+<tr><td>单轨迹 ATLAS</td><td>45%</td><td>45%</td><td>50%</td></tr>
+<tr><td><b>ATLAS-Fusion</b></td><td><b>55%</b></td>
+<td><b>65%</b></td><td>65%</td></tr>
+</tbody></table></div><aside class="finding"><h3>诚实结论</h3><div class="big">55% / 65%</div>
+<p>Fusion 最终准确率与普通 Agent 持平，但仲裁初稿达到 65%，等于五轨迹 oracle 上限。</p>
+<p>Gate 仍拒掉部分正确派生答案；本仓库不继续用同一 20 题调阈值，避免测试集过拟合。</p></aside></div>
+<div class="artifact-links"><a href="atlas-fusion/README.md">阅读 Fusion 研究卡</a>
+<a href="atlas-fusion/case_outcomes.csv">下载 Fusion 逐题结果</a>
+<a href="atlas-fusion/trace.jsonl">查看 20 条 Fusion trace</a></div>
 <h2 id="controlled">100 条受控实验：四策略对照</h2>
 <div class="panel"><table><thead><tr><th>方法</th><th>决策准确率 ↑</th><th>挑战准确率 ↑</th><th>TRG ↓</th><th>检测 F1 ↑</th></tr></thead><tbody>
 <tr><td>普通 Agent</td><td>20.0%</td><td>0.0%</td><td>100.0%</td><td>0.0%</td></tr>
@@ -128,7 +143,7 @@ Web Search 实验检验开放网页中的可靠性。</p>
 <tr><td><b>完整证据验证器</b></td><td><b>100.0%</b></td><td><b>100.0%</b></td><td><b>0.0%</b></td><td><b>100.0%</b></td></tr>
 </tbody></table></div>
 <p class="boundary"><b>结论边界：</b>受控实验是确定性协议验证，不是真实 LLM 排名。
-两轮真实 20×4 pilot 表明开放网页中的日期缺失和模型拒答倾向都会改变结论，因此受控与真实实验必须分开报告。</p>
+真实 20×5 pilot 表明开放网页中的日期缺失和模型拒答倾向都会改变结论，因此受控与真实实验必须分开报告。</p>
 <span class="section-label">ADVANCED TEMPORAL RAG</span>
 <h2 id="advanced-rag">ATLAS-RAG：从静态 Top-K 到自适应检索与冲突仲裁</h2>
 <p class="section-copy">受 2024–2026 年 Adaptive RAG、temporal retrieval、GraphRAG 和
@@ -287,7 +302,7 @@ python reproduce.py</code></pre>
 <p><b>完整性：</b>题目每个评分点都回答。</p><p><b>效率：</b>比较工具数、耗时和无效搜索；结构化题尽早切换金融 API。</p></div>
 </details>
 <footer>真实实验：<a href="live-pilot.html">研究卡</a> ·
-<a href="live-pilot/trace.jsonl">80 条 trace</a> ·
+<a href="live-pilot/trace.jsonl">100 条 trace</a> ·
 受控实验：<a href="temporal-audit.html">100 条实例</a> ·
 高级 RAG：<a href="advanced-rag/README.md">ATLAS-RAG</a> ·
 历史审计：<a href="report.md">report.md</a> ·

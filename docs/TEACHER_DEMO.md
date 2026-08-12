@@ -7,8 +7,8 @@
 1. 研究问题不是“再做一个金融聊天机器人”；
 2. 本项目检查金融 Agent 的证据是否满足时间、期间、版本和单位约束；
 3. 目前已有 100 条受控实验、四个策略、指标和逐证据 trace；
-4. Claude Sonnet 与 Haiku 两轮 20题×4策略真实 pilot 已完成，共 160 条有效 trace；
-5. 已结合最新顶会方向实现 ATLAS-RAG，而不是停留在静态 Top-K RAG。
+4. 最新 Sonnet 5 的 20题×5策略真实 pilot 已完成，共 100 条有效 trace；
+5. 已结合最新顶会方向实现 ATLAS-RAG 和跨轨迹 ATLAS-Fusion，而不是停留在静态 Top-K RAG。
 
 ## 第 1 页：GitHub README（约 45 秒）
 
@@ -25,7 +25,7 @@
 指出 README 顶部的 100 条受控实验表，但马上补充：
 
 > 这里的 100% 是受控协议的设计上限，不是真实 LLM 排名。我保留这个边界；
-> 下方 20×4 真实 Web Search pilot 专门检查外部有效性，而且结果并没有复制这个 100%。
+> 下方 20×5 真实 Web Search pilot 专门检查外部有效性，而且结果并没有复制这个 100%。
 
 ## 第 2 页：时间可靠性实验（约 75 秒）
 
@@ -84,19 +84,19 @@
 
 > 这是论文启发的受控离线原型，不是对某篇论文的完整复现，也不是 SOTA 声明。
 
-## 第 5 页：真实 Agent 正式协议（约 25 秒）
+## 第 5 页：真实 ATLAS 结果（约 25 秒）
 
 打开：
 
-[`docs/LIVE_STUDY_PROTOCOL.md`](LIVE_STUDY_PROTOCOL.md)
+[`docs/LIVE_ATLAS_PROTOCOL.md`](LIVE_ATLAS_PROTOCOL.md)
 
 可以直接说：
 
-> 真实 Web Search Agent 现在有 OpenAI 和 Claude 两种适配器。项目已分别完成
-> Sonnet 5 和 Haiku 4.5 两轮 20题×4策略实验，共 160 条有效记录，每条都保存搜索、
-> 完整来源、原生 citations、Structured Output 和 raw hash。Sonnet 轮四策略准确率为
-> 50%、45%、25%、20%；Haiku 轮为 25%、15%、15%、10%。两轮都显示严格 gate
-> 会消除已采用证据中的时间泄漏，但因网页日期元数据缺失而过度拒答。
+> 最新一轮用同一个 Sonnet 5 跑完 20题×5策略，共 100 条有效记录、214 次搜索、
+> 1,554 个来源和 481 条 citations。普通、时间 Prompt、元数据、完整验证器和 ATLAS
+> 的最终准确率分别是 55%、55%、40%、35%、45%。ATLAS 改善了严格验证器，但没有
+> 超过普通搜索。进一步的 ATLAS-Fusion 最终 55%、初稿 65%；我保留这个负结果，
+> 并把下一步明确为新数据上的派生单位与 risk–coverage 校准。
 
 ## 老师可能追问
 

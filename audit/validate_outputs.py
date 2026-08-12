@@ -249,6 +249,19 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
             target.is_file() and target.stat().st_size > 0,
             f"missing or empty live-pilot output: {target}",
         )
+    fusion_dir = output_dir / "atlas-fusion"
+    for filename in (
+        "README.md",
+        "metrics.json",
+        "case_outcomes.csv",
+        "study_manifest.json",
+        "trace.jsonl",
+    ):
+        target = fusion_dir / filename
+        require(
+            target.is_file() and target.stat().st_size > 0,
+            f"missing or empty atlas-fusion output: {target}",
+        )
     advanced_dir = output_dir / "advanced-rag"
     advanced_files = (
         "README.md",
@@ -269,6 +282,7 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
     )
     expected_live_runs = int(live_manifest["scope"]["valid_runs"])
     expected_live_cases = int(live_manifest["scope"]["questions"])
+    expected_live_strategies = int(live_manifest["scope"]["strategies"])
 
     trace = json.loads((output_dir / "trace.json").read_text(encoding="utf-8"))
     trace_summary = validate_payload(trace, strict_demo=strict_demo)
@@ -288,12 +302,13 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
     for required_showcase_text in (
         "研究如何从审计基线升级到 ATLAS-RAG",
         "顶会技术如何进入项目",
-        "Sonnet 与 Haiku：相同 20 题 × 4 策略规模",
+        "第一轮 Sonnet 与当前同模型四个旧策略",
         "100 条受控实验",
         "真实 Web Search Agent",
         "确定性协议验证",
         "三个来自真实 trace 的例子",
         "ATLAS-RAG：从静态 Top-K 到自适应检索与冲突仲裁",
+        "ATLAS-Fusion：跨五条搜索轨迹的证据仲裁",
         f"{expected_live_runs} 条记录全部通过严格 trace 校验",
     ):
         require(
@@ -305,7 +320,7 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
 
     live_html = (output_dir / "live-pilot.html").read_text(encoding="utf-8")
     for required_live_text in (
-        f"{expected_live_cases} 题 × 4 策略 Pilot",
+        f"{expected_live_cases} 题 × {expected_live_strategies} 策略 Pilot",
         "如何解释结果",
         f"全部 {expected_live_cases} 题的结果说明",
         "选择规则与排除",
@@ -334,10 +349,13 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
         ).splitlines()
         if line.strip()
     ]
-    require(len(live_metric_rows) == 4, "live pilot must contain four strategy rows")
     require(
-        len(confidence_rows) == 15,
-        "live pilot must contain 12 strategy intervals and 3 paired differences",
+        len(live_metric_rows) == expected_live_strategies,
+        "live pilot must contain one row per strategy",
+    )
+    require(
+        len(confidence_rows) == 4 * expected_live_strategies - 1,
+        "live pilot confidence interval row count is inconsistent with strategies",
     )
     require(
         all(

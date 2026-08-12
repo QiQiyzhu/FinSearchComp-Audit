@@ -37,6 +37,9 @@
 | [Retrieval as Generation / GRIP](https://aclanthology.org/2026.acl-long.196/) | ACL 2026 Long | 在生成轨迹中决定何时检索、如何改写查询、何时停止 | 把一次性 Gate 改为低置信度触发的纠错检索循环 |
 | [E²RAG: Respecting Temporal-Causal Consistency](https://aclanthology.org/2026.eacl-long.90/) | EACL 2026 Long | 用实体图和事件图保留时间、因果和演化上下文 | 财务数值不能只挂在“公司”节点上，还要绑定财年、发布日期和版本 |
 | [When Facts Change](https://aclanthology.org/2026.findings-acl.103/) | ACL 2026 Findings | 模型识别到事实会变化，不代表能正确处理新旧冲突 | 不能只靠 Prompt 提醒；需要可执行的时间验证和冲突处理 |
+| [SPARKLE](https://aclanthology.org/2026.acl-long.1793/) | ACL 2026 Long | 用结构化、可插拔控制器规划图推理与检索 | 把来源路由和检索状态独立于底层 LLM，保留 PLAN trace |
+| [ReflectiveRAG](https://aclanthology.org/2026.eacl-industry.27/) | EACL 2026 Industry | 反思证据充分性并迭代改写查询，同时去除冗余噪声 | 缺少操作数或一手来源时继续搜索，而不是立刻拒答 |
+| [RouteRAG](https://aclanthology.org/2026.findings-acl.1502/) | ACL 2026 Findings | 在文本、图检索、继续推理和最终回答之间自适应路由 | 金融问题按结构化行情、申报文件和官方网页选择不同路径 |
 
 ### B. 2025：冲突与不完美检索
 
@@ -58,6 +61,13 @@
 | [HippoRAG](https://proceedings.neurips.cc/paper_files/paper/2024/hash/6ddc001d07ca4f319af96a3024f6dbd1-Abstract-Conference.html) | NeurIPS 2024 Main | 知识图谱 + Personalized PageRank 支持高效多跳检索 | 图结构适合跨报表、跨期间和多来源推理 |
 | [RAGChecker](https://proceedings.neurips.cc/paper_files/paper/2024/hash/27245589131d17368cccdfa990cbf16e-Abstract-Datasets_and_Benchmarks_Track.html) | NeurIPS 2024 D&B | 分别诊断检索和生成模块 | 不能只报答案准确率；需报告 Recall、MRR、冲突、引用和覆盖率 |
 | [CRAG Benchmark](https://proceedings.neurips.cc/paper_files/paper/2024/hash/1435d2d0fca85a84d83ddcb754f58c29-Abstract-Datasets_and_Benchmarks_Track.html) | NeurIPS 2024 D&B | 评测检索、总结、Web/KG 与端到端 RAG | 金融 Agent 应保留模块级 trace 和不同来源通道对照 |
+
+### D. 选择性回答与证据充分性
+
+| 论文 | 会议信息 | 核心思想 | 对本项目的启发 |
+|---|---|---|---|
+| [Sufficient Context](https://openreview.net/pdf?id=Jjr2Odj8DJ) | ICLR 2025 | 区分“检索上下文不足”和“模型没有正确使用足够上下文”，并据此选择性回答 | `metadata_unknown` 不等于违规；先判断证据是否足以支撑答案，再决定回答或拒答 |
+| [Abstention in LLMs: A Survey](https://aclanthology.org/2025.tacl-1.26/) | TACL 2025 | 系统整理拒答动机、方法与评价 | 同时报告准确率、覆盖率和 risk–coverage，不能只追求拒答后的选择性准确率 |
 
 ## 三、为什么没有直接选择“大模型 GraphRAG 训练”？
 
@@ -83,6 +93,15 @@
 - SEC、BLS、BEA、FRED、公司财报等来源适配器；
 - 区分 `metadata_unknown` 与真实 `violation`，减少过度拒答；
 - 在独立开发集校准置信度阈值并绘制 risk-coverage curve。
+
+### 2026-08-13 真实验证更新
+
+- 完成 `claude-sonnet-5` 的 20 题 × 5 策略同轮实验，共 100 条严格有效 trace；
+- 单轨迹 ATLAS 最终准确率 45%，高于同轮完整验证器 35%，但低于普通 Agent 55%；
+- 完成 ATLAS-Fusion：复用每题五条真实搜索轨迹做 listwise 仲裁，不新增搜索；
+- Fusion 最终准确率 55%，与普通 Agent 持平；仲裁初稿 65%，达到五轨迹 oracle 上限；
+- 该负结果把下一步从泛泛的“继续优化 RAG”收敛到两个可检验问题：派生答案的证据单位兼容，
+  以及在新开发集上校准拒答风险；不能继续用同一 20 题调参后再当作独立测试。
 
 ### 投稿级：P2
 

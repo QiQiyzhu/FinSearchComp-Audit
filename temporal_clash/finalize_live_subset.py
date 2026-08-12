@@ -172,7 +172,10 @@ def _case_interpretation(records: list[dict[str, Any]]) -> tuple[str, str]:
         and (record.get("result") or {}).get("action") == "abstain"
     ]
     if all(correct.values()):
-        return "四策略一致正确", "四种策略均给出正确最终答案，严格检查没有降低覆盖率。"
+        return (
+            f"{len(STRATEGIES)} 策略一致正确",
+            f"{len(STRATEGIES)} 种策略均给出正确最终答案，严格检查没有降低覆盖率。",
+        )
     if over_rejected:
         names = "、".join(STRATEGY_LABELS[item] for item in over_rejected)
         return (
@@ -182,15 +185,22 @@ def _case_interpretation(records: list[dict[str, Any]]) -> tuple[str, str]:
     if correct.get("temporal_prompt") and not correct.get("plain_agent"):
         return "Prompt 修正基线", "时间约束 Prompt 正确而普通 Agent 错误，提示词在本题产生正向作用。"
     if (
-        correct.get("metadata_filter") or correct.get("teg_validator")
+        correct.get("metadata_filter")
+        or correct.get("teg_validator")
+        or correct.get("atlas_rag")
     ) and not correct.get("plain_agent"):
         return "验证策略修正基线", "至少一种显式验证策略正确，而普通 Agent 错误。"
     if correct.get("plain_agent") and not (
-        correct.get("metadata_filter") or correct.get("teg_validator")
+        correct.get("metadata_filter")
+        or correct.get("teg_validator")
+        or correct.get("atlas_rag")
     ):
         return "严格策略降低覆盖", "普通 Agent 正确，但严格策略未保留正确最终答案。"
     if not any(correct.values()):
-        return "四策略均未解决", "四种策略都没有得到正确最终决策，是后续误差分析的重点。"
+        return (
+            f"{len(STRATEGIES)} 策略均未解决",
+            f"{len(STRATEGIES)} 种策略都没有得到正确最终决策，是后续误差分析的重点。",
+        )
     return "策略结果分化", "不同策略结果不一致，需要结合逐条证据和 Gate 触发原因解释。"
 
 
@@ -204,7 +214,7 @@ def write_case_analysis(
 
     category_counts: dict[str, int] = {}
     sections = [
-        f"# {len(by_case)} 道真实案例的四策略结果说明",
+        f"# {len(by_case)} 道真实案例的 {len(STRATEGIES)} 策略结果说明",
         "",
         "> 每一道题都来自同一模型、同一运行协议和真实 Web Search。"
         "“正确初稿 → Gate 拒答”表示模型数值本来正确，但最终因证据元数据未通过而拒答；"
@@ -212,8 +222,10 @@ def write_case_analysis(
         "",
         "## 结果总览",
         "",
-        "| 题目 | 结论类型 | 普通 Agent | 时间 Prompt | 元数据过滤 | 完整验证器 |",
-        "|---|---|---|---|---|---|",
+        "| 题目 | 结论类型 | "
+        + " | ".join(STRATEGY_LABELS[item] for item in STRATEGIES)
+        + " |",
+        "|---|---|" + "---|" * len(STRATEGIES),
     ]
 
     details: list[str] = []
@@ -454,7 +466,7 @@ def write_study_readme(
 
 ## 固定实验条件
 
-- 问题：{scope['questions']} 道，四策略共享同一批题；
+- 问题：{scope['questions']} 道，{scope['strategies']} 策略共享同一批题；
 - 有效记录：{scope['valid_runs']}；
 - 模型：`{protocol['requested_model']}`；
 - 推理强度：`{request_config['reasoning_effort']}`；
@@ -492,7 +504,7 @@ def write_study_readme(
 
 ## 文件
 
-- `metrics.csv`：四策略聚合指标；
+- `metrics.csv`：{scope['strategies']} 策略聚合指标；
 - `case_outcomes.csv`：{scope['valid_runs']} 个 case × strategy 结果；
 - `case_analysis.md`：{scope['questions']} 道题的中文逐题解释与失败类型；
 - `confidence_intervals.csv`：按题目配对的 bootstrap 区间及相对普通 Agent 的差值；
@@ -502,7 +514,7 @@ def write_study_readme(
 
 ## 结论边界
 
-本轮能说明四种策略在同一模型和题集上的行为差异，并揭示真实网页元数据缺失导致的
+本轮能说明 {scope['strategies']} 种策略在同一模型和题集上的行为差异，并揭示真实网页元数据缺失导致的
 过度拒答问题。由于只有 20 题、单模型和单次运行，它仍是 pilot；下一阶段应独立解析
 发布日期、重复至少三次，并报告跨运行均值/标准差与层级 bootstrap 置信区间。
 """

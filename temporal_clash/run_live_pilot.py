@@ -22,6 +22,7 @@ from .live_agent import (
     redact_sensitive,
     request_config_view,
 )
+from .live_atlas import ATLAS_METHOD_VERSION
 from .live_evaluate import write_metrics
 from .live_study import write_aggregate
 from .live_validate import (
@@ -92,6 +93,7 @@ def git_state() -> dict[str, Any]:
 def implementation_sha256() -> str:
     files = (
         HERE / "live_agent.py",
+        HERE / "live_atlas.py",
         HERE / "live_evaluate.py",
         HERE / "live_study.py",
         HERE / "live_validate.py",
@@ -209,7 +211,8 @@ def build_protocol(
         else "provider-managed (Anthropic has no search_context_size parameter)"
     )
     return {
-        "protocol_version": "live-study-2.0",
+        "protocol_version": "live-study-3.0",
+        "atlas_method_version": ATLAS_METHOD_VERSION,
         "provider": provider,
         "base_url": client_base_url,
         "requested_model": config.model,
@@ -539,7 +542,7 @@ def parser() -> argparse.ArgumentParser:
         ),
     )
     result.add_argument("--max-tool-calls", type=int, default=3)
-    result.add_argument("--max-output-tokens", type=int, default=1200)
+    result.add_argument("--max-output-tokens", type=int, default=4800)
     result.add_argument("--timeout", type=int, default=120)
     result.add_argument("--max-retries", type=int, default=0)
     result.add_argument("--repeats", type=int, default=1)

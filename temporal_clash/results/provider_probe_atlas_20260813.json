@@ -1,0 +1,23 @@
+{
+  "probed_at": "2026-08-12T17:11:40.323418+00:00",
+  "provider": "anthropic",
+  "base_url": "https://ai.aiclick.cc",
+  "endpoint": "https://ai.aiclick.cc/v1/models",
+  "http_status": 200,
+  "requested_model": "claude-sonnet-5",
+  "requested_model_listed": true,
+  "model_count": 10,
+  "model_ids": [
+    "claude-fable-5",
+    "claude-haiku-4-5-20251001",
+    "claude-opus-4-5-20251101",
+    "claude-opus-4-6",
+    "claude-opus-4-7",
+    "claude-opus-4-8",
+    "claude-opus-5",
+    "claude-sonnet-4-5-20250929",
+    "claude-sonnet-4-6",
+    "claude-sonnet-5"
+  ],
+  "interpretation": "This only verifies authentication and model listing. A paid small multi-strategy gate must still verify native web search, complete sources and structured output."
+}
