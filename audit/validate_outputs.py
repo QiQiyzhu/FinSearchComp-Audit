@@ -337,7 +337,7 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
         "20道题，每个结果都可检查",
         "75%",
         "100%",
-        "+25%",
+        "+25pp",
         "40条Trace",
     ):
         require(

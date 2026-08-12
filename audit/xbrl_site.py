@@ -255,7 +255,7 @@ def build_study_page(result: dict[str, Any]) -> str:
 <p class="lead">同一个Claude Sonnet 5，普通Web Search Agent与“LLM编译 + SEC XBRL + Decimal执行”的完整配对对照。</p>
 <div class="facts-grid"><div class="fact"><b>{_pct(plain['decision_accuracy'])}</b><span>普通搜索准确率</span></div>
 <div class="fact"><b>{_pct(xbrl['decision_accuracy'])}</b><span>ATLAS-XBRL准确率</span></div>
-<div class="fact"><b>+{comparison['paired_accuracy_difference']:.0%}</b><span>配对提升</span></div>
+<div class="fact"><b>+{comparison['paired_accuracy_difference'] * 100:.0f}pp</b><span>配对提升（百分点）</span></div>
 <div class="fact"><b>5 / 15 / 0</b><span>胜 / 平 / 负</span></div></div></div></header>
 <main class="light"><div class="wrap"><span class="section-kicker">Per-question evidence</span>
 <h2 class="section-title">20道题，每个结果都可检查。</h2><p class="section-copy">评分要求最终动作是answer、单位完全一致、数值与SEC复算gold在要求的两位小数上精确相等。</p>
