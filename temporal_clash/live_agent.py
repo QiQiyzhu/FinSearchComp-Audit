@@ -585,7 +585,7 @@ class RequestConfig:
     reasoning_effort: str = "medium"
     search_context_size: str = "medium"
     max_tool_calls: int = 3
-    max_output_tokens: int = 2400
+    max_output_tokens: int = 4800
     timeout_seconds: int = 120
     max_retries: int = 0
     force_search: bool = True

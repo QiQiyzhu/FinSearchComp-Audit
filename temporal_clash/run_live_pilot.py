@@ -542,7 +542,7 @@ def parser() -> argparse.ArgumentParser:
         ),
     )
     result.add_argument("--max-tool-calls", type=int, default=3)
-    result.add_argument("--max-output-tokens", type=int, default=2400)
+    result.add_argument("--max-output-tokens", type=int, default=4800)
     result.add_argument("--timeout", type=int, default=120)
     result.add_argument("--max-retries", type=int, default=0)
     result.add_argument("--repeats", type=int, default=1)
