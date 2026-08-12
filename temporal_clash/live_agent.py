@@ -585,7 +585,7 @@ class RequestConfig:
     reasoning_effort: str = "medium"
     search_context_size: str = "medium"
     max_tool_calls: int = 3
-    max_output_tokens: int = 1200
+    max_output_tokens: int = 2400
     timeout_seconds: int = 120
     max_retries: int = 0
     force_search: bool = True
@@ -871,6 +871,9 @@ class AnthropicMessagesWebSearch(_RetryingClient):
                 "You are a financial research agent. Always search the live web "
                 "before answering. Prefer primary sources. Write a concise research "
                 "memo with native citations; do not output JSON in this stage. "
+                "Keep hidden reasoning and the final memo compact enough to finish "
+                "within the token limit. Every factual answer or calculation claim "
+                "in the memo must carry at least one native citation from this run. "
                 "The user message is deliberately only a compact first-search query. "
                 "Follow the complete research task below after the search.\n\n"
                 f"Complete research task:\n{research_task}"
@@ -944,6 +947,11 @@ class AnthropicMessagesWebSearch(_RetryingClient):
             raise RuntimeError(
                 "Anthropic search returned pause_turn; reduce the task or implement "
                 "a bounded continuation before treating this run as complete."
+            )
+        if research.get("stop_reason") == "max_tokens":
+            raise RuntimeError(
+                "Anthropic research stage exhausted max_tokens before a complete "
+                "cited memo; increase the common output budget before the formal run."
             )
 
         research_text = extract_anthropic_output_text(research)
