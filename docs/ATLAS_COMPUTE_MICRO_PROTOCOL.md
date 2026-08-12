@@ -1,6 +1,6 @@
 # ATLAS-Compute 真实微型实验协议（运行前冻结）
 
-协议版本：`atlas-compute-micro-1.0`
+协议版本：`atlas-compute-micro-1.0.1`
 
 ## 研究问题
 

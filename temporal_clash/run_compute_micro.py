@@ -323,7 +323,7 @@ def run(args: argparse.Namespace) -> list[dict[str, Any]]:
             "Formal live run requires a clean preregistered commit; commit code and cases first"
         )
     protocol = {
-        "protocol_version": "atlas-compute-micro-1.0",
+        "protocol_version": "atlas-compute-micro-1.0.1",
         "method_version": COMPUTE_METHOD_VERSION,
         "study_type": "targeted_numeric_reasoning_micro_benchmark",
         "model": args.model,

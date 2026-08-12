@@ -26,7 +26,7 @@ from .live_agent import (
 
 COMPUTE_STRATEGY = "atlas_compute"
 COMPUTE_LABEL = "ATLAS-Compute（证据程序化）"
-COMPUTE_METHOD_VERSION = "atlas-compute-1.0"
+COMPUTE_METHOD_VERSION = "atlas-compute-1.0.1"
 OPERATIONS = ("relative_change_percent", "difference_of_ratios_pp")
 
 OPERAND_SCHEMA: dict[str, Any] = {
@@ -57,8 +57,8 @@ COMPUTE_PLAN_SCHEMA: dict[str, Any] = {
     "properties": {
         "action": {"type": "string", "enum": ["compute", "abstain"]},
         "operation": {
-            "type": ["string", "null"],
-            "enum": [*OPERATIONS, None],
+            "type": "string",
+            "enum": [*OPERATIONS, "none"],
         },
         "operands": {"type": "array", "items": OPERAND_SCHEMA},
         "explanation": {"type": "string"},
@@ -138,8 +138,9 @@ def build_compute_normalization_payload(
             "difference_of_ratios_pp with exactly "
             "[left_numerator, left_denominator, right_numerator, "
             "right_denominator]. The order must preserve the direction asked in "
-            "the question. Do not calculate or emit the final answer. Abstain if "
-            "the cited material lacks any required operand."
+            "the question. Do not calculate or emit the final answer. If abstaining, "
+            "set operation to none. Abstain if the cited material lacks any required "
+            "operand."
         ),
         "messages": [{"role": "user", "content": serialized}],
         "output_config": {

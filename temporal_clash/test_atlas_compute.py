@@ -4,6 +4,7 @@ import json
 import unittest
 
 from .atlas_compute import (
+    COMPUTE_PLAN_SCHEMA,
     build_compute_normalization_payload,
     build_compute_research_prompt,
     execute_compute_plan,
@@ -37,6 +38,11 @@ def operand(label: str, value: str, url: str = "https://www.sec.gov/filing") -> 
 
 
 class AtlasComputeTests(unittest.TestCase):
+    def test_operation_schema_uses_relay_compatible_string_enum(self) -> None:
+        operation = COMPUTE_PLAN_SCHEMA["properties"]["operation"]
+        self.assertEqual(operation["type"], "string")
+        self.assertIn("none", operation["enum"])
+
     def test_runtime_prompt_excludes_evaluation_labels(self) -> None:
         self.assertNotIn("gold_answer", runtime_case(CASE))
         prompt = build_compute_research_prompt(CASE)
