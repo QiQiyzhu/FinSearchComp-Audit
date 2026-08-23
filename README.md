@@ -6,7 +6,7 @@
 [![Real LLM](https://img.shields.io/badge/Claude_Sonnet_5-40_valid_traces-7c3aed)](temporal_clash/results/atlas_pit_xbrl_20q_sonnet5_20260813/README.md)
 [![Accuracy](https://img.shields.io/badge/Accuracy-65%25_to_100%25-15803d)](temporal_clash/results/atlas_pit_xbrl_20q_sonnet5_20260813/metrics.json)
 [![PIT](https://img.shields.io/badge/Final_future_evidence-7_to_0-0f766e)](temporal_clash/results/atlas_pit_xbrl_20q_sonnet5_20260813/metrics.json)
-[![Tests](https://img.shields.io/badge/Tests-47_passing-0f766e)](https://github.com/QiQiyzhu/FinSearchComp-Audit/actions/workflows/finsearch-audit.yml)
+[![Tests](https://img.shields.io/badge/Tests-86_passing-0f766e)](https://github.com/QiQiyzhu/FinSearchComp-Audit/actions/workflows/finsearch-audit.yml)
 
 ## 一句话成果
 
@@ -66,6 +66,7 @@ flowchart LR
 
 - Claude只识别公司、财务指标、财年与公式类型，不直接决定最终数字；
 - 程序只选择截止日前已经提交的10-K年度事实；
+- 文档版本同时保存 `published_at`、半开有效区间 `effective_from/effective_to` 与内容SHA-256；
 - 每个事实保存US-GAAP taxonomy、filing date、accession和SEC响应SHA-256；
 - Python `Decimal`执行固定公式，只在最后一步统一舍入；
 - 日期缺失单独计为unknown，不算作确认安全。
@@ -126,6 +127,80 @@ ATLAS使用任务专用SEC工具。它不是“只换Prompt”的消融。
 
 ## 代码与复现
 
+### Agentic 评测：E4 Structured Gap Planner + E5 Sufficiency Gate + E6 Budget Sweep
+
+ATLAS-RAG 新增了一个不依赖外部 LLM 的受控 Agent 评测层，用来回答三个可验证问题：系统能否显式知道
+“还缺哪条证据”、能否在证据不足或冲突时正确拒答、以及提高检索预算是否还会继续带来收益。
+
+| 实验 | 对照 | 完整方法 | 结果 |
+|---|---|---|---|
+| E4 Structured Gap Planner | 原问题 top-3 / rewrite 均为 75% | 逐槽检索 100% | 四槽问题不再漏操作数 |
+| E5 Sufficiency Gate | must-answer 无依据回答率 66.7% | **0%** | 正确拒答 100%，false abstention 0% |
+| E6 Budget Sweep | 最大调用预算 1 / 2 / 3 / 5 / 8 | 预算 5 首次 100% | 到预算 8，平均实际调用和成本代理保持不变 |
+
+Planner 将问题编译为 `(company, metric, period, unit)` 证据槽；Gate 只接受截止日可见、`final`、
+单位一致且无数值冲突的完整证据组；Budget Runner 每次只填一个缺口，一旦充分立即停止。
+
+- [在线 E4–E6 结果页](https://qiqiyzhu.github.io/FinSearchComp-Audit/agentic-eval/)
+- [Planner、Gate 与检索实现](advanced_rag/agentic.py)
+- [冻结的 8 题合成数据](advanced_rag/agentic_cases.json)
+- [聚合结果与逐题 CSV](advanced_rag/results/agentic/)
+- [12 项 E4–E6 测试](advanced_rag/test_agentic_eval.py)
+
+边界：这 8 题是机制测试用的合成金融 fixture，不代表真实发行人事实或生产流量；成本代理是固定公式，
+不是 API token 账单或线上延迟。Query rewrite 在该协议中没有优于原问题检索，这一负结果也被原样保留。
+
+### 工程平台：FinAgent Audit Platform
+
+ATLAS-RAG 现在不仅能作为同步实验函数运行，还提供持久化的异步评测平台：
+
+```text
+Query / Batch Evaluation
+        ↓
+Idempotency + Config Hash
+        ↓
+SQLite Run Store（queued → running → succeeded / failed）
+        ↓
+Bounded Retry Worker → ATLAS-RAG → Failure Classifier
+        ↓
+Result + Versioned Trace + Failure Analytics + Replay Diff
+```
+
+- FastAPI 提供 query、job、trace、evaluation、failure analytics 和 replay 接口；
+- 请求、数据集版本、Pipeline 版本与模型版本共同进入幂等和审计记录；
+- 上游超时采用有限次指数退避，最终错误转成持久化失败 Run，不让整个 Batch 崩溃；
+- Replay 创建新 Run，比较 old/new 的答案、证据选择、Agent 状态轨迹与结果哈希；
+- 当前采用 SQLite WAL + 进程内线程池，明确记录进程退出恢复与多机扩展边界，没有为规模感强塞中间件。
+
+离线平台演示固定运行 3 个 Case：正常回答、缺失证据拒答、首次超时后恢复，并验证幂等、失败分类与 Replay。
+
+- [平台架构、API 与工程取舍](finagent_platform/README.md)
+- [Run/Job/Replay 实现](finagent_platform/platform.py)
+- [SQLite 幂等状态存储](finagent_platform/store.py)
+- [FastAPI 契约](finagent_platform/api.py)
+- [并发、故障注入、回放与 API 测试](finagent_platform/test_platform.py)
+- [静态可视化平台报告](site/platform/index.html)
+
+### 工程迁移：Match-3 Agent QA Lab
+
+项目新增了一个与金融结论隔离的三消测试垂直切片，用来验证 ATLAS 的核心工程原则能否迁移到游戏开发：
+**Agent 负责规划，确定性程序负责判定。**
+
+| 能力面 | 可运行实现 |
+|---|---|
+| 客户端 | 交换、横纵匹配、重力补充、多级联、计分、固定种子与事件回放 |
+| 测试 | 死局检测、属性测试、失败闭锁、哈希回归、跨运行一致性 |
+| 产品 | 可玩步数、符号平衡、透明的难度代理指标及其适用边界 |
+| AI Agent | JSON Schema 风格 Skill catalog、读写动作分离、调用预算、白名单与完整 trace |
+
+内置回归场景固定得到 **5 个合法动作**；其中一个动作产生 **3 次级联、消除 12 格、得分 2400**，
+并从初始棋盘逐事件重放到相同哈希。该模块不调用模型，也不把启发式难度分数包装成玩家真实难度。
+
+- [设计、运行方式与边界](game_qa_agent/README.md)
+- [冻结的可玩/死局场景](game_qa_agent/scenarios.json)
+- [Skill 编排与预算运行时](game_qa_agent/workflow.py)
+- [规则、属性与安全测试](game_qa_agent/test_game_qa_agent.py)
+
 ```text
 temporal_clash/
 ├── atlas_xbrl.py                 # LLM编译、SEC截止日取数、Decimal执行
@@ -142,7 +217,9 @@ temporal_clash/
 ```bash
 python -m unittest temporal_clash.test_detector temporal_clash.test_live_agent \
   temporal_clash.test_atlas_compute temporal_clash.test_atlas_xbrl \
-  temporal_clash.test_pit_audit advanced_rag.test_advanced_rag -v
+  temporal_clash.test_pit_audit advanced_rag.test_advanced_rag \
+  advanced_rag.test_agentic_eval \
+  game_qa_agent.test_game_qa_agent finagent_platform.test_platform -v
 python -m temporal_clash.audit_xbrl_cases \
   --case-file temporal_clash/pit_xbrl_20q_cases.json
 python reproduce.py

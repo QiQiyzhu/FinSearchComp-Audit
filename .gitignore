@@ -11,3 +11,6 @@ temporal_clash/results/live_pilot_*_failed*/
 temporal_clash/results/live_pilot_1q_*/
 temporal_clash/results/live_pilot_*_promptfix_*/
 tmp/
+build/*.sqlite3
+build/*.sqlite3-shm
+build/*.sqlite3-wal

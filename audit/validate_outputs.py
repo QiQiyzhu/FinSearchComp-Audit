@@ -71,6 +71,17 @@ XBRL_FILES = (
     "exclusions.json",
     "trace.jsonl",
 )
+AGENTIC_FILES = (
+    "index.html",
+    "budget-curve.svg",
+    "e4_gap_ablation.csv",
+    "e4_gap_detail.csv",
+    "e5_sufficiency_gate.csv",
+    "e5_sufficiency_detail.csv",
+    "e6_budget_sweep.csv",
+    "e6_budget_detail.csv",
+    "summary.json",
+)
 
 
 class ValidationError(ValueError):
@@ -294,6 +305,92 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
             target.is_file() and target.stat().st_size > 0,
             f"missing or empty advanced-rag output: {target}",
         )
+    agentic_dir = output_dir / "agentic-eval"
+    for filename in AGENTIC_FILES:
+        target = agentic_dir / filename
+        require(
+            target.is_file() and target.stat().st_size > 0,
+            f"missing or empty agentic evaluation output: {target}",
+        )
+    agentic_summary = json.loads((agentic_dir / "summary.json").read_text(encoding="utf-8"))
+    require(agentic_summary["protocol"]["cases"] == 8, "agentic fixture must contain 8 cases")
+    gap_rows = {
+        row["method"]: row for row in agentic_summary["e4_gap_planner"]
+    }
+    require(
+        gap_rows["plain_one_shot"]["answer_accuracy"] == 0.75,
+        "E4 plain one-shot accuracy must remain 75%",
+    )
+    require(
+        gap_rows["structured_gap_planner"]["answer_accuracy"] == 1.0,
+        "E4 structured planner accuracy must remain 100%",
+    )
+    gate_rows = {
+        row["method"]: row for row in agentic_summary["e5_sufficiency_gate"]
+    }
+    require(
+        gate_rows["sufficiency_gate"]["correct_abstention_rate"] == 1.0,
+        "E5 gate correct abstention must remain 100%",
+    )
+    require(
+        gate_rows["sufficiency_gate"]["unsupported_answer_rate"] == 0.0,
+        "E5 gate unsupported-answer rate must remain 0%",
+    )
+    budget_rows = {
+        int(row["budget"]): row for row in agentic_summary["e6_budget_sweep"]
+    }
+    require(
+        budget_rows[5]["answer_accuracy"] == budget_rows[8]["answer_accuracy"] == 1.0,
+        "E6 budgets 5 and 8 must remain at 100% accuracy",
+    )
+    require(
+        budget_rows[5]["mean_cost_proxy"] == budget_rows[8]["mean_cost_proxy"],
+        "E6 early stopping must keep cost flat after sufficiency",
+    )
+    game_dir = output_dir / "game-qa"
+    for filename in ("index.html", "README.md", "report.json", "trace.json"):
+        target = game_dir / filename
+        require(
+            target.is_file() and target.stat().st_size > 0,
+            f"missing or empty game-qa output: {target}",
+        )
+    game_report = json.loads((game_dir / "report.json").read_text(encoding="utf-8"))
+    game_trace = json.loads((game_dir / "trace.json").read_text(encoding="utf-8"))
+    require(game_report.get("passed") is True, "game-qa reproducibility checks failed")
+    require(
+        game_trace.get("schema_version") == "game-qa-trace-1.0",
+        "game-qa trace schema mismatch",
+    )
+    require(
+        all(event.get("status") == "ok" for event in game_trace.get("events", [])),
+        "game-qa trace contains a failed demo event",
+    )
+    platform_dir = output_dir / "platform"
+    for filename in ("index.html", "README.md", "platform_demo.json", "openapi.json"):
+        target = platform_dir / filename
+        require(
+            target.is_file() and target.stat().st_size > 0,
+            f"missing or empty platform output: {target}",
+        )
+    platform_demo = json.loads(
+        (platform_dir / "platform_demo.json").read_text(encoding="utf-8")
+    )
+    platform_openapi = json.loads(
+        (platform_dir / "openapi.json").read_text(encoding="utf-8")
+    )
+    require(platform_demo.get("passed") is True, "platform demo checks failed")
+    require(
+        all(platform_demo.get("checks", {}).values()),
+        "platform demo contains a failed invariant",
+    )
+    for path in (
+        "/api/v1/query",
+        "/api/v1/runs/{run_id}",
+        "/api/v1/runs/{run_id}/trace",
+        "/api/v1/evaluations",
+        "/api/v1/runs/{run_id}/replay",
+    ):
+        require(path in platform_openapi["paths"], f"OpenAPI is missing path: {path}")
     live_manifest = json.loads(
         (live_dir / "study_manifest.json").read_text(encoding="utf-8")
     )
@@ -326,6 +423,14 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
         "100% vs 65%",
         "0 / 32 vs 80 / 392",
         "联合可靠回答率",
+        "同一条可靠性原则，也能落到三消客户端测试",
+        "5 → 3 → 12",
+        "从一次性实验，升级为可排队、可诊断、可重放的平台",
+        "SQLite WAL",
+        "Structured Gap Planner",
+        "Sufficiency Gate",
+        "Budget Sweep",
+        "无依据回答66.7% → 0%",
     ):
         require(
             required_showcase_text in html_text,
@@ -442,9 +547,10 @@ def validate_output_dir(output_dir: Path, payload: dict, strict_demo: bool = Fal
     validate_local_links(output_dir, output_dir / "xbrl-study.html")
     validate_local_links(output_dir, output_dir / "live-pilot.html")
     validate_local_links(output_dir, output_dir / "temporal-audit.html")
+    validate_local_links(output_dir, agentic_dir / "index.html")
 
     return {
-        "files": len(OUTPUT_FILES) + len(advanced_files),
+        "files": len(OUTPUT_FILES) + len(advanced_files) + len(AGENTIC_FILES),
         **trace_summary,
     }
 

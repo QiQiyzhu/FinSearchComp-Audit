@@ -1,0 +1,6 @@
+budget,cases,answer_accuracy,mean_slot_recall,mean_search_calls,mean_cost_proxy,early_stop_rate
+1,8,0.0,0.4375,1,155,0.0
+2,8,0.75,0.875,2,307.5,0.0
+3,8,0.75,0.9375,2.25,346.5,0.75
+5,8,1.0,1.0,2.5,383.5,1.0
+8,8,1.0,1.0,2.5,383.5,1.0

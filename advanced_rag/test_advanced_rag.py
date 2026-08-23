@@ -79,6 +79,39 @@ class AdvancedRAGTests(unittest.TestCase):
             [hit.document.document_id for hit in second],
         )
 
+    def test_document_version_uses_half_open_effective_interval(self) -> None:
+        candidate = {
+            "candidate_id": "versioned",
+            "evidence_text_zh": "A filing version valid only during February.",
+            "answer_value": "100",
+            "unit": "usd_million",
+            "target_period": "FY2024",
+            "published_at": "2024-01-15",
+            "effective_from": "2024-02-01",
+            "effective_to": "2024-03-01",
+            "revision": "v1",
+            "source_url": "https://example.com/v1",
+            "source_authority": "regulator_filing",
+        }
+        document = EvidenceDocument.from_candidate(
+            candidate, base_question_id="versioned"
+        )
+        self.assertFalse(document.is_visible_at("2024-01-31"))
+        self.assertTrue(document.is_visible_at("2024-02-29"))
+        self.assertFalse(document.is_visible_at("2024-03-01"))
+        self.assertRegex(document.content_hash, r"^[0-9a-f]{64}$")
+
+        detector = TemporalLeakageDetector("full")
+        case = {
+            "cutoff_date": "2024-03-01",
+            "target_period": "FY2024",
+            "required_version": "v1",
+            "canonical_unit": "usd_million",
+        }
+        audit = detector.audit(document.audit_payload(), case)
+        self.assertFalse(audit.accepted)
+        self.assertIn("effective_interval", audit.violations)
+
     def test_evidence_graph_detects_value_conflict(self) -> None:
         query, _ = benchmark_queries(self.cases)[0]
         gold = next(

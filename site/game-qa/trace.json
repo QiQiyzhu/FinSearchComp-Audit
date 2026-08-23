@@ -1,0 +1,92 @@
+{
+  "schema_version": "game-qa-trace-1.0",
+  "initial_board": [
+    "BECDC",
+    "CABAB",
+    "DBCBD",
+    "EEADC",
+    "AADBD"
+  ],
+  "initial_board_hash": "f9227473e7d4b89e",
+  "final_board": [
+    "ACAEB",
+    "BDABC",
+    "CEBDB",
+    "DACAD",
+    "EECBC"
+  ],
+  "final_board_hash": "26cb7a3329170bcb",
+  "seed": 104,
+  "initial_budget": 12,
+  "remaining_budget": 3,
+  "events": [
+    {
+      "step": 1,
+      "skill": "inspect_board",
+      "arguments": {},
+      "status": "ok",
+      "cost": 1,
+      "remaining_budget": 11,
+      "before_hash": "f9227473e7d4b89e",
+      "after_hash": "f9227473e7d4b89e",
+      "result": {
+        "board_hash": "f9227473e7d4b89e"
+      }
+    },
+    {
+      "step": 2,
+      "skill": "build_qa_report",
+      "arguments": {},
+      "status": "ok",
+      "cost": 3,
+      "remaining_budget": 8,
+      "before_hash": "f9227473e7d4b89e",
+      "after_hash": "f9227473e7d4b89e",
+      "result": {
+        "move_sample_count": 5,
+        "clear_range": [
+          3,
+          12
+        ]
+      }
+    },
+    {
+      "step": 3,
+      "skill": "apply_swap",
+      "arguments": {
+        "first": [
+          3,
+          3
+        ],
+        "second": [
+          4,
+          3
+        ],
+        "seed": 104
+      },
+      "status": "ok",
+      "cost": 3,
+      "remaining_budget": 5,
+      "before_hash": "f9227473e7d4b89e",
+      "after_hash": "26cb7a3329170bcb",
+      "result": {
+        "valid": true,
+        "reason": "ok"
+      }
+    },
+    {
+      "step": 4,
+      "skill": "verify_replay",
+      "arguments": {},
+      "status": "ok",
+      "cost": 2,
+      "remaining_budget": 3,
+      "before_hash": "26cb7a3329170bcb",
+      "after_hash": "26cb7a3329170bcb",
+      "result": {
+        "verified": true,
+        "final_board_hash": "26cb7a3329170bcb"
+      }
+    }
+  ]
+}

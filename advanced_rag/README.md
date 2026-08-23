@@ -120,11 +120,35 @@ final = w1·semantic + w2·temporal + w3·source_utility
 
 这些数字是确定性受控实验结果，只能说明模块在当前协议中的行为；不能外推为真实网页或任意 LLM 的总体性能。
 
-## 6. 运行
+## 6. E4–E6：从自适应检索到证据缺口闭环
+
+新增 `agentic.py` 将运行时拆成三个可独立测试的对象：
+
+1. `StructuredGapPlanner`：把自然语言问题编译成明确的证据槽和计算操作；
+2. `SufficiencyGate`：检查 final 版本、point-in-time 可见性、单位、缺失与冲突；
+3. `AgenticRetriever`：逐个填补尚未满足的槽，并在 Gate 放行后立即停止。
+
+冻结协议包含 8 个合成金融问题，涵盖增长率、绝对变化、比例和利润率变化。E5 为每题构造 complete、
+partial、empty、conflict 四种证据条件；E6 扫描 1 / 2 / 3 / 5 / 8 次最大检索预算。
+
+| 指标 | 对照 | 完整系统 |
+|---|---:|---:|
+| E4 回答准确率 | plain / rewrite 75% | structured planner **100%** |
+| E5 正确拒答率 | 33.3% | sufficiency gate **100%** |
+| E5 无依据回答率 | 66.7% | sufficiency gate **0%** |
+| E6 首次达到 100% | — | 最大预算 5 |
+| E6 预算 5 → 8 成本代理 | — | 383.5 → 383.5 |
+
+这里的成本代理是确定性工作量指标，不是 token 账单或延迟；fixture 不代表真实发行人事实。
+完整结果见 [`results/agentic/`](results/agentic/)，在线报告见
+[`site/agentic-eval/`](../site/agentic-eval/)。
+
+## 7. 运行
 
 ```bash
 python -m advanced_rag.evaluate
-python -m unittest advanced_rag.test_advanced_rag -v
+python -m advanced_rag.evaluate_agentic
+python -m unittest advanced_rag.test_advanced_rag advanced_rag.test_agentic_eval -v
 ```
 
 启动标准库实现的线程化 JSON 服务：
@@ -157,7 +181,7 @@ curl -X POST http://127.0.0.1:8080/v1/answer \
 
 接口包含 64 KiB 请求上限、输入校验、TTL+LRU 缓存、热点 key 并发合并、请求 ID、健康检查和运行指标。
 
-## 7. 下一步研究
+## 8. 下一步研究
 
 1. 用真实网页独立解析 JSON-LD、OpenGraph、HTTP Header 和监管申报发布日期；
 2. 用 BGE/E5 替换 HashVector，并做 BM25、dense、hybrid、temporal 消融；

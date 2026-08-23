@@ -1,0 +1,110 @@
+{
+  "protocol": {
+    "dataset": "agentic-evidence-v1",
+    "cases": 8,
+    "e5_conditions_per_case": 4,
+    "budgets": [
+      1,
+      2,
+      3,
+      5,
+      8
+    ],
+    "one_shot_top_k": 3,
+    "external_llm_calls": 0,
+    "cost_proxy": "120 per retrieval call + max(12, whitespace-token-count * 4) per returned document"
+  },
+  "e4_gap_planner": [
+    {
+      "method": "plain_one_shot",
+      "cases": 8,
+      "answer_accuracy": 0.75,
+      "mean_slot_recall": 0.9375,
+      "mean_search_calls": 1,
+      "mean_cost_proxy": 219
+    },
+    {
+      "method": "query_rewrite",
+      "cases": 8,
+      "answer_accuracy": 0.75,
+      "mean_slot_recall": 0.9375,
+      "mean_search_calls": 1,
+      "mean_cost_proxy": 219
+    },
+    {
+      "method": "structured_gap_planner",
+      "cases": 8,
+      "answer_accuracy": 1.0,
+      "mean_slot_recall": 1.0,
+      "mean_search_calls": 2.5,
+      "mean_cost_proxy": 383.5
+    }
+  ],
+  "e5_sufficiency_gate": [
+    {
+      "method": "must_answer_baseline",
+      "cases": 32,
+      "answer_coverage": 0.75,
+      "correct_answer_rate": 1.0,
+      "correct_abstention_rate": 0.3333333333333333,
+      "false_abstention_rate": 0.0,
+      "unsupported_answer_rate": 0.6666666666666666
+    },
+    {
+      "method": "sufficiency_gate",
+      "cases": 32,
+      "answer_coverage": 0.25,
+      "correct_answer_rate": 1.0,
+      "correct_abstention_rate": 1.0,
+      "false_abstention_rate": 0.0,
+      "unsupported_answer_rate": 0.0
+    }
+  ],
+  "e6_budget_sweep": [
+    {
+      "budget": 1,
+      "cases": 8,
+      "answer_accuracy": 0.0,
+      "mean_slot_recall": 0.4375,
+      "mean_search_calls": 1,
+      "mean_cost_proxy": 155,
+      "early_stop_rate": 0.0
+    },
+    {
+      "budget": 2,
+      "cases": 8,
+      "answer_accuracy": 0.75,
+      "mean_slot_recall": 0.875,
+      "mean_search_calls": 2,
+      "mean_cost_proxy": 307.5,
+      "early_stop_rate": 0.0
+    },
+    {
+      "budget": 3,
+      "cases": 8,
+      "answer_accuracy": 0.75,
+      "mean_slot_recall": 0.9375,
+      "mean_search_calls": 2.25,
+      "mean_cost_proxy": 346.5,
+      "early_stop_rate": 0.75
+    },
+    {
+      "budget": 5,
+      "cases": 8,
+      "answer_accuracy": 1.0,
+      "mean_slot_recall": 1.0,
+      "mean_search_calls": 2.5,
+      "mean_cost_proxy": 383.5,
+      "early_stop_rate": 1.0
+    },
+    {
+      "budget": 8,
+      "cases": 8,
+      "answer_accuracy": 1.0,
+      "mean_slot_recall": 1.0,
+      "mean_search_calls": 2.5,
+      "mean_cost_proxy": 383.5,
+      "early_stop_rate": 1.0
+    }
+  ]
+}

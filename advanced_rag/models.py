@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
 from datetime import date
+import hashlib
 from typing import Any
 
 
@@ -51,6 +52,9 @@ class EvidenceDocument:
     revision: str
     source_url: str
     source_authority: str
+    effective_from: str | None = None
+    effective_to: str | None = None
+    content_hash: str = ""
 
     @classmethod
     def from_candidate(
@@ -63,14 +67,16 @@ class EvidenceDocument:
         source_url: str | None = None,
         source_authority: str | None = None,
     ) -> "EvidenceDocument":
+        resolved_text = text if text is not None else str(candidate.get("evidence_text_zh", ""))
+        published_at = str(candidate.get("published_at", "missing"))
         return cls(
             document_id=document_id or str(candidate["candidate_id"]),
             base_question_id=base_question_id,
-            text=text if text is not None else str(candidate.get("evidence_text_zh", "")),
+            text=resolved_text,
             answer_value=str(candidate.get("answer_value", "")),
             unit=str(candidate.get("unit", "missing")),
             target_period=str(candidate.get("target_period", "missing")),
-            published_at=str(candidate.get("published_at", "missing")),
+            published_at=published_at,
             revision=str(candidate.get("revision", "missing")),
             source_url=(
                 source_url
@@ -82,6 +88,17 @@ class EvidenceDocument:
                 if source_authority is not None
                 else str(candidate.get("source_authority", "unknown"))
             ),
+            effective_from=(
+                str(candidate["effective_from"])
+                if candidate.get("effective_from")
+                else None
+            ),
+            effective_to=(
+                str(candidate["effective_to"])
+                if candidate.get("effective_to")
+                else None
+            ),
+            content_hash=hashlib.sha256(resolved_text.encode("utf-8")).hexdigest(),
         )
 
     def audit_payload(self) -> dict[str, Any]:
@@ -101,7 +118,35 @@ class EvidenceDocument:
             "source_url": self.source_url,
             "source_authority": self.source_authority,
             "evidence_text_zh": self.text,
+            "effective_from": self.effective_from,
+            "effective_to": self.effective_to,
+            "content_hash": self.content_hash,
         }
+
+    def is_visible_at(self, as_of: str) -> bool:
+        """Return whether this exact document version is valid at ``as_of``.
+
+        Effective intervals are half-open: ``effective_from <= as_of < effective_to``.
+        Older datasets without explicit interval metadata fall back to publication
+        time with an open end.
+        """
+
+        try:
+            cutoff = date.fromisoformat(as_of)
+            published = date.fromisoformat(self.published_at)
+            effective_from = date.fromisoformat(
+                self.effective_from or self.published_at
+            )
+            effective_to = (
+                date.fromisoformat(self.effective_to) if self.effective_to else None
+            )
+        except ValueError:
+            return False
+        return (
+            published <= cutoff
+            and effective_from <= cutoff
+            and (effective_to is None or cutoff < effective_to)
+        )
 
     @property
     def fact_signature(self) -> tuple[str, str, str, str]:

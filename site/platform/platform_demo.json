@@ -1,0 +1,557 @@
+{
+  "schema_version": "finagent-platform-demo-1.0",
+  "checks": {
+    "evaluation_completed": true,
+    "idempotency_deduplicated": true,
+    "timeout_recovered": true,
+    "failure_classified": true,
+    "replay_matched": true
+  },
+  "evaluation": {
+    "run_id": "evaluation-1",
+    "parent_run_id": null,
+    "kind": "evaluation",
+    "status": "succeeded",
+    "failure_category": null,
+    "error_type": null,
+    "attempts": 1,
+    "request": {
+      "name": "platform-demo",
+      "queries": [
+        {
+          "canonical_unit": "usd_million",
+          "cutoff_date": "2025-01-01",
+          "query_id": "answerable",
+          "question": "Answerable filing question",
+          "required_version": "final",
+          "target_period": "FY2024"
+        },
+        {
+          "canonical_unit": "usd_million",
+          "cutoff_date": "2025-01-01",
+          "query_id": "missing",
+          "question": "Question with missing evidence",
+          "required_version": "final",
+          "target_period": "FY2024"
+        },
+        {
+          "canonical_unit": "usd_million",
+          "cutoff_date": "2025-01-01",
+          "query_id": "flaky",
+          "question": "Question recovering from an upstream timeout",
+          "required_version": "final",
+          "target_period": "FY2024"
+        }
+      ]
+    },
+    "config": {
+      "dataset_version": "controlled-corpus-v1",
+      "model_version": "deterministic-atlas-rag-v1",
+      "pipeline_version": "atlas-rag-platform-v1"
+    },
+    "result": {
+      "abstained": 1,
+      "answered": 2,
+      "child_run_ids": [
+        "case-1",
+        "case-2",
+        "case-3"
+      ],
+      "failed": 0,
+      "failure_categories": {
+        "empty_retrieval": 1
+      },
+      "name": "platform-demo",
+      "succeeded": 3,
+      "total": 3
+    },
+    "trace": {
+      "agent_trace": [],
+      "execution_events": [
+        {
+          "child_run_id": "case-1",
+          "index": 0,
+          "status": "succeeded",
+          "type": "case_completed"
+        },
+        {
+          "child_run_id": "case-2",
+          "index": 1,
+          "status": "succeeded",
+          "type": "case_completed"
+        },
+        {
+          "child_run_id": "case-3",
+          "index": 2,
+          "status": "succeeded",
+          "type": "case_completed"
+        }
+      ],
+      "kind": "evaluation",
+      "parent_run_id": null,
+      "run_id": "evaluation-1",
+      "schema_version": "finagent-run-trace-1.0",
+      "versions": {
+        "dataset_version": "controlled-corpus-v1",
+        "model_version": "deterministic-atlas-rag-v1",
+        "pipeline_version": "atlas-rag-platform-v1"
+      }
+    },
+    "children": [
+      {
+        "run_id": "case-1",
+        "parent_run_id": "evaluation-1",
+        "kind": "query",
+        "status": "succeeded",
+        "failure_category": null,
+        "error_type": null,
+        "attempts": 1,
+        "request": {
+          "canonical_unit": "usd_million",
+          "cutoff_date": "2025-01-01",
+          "query_id": "answerable",
+          "question": "Answerable filing question",
+          "required_version": "final",
+          "target_period": "FY2024"
+        },
+        "config": {
+          "dataset_version": "controlled-corpus-v1",
+          "model_version": "deterministic-atlas-rag-v1",
+          "pipeline_version": "atlas-rag-platform-v1"
+        },
+        "result": {
+          "attempts": 1,
+          "cached": false,
+          "decision": {
+            "action": "answer",
+            "answer_value": "100",
+            "rejection_reasons": [],
+            "selected_evidence_id": "doc-safe-v1",
+            "trace": [
+              {
+                "state": "PLAN"
+              },
+              {
+                "returned": 3,
+                "state": "RETRIEVE"
+              },
+              {
+                "accepted": 1,
+                "rejected": 2,
+                "state": "AUDIT"
+              },
+              {
+                "selected_evidence_id": "doc-safe-v1",
+                "state": "ANSWER"
+              }
+            ],
+            "unit": "usd_million"
+          },
+          "failure_category": null,
+          "replay_comparison": {
+            "original_result_hash": "54ba8cdcca3c6a6a3a09f43255e7c2000aba8a994dbfc1f4ff502de5df9e3f53",
+            "original_run_id": "evaluation-1",
+            "replay_result_hash": "fe1b3dc77e56185949c8dbf2eea9b9596757b8c4172b2d6c7ce02da5229c02a8",
+            "same_agent_trace": false,
+            "same_decision": false
+          },
+          "request_id": "case-1"
+        },
+        "trace": {
+          "agent_trace": [
+            {
+              "state": "PLAN"
+            },
+            {
+              "returned": 3,
+              "state": "RETRIEVE"
+            },
+            {
+              "accepted": 1,
+              "rejected": 2,
+              "state": "AUDIT"
+            },
+            {
+              "selected_evidence_id": "doc-safe-v1",
+              "state": "ANSWER"
+            }
+          ],
+          "execution_events": [
+            {
+              "agent_action": "answer",
+              "attempt": 1,
+              "type": "attempt_succeeded"
+            }
+          ],
+          "kind": "query",
+          "parent_run_id": "evaluation-1",
+          "run_id": "case-1",
+          "schema_version": "finagent-run-trace-1.0",
+          "versions": {
+            "dataset_version": "controlled-corpus-v1",
+            "model_version": "deterministic-atlas-rag-v1",
+            "pipeline_version": "atlas-rag-platform-v1"
+          }
+        }
+      },
+      {
+        "run_id": "case-2",
+        "parent_run_id": "evaluation-1",
+        "kind": "query",
+        "status": "succeeded",
+        "failure_category": "empty_retrieval",
+        "error_type": null,
+        "attempts": 1,
+        "request": {
+          "canonical_unit": "usd_million",
+          "cutoff_date": "2025-01-01",
+          "query_id": "missing",
+          "question": "Question with missing evidence",
+          "required_version": "final",
+          "target_period": "FY2024"
+        },
+        "config": {
+          "dataset_version": "controlled-corpus-v1",
+          "model_version": "deterministic-atlas-rag-v1",
+          "pipeline_version": "atlas-rag-platform-v1"
+        },
+        "result": {
+          "attempts": 1,
+          "cached": false,
+          "decision": {
+            "action": "abstain",
+            "answer_value": null,
+            "rejection_reasons": [
+              "检索未返回候选证据"
+            ],
+            "selected_evidence_id": null,
+            "trace": [
+              {
+                "state": "PLAN"
+              },
+              {
+                "returned": 0,
+                "state": "RETRIEVE"
+              },
+              {
+                "reason": "insufficient_evidence",
+                "state": "ABSTAIN"
+              }
+            ],
+            "unit": null
+          },
+          "failure_category": "empty_retrieval",
+          "replay_comparison": {
+            "original_result_hash": "54ba8cdcca3c6a6a3a09f43255e7c2000aba8a994dbfc1f4ff502de5df9e3f53",
+            "original_run_id": "evaluation-1",
+            "replay_result_hash": "a25e5bb89a1cf7c1de769e6ecf5a5c8fcdd0f41569466bb1ec42aa97f824753c",
+            "same_agent_trace": false,
+            "same_decision": false
+          },
+          "request_id": "case-2"
+        },
+        "trace": {
+          "agent_trace": [
+            {
+              "state": "PLAN"
+            },
+            {
+              "returned": 0,
+              "state": "RETRIEVE"
+            },
+            {
+              "reason": "insufficient_evidence",
+              "state": "ABSTAIN"
+            }
+          ],
+          "execution_events": [
+            {
+              "agent_action": "abstain",
+              "attempt": 1,
+              "type": "attempt_succeeded"
+            }
+          ],
+          "kind": "query",
+          "parent_run_id": "evaluation-1",
+          "run_id": "case-2",
+          "schema_version": "finagent-run-trace-1.0",
+          "versions": {
+            "dataset_version": "controlled-corpus-v1",
+            "model_version": "deterministic-atlas-rag-v1",
+            "pipeline_version": "atlas-rag-platform-v1"
+          }
+        }
+      },
+      {
+        "run_id": "case-3",
+        "parent_run_id": "evaluation-1",
+        "kind": "query",
+        "status": "succeeded",
+        "failure_category": null,
+        "error_type": null,
+        "attempts": 2,
+        "request": {
+          "canonical_unit": "usd_million",
+          "cutoff_date": "2025-01-01",
+          "query_id": "flaky",
+          "question": "Question recovering from an upstream timeout",
+          "required_version": "final",
+          "target_period": "FY2024"
+        },
+        "config": {
+          "dataset_version": "controlled-corpus-v1",
+          "model_version": "deterministic-atlas-rag-v1",
+          "pipeline_version": "atlas-rag-platform-v1"
+        },
+        "result": {
+          "attempts": 2,
+          "cached": false,
+          "decision": {
+            "action": "answer",
+            "answer_value": "100",
+            "rejection_reasons": [],
+            "selected_evidence_id": "doc-safe-v1",
+            "trace": [
+              {
+                "state": "PLAN"
+              },
+              {
+                "returned": 3,
+                "state": "RETRIEVE"
+              },
+              {
+                "accepted": 1,
+                "rejected": 2,
+                "state": "AUDIT"
+              },
+              {
+                "selected_evidence_id": "doc-safe-v1",
+                "state": "ANSWER"
+              }
+            ],
+            "unit": "usd_million"
+          },
+          "failure_category": null,
+          "replay_comparison": {
+            "original_result_hash": "54ba8cdcca3c6a6a3a09f43255e7c2000aba8a994dbfc1f4ff502de5df9e3f53",
+            "original_run_id": "evaluation-1",
+            "replay_result_hash": "fe1b3dc77e56185949c8dbf2eea9b9596757b8c4172b2d6c7ce02da5229c02a8",
+            "same_agent_trace": false,
+            "same_decision": false
+          },
+          "request_id": "case-3"
+        },
+        "trace": {
+          "agent_trace": [
+            {
+              "state": "PLAN"
+            },
+            {
+              "returned": 3,
+              "state": "RETRIEVE"
+            },
+            {
+              "accepted": 1,
+              "rejected": 2,
+              "state": "AUDIT"
+            },
+            {
+              "selected_evidence_id": "doc-safe-v1",
+              "state": "ANSWER"
+            }
+          ],
+          "execution_events": [
+            {
+              "attempt": 1,
+              "category": "upstream_timeout",
+              "error_type": "TimeoutError",
+              "retrying": true,
+              "type": "attempt_failed"
+            },
+            {
+              "agent_action": "answer",
+              "attempt": 2,
+              "type": "attempt_succeeded"
+            }
+          ],
+          "kind": "query",
+          "parent_run_id": "evaluation-1",
+          "run_id": "case-3",
+          "schema_version": "finagent-run-trace-1.0",
+          "versions": {
+            "dataset_version": "controlled-corpus-v1",
+            "model_version": "deterministic-atlas-rag-v1",
+            "pipeline_version": "atlas-rag-platform-v1"
+          }
+        }
+      }
+    ]
+  },
+  "failure_analytics": {
+    "evaluation_run_id": "evaluation-1",
+    "total_cases": 3,
+    "classified_cases": 1,
+    "categories": {
+      "empty_retrieval": 1
+    },
+    "cases": [
+      {
+        "run_id": "case-2",
+        "query_id": "missing",
+        "question": "Question with missing evidence",
+        "status": "succeeded",
+        "category": "empty_retrieval"
+      }
+    ]
+  },
+  "flaky_trace": {
+    "agent_trace": [
+      {
+        "state": "PLAN"
+      },
+      {
+        "returned": 3,
+        "state": "RETRIEVE"
+      },
+      {
+        "accepted": 1,
+        "rejected": 2,
+        "state": "AUDIT"
+      },
+      {
+        "selected_evidence_id": "doc-safe-v1",
+        "state": "ANSWER"
+      }
+    ],
+    "execution_events": [
+      {
+        "attempt": 1,
+        "category": "upstream_timeout",
+        "error_type": "TimeoutError",
+        "retrying": true,
+        "type": "attempt_failed"
+      },
+      {
+        "agent_action": "answer",
+        "attempt": 2,
+        "type": "attempt_succeeded"
+      }
+    ],
+    "kind": "query",
+    "parent_run_id": "evaluation-1",
+    "run_id": "case-3",
+    "schema_version": "finagent-run-trace-1.0",
+    "versions": {
+      "dataset_version": "controlled-corpus-v1",
+      "model_version": "deterministic-atlas-rag-v1",
+      "pipeline_version": "atlas-rag-platform-v1"
+    }
+  },
+  "replay": {
+    "run_id": "replay-1",
+    "parent_run_id": "case-1",
+    "kind": "query",
+    "status": "succeeded",
+    "failure_category": null,
+    "error_type": null,
+    "attempts": 1,
+    "request": {
+      "canonical_unit": "usd_million",
+      "cutoff_date": "2025-01-01",
+      "query_id": "answerable",
+      "question": "Answerable filing question",
+      "required_version": "final",
+      "target_period": "FY2024"
+    },
+    "config": {
+      "dataset_version": "controlled-corpus-v1",
+      "model_version": "deterministic-atlas-rag-v1",
+      "pipeline_version": "atlas-rag-platform-v1"
+    },
+    "result": {
+      "attempts": 1,
+      "cached": false,
+      "decision": {
+        "action": "answer",
+        "answer_value": "100",
+        "rejection_reasons": [],
+        "selected_evidence_id": "doc-safe-v1",
+        "trace": [
+          {
+            "state": "PLAN"
+          },
+          {
+            "returned": 3,
+            "state": "RETRIEVE"
+          },
+          {
+            "accepted": 1,
+            "rejected": 2,
+            "state": "AUDIT"
+          },
+          {
+            "selected_evidence_id": "doc-safe-v1",
+            "state": "ANSWER"
+          }
+        ],
+        "unit": "usd_million"
+      },
+      "failure_category": null,
+      "replay_comparison": {
+        "original_result_hash": "fe1b3dc77e56185949c8dbf2eea9b9596757b8c4172b2d6c7ce02da5229c02a8",
+        "original_run_id": "case-1",
+        "replay_result_hash": "fe1b3dc77e56185949c8dbf2eea9b9596757b8c4172b2d6c7ce02da5229c02a8",
+        "same_agent_trace": true,
+        "same_decision": true
+      },
+      "request_id": "replay-1"
+    },
+    "trace": {
+      "agent_trace": [
+        {
+          "state": "PLAN"
+        },
+        {
+          "returned": 3,
+          "state": "RETRIEVE"
+        },
+        {
+          "accepted": 1,
+          "rejected": 2,
+          "state": "AUDIT"
+        },
+        {
+          "selected_evidence_id": "doc-safe-v1",
+          "state": "ANSWER"
+        }
+      ],
+      "execution_events": [
+        {
+          "agent_action": "answer",
+          "attempt": 1,
+          "type": "attempt_succeeded"
+        }
+      ],
+      "kind": "query",
+      "parent_run_id": "case-1",
+      "run_id": "replay-1",
+      "schema_version": "finagent-run-trace-1.0",
+      "versions": {
+        "dataset_version": "controlled-corpus-v1",
+        "model_version": "deterministic-atlas-rag-v1",
+        "pipeline_version": "atlas-rag-platform-v1"
+      }
+    }
+  },
+  "api_paths": [
+    "/api/v1/evaluations",
+    "/api/v1/evaluations/{run_id}/failures",
+    "/api/v1/jobs/{run_id}",
+    "/api/v1/query",
+    "/api/v1/runs/{run_id}",
+    "/api/v1/runs/{run_id}/replay",
+    "/api/v1/runs/{run_id}/trace",
+    "/healthz"
+  ],
+  "passed": true
+}

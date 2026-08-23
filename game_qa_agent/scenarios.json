@@ -1,0 +1,46 @@
+{
+  "schema_version": "game-qa-scenarios-1.0",
+  "scenarios": [
+    {
+      "id": "playable-seed-7",
+      "purpose": "Stable board with five legal moves and one reproducible multi-cascade move.",
+      "board": [
+        "BECDC",
+        "CABAB",
+        "DBCBD",
+        "EEADC",
+        "AADBD"
+      ],
+      "seed": 104,
+      "expected": {
+        "existing_match_cells": 0,
+        "legal_move_count": 5,
+        "dead_board": false
+      },
+      "regression_move": {
+        "first": [3, 3],
+        "second": [4, 3],
+        "expected_cascades": 3,
+        "expected_cleared_total": 12,
+        "expected_score": 2400
+      }
+    },
+    {
+      "id": "dead-board-seed-7",
+      "purpose": "Stable board with no legal swap; exercises reshuffle and QA-risk detection.",
+      "board": [
+        "ACBBE",
+        "AACBA",
+        "BBECD",
+        "BAEAD",
+        "EDDAC"
+      ],
+      "seed": 7,
+      "expected": {
+        "existing_match_cells": 0,
+        "legal_move_count": 0,
+        "dead_board": true
+      }
+    }
+  ]
+}

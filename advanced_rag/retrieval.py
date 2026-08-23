@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from collections import Counter
-from datetime import date
 import hashlib
 import math
 import re
@@ -220,14 +219,8 @@ class HybridTemporalRetriever:
     def _temporal_compatibility(
         query: QuerySpec, document: EvidenceDocument
     ) -> float:
-        try:
-            publication_ok = date.fromisoformat(document.published_at) <= date.fromisoformat(
-                query.cutoff_date
-            )
-        except ValueError:
-            publication_ok = False
         checks = (
-            float(publication_ok),
+            float(document.is_visible_at(query.cutoff_date)),
             float(document.target_period == query.target_period),
             float(document.revision == query.required_version),
             float(document.unit == query.canonical_unit),

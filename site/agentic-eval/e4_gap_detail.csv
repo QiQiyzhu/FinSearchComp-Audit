@@ -1,0 +1,25 @@
+query_id,method,required_slots,retrieved_docs,search_calls,slot_recall,answerable,answer,correct,cost_proxy
+gap-01,plain_one_shot,2,3,1,1.0,True,20.00%,True,224
+gap-01,query_rewrite,2,3,1,1.0,True,20.00%,True,224
+gap-01,structured_gap_planner,2,2,2,1.0,True,20.00%,True,312
+gap-02,plain_one_shot,2,3,1,1.0,True,30.00%,True,212
+gap-02,query_rewrite,2,3,1,1.0,True,30.00%,True,212
+gap-02,structured_gap_planner,2,2,2,1.0,True,30.00%,True,304
+gap-03,plain_one_shot,4,3,1,0.75,False,ABSTAIN,False,220
+gap-03,query_rewrite,4,3,1,0.75,False,ABSTAIN,False,220
+gap-03,structured_gap_planner,4,4,4,1.0,True,4.44 pp,True,608
+gap-04,plain_one_shot,4,3,1,0.75,False,ABSTAIN,False,220
+gap-04,query_rewrite,4,3,1,0.75,False,ABSTAIN,False,220
+gap-04,structured_gap_planner,4,4,4,1.0,True,0.00 pp,True,608
+gap-05,plain_one_shot,2,3,1,1.0,True,20.00%,True,212
+gap-05,query_rewrite,2,3,1,1.0,True,20.00%,True,212
+gap-05,structured_gap_planner,2,2,2,1.0,True,20.00%,True,300
+gap-06,plain_one_shot,2,3,1,1.0,True,150.00 usd_million,True,228
+gap-06,query_rewrite,2,3,1,1.0,True,150.00 usd_million,True,228
+gap-06,structured_gap_planner,2,2,2,1.0,True,150.00 usd_million,True,320
+gap-07,plain_one_shot,2,3,1,1.0,True,20.00%,True,216
+gap-07,query_rewrite,2,3,1,1.0,True,20.00%,True,216
+gap-07,structured_gap_planner,2,2,2,1.0,True,20.00%,True,304
+gap-08,plain_one_shot,2,3,1,1.0,True,20.00%,True,220
+gap-08,query_rewrite,2,3,1,1.0,True,20.00%,True,220
+gap-08,structured_gap_planner,2,2,2,1.0,True,20.00%,True,312

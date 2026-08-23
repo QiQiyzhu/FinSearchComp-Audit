@@ -1,0 +1,460 @@
+{
+  "schema_version": "game-qa-demo-1.0",
+  "scenario": {
+    "id": "playable-seed-7",
+    "purpose": "Stable board with five legal moves and one reproducible multi-cascade move.",
+    "board": [
+      "BECDC",
+      "CABAB",
+      "DBCBD",
+      "EEADC",
+      "AADBD"
+    ],
+    "seed": 104,
+    "expected": {
+      "existing_match_cells": 0,
+      "legal_move_count": 5,
+      "dead_board": false
+    },
+    "regression_move": {
+      "first": [
+        3,
+        3
+      ],
+      "second": [
+        4,
+        3
+      ],
+      "expected_cascades": 3,
+      "expected_cleared_total": 12,
+      "expected_score": 2400
+    }
+  },
+  "checks": {
+    "scenario_expectations": true,
+    "regression_move": true,
+    "deterministic_replay": true,
+    "no_simulation_failures": true
+  },
+  "passed": true,
+  "initial_report": {
+    "schema_version": "game-qa-report-1.0",
+    "board": [
+      "BECDC",
+      "CABAB",
+      "DBCBD",
+      "EEADC",
+      "AADBD"
+    ],
+    "analysis": {
+      "rows": 5,
+      "columns": 5,
+      "board_hash": "f9227473e7d4b89e",
+      "existing_match_cells": 0,
+      "legal_move_count": 5,
+      "legal_moves": [
+        [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        [
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          [
+            3,
+            2
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        [
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        [
+          [
+            3,
+            3
+          ],
+          [
+            4,
+            3
+          ]
+        ]
+      ],
+      "dead_board": false,
+      "normalized_symbol_entropy": 0.983712,
+      "difficulty_proxy": 28.5,
+      "risk_flags": []
+    },
+    "move_sample_count": 5,
+    "clear_range": [
+      3,
+      12
+    ],
+    "moves": [
+      {
+        "swap": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        "cleared_total": 7,
+        "cascades": 2,
+        "score": 1100,
+        "final_board_hash": "7f89d9bc75927fee"
+      },
+      {
+        "swap": [
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "cleared_total": 3,
+        "cascades": 1,
+        "score": 300,
+        "final_board_hash": "48e938ec53ccb8f5"
+      },
+      {
+        "swap": [
+          [
+            3,
+            2
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        "cleared_total": 3,
+        "cascades": 1,
+        "score": 300,
+        "final_board_hash": "be0c9a2386ec290f"
+      },
+      {
+        "swap": [
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ]
+        ],
+        "cleared_total": 3,
+        "cascades": 1,
+        "score": 300,
+        "final_board_hash": "950384867de2d8e3"
+      },
+      {
+        "swap": [
+          [
+            3,
+            3
+          ],
+          [
+            4,
+            3
+          ]
+        ],
+        "cleared_total": 12,
+        "cascades": 3,
+        "score": 2400,
+        "final_board_hash": "8c3445053da37dea"
+      }
+    ],
+    "simulation_failures": [],
+    "interpretation": {
+      "client": "Use hashes and events to reproduce rule or cascade defects.",
+      "product": "Use mobility and the transparent difficulty proxy for triage, then validate with player data.",
+      "qa": "Turn every failing seed and swap into a permanent regression fixture.",
+      "ai": "The Agent selects allow-listed skills; the deterministic oracle owns pass/fail."
+    }
+  },
+  "applied_move": {
+    "valid": true,
+    "reason": "ok",
+    "swap": [
+      [
+        3,
+        3
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "seed": 104,
+    "board_before": [
+      "BECDC",
+      "CABAB",
+      "DBCBD",
+      "EEADC",
+      "AADBD"
+    ],
+    "board_after": [
+      "ACAEB",
+      "BDABC",
+      "CEBDB",
+      "DACAD",
+      "EECBC"
+    ],
+    "cascades": 3,
+    "cleared_total": 12,
+    "score": 2400,
+    "events": [
+      {
+        "type": "swap",
+        "from": [
+          3,
+          3
+        ],
+        "to": [
+          4,
+          3
+        ],
+        "board_hash": "f4ce5452620bbdfa"
+      },
+      {
+        "type": "cascade",
+        "index": 1,
+        "cleared": 3,
+        "positions": [
+          [
+            4,
+            2
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            4
+          ]
+        ],
+        "board_hash": "6d0885579aa4aa4c"
+      },
+      {
+        "type": "cascade",
+        "index": 2,
+        "cleared": 6,
+        "positions": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            4,
+            0
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        "board_hash": "ba43adfcdb534aa6"
+      },
+      {
+        "type": "cascade",
+        "index": 3,
+        "cleared": 3,
+        "positions": [
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ],
+        "board_hash": "26cb7a3329170bcb"
+      },
+      {
+        "type": "settled",
+        "cascades": 3,
+        "cleared_total": 12,
+        "score": 2400,
+        "board_hash": "26cb7a3329170bcb"
+      }
+    ]
+  },
+  "replay": {
+    "verified": true,
+    "moves": [
+      {
+        "move": 1,
+        "expected_hash": "26cb7a3329170bcb",
+        "actual_hash": "26cb7a3329170bcb",
+        "same_events": true
+      }
+    ],
+    "final_board_hash": "26cb7a3329170bcb"
+  },
+  "skill_catalog": [
+    {
+      "name": "apply_swap",
+      "description": "Apply a seeded legal swap and record it for deterministic replay.",
+      "cost": 3,
+      "mutates_state": true,
+      "input_schema": {
+        "type": "object",
+        "required": [
+          "first",
+          "second"
+        ],
+        "properties": {
+          "first": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "second": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "seed": {
+            "type": "integer"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "build_qa_report",
+      "description": "Build a cross-functional board report with deterministic move samples.",
+      "cost": 3,
+      "mutates_state": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "inspect_board",
+      "description": "Inspect board mobility, balance, and QA risk flags.",
+      "cost": 1,
+      "mutates_state": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_legal_moves",
+      "description": "Return all adjacent swaps accepted by the rules oracle.",
+      "cost": 1,
+      "mutates_state": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "simulate_swap",
+      "description": "Simulate a seeded swap without mutating session state.",
+      "cost": 2,
+      "mutates_state": false,
+      "input_schema": {
+        "type": "object",
+        "required": [
+          "first",
+          "second"
+        ],
+        "properties": {
+          "first": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "second": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "seed": {
+            "type": "integer"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "verify_replay",
+      "description": "Replay all applied moves from the initial board and compare every hash.",
+      "cost": 2,
+      "mutates_state": false,
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    }
+  ]
+}

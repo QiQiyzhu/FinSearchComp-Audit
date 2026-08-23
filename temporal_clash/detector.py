@@ -20,11 +20,12 @@ CHECK_PROFILES: dict[str, tuple[str, ...]] = {
     "allow_all": (),
     "date_only": ("published_at",),
     "metadata": ("published_at", "target_period", "revision"),
-    "full": ("published_at", "target_period", "revision", "unit"),
+    "full": ("published_at", "effective_interval", "target_period", "revision", "unit"),
 }
 
 CHECK_LABELS = {
     "published_at": "发布时间",
+    "effective_interval": "有效区间",
     "target_period": "目标期间",
     "revision": "数据版本",
     "unit": "单位",
@@ -32,6 +33,7 @@ CHECK_LABELS = {
 
 RISK_WEIGHTS = {
     "published_at": 1.00,
+    "effective_interval": 0.95,
     "target_period": 0.75,
     "revision": 0.70,
     "unit": 0.60,
@@ -136,6 +138,32 @@ class TemporalLeakageDetector:
             except ValueError:
                 passed = False
                 reason = "发布日期或截止日缺失/格式无效，无法证明时间合规"
+        elif check_name == "effective_interval":
+            expected = str(case.get("cutoff_date", "missing"))
+            explicit_from = candidate.get("effective_from")
+            effective_to_value = candidate.get("effective_to")
+            effective_from = str(
+                explicit_from or candidate.get("published_at", "missing")
+            )
+            effective_to = str(effective_to_value) if effective_to_value else None
+            observed = f"[{effective_from}, {effective_to or 'open'})"
+            if not explicit_from and not effective_to_value:
+                passed = True
+                reason = "未提供显式有效区间，沿用已单独检查的发布时间"
+            else:
+                try:
+                    cutoff = date.fromisoformat(expected)
+                    start = date.fromisoformat(effective_from)
+                    end = date.fromisoformat(effective_to) if effective_to else None
+                    passed = start <= cutoff and (end is None or cutoff < end)
+                    reason = (
+                        f"截止日 {expected} 位于证据有效区间 {observed}"
+                        if passed
+                        else f"截止日 {expected} 不在证据有效区间 {observed}"
+                    )
+                except ValueError:
+                    passed = False
+                    reason = "有效区间或截止日缺失/格式无效"
         else:
             case_field = {
                 "target_period": "target_period",

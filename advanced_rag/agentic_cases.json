@@ -1,0 +1,112 @@
+{
+  "dataset": "agentic-evidence-v1",
+  "description": "Eight frozen, synthetic financial evidence cases for E4-E6. Values are controlled fixtures, not claims about real issuers.",
+  "cases": [
+    {
+      "query_id": "gap-01",
+      "question": "截至 2024-11-01，Northstar FY2024 净销售额相对 FY2023 增长多少？",
+      "as_of": "2024-11-01",
+      "gold_answer": "20.00%",
+      "documents": [
+        {"doc_id":"gap-01-00-prelim","company":"Northstar","metric":"revenue","period":"FY2024","value":"1190","unit":"usd_million","text":"Northstar FY2024 preliminary revenue net sales 1190 usd_million","published_at":"2024-10-20","effective_from":"2024-10-20","version":"preliminary"},
+        {"doc_id":"gap-01-10-current","company":"Northstar","metric":"revenue","period":"FY2024","value":"1200","unit":"usd_million","text":"Northstar FY2024 final filing revenue net sales 1200 usd_million","published_at":"2024-10-30","effective_from":"2024-10-30","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-01-20-prior","company":"Northstar","metric":"revenue","period":"FY2023","value":"1000","unit":"usd_million","text":"Northstar FY2023 final filing revenue net sales 1000 usd_million","published_at":"2023-10-30","effective_from":"2023-10-30","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-01-30-future","company":"Northstar","metric":"revenue","period":"FY2024","value":"1210","unit":"usd_million","text":"Northstar FY2024 later amended revenue 1210 usd_million","published_at":"2024-11-10","effective_from":"2024-11-10","version":"final"},
+        {"doc_id":"gap-01-40-noise","company":"Northstar","metric":"net_income","period":"FY2024","value":"180","unit":"usd_million","text":"Northstar FY2024 final filing net income 180 usd_million","published_at":"2024-10-30","effective_from":"2024-10-30","version":"final"}
+      ]
+    },
+    {
+      "query_id": "gap-02",
+      "question": "截至 2024-02-01，Helios FY2023 研发费用相对 FY2022 增幅是多少？",
+      "as_of": "2024-02-01",
+      "gold_answer": "30.00%",
+      "documents": [
+        {"doc_id":"gap-02-00-prelim","company":"Helios","metric":"research_and_development","period":"FY2023","value":"255","unit":"usd_million","text":"Helios FY2023 preliminary research and development R&D 255 usd_million","published_at":"2024-01-20","effective_from":"2024-01-20","version":"preliminary"},
+        {"doc_id":"gap-02-10-current","company":"Helios","metric":"research_and_development","period":"FY2023","value":"260","unit":"usd_million","text":"Helios FY2023 final filing research_and_development R&D 260 usd_million","published_at":"2024-01-29","effective_from":"2024-01-29","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-02-20-prior","company":"Helios","metric":"research_and_development","period":"FY2022","value":"200","unit":"usd_million","text":"Helios FY2022 final filing research_and_development R&D 200 usd_million","published_at":"2023-01-29","effective_from":"2023-01-29","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-02-30-future","company":"Helios","metric":"research_and_development","period":"FY2023","value":"270","unit":"usd_million","text":"Helios FY2023 later restatement research_and_development 270 usd_million","published_at":"2024-02-15","effective_from":"2024-02-15","version":"final"},
+        {"doc_id":"gap-02-40-noise","company":"Helios","metric":"revenue","period":"FY2023","value":"2100","unit":"usd_million","text":"Helios FY2023 final filing revenue 2100 usd_million","published_at":"2024-01-29","effective_from":"2024-01-29","version":"final"}
+      ]
+    },
+    {
+      "query_id": "gap-03",
+      "question": "截至 2024-08-01，Orion FY2024 与 FY2023 毛利率变化多少个百分点？",
+      "as_of": "2024-08-01",
+      "gold_answer": "4.44 pp",
+      "documents": [
+        {"doc_id":"gap-03-00-prelim","company":"Orion","metric":"gross_profit","period":"FY2024","value":"590","unit":"usd_million","text":"Orion FY2024 preliminary gross profit 590 usd_million","published_at":"2024-07-15","effective_from":"2024-07-15","version":"preliminary"},
+        {"doc_id":"gap-03-10-cur-gp","company":"Orion","metric":"gross_profit","period":"FY2024","value":"600","unit":"usd_million","text":"Orion FY2024 final filing gross_profit gross profit 600 usd_million","published_at":"2024-07-30","effective_from":"2024-07-30","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-03-11-cur-rev","company":"Orion","metric":"revenue","period":"FY2024","value":"1000","unit":"usd_million","text":"Orion FY2024 final filing revenue 1000 usd_million","published_at":"2024-07-30","effective_from":"2024-07-30","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-03-20-prior-gp","company":"Orion","metric":"gross_profit","period":"FY2023","value":"500","unit":"usd_million","text":"Orion FY2023 final filing gross_profit gross profit 500 usd_million","published_at":"2023-07-30","effective_from":"2023-07-30","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-03-21-prior-rev","company":"Orion","metric":"revenue","period":"FY2023","value":"900","unit":"usd_million","text":"Orion FY2023 final filing revenue 900 usd_million","published_at":"2023-07-30","effective_from":"2023-07-30","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-03-30-noise","company":"Orion","metric":"net_income","period":"FY2024","value":"210","unit":"usd_million","text":"Orion FY2024 final filing net income 210 usd_million","published_at":"2024-07-30","effective_from":"2024-07-30","version":"final"}
+      ]
+    },
+    {
+      "query_id": "gap-04",
+      "question": "截至 2024-04-01，Atlas FY2024 与 FY2023 营业利润率变化多少个百分点？",
+      "as_of": "2024-04-01",
+      "gold_answer": "0.00 pp",
+      "documents": [
+        {"doc_id":"gap-04-00-prelim","company":"Atlas","metric":"operating_income","period":"FY2024","value":"290","unit":"usd_million","text":"Atlas FY2024 preliminary operating income 290 usd_million","published_at":"2024-03-10","effective_from":"2024-03-10","version":"preliminary"},
+        {"doc_id":"gap-04-10-cur-op","company":"Atlas","metric":"operating_income","period":"FY2024","value":"300","unit":"usd_million","text":"Atlas FY2024 final filing operating_income operating income 300 usd_million","published_at":"2024-03-28","effective_from":"2024-03-28","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-04-11-cur-rev","company":"Atlas","metric":"revenue","period":"FY2024","value":"1500","unit":"usd_million","text":"Atlas FY2024 final filing revenue 1500 usd_million","published_at":"2024-03-28","effective_from":"2024-03-28","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-04-20-prior-op","company":"Atlas","metric":"operating_income","period":"FY2023","value":"240","unit":"usd_million","text":"Atlas FY2023 final filing operating_income operating income 240 usd_million","published_at":"2023-03-28","effective_from":"2023-03-28","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-04-21-prior-rev","company":"Atlas","metric":"revenue","period":"FY2023","value":"1200","unit":"usd_million","text":"Atlas FY2023 final filing revenue 1200 usd_million","published_at":"2023-03-28","effective_from":"2023-03-28","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-04-30-noise","company":"Atlas","metric":"capital_expenditure","period":"FY2024","value":"150","unit":"usd_million","text":"Atlas FY2024 final filing capex 150 usd_million","published_at":"2024-03-28","effective_from":"2024-03-28","version":"final"}
+      ]
+    },
+    {
+      "query_id": "gap-05",
+      "question": "截至 2024-03-01，Nova FY2023 研发费用占营收比例是多少？",
+      "as_of": "2024-03-01",
+      "gold_answer": "20.00%",
+      "documents": [
+        {"doc_id":"gap-05-00-prelim","company":"Nova","metric":"research_and_development","period":"FY2023","value":"175","unit":"usd_million","text":"Nova FY2023 preliminary research and development R&D 175 usd_million","published_at":"2024-02-10","effective_from":"2024-02-10","version":"preliminary"},
+        {"doc_id":"gap-05-10-rd","company":"Nova","metric":"research_and_development","period":"FY2023","value":"180","unit":"usd_million","text":"Nova FY2023 final filing research_and_development R&D 180 usd_million","published_at":"2024-02-27","effective_from":"2024-02-27","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-05-11-rev","company":"Nova","metric":"revenue","period":"FY2023","value":"900","unit":"usd_million","text":"Nova FY2023 final filing revenue 900 usd_million","published_at":"2024-02-27","effective_from":"2024-02-27","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-05-30-future","company":"Nova","metric":"research_and_development","period":"FY2023","value":"185","unit":"usd_million","text":"Nova FY2023 later amendment research_and_development 185 usd_million","published_at":"2024-03-12","effective_from":"2024-03-12","version":"final"},
+        {"doc_id":"gap-05-40-noise","company":"Nova","metric":"net_income","period":"FY2023","value":"90","unit":"usd_million","text":"Nova FY2023 final filing net income 90 usd_million","published_at":"2024-02-27","effective_from":"2024-02-27","version":"final"}
+      ]
+    },
+    {
+      "query_id": "gap-06",
+      "question": "截至 2024-03-15，Aster FY2023 经营现金流比 FY2022 增加多少美元？",
+      "as_of": "2024-03-15",
+      "gold_answer": "150.00 usd_million",
+      "documents": [
+        {"doc_id":"gap-06-00-prelim","company":"Aster","metric":"operating_cash_flow","period":"FY2023","value":"790","unit":"usd_million","text":"Aster FY2023 preliminary operating cash flow 790 usd_million","published_at":"2024-02-20","effective_from":"2024-02-20","version":"preliminary"},
+        {"doc_id":"gap-06-10-current","company":"Aster","metric":"operating_cash_flow","period":"FY2023","value":"800","unit":"usd_million","text":"Aster FY2023 final filing operating_cash_flow operating cash flow 800 usd_million","published_at":"2024-03-10","effective_from":"2024-03-10","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-06-20-prior","company":"Aster","metric":"operating_cash_flow","period":"FY2022","value":"650","unit":"usd_million","text":"Aster FY2022 final filing operating_cash_flow operating cash flow 650 usd_million","published_at":"2023-03-10","effective_from":"2023-03-10","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-06-30-future","company":"Aster","metric":"operating_cash_flow","period":"FY2023","value":"810","unit":"usd_million","text":"Aster FY2023 later amendment operating_cash_flow 810 usd_million","published_at":"2024-03-20","effective_from":"2024-03-20","version":"final"},
+        {"doc_id":"gap-06-40-noise","company":"Aster","metric":"revenue","period":"FY2023","value":"3200","unit":"usd_million","text":"Aster FY2023 final filing revenue 3200 usd_million","published_at":"2024-03-10","effective_from":"2024-03-10","version":"final"}
+      ]
+    },
+    {
+      "query_id": "gap-07",
+      "question": "截至 2024-02-20，Lumen FY2023 资本开支相对 FY2022 增长多少？",
+      "as_of": "2024-02-20",
+      "gold_answer": "20.00%",
+      "documents": [
+        {"doc_id":"gap-07-00-prelim","company":"Lumen","metric":"capital_expenditure","period":"FY2023","value":"350","unit":"usd_million","text":"Lumen FY2023 preliminary capital expenditure capex 350 usd_million","published_at":"2024-02-01","effective_from":"2024-02-01","version":"preliminary"},
+        {"doc_id":"gap-07-10-current","company":"Lumen","metric":"capital_expenditure","period":"FY2023","value":"360","unit":"usd_million","text":"Lumen FY2023 final filing capital_expenditure capex 360 usd_million","published_at":"2024-02-15","effective_from":"2024-02-15","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-07-20-prior","company":"Lumen","metric":"capital_expenditure","period":"FY2022","value":"300","unit":"usd_million","text":"Lumen FY2022 final filing capital_expenditure capex 300 usd_million","published_at":"2023-02-15","effective_from":"2023-02-15","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-07-30-future","company":"Lumen","metric":"capital_expenditure","period":"FY2023","value":"370","unit":"usd_million","text":"Lumen FY2023 later amendment capital_expenditure 370 usd_million","published_at":"2024-02-25","effective_from":"2024-02-25","version":"final"},
+        {"doc_id":"gap-07-40-noise","company":"Lumen","metric":"operating_income","period":"FY2023","value":"420","unit":"usd_million","text":"Lumen FY2023 final filing operating income 420 usd_million","published_at":"2024-02-15","effective_from":"2024-02-15","version":"final"}
+      ]
+    },
+    {
+      "query_id": "gap-08",
+      "question": "截至 2024-11-05，Vega FY2024 净利润占净销售额比例是多少？",
+      "as_of": "2024-11-05",
+      "gold_answer": "20.00%",
+      "documents": [
+        {"doc_id":"gap-08-00-prelim","company":"Vega","metric":"net_income","period":"FY2024","value":"245","unit":"usd_million","text":"Vega FY2024 preliminary net income 245 usd_million","published_at":"2024-10-20","effective_from":"2024-10-20","version":"preliminary"},
+        {"doc_id":"gap-08-10-net","company":"Vega","metric":"net_income","period":"FY2024","value":"250","unit":"usd_million","text":"Vega FY2024 final filing net_income net income 250 usd_million","published_at":"2024-11-01","effective_from":"2024-11-01","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-08-11-rev","company":"Vega","metric":"revenue","period":"FY2024","value":"1250","unit":"usd_million","text":"Vega FY2024 final filing revenue net sales 1250 usd_million","published_at":"2024-11-01","effective_from":"2024-11-01","version":"final","authority":"regulator_filing"},
+        {"doc_id":"gap-08-30-future","company":"Vega","metric":"net_income","period":"FY2024","value":"255","unit":"usd_million","text":"Vega FY2024 later amendment net_income 255 usd_million","published_at":"2024-11-12","effective_from":"2024-11-12","version":"final"},
+        {"doc_id":"gap-08-40-noise","company":"Vega","metric":"capital_expenditure","period":"FY2024","value":"160","unit":"usd_million","text":"Vega FY2024 final filing capex 160 usd_million","published_at":"2024-11-01","effective_from":"2024-11-01","version":"final"}
+      ]
+    }
+  ]
+}

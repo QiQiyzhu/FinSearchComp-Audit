@@ -48,22 +48,22 @@ table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:12px 10p
 <div class="tag">未来证据</div>
 <h3>sp500_max_month-future</h3>
 <p><b>判定：</b><span class="reject">REJECT</span> · 风险分数 1.00</p>
-<ul><li class='fail'><b>发布时间</b>：证据发布于 2026-05-01，晚于截止日 2025-05-01</li><li class='pass'><b>目标期间</b>：目标期间匹配：2010-01/2025-04</li><li class='pass'><b>数据版本</b>：数据版本匹配：final</li><li class='pass'><b>单位</b>：单位匹配：percent</li></ul>
+<ul><li class='fail'><b>发布时间</b>：证据发布于 2026-05-01，晚于截止日 2025-05-01</li><li class='pass'><b>有效区间</b>：未提供显式有效区间，沿用已单独检查的发布时间</li><li class='pass'><b>目标期间</b>：目标期间匹配：2010-01/2025-04</li><li class='pass'><b>数据版本</b>：数据版本匹配：final</li><li class='pass'><b>单位</b>：单位匹配：percent</li></ul>
 </article><article class="trace-card">
 <div class="tag">错期间</div>
 <h3>sp500_max_month-wrong-period</h3>
 <p><b>判定：</b><span class="reject">REJECT</span> · 风险分数 0.75</p>
-<ul><li class='pass'><b>发布时间</b>：证据发布于 2025-04-30，不晚于截止日 2025-05-01</li><li class='fail'><b>目标期间</b>：目标期间不匹配：期望 2010-01/2025-04，实际 邻近期间（非2010-01/2025-04）</li><li class='pass'><b>数据版本</b>：数据版本匹配：final</li><li class='pass'><b>单位</b>：单位匹配：percent</li></ul>
+<ul><li class='pass'><b>发布时间</b>：证据发布于 2025-04-30，不晚于截止日 2025-05-01</li><li class='pass'><b>有效区间</b>：未提供显式有效区间，沿用已单独检查的发布时间</li><li class='fail'><b>目标期间</b>：目标期间不匹配：期望 2010-01/2025-04，实际 邻近期间（非2010-01/2025-04）</li><li class='pass'><b>数据版本</b>：数据版本匹配：final</li><li class='pass'><b>单位</b>：单位匹配：percent</li></ul>
 </article><article class="trace-card">
 <div class="tag">错单位</div>
 <h3>sp500_max_month-wrong-unit</h3>
 <p><b>判定：</b><span class="reject">REJECT</span> · 风险分数 0.60</p>
-<ul><li class='pass'><b>发布时间</b>：证据发布于 2025-04-30，不晚于截止日 2025-05-01</li><li class='pass'><b>目标期间</b>：目标期间匹配：2010-01/2025-04</li><li class='pass'><b>数据版本</b>：数据版本匹配：final</li><li class='fail'><b>单位</b>：单位不匹配：期望 percent，实际 basis_point</li></ul>
+<ul><li class='pass'><b>发布时间</b>：证据发布于 2025-04-30，不晚于截止日 2025-05-01</li><li class='pass'><b>有效区间</b>：未提供显式有效区间，沿用已单独检查的发布时间</li><li class='pass'><b>目标期间</b>：目标期间匹配：2010-01/2025-04</li><li class='pass'><b>数据版本</b>：数据版本匹配：final</li><li class='fail'><b>单位</b>：单位不匹配：期望 percent，实际 basis_point</li></ul>
 </article><article class="trace-card">
 <div class="tag">错版本</div>
 <h3>sp500_max_month-wrong-version</h3>
 <p><b>判定：</b><span class="reject">REJECT</span> · 风险分数 0.70</p>
-<ul><li class='pass'><b>发布时间</b>：证据发布于 2025-04-30，不晚于截止日 2025-05-01</li><li class='pass'><b>目标期间</b>：目标期间匹配：2010-01/2025-04</li><li class='fail'><b>数据版本</b>：数据版本不匹配：期望 final，实际 preliminary</li><li class='pass'><b>单位</b>：单位匹配：percent</li></ul>
+<ul><li class='pass'><b>发布时间</b>：证据发布于 2025-04-30，不晚于截止日 2025-05-01</li><li class='pass'><b>有效区间</b>：未提供显式有效区间，沿用已单独检查的发布时间</li><li class='pass'><b>目标期间</b>：目标期间匹配：2010-01/2025-04</li><li class='fail'><b>数据版本</b>：数据版本不匹配：期望 final，实际 preliminary</li><li class='pass'><b>单位</b>：单位匹配：percent</li></ul>
 </article></div>
 <h2>结论边界</h2>
 <div class="warning"><b>当前结果是确定性协议验证，不是真实 LLM 排名。</b> 数据中的时间、期间、版本与单位均已显式标注，因此完整检测器达到满分是设计上限。<a href="live-pilot.html">已完成的 20题×4策略真实 pilot</a> 显示，开放网页的日期缺失会让严格 Gate 过度拒答，因此真实结果必须与受控结果分开报告。</div>

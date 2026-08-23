@@ -1,0 +1,4 @@
+method,cases,answer_accuracy,mean_slot_recall,mean_search_calls,mean_cost_proxy
+plain_one_shot,8,0.75,0.9375,1,219
+query_rewrite,8,0.75,0.9375,1,219
+structured_gap_planner,8,1.0,1.0,2.5,383.5

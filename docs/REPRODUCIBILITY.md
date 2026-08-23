@@ -17,7 +17,7 @@ LLM、搜索排序和网页内容会变化，因此“重新联网后得到完�
 ## 2. 环境
 
 - Python 3.10 或更高版本；
-- 演示模式只使用 Python 标准库；
+- 核心审计与三消演示只使用 Python 标准库；平台 API 需要 `requirements-platform.txt`；
 - 不需要网络、模型密钥或金融数据密钥；
 - Windows、macOS 和 Linux 均可运行。
 
@@ -30,17 +30,21 @@ python --version
 ## 3. 标准复现
 
 ```bash
+pip install -r requirements-platform.txt
 python reproduce.py
 ```
 
 预期结果：
 
 ```text
-[1/5] Validated 12 recorded runs (6 success, 6 failure)
-[2/5] Generated core audit artifacts in site
-[3/5] Temporal detector benchmark and report generated
-[4/5] ATLAS-RAG evaluated: MRR@10=0.929, selective_accuracy=100.0%
-[5/5] All reproducibility and site-link checks passed
+[1/8] Validated 12 recorded runs (6 success, 6 failure)
+[2/8] Generated core audit artifacts in site
+[3/8] Temporal detector benchmark and report generated
+[4/8] ATLAS-RAG evaluated: MRR@10=0.929, selective_accuracy=100.0%
+[5/8] Match-3 Agent QA verified: 5 legal moves, 3 cascades, deterministic replay
+[6/8] FinAgent platform verified: 3 async cases, timeout recovery, idempotency, failure analytics, replay
+[7/8] Agentic E4-E6 evaluated: planner_accuracy=100.0%, correct_abstention=100.0%
+[8/8] All reproducibility and site-link checks passed
 ```
 
 验证器会检查：
@@ -56,8 +60,11 @@ python reproduce.py
 - `trace.json` 与输入的运行顺序一致；
 - `metrics.csv` 的行数和运行 ID 一致；
 - HTML 包含所有案例，报告包含要求的核心章节。
-- HTML 包含教师展示所需的研究问题、100 条受控实验、真实 Agent 下一阶段和结论边界。
+- HTML 包含面试展示所需的正式结果、E4–E6、工程平台、三消 QA 和结论边界。
 - ATLAS-RAG 的检索逐题表、聚合表、决策表和状态 trace 均非空，并由网页入口引用。
+- 三消 Agent QA 的场景预期、固定级联结果、Skill trace 与最终棋盘哈希可重放且一致。
+- FinAgent Platform 的异步 Run、幂等、超时恢复、失败分类、Replay 和 OpenAPI 契约全部通过。
+- E4–E6 的 8 个冻结合成案例、32 个充分性条件、预算扫描结果和 early-stop 成本平台期均通过。
 
 ## 4. ATLAS-RAG 离线评测
 
@@ -77,7 +84,65 @@ python -m advanced_rag.evaluate
 python -m unittest advanced_rag.test_advanced_rag -v
 ```
 
-## 5. 可信成功的定义
+## 5. E4–E6 Agentic 评测
+
+一键复现会在 `site/agentic-eval/` 生成在线报告、预算曲线、聚合 CSV、逐题 CSV 和 `summary.json`。
+同时在 `advanced_rag/results/agentic/` 保存仓库内的原始结果。单独运行：
+
+```bash
+python -m advanced_rag.evaluate_agentic
+python -m unittest advanced_rag.test_agentic_eval -v
+```
+
+协议固定 8 个合成问题；E4 比较 plain top-3、query rewrite 与逐槽 Planner；E5 每题派生 complete、
+partial、empty、conflict；E6 扫描 1 / 2 / 3 / 5 / 8 次最大检索调用。验证器锁定以下关键结论：
+
+- Structured Gap Planner 准确率 100%，plain one-shot 为 75%；
+- Sufficiency Gate 正确拒答率 100%，无依据回答率 0%；
+- 预算 5 与预算 8 都为 100%，且平均成本代理相同，证明充分即停生效。
+
+这些是确定性机制测试，不使用外部 LLM；成本代理不等于 API token 或线上延迟。
+
+## 6. FinAgent Audit Platform 离线复现
+
+一键复现会在 `site/platform/` 生成：
+
+- `index.html`：Run 状态、超时恢复、失败分析、Replay 和 API 的可视化平台报告；
+- `platform_demo.json`：3 个异步 Case 与五项平台 invariant；
+- `openapi.json`：FastAPI 自动生成的接口契约；
+- `README.md`：人类可读的平台复现结果。
+
+也可以单独运行：
+
+```bash
+python -m unittest finagent_platform.test_platform -v
+python -m finagent_platform --output site/platform
+uvicorn finagent_platform.api:create_default_app --factory --port 8080
+```
+
+平台测试包含真实 ATLAS-RAG 集成，以及并发幂等、SQLite 状态迁移、超时故障注入、Batch 子 Run、
+失败分类、Replay diff 和 FastAPI schema。静态 Demo 使用注入的确定性 Answer Service，从而保证产物可重复生成。
+
+## 7. Match-3 Agent QA 离线复现
+
+一键复现还会在 `site/game-qa/` 生成：
+
+- `index.html`：初始/最终棋盘、跨岗位能力和 Skill trace 的可视化报告；
+- `report.json`：初始棋盘分析、全部合法动作模拟、固定回归动作和四项复现检查；
+- `trace.json`：Skill 参数、成本预算、调用状态及每步前后棋盘哈希；
+- `README.md`：人类可读的复现结果与指标边界。
+
+也可以单独运行：
+
+```bash
+python -m unittest game_qa_agent.test_game_qa_agent -v
+python -m game_qa_agent --output site/game-qa
+```
+
+该模块只使用标准库，不把 Agent 输出作为规则 oracle。模型只能规划白名单 Skill，交换合法性、
+级联、计分和回放是否一致都由确定性程序判定。
+
+## 8. 可信成功的定义
 
 ```text
 current_fact_correct = true
@@ -93,7 +158,7 @@ answer_completeness = 1.0
 - 保存非空查询词；
 - 保存可访问的引用 URL。
 
-## 6. 为什么保留失败案例
+## 9. 为什么保留失败案例
 
 失败案例不是为了凑数量，而是验证审计框架能否识别不同故障层：
 
@@ -108,7 +173,7 @@ answer_completeness = 1.0
 
 只保留成功案例会掩盖系统何时不可信。
 
-## 7. 网页搜索与金融接口的可比实验
+## 10. 网页搜索与金融接口的可比实验
 
 更严格的后续比较应固定：
 
@@ -130,7 +195,7 @@ Hybrid
 
 建议报告正确率、引用支持率、时间合规率、答案完整性、工具调用数和耗时，而不是只比较最终答案。
 
-## 8. 添加自定义案例
+## 11. 添加自定义案例
 
 复制一条 `audit/sample_runs.json` 记录并修改以下内容：
 
@@ -151,7 +216,7 @@ python reproduce.py \
   --no-strict-demo
 ```
 
-## 9. 实时 Agent 模式
+## 12. 实时 Agent 模式
 
 正式的 OpenAI/Claude Web Search Agent 实验不再通过上游聊天脚本运行。当前已经公开
 [20题×4策略真实 pilot](../temporal_clash/results/live_pilot_20q_claude_complete/README.md)，
@@ -186,7 +251,7 @@ python finsearchcomp/chat/chat.py \
 - 搜索结果和网页内容会随时间改变；
 - 对实时结果仍应转换成与 `sample_runs.json` 类似的审计记录。
 
-## 10. 数据来源与时间说明
+## 13. 数据来源与时间说明
 
 - 指数价格案例使用 Yahoo Finance Chart JSON 进行可复算演示；
 - 公司财报案例使用 Apple、Tesla 和 NVIDIA 的 SEC 文件；
@@ -196,7 +261,7 @@ python finsearchcomp/chat/chat.py \
 - 记录的演示轨迹生成于 2026-07-17；
 - `sample_runs.json` 中保留每次获取时间、来源 URL 和审计原因。
 
-## 11. 已知局限
+## 13. 已知局限
 
 - 12 条案例仍不足以代表整个 FinSearchComp；
 - 记录轨迹复现验证的是证据链和报告生成，不是实时工具稳定性；

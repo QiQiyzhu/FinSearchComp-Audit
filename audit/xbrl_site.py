@@ -98,7 +98,7 @@ font-size:18px;max-width:820px}.stats{display:grid;grid-template-columns:repeat(
 .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:36px}.flow article{position:relative;
 background:white;border:1px solid #dfe6ed;border-radius:14px;padding:18px}.flow article:not(:last-child):after{content:"→";
 position:absolute;right:-12px;top:38%;z-index:2;color:#668099;font-weight:900}.flow small{color:#08775a;font-weight:900}
-.flow h3{font-size:16px;margin:8px 0}.flow p{font-size:13px;color:var(--paper-muted);margin:0}
+.flow h3{font-size:16px;margin:8px 0;color:var(--paper-ink)}.flow p{font-size:13px;color:var(--paper-muted);margin:0}
 .dark{padding:86px 0;background:#091522}.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:32px}
 .method{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:27px}.method.winner{
 border-color:#3fa976;box-shadow:inset 0 0 0 1px #3fa97644}.method h3{font-size:24px;margin:0}.method .big{
@@ -160,7 +160,7 @@ def build_homepage(result: dict[str, Any]) -> str:
 <title>ATLAS-PIT-XBRL · 正确且不穿越</title><style>{_shared_css()}</style></head><body>
 <header class="hero"><nav class="nav wrap"><a class="brand" href="index.html">FinSearchComp<i> / ATLAS-PIT</i></a>
 <div class="navlinks"><a href="#result">双轴结果</a><a href="#method">方法</a><a href="#failures">错误分析</a>
-<a href="#papers">顶会依据</a><a href="xbrl-study.html">20题报告</a></div></nav>
+<a href="#papers">顶会依据</a><a href="#agentic-eval">E4–E6</a><a href="#platform">工程平台</a><a href="#game-agent">游戏Agent QA</a><a href="xbrl-study.html">20题报告</a></div></nav>
 <div class="hero-grid wrap"><div><span class="eyebrow"><i class="dot"></i>Real Claude · Historical Cutoff · Real SEC</span>
 <h1>从 <span class="gradient">65%</span><br>到 <span class="gradient">100%</span></h1>
 <p class="lead">不只把答案做对，也保证证据在题目截止日之前已经存在。20道全新冻结题上，
@@ -210,6 +210,71 @@ ATLAS-PIT-XBRL同时提高准确率、覆盖率、时间元数据完整性，并
 <a class="paper" href="https://aclanthology.org/2025.findings-emnlp.382/"><small>EMNLP 2025 · Findings</small><h3>FinGEAR</h3><p>用US-GAAP taxonomy路由取代扁平文本。</p></a>
 <a class="paper" href="https://openreview.net/pdf?id=Jjr2Odj8DJ"><small>ICLR 2025</small><h3>Sufficient Context</h3><p>把未知日期与确认安全分开，不用拒答掩盖失败。</p></a>
 <a class="paper" href="https://aclanthology.org/2024.findings-acl.813/"><small>ACL 2024 · Findings</small><h3>FreshQA / FreshLLMs</h3><p>把知识新鲜度推进到历史时点证据可用性。</p></a></div></div></section>
+
+<section class="dark" id="agentic-eval"><div class="wrap"><span class="section-kicker" style="color:var(--blue)">Agentic evaluation · E4 / E5 / E6</span>
+<h2 class="section-title">从“搜一次”升级为“知道还缺什么、何时该停”。</h2>
+<p class="lead">Structured Gap Planner 把问题编译为公司、指标、期间、单位组成的证据槽；
+Sufficiency Gate 在缺失或冲突时拒答；Budget Sweep 验证充分即停能否控制检索成本。</p>
+<div class="flow"><article><small>E4</small><h3>Gap Planner</h3><p>只为尚未满足的槽继续检索，保留缺口和调用轨迹。</p></article>
+<article><small>E5</small><h3>Sufficiency Gate</h3><p>检查 final 版本、历史可见性、单位、缺失与冲突。</p></article>
+<article><small>E6</small><h3>Budget Sweep</h3><p>扫描1 / 2 / 3 / 5 / 8次调用上限，充分即提前停止。</p></article></div>
+<div class="compare-grid"><article class="method"><h3>单次检索 / Rewrite</h3><div class="big">75%</div><ul>
+<li>固定 top-3，一次检索调用</li><li>四槽利润率题缺少一个必要操作数</li>
+<li>Query rewrite 没有弥补结构性缺口</li><li>平均证据槽召回率93.8%</li></ul></article>
+<article class="method winner"><h3>Planner + Gate</h3><div class="big">100%</div><ul>
+<li>E4：8/8受控题完整回答</li><li>E5：正确拒答100%，无依据回答66.7% → 0%</li>
+<li>E6：预算5首次100%，预算8成本不再增长</li><li>平均实际调用2.5次，充分即停</li></ul></article></div>
+<div class="artifact-links" style="margin-top:18px"><a href="agentic-eval/index.html">打开E4–E6交互式结果页</a>
+<a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/tree/main/advanced_rag/results/agentic">查看CSV与逐题记录</a>
+<a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/advanced_rag/agentic.py">查看Planner与Gate实现</a></div>
+<div class="boundary"><b>协议边界：</b>8题均为冻结的合成金融fixture，不调用外部LLM；成本是确定性代理公式，
+不代表线上token账单或延迟。该实验验证机制与失败行为，不外推为开放域效果。</div></div></section>
+
+<section class="dark" id="platform"><div class="wrap"><span class="section-kicker" style="color:var(--blue)">Software system · FastAPI + SQLite</span>
+<h2 class="section-title">从一次性实验，升级为可排队、可诊断、可重放的平台。</h2>
+<p class="lead">Query 和 Batch Evaluation 立即返回 run_id；后台执行 ATLAS-RAG，并把请求、数据集、Pipeline、
+模型版本、结果、失败标签和完整 trace 持久化。相同请求幂等复用，Replay 则创建新 Run 比较 old/new。</p>
+<div class="flow"><article><small>01</small><h3>提交</h3><p>FastAPI 接受 Query 或最多100条批评测。</p></article>
+<article><small>02</small><h3>幂等</h3><p>请求与三类版本共同生成唯一Run key。</p></article>
+<article><small>03</small><h3>执行</h3><p>后台Worker有限重试，不占用HTTP连接。</p></article>
+<article><small>04</small><h3>诊断</h3><p>失败分类可下钻到Case和Agent状态。</p></article>
+<article><small>05</small><h3>回放</h3><p>比较答案、证据、轨迹和结果哈希。</p></article></div>
+<div class="compare-grid"><article class="method"><h3>真实后端约束</h3><ul>
+<li><strong>SQLite WAL：</strong>显式 queued → running → terminal 状态机</li>
+<li><strong>Idempotency：</strong>同Key不同Payload返回409冲突</li>
+<li><strong>Fault handling：</strong>Timeout有限重试，最终失败仍保存trace</li>
+<li><strong>OpenAPI：</strong>Query、Job、Trace、Evaluation、Failures、Replay</li></ul></article>
+<article class="method winner"><h3>冻结平台演示</h3><div class="big">3 / 2 / 1</div><ul>
+<li><strong>3</strong>个异步评测Case</li><li><strong>2</strong>个回答，1个证据不足拒答</li>
+<li>1个注入Timeout在第2次尝试恢复</li><li>幂等、失败分类和Replay全部PASS</li></ul></article></div>
+<div class="artifact-links" style="margin-top:18px"><a href="platform/index.html">打开平台可视化报告</a>
+<a href="platform/platform_demo.json">查看Demo JSON</a><a href="platform/openapi.json">查看OpenAPI</a>
+<a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/tree/main/finagent_platform">查看平台实现与测试</a></div>
+<div class="boundary"><b>工程取舍：</b>当前规模采用 FastAPI + SQLite WAL + 进程内线程池；
+进程退出后的任务恢复仍需数据库lease/heartbeat worker，在出现真实多进程需求前不引入Redis、Celery或Kafka。</div></div></section>
+
+<section class="dark" id="game-agent"><div class="wrap"><span class="section-kicker" style="color:var(--blue)">Engineering transfer · Match-3 QA</span>
+<h2 class="section-title">同一条可靠性原则，也能落到三消客户端测试。</h2>
+<p class="lead">这是与金融实验结论隔离的工程垂直切片：Agent 只规划白名单 Skill；交换合法性、横纵匹配、
+重力补充、多次级联、计分和回放均由确定性规则引擎裁决。</p>
+<div class="flow"><article><small>01</small><h3>QA目标</h3><p>策划规则转为受约束的JSON计划。</p></article>
+<article><small>02</small><h3>Skill门禁</h3><p>参数schema、读写分离与成本预算。</p></article>
+<article><small>03</small><h3>规则Oracle</h3><p>程序拥有合法性与pass/fail判定权。</p></article>
+<article><small>04</small><h3>固定Seed</h3><p>记录事件、棋盘哈希和级联结果。</p></article>
+<article><small>05</small><h3>精确回放</h3><p>失败动作直接固化为回归场景。</p></article></div>
+<div class="compare-grid"><article class="method"><h3>跨岗位可运行证据</h3><ul>
+<li><strong>客户端：</strong>纯状态转换、多级联和跨运行一致PRNG</li>
+<li><strong>测试：</strong>死局、属性扫描、非法调用失败闭锁</li>
+<li><strong>产品：</strong>可玩步数与明确标注边界的难度代理</li>
+<li><strong>AI：</strong>白名单、预算、参数约束和全链路trace</li></ul></article>
+<article class="method winner"><h3>冻结回归场景</h3><div class="big">5 → 3 → 12</div><ul>
+<li><strong>5</strong>个合法交换动作</li><li><strong>3</strong>次固定级联</li>
+<li><strong>12</strong>格消除，得分2400</li><li>逐事件重放到相同最终棋盘哈希</li></ul></article></div>
+<div class="artifact-links" style="margin-top:18px"><a href="game-qa/index.html">可视化复现报告</a>
+<a href="game-qa/report.json">全部动作分析</a><a href="game-qa/trace.json">Skill Trace</a>
+<a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/tree/main/game_qa_agent">实现与12项测试</a></div>
+<div class="boundary"><b>结论边界：</b>当前是离线规则与Agent工具边界MVP，不是完整Unity客户端；
+难度代理只用于QA排序，必须用玩家遥测或试玩数据校准后才能支持产品决策。</div></div></section>
 
 <section class="dark"><div class="wrap"><span class="section-kicker" style="color:var(--blue)">Auditability</span>
 <h2 class="section-title">结果在运行前冻结，网络错误也没有隐藏。</h2><div class="audit"><div class="audit-grid"><div><h3>Gold与协议</h3>

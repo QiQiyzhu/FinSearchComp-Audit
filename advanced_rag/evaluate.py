@@ -114,7 +114,7 @@ def evaluate(output_dir: Path = DEFAULT_OUTPUT) -> dict[str, Any]:
     for mode in modes:
         rows = [row for row in retrieval_rows if row["method"] == mode]
         retrieval_summary[mode] = {
-            metric: sum(float(row[metric]) for row in rows) / len(rows)
+            metric: round(sum(float(row[metric]) for row in rows) / len(rows), 12)
             for metric in (
                 "recall_at_5",
                 "recall_at_10",
@@ -127,20 +127,21 @@ def evaluate(output_dir: Path = DEFAULT_OUTPUT) -> dict[str, Any]:
     answers = [row for row in query_rows if row["action"] == "answer"]
     system_summary = {
         "queries": len(query_rows),
-        "decision_accuracy": sum(row["answer_correct"] for row in query_rows)
-        / len(query_rows),
-        "coverage": len(answers) / len(query_rows),
+        "decision_accuracy": round(
+            sum(row["answer_correct"] for row in query_rows) / len(query_rows), 12
+        ),
+        "coverage": round(len(answers) / len(query_rows), 12),
         "selective_accuracy": (
-            sum(row["answer_correct"] for row in answers) / len(answers)
+            round(sum(row["answer_correct"] for row in answers) / len(answers), 12)
             if answers
             else 0.0
         ),
-        "corrective_retrieval_rate": sum(
-            row["corrective_retrieval"] for row in query_rows
-        )
-        / len(query_rows),
-        "mean_confidence": sum(row["confidence"] for row in query_rows)
-        / len(query_rows),
+        "corrective_retrieval_rate": round(
+            sum(row["corrective_retrieval"] for row in query_rows) / len(query_rows), 12
+        ),
+        "mean_confidence": round(
+            sum(row["confidence"] for row in query_rows) / len(query_rows), 12
+        ),
     }
 
     _write_csv(output_dir / "retrieval_per_query.csv", retrieval_rows)
