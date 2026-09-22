@@ -22,7 +22,7 @@ PATTERNS = [
     ("free_cash_flow", r"自由现金流|free\s+cash\s*flow|\bfcf\b"),
     ("operating_margin", r"营业利润率|经营利润率|营业收益率|operating\s+(?:profit\s+)?margin"),
     ("net_margin", r"净利润率|净利率|net\s+(?:profit\s+|income\s+)?margin"),
-    ("rd_ratio", r"研发(?:费用|投入|支出)?(?:率|强度)|研发.{0,12}(?:占.{0,5}(?:收入|营收)|(?:收入|营收)(?:比|占比))|r&d\s+(?:intensity|ratio)|research\s+and\s+development.{0,25}(?:revenue|ratio|intensity)"),
+    ("rd_ratio", r"研发(?:费用|投入|支出)?(?:率|强度)|研发.{0,12}(?:占.{0,5}(?:收入|营收)|(?:收入|营收)(?:比|占比))|r&d\s+(?:intensity|ratio)|r&d\s+(?:as\s+)?(?:a\s+)?(?:percentage|percent|proportion|share)\s+of\s+(?:revenue|sales)|(?:percentage|percent|proportion|share)\s+of.{0,45}(?:revenue|sales).{0,35}(?:r&d|research\s+and\s+development)|research\s+and\s+development.{0,25}(?:revenue|ratio|intensity)"),
     ("cash_conversion", r"现金(?:转换|转化)率|cash\s+conversion(?!\s+cycle)(?:\s+(?:ratio|rate))?|经营现金流.{0,8}(?:除以|/|占).{0,5}净利润|ocf\s*/\s*net\s+income"),
     ("operating_cash_flow", r"经营(?:活动)?(?:产生的)?现金流(?:量)?(?:净额)?|operating\s+cash\s*flow|cash\s*flow\s+from\s+operations|\bocf\b"),
     ("capital_expenditure", r"资本(?:性)?支出|资本开支|\bcapex\b|capital\s+expenditure|pp&e"),
@@ -48,6 +48,8 @@ def plan_question(question: str, ticker: str) -> dict[str, Any]:
     lower = question.lower()
     years = years_in(question)
     gaps: list[str] = []
+    other_cashflow_pattern = r"(?:投资|筹资|融资)(?:活动)?(?:产生的)?现金流|(?:investing|financing)\s+cash\s*flow|cash\s*flow\s+(?:from|used\s+in|provided\s+by)\s+(?:investing|financing)"
+    excluded_cashflow_spans = [match.span() for match in re.finditer(other_cashflow_pattern, lower)]
     scoped = [
         (r"股价|目标价|市盈率|市净率|估值|市值|买入价|卖出价|收益率|回报率|\bprice\b|valuation|market cap|\bp/e\b|\broe\b|\broa\b", "价格、估值或投资回报指标缺少同一时点的行情及估值输入。"),
         (r"资产负债|负债率|现金余额|净债务|总资产|存货|债券|每股|股息|分红|\beps\b|balance sheet|dividend|debt ratio|inventory", "资产负债表、每股或分配指标尚无受验证的标签映射。"),
@@ -57,6 +59,7 @@ def plan_question(question: str, ticker: str) -> dict[str, Any]:
         (r"\bq[1-4]\b|季度|季报|quarter|月度|monthly|\bttm\b|滚动十二|过去十二个月|过去12个月", "只支持年度 10-K 指标，季度、月度或 TTM 期间不在证据范围内。"),
         (r"明年|未来.*(?:收入|营收|利润)|预测|forecast|next year", "历史报表不能单独支持未来预测，本次不生成预测数值。"),
         (r"cagr|复合增长", "当前支持年度值和两个明确端点之间的变化，不生成未验证的复合增长率。"),
+        (other_cashflow_pattern, "投资或筹资现金流尚未建立受验证的指标映射；不会用经营现金流替代。"),
     ]
     for pattern, message in scoped:
         if re.search(pattern, lower):
@@ -80,7 +83,7 @@ def plan_question(question: str, ticker: str) -> dict[str, Any]:
             occupied.append(match.span())
             matches.append((match.start(), match.end(), metric))
     for generic_cash in re.finditer(r"现金流|cash\s*flow", lower):
-        if not any(generic_cash.start() < b and generic_cash.end() > a for a, b, _ in matches):
+        if not any(generic_cash.start() < b and generic_cash.end() > a for a, b, _ in matches) and not any(generic_cash.start() < b and generic_cash.end() > a for a, b in excluded_cashflow_spans):
             matches.append((*generic_cash.span(), "operating_cash_flow"))
     if (re.search(r"盈利能力|盈利质量|profitability", lower) or ("盈利" in lower and re.search(r"分析|研究|评估|概览", lower))) and not any(metric in {"operating_income", "net_income", "operating_margin", "net_margin"} for _, _, metric in matches):
         profitability = re.search(r"盈利|profitability", lower)
@@ -130,7 +133,7 @@ def plan_question(question: str, ticker: str) -> dict[str, Any]:
         # another year, e.g. FY2023 revenue; FY2024 operating cash flow.
         is_ratio = metric in DERIVED and DERIVED[metric]["unit"] == "%"
         explicit_pct = bool(re.search(r"同比|增速|增长率|增长百分比|变化率|增幅|yoy|year.over.year|growth\s+rate|percent\s+(?:growth|change)|percentage\s+(?:growth|change)", operation_clause))
-        explicit_amount = bool(re.search(r"增长额|增加额|增量|变化额|增长金额|增加金额|绝对|(?:少|低|多|高).{0,2}多少|多少(?:亿|万|美?元|美元)|absolute|dollar\s+(?:growth|change)|change\s+in\s+dollars", operation_clause))
+        explicit_amount = bool(re.search(r"增长额|增加额|增量|变化额|增长金额|增加金额|绝对|(?:少|低|多|高).{0,2}多少|多少(?:亿|万|美?元|美元)|absolute|how\s+many\s+(?:us\s+)?dollars?|dollar\s+(?:growth|change|increase|decrease)|change\s+in\s+dollars", operation_clause))
         change = bool(re.search(operation_pattern, operation_clause))
         pp = bool(re.search(r"百分点|percentage\s+points?|\bpp\b", operation_clause))
         operations: list[str] = []

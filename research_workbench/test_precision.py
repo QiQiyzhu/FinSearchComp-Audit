@@ -30,6 +30,34 @@ class DirectAnswerPrecisionTests(unittest.TestCase):
         self.assertEqual(answer(report, "operating_cash_flow")["value"], "28090000000")
         self.assertEqual(report["coverage"]["missing_requested_metrics"], [])
 
+    def test_other_cashflow_categories_never_become_operating_cashflow(self):
+        for question in ["MSFT FY2024 financing cash flow", "MSFT FY2024 cash flow from investing activities", "微软FY2024筹资活动现金流是多少？"]:
+            report = run(question)
+            self.assertFalse(any(item["metric_id"] == "operating_cash_flow" for item in report["answers"]))
+            self.assertFalse(report["coverage"]["question_supported"])
+        mixed = run("MSFT FY2024 operating cash flow and financing cash flow")
+        self.assertEqual(answer(mixed, "operating_cash_flow")["answerability"], "answered")
+        self.assertTrue(any(item["answerability"] == "unsupported" for item in mixed["answers"]))
+
+    def test_english_rd_percentage_requests_compile_to_ratio(self):
+        for question in ["MSFT FY2024 R&D as a percentage of revenue", "What percentage of Microsoft's FY2024 revenue was spent on R&D?"]:
+            report = run(question)
+            self.assertEqual(report["plan"]["requested_metrics"], ["rd_ratio"])
+            self.assertEqual(answer(report, "rd_ratio")["value"], "12.04")
+        # Post-evaluation regression: this wording is now a disclosed case.
+        apple = run("What percentage of Apple's FY2024 revenue was spent on R&D?", "AAPL")
+        self.assertEqual(apple["plan"]["requested_metrics"], ["rd_ratio"])
+        self.assertEqual(answer(apple, "rd_ratio")["value"], "8.02")
+
+    def test_how_many_dollars_requests_absolute_growth(self):
+        # Post-evaluation grammar repair, intentionally not held-out evidence.
+        for ticker, company, delta in [("MSFT", "Microsoft", "33207000000"), ("AAPL", "Apple", "7750000000")]:
+            report = run(f"How many dollars did {company}'s revenue increase from FY2023 to FY2024?", ticker)
+            result = answer(report, "revenue", "growth_amount")
+            self.assertEqual(result["value"], delta)
+            self.assertEqual(result["unit"], "USD")
+            self.assertEqual(result["answerability"], "answered")
+
     def test_multi_intent_keeps_missing_fcf_and_valid_ocf_independent(self):
         report = run("NVIDIA FY2024 经营现金流和自由现金流分别是多少？", "NVDA")
         self.assertEqual(answer(report, "operating_cash_flow")["answerability"], "answered")

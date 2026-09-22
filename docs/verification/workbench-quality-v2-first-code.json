@@ -1,0 +1,26 @@
+{
+  "suite": "workbench-financial-quality-v1",
+  "checked_at": "2026-09-22T13:00:25+00:00",
+  "receipt_sha256": "c64b3b9679c6a57aeca336a94e59a7103a34e61f2f7e1ad3ddb7b95796b12ed4",
+  "current_implementation_sha256": "00f6103edbbb10c28513c43c80fb48706e9465d366adc58255f6954797ef1c32",
+  "files": {
+    "__init__.py": "e3d602a5e0461a2f2f6860126efd1ced47083ea1931fb2786f2c9d72fc05026f",
+    "__main__.py": "deb4c8115054f08a200aecefef2ca19a2633fbea1d1fa5886a3018579193d341",
+    "answers.py": "b382ba63a4441187fe81d69e2707a47e3e39a233552f2b112654f38c46710816",
+    "api.py": "bba4476528212ce45182e91259cac76a9df426cc3b334f662ada85d314b7e984",
+    "capture_demo.py": "e17723ab53e359787705a3e299aff39b6e3afed32e64956921fe998c86914188",
+    "config.py": "1b90f4408c290d2983eddd0724de3e561f2be29d74b7de51d563ec8c16ecab60",
+    "engine.py": "5c73551c61e57ff7c4af8dc570cba55d1479e85c34a1d7c88abccdad3d8f5094",
+    "generate_demo.py": "3562a3e09f804f44bca1b0b7deaca580ad421fb498cf37645d95078ffdddfbb8",
+    "pipeline.py": "ea9c57b9ff65ce5fb8c6bf84d2f64bf7188b47445a2fe77f611af153ecc9f9af",
+    "planning.py": "3729c267bbe593c3634f151a14ac6e3d1c8712581a1b37088d41c7b6c71f1b41",
+    "sources.py": "268887214cba0f88aa45c9c676ec0261b7fffdbe5a03922f80207aa6bb2367e7",
+    "store.py": "cab61f96d4d25ccd0e69717fb4bbeabc3665e17fabf5bb5d7045c9092e7e9a15",
+    "test_precision.py": "8ed2b2b7345245a125998c4553a50a346d55c82693b658fbfd6c9713f1112505",
+    "test_workbench.py": "7746b5d6019fa449aac927b2f64180742c015fcb3c5e7062e669b837cc63052a",
+    "test_workflows.py": "2d48151edec0a23fac0160ea7e79c2aeb830ec0c884ff1770d25390d27ef7eae",
+    "workflows.py": "9eafddee56b87288e13eebb6c28a3ddf63ecf2e652a41ae0f78a74352a966444"
+  },
+  "evaluator_sha256_at_supplement": "cd421887e4369fef2fc26015c17b94dbac28f78d8b89daf8acf7892f7c114670",
+  "evaluator_note": "Supplement records evaluator after additive CI metadata/regression-gate changes; scoring logic unchanged from first attempt."
+}

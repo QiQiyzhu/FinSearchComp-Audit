@@ -5,7 +5,7 @@
   const ALL_MODES = ['demo', 'snapshot', 'live'];
   const MODE_NAMES = {demo: '历史案例回放', snapshot: 'AI 研读 · 历史证据', live: '实时研究'};
   const COMPANY_NAMES = {MSFT: '微软', AAPL: '苹果', NVDA: '英伟达'};
-  const METRIC_NAMES = {revenue:'营业收入',operating_income:'营业利润',operating_cash_flow:'经营现金流',capital_expenditure:'PP&E 现金资本支出',free_cash_flow:'自由现金流',net_income:'净利润',operating_margin:'营业利润率',research_and_development:'研发费用'};
+  const METRIC_NAMES = {revenue:'营业收入',operating_income:'营业利润',operating_cash_flow:'经营现金流',capital_expenditure:'PP&E 现金资本支出',free_cash_flow:'自由现金流',net_income:'净利润',operating_margin:'营业利润率',net_margin:'净利润率',rd_ratio:'研发费用率',cash_conversion:'现金转换率',research_and_development:'研发费用'};
   const ICONS = {
     check: '<svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg>',
     doc: '<svg viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5zM14 3v5h5M8 12h8M8 16h6"/></svg>',
@@ -21,7 +21,8 @@
     config: null, reports: [], examples: [], report: null, activeTab: 'overview',
     history: parseJSON(readStorage(localStorage, 'finagent.history.v1', '[]'), []),
     generation: 0, loading: false, job: null, toastTimer: null, sourceTrigger: null,
-    activeRunId: null, activeRunBackend: null, linkedRunId: new URLSearchParams(location.search).get('run')
+    activeRunId: null, activeRunBackend: null, linkedRunId: new URLSearchParams(location.search).get('run'),
+    workflow: 'single', quality: null, qualityLoading: false
   };
   if (!Array.isArray(state.history)) state.history = [];
   const esc = (value) => String(value == null ? '' : value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
@@ -34,7 +35,12 @@
   const sourceIds = (item) => list(item.evidence_ids || item.source_ids).map(String);
   const evidenceFor = (id) => list(state.report?.evidence).find(item => String(item.id) === String(id));
   const citations = (item) => sourceIds(item).map(id => `<button class="citation" data-evidence="${esc(id)}" title="查看证据 ${esc(id)}" aria-label="查看证据 ${esc(id)}">${esc(id)}</button>`).join('');
-  const citedText = (value) => esc(textValue(value)).replace(/\[([A-Za-z]\d{1,5})\]/g, (match,id) => evidenceFor(id) ? `<button class="citation" data-evidence="${id}" title="查看证据 ${id}" aria-label="查看证据 ${id}">${id}</button>` : match);
+  const citedText = (value) => esc(textValue(value)).replace(/\[([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\]/g, (match,id) => evidenceFor(id) ? `<button class="citation" data-evidence="${id}" title="查看证据 ${id}" aria-label="查看证据 ${id}">${id}</button>` : match);
+  const isComparison = report => report?.report_type === 'comparison';
+  const isComparisonExample = example => !!example?.compare_with;
+  const matchesExample = (report, example) => report && example && report.question === example.question && report.as_of === example.as_of && (isComparison(report) ? list(report.comparison?.tickers)[0] === example.ticker && list(report.comparison?.tickers)[1] === example.compare_with : !example.compare_with && report.ticker === example.ticker);
+  const exampleForReport = report => state.examples.find(example => matchesExample(report, example));
+  const modeLabel = report => report?.mode === 'demo' && !report.static_replay ? '历史数据计算 · 未调用模型' : MODE_NAMES[report?.mode] || report?.mode || '研究报告';
   const apiURL = (path, base = state.backend) => `${base.replace(/\/$/, '')}${path}`;
   const localToday = () => { const now = new Date(); return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`; };
 
@@ -73,6 +79,7 @@
     const number = num(value);
     if (!Number.isFinite(number)) return value == null ? '—' : String(value);
     const unitLower = String(unit).toLowerCase();
+    if (unitLower === 'percentage_points') return `${number > 0 ? '+' : ''}${number.toFixed(2)} 个百分点`;
     if (unitLower.includes('percent') || unit === '%' || unitLower === 'pct') return `${number.toFixed(2).replace(/\.00$/, '')}%`;
     if (unitLower === 'usd') {
       const abs = Math.abs(number);
@@ -94,16 +101,45 @@
   }
 
   function renderExamples() {
-    $('example-buttons').innerHTML = state.examples.map((example, index) => `<button type="button" class="example-chip ${state.report?.ticker === example.ticker ? 'current' : ''}" data-example="${index}" title="${esc(example.question)}">${esc(COMPANY_NAMES[example.ticker] || example.ticker)}<span>·</span>${esc(example.short_title || {MSFT:'AI 投入与现金流',AAPL:'收入与盈利质量',NVDA:'高增长与证据缺口'}[example.ticker] || example.title || '财报研究')}<span>↗</span></button>`).join('');
+    const filtered = state.examples.map((example,index) => ({example,index})).filter(({example}) => isComparisonExample(example) === (state.workflow === 'compare'));
+    $('example-buttons').innerHTML = filtered.map(({example,index}) => `<button type="button" class="example-chip ${matchesExample(state.report,example) ? 'current' : ''}" data-example="${index}" title="${esc(example.question)}">${esc(isComparisonExample(example) ? `${example.ticker} × ${example.compare_with}` : COMPANY_NAMES[example.ticker] || example.ticker)}<span>·</span>${esc(example.short_title || (isComparisonExample(example) ? '财务口径对照' : {MSFT:'AI 投入与现金流',AAPL:'收入与盈利质量',NVDA:'高增长与证据缺口'}[example.ticker]) || example.title || '财报研究')}<span>↗</span></button>`).join('') || '<span class="subtle-text">连接后端可提交新的研究问题</span>';
   }
   function applyExample(example, announce = false) {
     if (!example) return;
-    $('ticker').value = example.ticker;
+    const compareTickers = list(example.comparison?.tickers);
+    const compareWith = example.compare_with || compareTickers[1];
+    setWorkflow(compareWith ? 'compare' : 'single');
+    $('ticker').value = compareTickers[0] || example.ticker;
+    if (compareWith) $('compare-with').value = compareWith;
     $('question').value = example.question;
     $('as-of').value = example.as_of || '2024-11-01';
     if (state.mode === 'live') setMode('demo', false);
     hideError();
     if (announce) toast('已填入研究案例，点击「运行研究」查看报告。');
+  }
+  function setWorkflow(workflow, options = {}) {
+    if (!['single','compare','quality'].includes(workflow)) return;
+    state.workflow = workflow;
+    document.querySelectorAll('[data-workflow]').forEach(button => {
+      const active = button.dataset.workflow === workflow;
+      button.classList.toggle('active',active); button.setAttribute('aria-selected',String(active)); button.tabIndex = active ? 0 : -1;
+      if (active && options.focus) button.focus();
+    });
+    $('research-workflow').hidden = workflow === 'quality';
+    $('quality-workflow').hidden = workflow !== 'quality';
+    $('research-workflow').setAttribute('aria-labelledby',workflow === 'compare' ? 'workflow-compare' : 'workflow-single');
+    $('compare-field').hidden = workflow !== 'compare';
+    $('composer-heading').lastChild.textContent = workflow === 'compare' ? '比较哪些财务问题？' : '你想核验什么？';
+    if (workflow === 'quality') { loadQuality(); return; }
+    renderExamples();
+    if (options.seed) {
+      const example = state.examples.find(item => isComparisonExample(item) === (workflow === 'compare') && (workflow === 'compare' || item.ticker === $('ticker').value)) || state.examples.find(item => isComparisonExample(item) === (workflow === 'compare'));
+      if (example) {
+        applyExample(example);
+        const report = state.reports.find(item => matchesExample(item,example));
+        if (report && state.mode === 'demo') renderReport(report);
+      }
+    }
   }
   function setMode(mode, adjustDate = true) {
     state.mode = mode;
@@ -112,7 +148,7 @@
     $('mode-hint').innerHTML = mode === 'demo' ? `${ICONS.shield}${labels.demo}` : `${ICONS.shield}${labels[mode]}`;
     if (adjustDate) $('as-of').value = mode === 'live' ? localToday() : (state.examples.find(item => item.ticker === $('ticker').value)?.as_of || '2024-11-01');
     const messages = {
-      demo: '<strong>真实数据，历史回放。</strong>案例使用已保存的 SEC 官方披露；不代表最新行情。接入后端即可运行新的研究。',
+      demo: state.config ? '<strong>历史披露，确定性计算。</strong>预设案例直接回放；新的财务问题提交到后端，在冻结的 SEC 样本内计算，不调用模型。' : '<strong>真实数据，历史回放。</strong>案例使用已保存的 SEC 官方披露；不代表最新行情。接入后端即可运行新的研究。',
       snapshot: '<strong>历史证据，真实 AI 研读。</strong>使用已审计的财报快照，实际调用服务端 DeepSeek。信息范围保持在案例截止日。',
       live: '<strong>实时检索，按日期核验。</strong>后端获取 SEC 公开披露，并在已配置时调用 DeepSeek。财报研究不包含实时股价。'
     };
@@ -125,11 +161,97 @@
     $('status-dot').classList.toggle('connected', !!config);
     $('connection-label').textContent = config ? '研究引擎已连接' : '历史案例模式';
     $('connection-status').title = config ? `后端 ${state.backend || location.origin} · ${config.version || 'FinAgent'}` : '连接后端以运行新的研究';
+    $('mode-demo').textContent = config ? '历史计算' : '历史案例';
     if (config?.tickers?.length) {
-      const selected = $('ticker').value;
-      $('ticker').innerHTML = config.tickers.map(item => `<option value="${esc(item.ticker)}">${esc(item.ticker)} · ${esc(COMPANY_NAMES[item.ticker] || item.name)}</option>`).join('');
-      if ([...$('ticker').options].some(option => option.value === selected)) $('ticker').value = selected;
+      ['ticker','compare-with'].forEach(id => {
+        const selected = $(id).value;
+        $(id).innerHTML = config.tickers.map(item => `<option value="${esc(item.ticker)}">${esc(item.ticker)} · ${esc(COMPANY_NAMES[item.ticker] || item.name)}</option>`).join('');
+        if ([...$(id).options].some(option => option.value === selected)) $(id).value = selected;
+      });
     }
+    if (state.mode === 'demo') setMode('demo',false);
+  }
+
+  function ratioLabel(value) { const number = num(value); return Number.isFinite(number) ? `${(number*100).toFixed(1).replace(/\.0$/,'')}%` : '—'; }
+  function countLabel(value) { return Number.isFinite(num(value)) ? String(value) : '—'; }
+  async function loadQuality() {
+    if (state.quality || state.qualityLoading) return;
+    state.qualityLoading = true; $('quality-loading').hidden = false; $('quality-error').hidden = true;
+    try {
+      const quality = await fetchJSON('data/quality_summary.json',{absolute:true,token:'',timeout:12000});
+      if (!quality.current?.overall || !quality.baseline?.overall) throw new Error('质量评价文件未包含预期的版本对照结果。');
+      state.quality = quality;
+      const overall = quality.current.overall;
+      const detailsLink = safeURL(quality.details_url) || $('quality-details-link').href;
+      const firstFailures = num(overall.cases)-num(overall.fulfilled);
+      const regression = quality.post_eval_regression;
+      const regressionNote = regression ? `修复后回归为 ${countLabel(regression.fulfilled)} / ${countLabel(regression.cases)}；${regression.detail || '回归结果应结合其问题集与方法阅读'}。` : '修复后的结果另列，不替换首次评测成绩。';
+      $('evaluation-context').innerHTML = `<p class="evaluation-first-pass"><strong>v2 首评成绩 · ${esc(countLabel(overall.fulfilled))} / ${esc(countLabel(overall.cases))}</strong><br>保留 ${esc(countLabel(firstFailures))} 道失败。${esc(regressionNote)}<a href="${esc(detailsLink)}" target="_blank" rel="noopener noreferrer">查看首评与修复记录 ↗</a></p><p><strong>评价范围：</strong>${esc(countLabel(overall.cases))} 个独立问题。${esc(quality.scope || '以评价文件记录为准')}<br><strong>评价方法：</strong>冻结问题集与样本，模型调用 ${esc(countLabel(quality.model_calls))} 次。下列分数只描述这组问题的结果。</p>`;
+      const cards = [
+        {label:'完整问题满足',value:`${countLabel(overall.fulfilled)} / ${countLabel(overall.cases)}`,note:`满足率 ${ratioLabel(overall.fulfilled_rate)} · 所有请求都正确完成才计入`},
+        {label:'请求数值正确',value:`${countLabel(overall.correct_requested_values)} / ${countLabel(overall.requested_values)}`,note:`数值正确率 ${ratioLabel(overall.numeric_accuracy)} · 检查明确请求的数值`},
+        {label:'正确保留判断',value:`${countLabel(overall.correct_abstentions)} / ${countLabel(overall.abstain_cases)}`,note:'在应拒答的问题中，正确识别证据边界'},
+        {label:'有证据却错误拒答',value:countLabel(overall.false_refusals),note:`在 ${countLabel(overall.answerable_cases)} 个可回答问题中检查`}
+      ];
+      $('evaluation-metrics').innerHTML = cards.map(card => `<article class="evaluation-metric"><h3>${esc(card.label)}</h3><strong>${esc(card.value)}</strong><p>${esc(card.note)}</p></article>`).join('');
+      $('evaluation-table-body').innerHTML = [['overall','整体问题集'],['development','开发问题集'],['heldout','留出问题集']].map(([key,label]) => {
+        const baseline = quality.baseline[key] || {}, current = quality.current[key] || {};
+        const delta = Number.isFinite(num(current.fulfilled_rate)) && Number.isFinite(num(baseline.fulfilled_rate)) ? (num(current.fulfilled_rate)-num(baseline.fulfilled_rate))*100 : NaN;
+        return `<tr><td>${label}<small>${esc(countLabel(current.cases))} 个问题</small></td><td><strong>${esc(ratioLabel(baseline.fulfilled_rate))}</strong><small>${esc(countLabel(baseline.fulfilled))} / ${esc(countLabel(baseline.cases))} 完整满足</small></td><td><strong>${esc(ratioLabel(current.fulfilled_rate))}</strong><small>${esc(countLabel(current.fulfilled))} / ${esc(countLabel(current.cases))} 完整满足</small></td><td><span class="evaluation-delta ${delta<0?'negative':''}">${Number.isFinite(delta) ? `${delta>0?'+':''}${delta.toFixed(1).replace(/\.0$/,'')} 个百分点` : '不适用'}</span></td></tr>`;
+      }).join('');
+      fillList('evaluation-limitations',quality.limitations,'本评价仅覆盖文件中列明的问题集，不代表所有金融研究任务。');
+      const failures = list(quality.first_failures || quality.failures || quality.current.failures);
+      if (failures.length) $('evaluation-limitations').innerHTML = `<li class="evaluation-failure-label">首评保留的失败记录</li>${failures.map(item => `<li>${esc(item.question || item.prompt || item.label || item.case_id || textValue(item))}${item.reason || item.detail ? `：${esc(item.reason || item.detail)}` : ''}</li>`).join('')}${$('evaluation-limitations').innerHTML}`;
+      $('evaluation-provenance').innerHTML = `<div><dt>评价套件</dt><dd>${esc(quality.suite)}</dd></div><div><dt>评价时间</dt><dd>${esc(String(quality.checked_at || '').replace('T',' '))}</dd></div><div><dt>版本</dt><dd>v1 ${esc(String(quality.baseline.revision).slice(0,7))} → v2 首评<details class="evaluation-record-details"><summary>完整版本与指纹</summary><code>基线：${esc(quality.baseline.revision)}<br>首评：${esc(quality.current.revision)}<br>实现 SHA-256：${esc(quality.current.implementation_sha256 || '未提供')}</code></details></dd></div><div><dt>问题集 SHA-256</dt><dd><code>${esc(quality.dataset_sha256 || '未提供')}</code></dd></div>`;
+      if (regression) $('evaluation-provenance').innerHTML += `<div><dt>修复后回归记录</dt><dd>${esc(countLabel(regression.fulfilled))} / ${esc(countLabel(regression.cases))} 个问题完整满足；${esc(countLabel(regression.correct_requested_values))} / ${esc(countLabel(regression.requested_values))} 个请求数值正确。<br>${esc(String(regression.checked_at || '').replace('T',' '))}${safeURL(regression.receipt_url) ? `<br><a class="text-button" href="${esc(safeURL(regression.receipt_url))}" target="_blank" rel="noopener noreferrer">查看回归结果记录 ↗</a>` : ''}</dd></div>`;
+      if (safeURL(quality.details_url)) $('quality-details-link').href = safeURL(quality.details_url);
+      $('quality-content').hidden = false;
+    } catch (error) {
+      $('quality-error').textContent = `尚未读取到可核验的质量评价：${error.message}。这里不会用引用覆盖率或单元测试通过数代替回答质量。`;
+      $('quality-error').hidden = false;
+    } finally { state.qualityLoading = false; $('quality-loading').hidden = true; }
+  }
+
+  function renderAnswers(report) {
+    const answers = list(report.answers);
+    $('answers-card').hidden = !answers.length;
+    $('synthesis-details').open = !answers.length;
+    const answered = answers.filter(answer => answer.answerability === 'answered').length;
+    $('answer-coverage').textContent = `${answered} / ${answers.length} 项已回答`;
+    const operationNames = {value:'财年值',growth_pct:'同比变化',growth_amount:'同比增量',change_pp:'变化 · 百分点',unsupported:'超出证据范围'};
+    const latestYear = Math.max(...answers.map(answer => num(answer.fiscal_year)).filter(Number.isFinite));
+    const priority = answer => answer.answerability !== 'answered' ? 0 : answer.operation === 'value' && num(answer.fiscal_year) === latestYear ? 1 : answer.operation !== 'value' ? 2 : 3;
+    const orderedAnswers = [...answers].sort((left,right) => priority(left)-priority(right));
+    const rows = orderedAnswers.map((answer,index) => {
+      const complete = answer.answerability === 'answered';
+      const period = answer.fiscal_year ? `FY${answer.fiscal_year}${answer.comparison_fiscal_year ? ` / FY${answer.comparison_fiscal_year}` : ''}` : answer.period_end ? dateOnly(answer.period_end) : '';
+      const label = answer.label || METRIC_NAMES[answer.metric_id] || answer.metric_id || `子问题 ${index+1}`;
+      return `<article class="answer-item ${complete ? 'answered' : 'unanswered'}" data-answerability="${esc(answer.answerability)}"><div class="answer-item-head"><div><h4 class="answer-title">${esc(label)}</h4><p class="answer-period">${esc(period)}${period ? ' · ' : ''}${esc(operationNames[answer.operation] || answer.operation || '财务核验')}</p></div><div class="answer-result">${complete ? `<strong class="answer-value">${esc(answer.display_value || formatNumeric(answer.value,answer.unit))}</strong>` : `<span class="answer-status">${answer.answerability === 'missing_evidence' ? '缺少证据' : '超出当前范围'}</span>`}</div></div>${!complete ? `<p class="answer-text">${esc(answer.reason || answer.text || '现有证据不足以回答此子问题。')}</p>` : ''}<div class="answer-evidence-line">${answer.period_start || answer.period_end ? `<span>${esc(fiscalPeriod(answer))}</span>` : ''}${citations(answer)}</div>${answer.formula ? `<details class="answer-formula"><summary>计算口径与公式</summary><p>${esc(answer.formula)}${answer.comparison_period_end ? `<br>对照期间：${esc(answer.comparison_period_start || '')} — ${esc(answer.comparison_period_end)}` : ''}</p></details>` : ''}</article>`;
+    });
+    $('direct-answers').innerHTML = rows.slice(0,6).join('') + (rows.length > 6 ? `<details class="more-answers"><summary>展开其余 ${rows.length-6} 项回答</summary><div>${rows.slice(6).join('')}</div></details>` : '');
+  }
+
+  function renderComparison(report) {
+    const comparison = report.comparison || {};
+    const enabled = isComparison(report);
+    $('comparison-card').hidden = !enabled;
+    $('chart-card').hidden = enabled;
+    $('metrics-grid').closest('.metrics-section').hidden = enabled || !list(report.metrics).length;
+    if (!enabled) return;
+    const tickers = list(comparison.tickers);
+    $('comparison-pair').textContent = tickers.join(' × ');
+    $('comparison-policy').textContent = comparison.period_policy || '分别保留两家公司的财年期间；期间不一致时，表中数据仅作背景对照。';
+    $('comparison-table-head').innerHTML = `<tr><th>财务指标</th><th>${esc(tickers[0] || '公司一')}<small>原始期间与证据</small></th><th>${esc(tickers[1] || '公司二')}<small>原始期间与证据</small></th><th>可比性 / 差异</th></tr>`;
+    const cell = item => item ? `<strong class="comparison-cell-value">${esc(item.display_value || formatNumeric(item.value, item.unit))}</strong><span class="comparison-cell-period">${esc(fiscalPeriod(item))}</span>${citations(item)}` : '<span class="comparison-cell-status">证据缺失</span>';
+    $('comparison-table-body').innerHTML = list(comparison.rows).map(row => `<tr><td>${esc(row.label || METRIC_NAMES[row.metric_id] || row.metric_id)}<small class="comparison-cell-period">${esc(row.unit || '')}</small></td><td>${cell(row.left)}</td><td>${cell(row.right)}</td><td><span class="comparison-cell-status ${row.comparable ? 'comparable' : ''}">${row.comparable ? '同口径可比' : '限制直接比较'}</span>${row.difference && row.comparable ? `<span class="comparison-cell-value">${esc(row.difference.display_value || formatNumeric(row.difference.value,row.difference.unit))}</span><p class="comparison-row-note">${esc(row.difference.formula || '')}${citations(row.difference)}</p>` : ''}<p class="comparison-row-note">${esc(row.note || '')}</p></td></tr>`).join('');
+  }
+
+  function renderFindings(report) {
+    const strengths = list(report.strengths);
+    $('strengths-card').hidden = !strengths.length;
+    $('strengths-list').innerHTML = strengths.map(item => `<div class="finding-row"><span>✓</span><div>${citedText(textValue(item))}${typeof item === 'object' ? citations(item) : ''}</div></div>`).join('');
+    const risks = list(report.risk_findings);
+    if (risks.length) $('risks-list').innerHTML = risks.map(item => `<li>${citedText(textValue(item))}${typeof item === 'object' ? citations(item) : ''}</li>`).join('');
   }
 
   function renderMetrics(report) {
@@ -139,7 +261,7 @@
     if (topMetrics.length < 4) topMetrics.push(...metrics.filter(metric => !topMetrics.includes(metric)).slice(0,4-topMetrics.length));
     $('metrics-grid').innerHTML = topMetrics.map(metric => {
       const display = displayMetric(metric);
-      const ids = sourceIds(metric);
+      const ids = list(metric.value_evidence_ids).length ? list(metric.value_evidence_ids) : sourceIds(metric);
       const period = metric.period_end ? `截至 ${dateOnly(metric.period_end)}` : metric.period || '报告期间';
       return `<article class="metric-card"><div class="metric-top"><span class="metric-label" title="${esc(metric.label)}">${esc(metric.label || metric.name || metric.id)}</span><span class="metric-info" title="${esc(metric.formula || fiscalPeriod(metric))}">${ICONS.info}</span></div><div class="metric-value ${String(display).length > 12 ? 'long' : ''}">${esc(display)}</div><div class="metric-bottom">${displayChange(metric.change_pct)}<span>${esc(period)}</span>${ids[0] ? `<button class="metric-source" data-evidence="${esc(ids[0])}" title="查看该指标的证据">${esc(ids[0])} ↗</button>` : '<span>无来源</span>'}</div></article>`;
     }).join('');
@@ -184,18 +306,19 @@
 
   function renderReport(report, options = {}) {
     state.report = report;
+    setWorkflow(isComparison(report) ? 'compare' : 'single');
     state.activeRunId = options.runId || null;
     state.activeRunBackend = options.backend ?? state.backend;
     const evidence = list(report.evidence), claims = list(report.claims), trace = list(report.trace), coverage = report.coverage || {}, verdict = report.verdict || {};
     $('initial-loading').hidden = true; $('report-area').hidden = false;
-    $('company-avatar').className = `company-avatar ${report.ticker === 'MSFT' ? 'msft' : ''}`;
-    $('company-avatar').innerHTML = report.ticker === 'MSFT' ? '<span></span><span></span><span></span><span></span>' : esc(report.ticker === 'AAPL' ? 'A' : report.ticker === 'NVDA' ? 'N' : String(report.ticker || 'F').slice(0, 1));
+    $('company-avatar').className = `company-avatar ${isComparison(report) ? 'comparison' : report.ticker === 'MSFT' ? 'msft' : ''}`;
+    $('company-avatar').innerHTML = isComparison(report) ? '⇄' : report.ticker === 'MSFT' ? '<span></span><span></span><span></span><span></span>' : esc(report.ticker === 'AAPL' ? 'A' : report.ticker === 'NVDA' ? 'N' : String(report.ticker || 'F').slice(0, 1));
     $('report-title').textContent = report.title ? report.title.replace(report.company || report.ticker, COMPANY_NAMES[report.ticker] || report.company || report.ticker) : `${COMPANY_NAMES[report.ticker] || report.company || report.ticker} · 财务研究简报`;
     $('report-ticker').textContent = report.ticker || '';
-    $('report-meta').textContent = `${MODE_NAMES[report.mode] || (report.data_mode === 'live' ? '实时研究' : '历史证据')} · 信息截止 ${dateOnly(report.as_of)} · ${report.company || report.ticker}`;
+    $('report-meta').textContent = `${modeLabel(report)} · 信息截止 ${dateOnly(report.as_of)} · ${report.company || report.ticker}`;
     $('report-question').textContent = `研究问题：${report.question || '未提供'}`;
     $('evidence-count').textContent = evidence.length; $('trace-count').textContent = trace.length;
-    $('report-audit').innerHTML = `${ICONS.shield} ${report.mode === 'demo' ? '历史案例 · 证据可追溯' : '按报告时间边界核验'}`;
+    $('report-audit').innerHTML = `${ICONS.shield} ${report.static_replay ? '历史案例 · 证据可追溯' : '按报告时间边界核验'}`;
     renderMetrics(report);
     $('verdict-badge').textContent = verdict.label || '研究性判断';
     $('verdict-badge').className = `verdict-badge ${['constructive','mixed','cautious','insufficient_evidence'].includes(verdict.stance) ? verdict.stance : 'mixed'}`;
@@ -204,11 +327,12 @@
     $('claims-list').innerHTML = claims.length ? `<details class="verified-facts"><summary>查看 ${claims.length} 条已核验事实 <span>原始披露与确定性计算</span></summary><div class="verified-facts-body">${claims.map(claim => `<div class="claim-row"><span class="claim-bullet">${claim.kind === 'derived' ? '≈' : '✓'}</span><div class="claim-text">${esc(claim.text)}${citations(claim)}</div></div>`).join('')}</div></details>` : '';
     $('confidence-label').innerHTML = `${ICONS.shield} ${verdict.stance === 'insufficient_evidence' ? '证据不足 · 保留判断' : '有条件的基本面判断'}`;
     const model = report.model || {};
-    $('model-label').textContent = model.used ? `${model.provider || 'AI'} · ${model.model || '模型已调用'}` : (report.mode === 'demo' ? '确定性历史回放 · 未调用模型' : `模型未使用 · ${model.status || '未配置'}`);
+    $('model-label').textContent = model.used ? `${model.provider || 'AI'} · ${model.model || '模型已调用'}` : (report.mode === 'demo' ? `${report.static_replay ? '确定性历史回放' : '历史样本计算'} · 未调用模型` : `模型未使用 · ${model.status || '未配置'}`);
     fillList('conditions-list', verdict.conditions, '当前证据尚不足以给出成立条件。');
     fillList('risks-list', report.risks, '报告未列出独立风险，请先核查证据边界。');
     fillList('limitations-list', report.limitations, '财报仅覆盖已披露期间，不能替代当前估值与市场数据。');
     fillList('next-steps-list', report.next_steps, '补充最新披露、估值与情景假设。');
+    renderAnswers(report); renderComparison(report); renderFindings(report);
     const cited = claims.filter(claim => sourceIds(claim).length > 0 && sourceIds(claim).every(id => evidence.some(item => String(item.id) === id))).length;
     const ratio = claims.length ? Math.round(cited / claims.length * 100) : null;
     $('coverage-score').textContent = ratio === null ? '—' : `${ratio}%`;
@@ -219,8 +343,9 @@
     const missing = list(coverage.missing_metrics);
     $('quality-missing').textContent = missing.length ? `${missing.length} 项 · ${missing.map(item => METRIC_NAMES[item] || textValue(item)).join('、')}` : '未记录缺失';
     $('source-preview-list').innerHTML = evidence.slice(0, 3).map(item => `<button class="source-preview" data-evidence="${esc(item.id)}"><span class="source-document-icon">${ICONS.doc}</span><span class="source-preview-info"><span class="source-preview-title">${esc(item.title)}</span><span class="source-preview-meta"><span>${esc(item.id)}</span><span>·</span><span>${esc(dateOnly(item.published_at))}</span></span></span><span class="arrow">↗</span></button>`).join('') || '<p class="empty-state">尚无原始证据</p>';
-    renderChart(report); renderEvidence(); renderTrace(report); renderExamples();
-    $('copy-report-link').disabled = !state.activeRunId && !state.examples.some(example => example.ticker === report.ticker && example.as_of === report.as_of && example.question === report.question && report.mode === 'demo');
+    if (!isComparison(report)) renderChart(report);
+    renderEvidence(); renderTrace(report); renderExamples();
+    $('copy-report-link').disabled = !state.activeRunId && !(exampleForReport(report) && report.mode === 'demo');
     if (options.save) saveHistory(report);
     if (options.scroll) $('report-area').scrollIntoView({behavior:'smooth', block:'start'});
     document.title = `${report.ticker} 研究简报 · FinAgent Research`;
@@ -238,7 +363,7 @@
   function renderTrace(report) {
     const steps = list(report.trace);
     const model = report.model || {};
-    $('trace-summary').innerHTML = `<div><small>运行方式</small><strong>${esc(MODE_NAMES[report.mode] || report.mode || '研究任务')}</strong></div><div><small>记录步骤</small><strong>${steps.length} 个可检查节点</strong></div><div><small>模型状态</small><strong>${esc(model.used ? `${model.provider || 'AI'} · 已调用` : `未调用 · ${model.status || '离线回放'}`)}</strong></div>${report.static_replay || report.timestamp_basis === 'data_capture' ? '<p class="trace-replay-note">静态回放 · 非运行时计时。离线样例步骤的时间为数据采集时刻，并非线上执行时间或耗时。</p>' : report.mode === 'demo' ? '<p class="trace-replay-note">演示模式通过确定性工作流生成报告，没有调用模型。</p>' : ''}`;
+    $('trace-summary').innerHTML = `<div><small>运行方式</small><strong>${esc(modeLabel(report))}</strong></div><div><small>记录步骤</small><strong>${steps.length} 个可检查节点</strong></div><div><small>模型状态</small><strong>${esc(model.used ? `${model.provider || 'AI'} · 已调用` : `未调用 · ${model.status || '离线回放'}`)}</strong></div>${report.static_replay || report.timestamp_basis === 'data_capture' ? '<p class="trace-replay-note">静态回放 · 非运行时计时。离线样例步骤的时间为数据采集时刻，并非线上执行时间或耗时。</p>' : report.mode === 'demo' ? '<p class="trace-replay-note">历史数据模式通过确定性工作流生成报告，没有调用模型。</p>' : ''}`;
     const statusLabels = {completed:'已完成',complete:'已完成',success:'已完成',passed:'已通过',failed:'失败',running:'执行中',skipped:'已跳过',warning:'有边界',pending:'等待中'};
     $('trace-timeline').innerHTML = steps.map((step,index) => `<li class="trace-step ${step.status === 'failed' ? 'failed' : ''}"><span class="trace-number">${['completed','complete','success','passed'].includes(step.status) ? ICONS.check : String(index+1).padStart(2,'0')}</span><div class="trace-step-head"><h4>${esc(step.label || step.step)}</h4><span>${esc(statusLabels[step.status] || step.status || '已记录')}</span>${step.timestamp ? `<time datetime="${esc(step.timestamp)}">${esc(String(step.timestamp).replace('T',' ').slice(0,19))}</time>` : ''}</div><p>${esc(textValue(step.detail || '此步骤没有附加说明。'))}</p></li>`).join('');
   }
@@ -256,7 +381,8 @@
     const item = evidenceFor(id);
     if (!item) { toast('此引用未在报告证据集中找到。'); return; }
     state.sourceTrigger = trigger;
-    const url = safeURL(item.url), metrics = list(state.report.metrics).filter(metric => sourceIds(metric).includes(String(item.id)));
+    const allMetrics = [...list(state.report.metrics), ...list(state.report.companies).flatMap(company => list(company.metrics))];
+    const url = safeURL(item.url), metrics = allMetrics.filter(metric => sourceIds(metric).includes(String(item.id)));
     $('source-dialog-content').innerHTML = `<h2>${esc(item.title)}</h2><span class="source-drawer-id">${esc(item.id)} · ${esc(item.source_type || '公开披露')}</span><dl class="source-facts"><div><dt>报告期间</dt><dd>${esc(fiscalPeriod(item))}</dd></div><div><dt>披露 / 申报日期</dt><dd>${esc(dateOnly(item.published_at))}</dd></div><div><dt>证据抓取时间</dt><dd>${esc(item.retrieved_at ? String(item.retrieved_at).replace('T',' ').slice(0,19) : '未提供')}</dd></div><div><dt>研究信息截止日</dt><dd>${esc(dateOnly(state.report.as_of))}</dd></div>${item.value !== undefined ? `<div><dt>记录值</dt><dd>${esc(formatNumeric(item.value,item.unit))}</dd></div>` : ''}${item.metric ? `<div><dt>指标标签</dt><dd>${esc(item.metric)}</dd></div>` : ''}</dl><h3>原始记录摘录</h3><div class="source-excerpt">${esc(item.excerpt || '此来源未附带摘录，请打开原文核查。')}</div>${metrics.length ? `<h3>用于以下指标</h3><div class="source-related">${metrics.map(metric => `<span>${esc(metric.label)} · ${esc(displayMetric(metric))}</span>`).join('')}</div>${metrics.filter(metric => metric.formula).map(metric => `<p class="field-help">${esc(metric.label)}：${esc(metric.formula)}</p>`).join('')}` : ''}${item.sha256 ? `<h3>记录指纹 · SHA-256</h3><div class="source-hash">${esc(item.sha256)}</div><p class="field-help">指纹用于核对保存的证据记录，并不等同于第三方真实性认证。</p>` : ''}${url ? `<a class="primary-button source-original" href="${esc(url)}" target="_blank" rel="noopener noreferrer">打开官方来源 <span>↗</span></a><p class="source-host">${esc(new URL(url).hostname)}</p>` : '<p class="field-help">此证据未提供有效的来源链接。</p>'}`;
     $('source-dialog').showModal();
   }
@@ -289,15 +415,17 @@
     if (state.loading) return;
     hideError();
     const request = {question:$('question').value.trim(),ticker:$('ticker').value,as_of:$('as-of').value,mode:state.mode};
+    if (state.workflow === 'compare') request.compare_with = $('compare-with').value;
     if (!request.question) { showError('请先填写研究问题。','还缺一个研究问题'); $('question').focus(); return; }
     if (!request.as_of || request.as_of > localToday()) { showError('信息截止日需要是今天或过去的日期。','请检查信息截止日'); $('as-of').focus(); return; }
+    if (request.compare_with === request.ticker) { showError('请选择两家不同的公司。','请检查对比公司'); $('compare-with').focus(); return; }
     if (state.mode === 'demo') {
-      const report = state.reports.find(item => item.ticker === request.ticker && dateOnly(item.as_of) === request.as_of && item.question?.trim() === request.question);
-      if (!report) {
-        showError('历史案例只回放已经核验的固定问题，不会为新问题生成答案。请点击上方预设案例，或切换「AI 研读 / 实时研究」并连接后端。','这个问题需要新的研究');
+      const report = state.reports.find(item => matchesExample(item,request));
+      if (report) { renderReport(report,{save:true,scroll:true}); showTab('overview'); toast('已载入真实 SEC 历史案例；没有调用模型。'); return; }
+      if (!state.config) {
+        showError('当前静态页面只回放已经核验的固定问题。请点击上方预设案例，或连接后端，在「历史计算」模式下提交新的财务问题。','这个问题需要新的研究');
         return;
       }
-      renderReport(report,{save:true,scroll:true}); showTab('overview'); toast('已载入真实 SEC 历史案例；没有调用模型。'); return;
     }
     if (!state.config) { showError('请先连接已部署的研究后端。历史案例仍可免配置体验。','尚未连接研究引擎'); openSettings(); return; }
     const modeConfig = state.config.modes?.[state.mode];
@@ -366,7 +494,7 @@
       url = new URL(state.activeRunBackend ? `${state.activeRunBackend.replace(/\/$/,'')}/` : location.href);
       url.search = ''; url.hash = ''; url.searchParams.set('run',state.activeRunId);
     } else {
-      const example = state.examples.find(item => item.ticker === state.report.ticker && item.as_of === state.report.as_of && item.question === state.report.question);
+      const example = exampleForReport(state.report);
       if (!example) { toast('此报告暂无共享编号，可导出完整报告。'); return; }
       url = new URL(location.href); url.search = ''; url.hash = ''; url.searchParams.set('example',example.id);
     }
@@ -409,8 +537,18 @@
 
   function markdownReport(report) {
     const verdict = report.verdict || {};
-    const lines = [`# ${report.title || report.ticker + ' 财务研究简报'}`, '', `- 公司：${report.company || report.ticker} (${report.ticker})`, `- 研究问题：${report.question}`, `- 信息截止日：${dateOnly(report.as_of)}`, `- 运行方式：${MODE_NAMES[report.mode] || report.mode}`, `- 生成时间：${report.generated_at || '未提供'}`, '', '## 研究摘要', '', textValue(report.summary), '', `**${verdict.label || '有条件的研究判断'}**`, '', textValue(verdict.rationale), '', '## 关键指标', '', '| 指标 | 数值 | 期间 | 计算方式 | 证据 |', '| --- | --- | --- | --- | --- |'];
+    const lines = [`# ${report.title || report.ticker + ' 财务研究简报'}`, '', `- 公司：${report.company || report.ticker} (${report.ticker})`, `- 研究问题：${report.question}`, `- 信息截止日：${dateOnly(report.as_of)}`, `- 运行方式：${modeLabel(report)}`, `- 生成时间：${report.generated_at || '未提供'}`, '', `**${verdict.label || '有条件的研究判断'}**`, '', textValue(verdict.rationale)];
     const mdCell = value => String(value ?? '').replace(/\|/g,'\\|').replace(/\n/g,' ');
+    if (list(report.answers).length) {
+      lines.push('', '## 对研究问题的回答', '', '| 子问题 | 财年 | 结果 | 状态 | 计算口径 / 边界 | 证据 |', '| --- | --- | --- | --- | --- | --- |');
+      report.answers.forEach(answer => lines.push(`| ${mdCell(answer.label || answer.metric_id)} | ${mdCell(answer.fiscal_year || answer.period_end)} | ${mdCell(answer.answerability === 'answered' ? answer.display_value || formatNumeric(answer.value,answer.unit) : '未回答')} | ${mdCell(answer.answerability)} | ${mdCell(answer.formula || answer.reason)} | ${sourceIds(answer).map(id => `[${id}]`).join(' ')} |`));
+    }
+    if (isComparison(report)) {
+      lines.push('', '## 两家公司对照', '', report.comparison.period_policy || '', '', '| 指标 | 公司一 / 期间 | 公司二 / 期间 | 可比性与备注 |', '| --- | --- | --- | --- |');
+      list(report.comparison.rows).forEach(row => lines.push(`| ${mdCell(row.label)} | ${mdCell(row.left ? `${row.left.ticker}: ${row.left.display_value} (${fiscalPeriod(row.left)}) [${sourceIds(row.left).join(', ')}]` : '证据缺失')} | ${mdCell(row.right ? `${row.right.ticker}: ${row.right.display_value} (${fiscalPeriod(row.right)}) [${sourceIds(row.right).join(', ')}]` : '证据缺失')} | ${mdCell(`${row.comparable ? '可比' : '限制直接比较'}；${row.note || ''}`)} |`));
+    }
+    lines.push('', '## 研究摘要', '', textValue(report.summary));
+    if (list(report.metrics).length) lines.push('', '## 关键指标', '', '| 指标 | 数值 | 期间 | 计算方式 | 证据 |', '| --- | --- | --- | --- | --- |');
     list(report.metrics).forEach(metric => lines.push(`| ${mdCell(metric.label)} | ${mdCell(displayMetric(metric))} | ${mdCell(fiscalPeriod(metric))} | ${mdCell(metric.formula || '原始披露')} | ${sourceIds(metric).map(id => `[${id}]`).join(' ')} |`));
     lines.push('', '## 可查证事实', '');
     list(report.claims).forEach(claim => lines.push(`- ${claim.text} ${sourceIds(claim).map(id => `[${id}]`).join(' ')}`));
@@ -427,15 +565,25 @@
     const report = state.report, content = format === 'json' ? JSON.stringify(report,null,2) : markdownReport(report);
     const blob = new Blob([format === 'md' ? '\uFEFF' : '',content],{type:format === 'json' ? 'application/json;charset=utf-8' : 'text/markdown;charset=utf-8'});
     const url = URL.createObjectURL(blob), anchor = document.createElement('a');
-    anchor.href = url; anchor.download = `FinAgent-${report.ticker}-${dateOnly(report.as_of)}.${format}`;
+    anchor.href = url; anchor.download = `FinAgent-${String(report.ticker).replace(/[^A-Za-z0-9_-]+/g,'-')}-${dateOnly(report.as_of)}.${format}`;
     document.body.appendChild(anchor); anchor.click(); anchor.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
     toast(format === 'json' ? '已导出完整 JSON，包括证据与运行记录。' : '已导出 Markdown 研究报告。');
   }
 
   function bindEvents() {
+    document.querySelectorAll('[data-workflow]').forEach(button => {
+      button.addEventListener('click',() => setWorkflow(button.dataset.workflow,{seed:true}));
+      button.addEventListener('keydown',event => {
+        const names = ['single','compare','quality']; let index = names.indexOf(button.dataset.workflow);
+        if (event.key === 'ArrowRight') index = (index+1)%3; else if (event.key === 'ArrowLeft') index = (index+2)%3; else if (event.key === 'Home') index = 0; else if (event.key === 'End') index = 2; else return;
+        event.preventDefault(); setWorkflow(names[index],{seed:true,focus:true});
+      });
+    });
+    ['nav-quality','open-quality'].forEach(id => $(id).addEventListener('click',() => setWorkflow('quality')));
+    document.querySelector('.main-nav .active').addEventListener('click',() => setWorkflow('single',{seed:true}));
     ALL_MODES.forEach(mode => $(`mode-${mode}`).addEventListener('click',() => setMode(mode)));
     $('research-form').addEventListener('submit',runResearch);
-    $('ticker').addEventListener('change',() => { if (state.mode === 'demo') applyExample(state.examples.find(item => item.ticker === $('ticker').value)); });
+    $('ticker').addEventListener('change',() => { if (state.mode === 'demo' && state.workflow === 'single') applyExample(state.examples.find(item => !isComparisonExample(item) && item.ticker === $('ticker').value)); });
     $('example-buttons').addEventListener('click',event => { const button = event.target.closest('[data-example]'); if (button) applyExample(state.examples[Number(button.dataset.example)],true); });
     document.addEventListener('click',event => { const button = event.target.closest('[data-evidence]'); if (button) openSource(button.dataset.evidence,button); });
     document.querySelectorAll('[data-tab]').forEach(button => {
@@ -446,8 +594,8 @@
         event.preventDefault(); showTab(names[index],true);
       });
     });
-    ['nav-evidence','all-evidence'].forEach(id => $(id).addEventListener('click',() => { showTab('evidence'); $('report-area').scrollIntoView({behavior:'smooth'}); }));
-    $('nav-trace').addEventListener('click',() => { showTab('trace'); $('report-area').scrollIntoView({behavior:'smooth'}); });
+    ['nav-evidence','all-evidence'].forEach(id => $(id).addEventListener('click',() => { setWorkflow(isComparison(state.report)?'compare':'single'); showTab('evidence'); $('report-area').scrollIntoView({behavior:'smooth'}); }));
+    $('nav-trace').addEventListener('click',() => { setWorkflow(isComparison(state.report)?'compare':'single'); showTab('trace'); $('report-area').scrollIntoView({behavior:'smooth'}); });
     $('evidence-search').addEventListener('input',renderEvidence);
     ['settings-button','sidebar-settings','connection-status','connect-inline'].forEach(id => $(id).addEventListener('click',openSettings));
     $('connection-form').addEventListener('submit',saveConnection);
@@ -483,6 +631,8 @@
       await restoreLinkedRun();
       return;
     }
+    const requestedView = new URLSearchParams(location.search).get('view');
+    if (requestedView === 'quality' && !state.reports.length) { $('initial-loading').hidden = true; setWorkflow('quality'); return; }
     if (!state.reports.length) {
       $('initial-loading').hidden = true;
       $('example-buttons').innerHTML = '<span class="subtle-text">历史案例暂时不可用</span>';
@@ -497,10 +647,12 @@
       showError('链接中的历史案例不存在。请选择上方已有案例再运行。','无法读取历史案例链接');
       return;
     }
-    const initial = requestedExample ? state.reports.find(report => report.ticker === requestedExample.ticker && report.as_of === requestedExample.as_of && report.question === requestedExample.question) : state.reports.find(report => report.ticker === 'MSFT') || state.reports[0];
+    const initial = requestedExample ? state.reports.find(report => matchesExample(report,requestedExample)) : state.reports.find(report => report.ticker === 'MSFT') || state.reports[0];
     if (!initial) { $('initial-loading').hidden = true; showError('此案例的报告文件缺失，请检查部署的数据文件。','历史案例暂不可用'); return; }
-    applyExample(state.examples.find(example => example.ticker === initial.ticker) || initial);
+    applyExample(exampleForReport(initial) || initial);
     renderReport(initial);
+    if (requestedView === 'quality') setWorkflow('quality');
+    else if (requestedView === 'compare') setWorkflow('compare',{seed:true});
   }
   init().catch(error => { $('initial-loading').hidden = true; showError(error.message,'工作台初始化失败'); });
 })();

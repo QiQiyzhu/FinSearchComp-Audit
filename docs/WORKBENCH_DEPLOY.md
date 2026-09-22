@@ -8,6 +8,8 @@
 
 GitHub Pages 只托管静态文件。它不保存模型密钥，也不运行 Python。使用真实模型和实时数据，需要下方的完整服务。工作台可以在连接设置中接入自己部署的服务；推荐直接访问服务提供的同源工作台。
 
+v2 提供公司研究、双公司对比与质量验证。在线静态站点可直接回放四个案例（包括 Microsoft × Apple）；连接完整服务后，`demo` 模式也能对快照覆盖范围内的新问题进行真实计算，不消耗模型额度。`snapshot` / `live` 按已配置的模式运行。
+
 ## 一键云端开发环境
 
 [在 GitHub Codespaces 启动](https://codespaces.new/QiQiyzhu/FinSearchComp-Audit?quickstart=1)。环境安装依赖后自动启动 8090 端口；默认保持端口私有。第一次访问即可运行离线案例。
@@ -76,12 +78,12 @@ SEC_USER_AGENT=FinAgentResearch/1.0 your-real-contact@example.com
 | `FINAGENT_DB_PATH` | SQLite 数据库路径；示例为 `build/workbench.sqlite3` |
 | `FINAGENT_CACHE_DIR` | SEC 响应缓存目录 |
 | `FINAGENT_MAX_WORKERS` / `FINAGENT_MAX_PENDING` | 工作线程与待处理任务容量 |
-| `FINAGENT_LIVE_REQUESTS_PER_HOUR` | 单来源 IP 的真实请求上限 |
-| `FINAGENT_LIVE_GLOBAL_PER_DAY` | 全局真实请求日上限；示例为 12 |
+| `FINAGENT_LIVE_REQUESTS_PER_HOUR` | 单来源 IP 每小时真实发行人分析额度；单公司消耗 1，公司对比消耗 2 |
+| `FINAGENT_LIVE_GLOBAL_PER_DAY` | 全局过去 24 小时发行人分析额度；示例为 12 |
 | `FINAGENT_HTTP_TRUST_ENV` | 是否继承代理环境；默认 false，TLS 验证仍开启 |
 | `FINAGENT_ALLOWED_ORIGINS` | 允许跨域的浏览器来源，逗号分隔；默认不跨域 |
 
-配额限制请求数量，不是精确金额预算。云主机上部署时，用 HTTPS 反向代理接入，配置服务令牌、持久磁盘与备份；**保持单个 Uvicorn worker**，当前进程内执行器不支持多进程共同调度。Compose 的本机绑定适合放在同机反向代理后面。
+配额按发行人分析次数计算，不是精确金额预算。云主机上部署时，用 HTTPS 反向代理接入，配置服务令牌、持久磁盘与备份；**保持单个 Uvicorn worker**，当前进程内执行器不支持多进程共同调度。Compose 的本机绑定适合放在同机反向代理后面。
 
 从 GitHub Pages 连接另一个 HTTPS 服务时，设置：
 

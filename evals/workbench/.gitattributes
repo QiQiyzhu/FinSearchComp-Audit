@@ -1,0 +1,2 @@
+# Frozen fixture hashes must survive Windows and Linux checkouts unchanged.
+*.json -text whitespace=cr-at-eol

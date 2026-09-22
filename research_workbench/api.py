@@ -10,11 +10,12 @@ from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from . import __version__
 from .config import ROOT, Settings
-from .engine import ResearchEngine, markdown_export
+from .engine import ResearchEngine
+from .workflows import WorkflowEngine, export_report
 from .sources import COMPANIES, DEMO_CUTOFF, DEMO_TICKERS, canonical
 from .store import AdmissionError, JobService
 
@@ -22,6 +23,7 @@ EXAMPLES = [
     {"id": "msft-cashflow", "title": "Microsoft：AI 投入下的现金流", "question": "分析微软 FY2024 相比 FY2023 的收入、盈利与现金流，资本支出增加后还有多少自由现金流？给出需要继续核验的风险。", "ticker": "MSFT", "as_of": DEMO_CUTOFF, "mode": "demo"},
     {"id": "aapl-quality", "title": "Apple：收入与盈利质量", "question": "分析 Apple FY2024 相比 FY2023 的收入增长与营业利润率，哪些证据支持继续研究，哪些信息仍然缺失？", "ticker": "AAPL", "as_of": DEMO_CUTOFF, "mode": "demo"},
     {"id": "nvda-growth", "title": "NVIDIA：高增长与证据缺口", "question": "复核 NVIDIA FY2024 的收入与经营现金流增长，并检查资本支出口径是否足以计算自由现金流。", "ticker": "NVDA", "as_of": DEMO_CUTOFF, "mode": "demo"},
+    {"id": "msft-aapl-comparison", "title": "Microsoft × Apple：财务对比", "question": "并列比较 Microsoft 与 Apple FY2024 的收入增长、营业利润率和自由现金流，标明财年期间差异。", "ticker": "MSFT", "compare_with": "AAPL", "as_of": DEMO_CUTOFF, "mode": "demo"},
 ]
 
 
@@ -63,6 +65,13 @@ class ResearchRequest(BaseModel):
     ticker: Literal["MSFT", "AAPL", "NVDA", "GOOGL", "META", "AMZN", "TSLA", "AMD"]
     as_of: date
     mode: Literal["demo", "snapshot", "live"] = "demo"
+    compare_with: Literal["MSFT", "AAPL", "NVDA", "GOOGL", "META", "AMZN", "TSLA", "AMD"] | None = None
+
+    @model_validator(mode="after")
+    def different_issuers(self):
+        if self.compare_with == self.ticker:
+            raise ValueError("请选择两个不同的公司进行比较。")
+        return self
 
     @field_validator("question")
     @classmethod
@@ -86,15 +95,15 @@ def public_config(settings: Settings) -> dict[str, Any]:
                 "snapshot": {"available": settings.available("snapshot"), "label": "快照 + DeepSeek", "detail": "历史证据 + 实时模型归纳；数据不是实时行情。", "requires_token": bool(settings.api_token)},
                 "live": {"available": settings.available("live"), "label": "实时研究", "detail": "检索 SEC 当前数据库并按截止日过滤，模型按配置启用。", "requires_token": bool(settings.api_token)},
             },
-            "features": {"sec": bool(settings.sec_user_agent), "deepseek": bool(settings.deepseek_api_key), "web_search": bool(settings.tavily_api_key), "exports": True, "persistence": "sqlite"},
+            "features": {"sec": bool(settings.sec_user_agent), "deepseek": bool(settings.deepseek_api_key), "web_search": bool(settings.tavily_api_key), "exports": True, "comparison": True, "question_answers": True, "persistence": "sqlite"},
             "tickers": [{"ticker": ticker, "name": company["name"]} for ticker, company in COMPANIES.items()], "demo_tickers": DEMO_TICKERS,
-            "limits": {"question_chars": 2000, "live_requests_per_hour": settings.live_requests_per_hour, "live_global_per_day": settings.live_global_per_day},
-            "scope": "单公司年度 10-K 财务研究；不含价格预测或交易执行。"}
+            "limits": {"question_chars": 2000, "live_requests_per_hour": settings.live_requests_per_hour, "live_global_per_day": settings.live_global_per_day, "quota_unit": "issuer_analysis", "comparison_units": 2},
+            "scope": "单公司及双公司年度 10-K 财务研究；不同期间仅并列展示；不含价格预测或交易执行。"}
 
 
 def create_app(settings: Settings | None = None, *, engine: ResearchEngine | None = None) -> FastAPI:
     config = settings or Settings.from_env()
-    service = JobService(config, engine)
+    service = JobService(config, engine or WorkflowEngine(config))
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -168,7 +177,7 @@ def create_app(settings: Settings | None = None, *, engine: ResearchEngine | Non
                  authorization: Annotated[str | None, Header()] = None,
                  idempotency_key: Annotated[str | None, Header(alias="Idempotency-Key")] = None) -> dict[str, Any]:
         authorize(body.mode, authorization)
-        if body.mode != "live" and body.ticker not in DEMO_TICKERS:
+        if body.mode != "live" and any(ticker not in DEMO_TICKERS for ticker in [body.ticker, body.compare_with] if ticker):
             raise HTTPException(422, "离线快照当前仅支持 MSFT、AAPL、NVDA。")
         if idempotency_key is not None and not 1 <= len(idempotency_key) <= 128:
             raise HTTPException(422, "Idempotency-Key 必须为 1–128 个字符。")
@@ -176,7 +185,7 @@ def create_app(settings: Settings | None = None, *, engine: ResearchEngine | Non
         # deliberately conservative shared limit; the global budget also applies.
         client = hashlib.sha256((request.client.host if request.client else "unknown").encode()).hexdigest()
         try:
-            job = service.submit(body.model_dump(mode="json"), client, idempotency_key)
+            job = service.submit(body.model_dump(mode="json", exclude_none=True), client, idempotency_key)
         except AdmissionError as exc:
             raise HTTPException(exc.status, exc.detail, headers={"Retry-After": "60"} if exc.status == 429 else None) from exc
         return {"id": job["id"], "status": job["status"]}
@@ -196,7 +205,7 @@ def create_app(settings: Settings | None = None, *, engine: ResearchEngine | Non
         if job["status"] != "completed":
             raise HTTPException(409, "研究尚未完成，无法导出结果。")
         extension = "md" if format == "markdown" else "json"
-        content = markdown_export(job["result"]) if format == "markdown" else canonical(job["result"])
+        content = export_report(job["result"]) if format == "markdown" else canonical(job["result"])
         return Response(content, media_type="text/markdown" if format == "markdown" else "application/json", headers={"Content-Disposition": f'attachment; filename="{identifier}.{extension}"'})
 
     static = ROOT / "site" / "workbench"

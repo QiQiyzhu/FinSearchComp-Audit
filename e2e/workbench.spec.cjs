@@ -76,3 +76,58 @@ test('deep links restore the chosen case and never replace a missing run with a 
   await expect(page.locator('#error-banner')).toBeVisible();
   await expect(page.locator('#report-area')).toBeHidden();
 });
+
+test('comparison replay isolates issuers and exposes the fiscal-period mismatch', async ({page}) => {
+  const errors=[];
+  page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('http://127.0.0.1:8092/workbench/?example=msft-aapl-comparison');
+  await expect(page.locator('#comparison-card')).toBeVisible();
+  await expect(page.locator('#comparison-table-body')).toContainText('2024-06-30');
+  await expect(page.locator('#comparison-table-body')).toContainText('2024-09-28');
+  await expect(page.locator('#comparison-policy')).toContainText('期间');
+  await page.locator('#tab-evidence').click();
+  await page.locator('#evidence-search').fill('AAPL-E');
+  await expect(page.locator('#evidence-table-body tr').first()).toContainText('AAPL-E');
+  await page.locator('#evidence-table-body button').first().click();
+  await expect(page.locator('#source-dialog-content')).toContainText('AAPL-E');
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#source-dialog')).toBeHidden();
+  expect(errors).toEqual([]);
+});
+
+test('connected demo computes a new question and does not refuse unrelated missing capex', async ({page}) => {
+  await page.goto('http://127.0.0.1:8091');
+  await expect(page.locator('#connection-label')).toContainText('已连接');
+  await page.locator('#ticker').selectOption('NVDA');
+  await page.locator('#question').fill('NVIDIA FY2024 的经营现金流是多少？');
+  const pending=page.waitForResponse(r=>r.url().endsWith('/api/research')&&r.request().method()==='POST');
+  await page.locator('#research-button').click();
+  expect((await pending).ok()).toBeTruthy();
+  await expect(page.locator('#direct-answers')).toContainText('28.09');
+  await expect(page.locator('#report-ticker')).toContainText('NVDA');
+  await expect(page.locator('#error-banner')).toBeHidden();
+  await expect(page.locator('#verdict-badge')).not.toContainText('证据不足');
+});
+
+test('quality route reports measured scope separately from citation coverage', async ({page}) => {
+  await page.goto('http://127.0.0.1:8092/workbench/?view=quality');
+  await expect(page.locator('#quality-workflow')).toBeVisible();
+  await expect(page.locator('#quality-content')).toBeVisible();
+  await expect(page.locator('#evaluation-context')).toContainText('40');
+  await expect(page.locator('#evaluation-table-body tr')).toHaveCount(3);
+  await expect(page.locator('#evaluation-limitations')).not.toBeEmpty();
+  await page.setViewportSize({width:390,height:844});
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1)).toBeFalsy();
+  await page.screenshot({path:'test-results/mobile-quality.png',fullPage:true});
+});
+
+test('mobile comparison can reach sources without overflowing the document', async ({page}) => {
+  await page.setViewportSize({width:390,height:844});
+  await page.goto('http://127.0.0.1:8092/workbench/?example=msft-aapl-comparison');
+  await expect(page.locator('#comparison-card')).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1)).toBeFalsy();
+  await page.locator('#tab-evidence').click();
+  await page.locator('#evidence-table-body button').first().click();
+  await expect(page.locator('#source-dialog')).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1)).toBeFalsy();
+});

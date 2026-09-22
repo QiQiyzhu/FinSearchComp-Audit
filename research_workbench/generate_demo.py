@@ -7,16 +7,18 @@ from pathlib import Path
 
 from .api import EXAMPLES
 from .config import Settings
-from .engine import ResearchEngine
+from .workflows import WorkflowEngine
 from .sources import DATA_DIR
 
 
 def generate(output: Path) -> None:
-    engine = ResearchEngine(Settings())
+    engine = WorkflowEngine(Settings())
     capture = json.loads((DATA_DIR / "demo_companyfacts.json").read_text(encoding="utf-8"))["captured_at"]
     reports = []
     for example in EXAMPLES:
         request = {key: example[key] for key in ("question", "ticker", "as_of", "mode")}
+        if example.get("compare_with"):
+            request["compare_with"] = example["compare_with"]
         report = engine.run(request)
         # Static artifact timestamps identify the underlying capture, not a
         # fictitious live run. Runtime jobs use actual timestamps.
@@ -27,10 +29,16 @@ def generate(output: Path) -> None:
         for event in report["trace"]:
             event["timestamp"] = capture
             event["timestamp_basis"] = "data_capture"
+        for child in report.get("companies", []):
+            child["generated_at"] = capture
+            child["static_replay"] = True
+            for event in child["trace"]:
+                event["timestamp"] = capture
+                event["timestamp_basis"] = "data_capture"
         report["example_id"] = example["id"]
         reports.append(report)
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps({"schema_version": 1, "examples": EXAMPLES, "reports": reports}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    output.write_text(json.dumps({"schema_version": 2, "examples": EXAMPLES, "reports": reports}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"Generated {len(reports)} audited offline reports: {output}")
 
 
