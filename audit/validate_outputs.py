@@ -123,7 +123,7 @@ def validate_local_links(output_dir: Path, html_path: Path) -> None:
     for href in parser.hrefs:
         if href.startswith(("#", "http://", "https://", "mailto:")):
             continue
-        relative = href.split("#", 1)[0]
+        relative = urlparse(href).path
         if not relative:
             continue
         target = (html_path.parent / relative).resolve()

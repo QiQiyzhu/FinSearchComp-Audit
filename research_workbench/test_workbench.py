@@ -59,7 +59,9 @@ class FinancialEvidenceTests(unittest.TestCase):
         self.assertEqual(metrics["revenue"]["change_pct"], "15.67")
         self.assertEqual(metrics["operating_margin"]["value"], "44.64")
         self.assertEqual(metrics["free_cash_flow"]["value"], "74071000000")
-        self.assertEqual(len(metrics["free_cash_flow"]["evidence_ids"]), 2)
+        # v2 also exposes FCF trend, whose comparison needs two additional facts.
+        self.assertEqual(len(metrics["free_cash_flow"]["value_evidence_ids"]), 2)
+        self.assertEqual(len(metrics["free_cash_flow"]["evidence_ids"]), 4)
         self.assertIn("74.07", report["summary"])
         self.assertIn("118548000000", metrics["free_cash_flow"]["formula"])
 

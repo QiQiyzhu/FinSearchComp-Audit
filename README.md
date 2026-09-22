@@ -10,15 +10,19 @@
 
 > 在线体验使用有来源的历史财报快照，无需注册或 API Key。完整服务提供历史快照 + 真实 DeepSeek，以及 SEC 实时获取 + DeepSeek 两种模式；数据时间、模型调用和证据状态分别标注。
 
-[![FinAgent 工作台实际界面](docs/assets/workbench/workbench-desktop.png)](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/)
+[![FinAgent v2 工作台实际界面](docs/assets/workbench/workbench-v2-desktop.png)](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/)
 
-[实际 DeepSeek 操作录像](docs/assets/workbench/workbench-demo.webm) · [真实调用与验证记录](docs/WORKBENCH_VERIFICATION.md)
+[实际 DeepSeek 双公司操作录像](docs/assets/workbench/workbench-v2-demo.webm) · [真实调用与验证记录](docs/WORKBENCH_VERIFICATION.md)
+
+**v2 工作台**：逐个子问题回答、可追溯公式、公司财务对比，以及单独呈现的[质量评测](docs/WORKBENCH_QUALITY.md)。[直接查看 Microsoft × Apple 对比](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/?example=msft-aapl-comparison)；财年期间不同会明确提示，不用错位数据给公司排名。
+
+40 道项目内冻结问题的首次评测，完整回答从 **50% → 95%**；首次保留集为 **18/20**。公开两道失败后的修复回归为 40/40，单独记录，不覆盖首评分数。这些结果不代表开放金融研究或投资判断准确率。
 
 ## 给面试官的 3 分钟路径
 
-1. **打开工作台**，选择示例，查看财务指标和研究判断。
+1. **打开工作台**，选择公司研究或公司对比，先查看每个子问题的回答。
 2. **点击证据**，核对原始申报链接、期间、申报时间、数据指纹和计算公式。
-3. **打开执行轨迹**，看问题范围、检索、验证、计算和总结的实际步骤；导出报告。
+3. **打开质量验证**，比较旧版和新版在冻结问题上的表现；再展开执行轨迹或导出报告。
 4. **运行完整服务**，连接自己的 DeepSeek 配置，换一个公司或历史截止日发起研究。
 
 ## 这次升级具体做了什么
@@ -28,6 +32,9 @@
 | 搜索与提取 | SEC Company Facts，显式公司、财务标签、年度期间与 filing date；可选 Tavily 上下文 |
 | 证据验证 | 截止日过滤、期间与单位检查、缺项拒答、来源 ID 与 SHA-256 |
 | 计算与归纳 | Decimal 计算营收增长、利润率和现金流指标；模型在已验证事实范围内组织摘要 |
+| 问题级回答 | 多指标、多操作分别回答；区分同比百分比、金额增量与利润率百分点变化 |
+| 公司对比 | 独立发行人证据、命名空间引用、财年起止校验；缺失值不作零值处理 |
+| 质量验证 | 冻结问题与独立财务答案，分别衡量取数、完整回答、拒答与时间边界 |
 | 研究判断 | 支持因素、风险、条件与下一步；证据质量和市场预测分开 |
 | 完整操作链 | 持久异步任务、幂等、容量限制、运行历史、故障状态与报告导出 |
 | 部署体验 | GitHub Pages 免 Key 体验、Codespaces、Docker Compose、Windows 一键启动 |
@@ -69,7 +76,7 @@ docker compose up --build -d
 
 ## 验证与边界
 
-- [验证记录](docs/WORKBENCH_VERIFICATION.md)：分别记录离线测试、真实网络验证和浏览器验收，避免把 Mock 当线上结果。
+- [验证记录](docs/WORKBENCH_VERIFICATION.md)与[质量评测](docs/WORKBENCH_QUALITY.md)：工程测试、实际模型调用与财务问答质量分别记录。
 - 新工作台聚焦 **8 家美股公司、年度基本面研究**；未覆盖 A 股、实时股价、估值数据库或自动交易。报告中的判断是证据范围内的研究结论，不是回测证明的交易策略。
 - SQLite 与进程内执行器面向单实例部署；多租户权限、队列集群、合规审计与服务等级保障属于后续工作。
 - 论文迁移是工程方法吸收。原 ATLAS 的 20 题研究指标保留在[研究档案](https://qiqiyzhu.github.io/FinSearchComp-Audit/research.html)，**不代表新工作台的线上准确率**。

@@ -162,16 +162,53 @@ def choose_fact(candidates: list[dict[str, Any]], period: tuple[str, str]) -> di
         return None
     latest = max(row["filed"] for row in matching)
     latest_rows = [row for row in matching if row["filed"] == latest]
-    if len({row["value"] for row in latest_rows}) > 1:
+    if len({Decimal(row["value"]) for row in latest_rows}) > 1:
         return None
     return sorted(latest_rows, key=lambda row: (row["tag_rank"], row.get("accn", "")))[0]
 
 
+def fiscal_year_map(candidates: dict[str, list[dict[str, Any]]]) -> dict[tuple[str, str], int]:
+    """Resolve period labels from original filing anchors, not comparative fy.
+
+    SEC's `fy` labels the filing context; every comparative row in a FY2024
+    filing can also say fy=2024. Anchor each accession to its most recent annual
+    period, then walk consecutive annual periods backwards. Require a timely
+    filing anchor and agreement between accessions; ambiguous periods abstain.
+    This also handles 52/53-week years ending just across a calendar boundary.
+    """
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for rows in candidates.values():
+        for row in rows:
+            if row.get("accn") and row.get("fp") == "FY" and isinstance(row.get("fy"), int):
+                groups.setdefault(row["accn"], []).append(row)
+    labels: dict[tuple[str, str], set[int]] = {}
+    for rows in groups.values():
+        years = {row["fy"] for row in rows}
+        if len(years) != 1:
+            continue
+        anchor_year = next(iter(years))
+        periods = sorted({(row["start"], row["end"]) for row in rows}, key=lambda pair: pair[1], reverse=True)
+        latest_end = periods[0][1]
+        if (date.fromisoformat(max(row["filed"] for row in rows)) - date.fromisoformat(latest_end)).days > 200:
+            continue
+        end_groups = sorted({pair[1] for pair in periods}, reverse=True)
+        year_by_end = {end_groups[0]: anchor_year}
+        for newer, older in zip(end_groups, end_groups[1:]):
+            if newer not in year_by_end or not 330 <= (date.fromisoformat(newer) - date.fromisoformat(older)).days <= 380:
+                break
+            year_by_end[older] = year_by_end[newer] - 1
+        for period in periods:
+            if period[1] in year_by_end:
+                labels.setdefault(period, set()).add(year_by_end[period[1]])
+    return {period: next(iter(years)) for period, years in labels.items() if len(years) == 1}
+
+
 def select_facts(source: Source, ticker: str, as_of: str, fiscal_year: int | None = None) -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]], list[str]]:
     candidates = {metric: annual_candidates(source.payload, metric, as_of) for metric in METRICS}
+    fiscal_labels = fiscal_year_map(candidates)
     revenue = candidates["revenue"]
     if fiscal_year is not None:
-        revenue = [row for row in revenue if date.fromisoformat(row["end"]).year == fiscal_year]
+        revenue = [row for row in revenue if fiscal_labels.get((row["start"], row["end"])) == fiscal_year]
     if not revenue:
         return {}, [], list(METRICS)
     current_end = max(row["end"] for row in revenue)
@@ -205,7 +242,9 @@ def select_facts(source: Source, ticker: str, as_of: str, fiscal_year: int | Non
                 "fact_sha256": digest({key: value for key, value in selected.items() if key not in {"tag_rank"}}),
                 "excerpt": excerpt, "metric": metric, "value": selected["value"], "unit": "USD",
                 "taxonomy_tag": selected["tag"], "accession": accession, "data_mode": source.data_mode,
+                "fiscal_year": fiscal_labels.get(period),
+                "fiscal_year_basis": "filing_anchor_and_annual_period_sequence" if period in fiscal_labels else "unresolved",
             }
             evidence.append(item)
-            facts[metric + suffix] = {**selected, "evidence_id": identifier}
+            facts[metric + suffix] = {**selected, "evidence_id": identifier, "fiscal_year": fiscal_labels.get(period)}
     return facts, evidence, missing

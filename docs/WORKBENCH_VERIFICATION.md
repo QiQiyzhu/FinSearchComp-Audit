@@ -2,7 +2,27 @@
 
 验证日期：2026-09-22。以下分别记录工程测试、真实数据和模型调用，不把测试通过率包装成金融研究准确率。
 
-## 离线工程检查
+## v2 本轮升级验收
+
+| 范围 | 实测结果 | 记录 |
+| --- | --- | --- |
+| 问题级回答、精确计算、API、比较及额度迁移 | 60 项 Python 测试通过 | `research_workbench/test_*.py` |
+| 独立评分器诚信检查 | 8 项通过 | `evals/workbench/test_evaluator.py` |
+| 既有研究回归 | 86 项通过 | 原有模块未因产品升级退步 |
+| 桌面、390px 手机、免费新问题、对比、来源、质量页、深链接 | 10 项浏览器测试通过 | `e2e/workbench.spec.cjs` |
+| 原研究复现与新版网站构建 | 通过 | `python scripts/build_product_site.py` |
+| 40 题冻结首评 | 完整满足 20/40 → 38/40；公开失败后回归 40/40 | [质量协议与逐题结果](WORKBENCH_QUALITY.md) |
+| 真实浏览器双公司 + DeepSeek | 一次任务、两次模型调用，5,274 tokens | [完整回执](verification/workbench-v2-browser-20260922.json) |
+| 真实 SEC 在线获取 + DeepSeek | 一次任务、一次模型调用，2,437 tokens | [完整回执](verification/workbench-v2-live-20260922.json) |
+| 八个发行人的财年选择与截止日回归 | 8/8 通过；复用已下载原始数据，无新增网络或模型调用 | [缓存审计](verification/workbench-v2-sec-cache-audit-20260922.json) |
+
+本轮新增真实模型调用共 **3 次、7,711 tokens**；真实工作流检查与 40 题离线质量评测独立。浏览器实际操作包含公司对比、按发行人搜索证据、来源抽屉、Markdown 导出及保存结果深链接恢复。两个发行人的财年期间不一致时不计算差额；比例比较使用未舍入操作数，引用命名空间与原子答案关联一起保留。
+
+[新版工作台截图](assets/workbench/workbench-v2-desktop.png) · [质量页](assets/workbench/workbench-v2-quality.png) · [实际 DeepSeek 操作录像](assets/workbench/workbench-v2-demo.webm)
+
+以下保留 v1 初次交付记录，对应旧版测试条数与当时的实际调用，不能与本轮成绩混算。
+
+## v1 离线工程检查
 
 | 范围 | 实际结果 | 入口 |
 |---|---|---|

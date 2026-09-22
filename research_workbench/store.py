@@ -44,6 +44,9 @@ class JobStore:
                 );
                 CREATE INDEX IF NOT EXISTS research_admissions_time ON research_admissions(created_at);
             """)
+            # Existing v1 admission rows each represent one issuer analysis.
+            if "units" not in {row[1] for row in db.execute("PRAGMA table_info(research_admissions)")}:
+                db.execute("ALTER TABLE research_admissions ADD COLUMN units INTEGER NOT NULL DEFAULT 1")
 
     @contextmanager
     def connection(self):
@@ -78,6 +81,7 @@ class JobStore:
         hour = (utc - timedelta(hours=1)).isoformat(timespec="seconds")
         day = (utc - timedelta(days=1)).isoformat(timespec="seconds")
         retention = (utc - timedelta(days=self.settings.retention_days)).isoformat(timespec="seconds")
+        units = 2 if request.get("compare_with") else 1
         with self.connection() as db:
             db.execute("BEGIN IMMEDIATE")
             if scoped_key:
@@ -89,20 +93,20 @@ class JobStore:
             active = db.execute("SELECT COUNT(*) FROM research_jobs WHERE status IN ('queued','running')").fetchone()[0]
             if active >= self.settings.max_pending:
                 raise AdmissionError(429, "研究队列已满，请稍后重试。")
-            count = db.execute("SELECT COUNT(*) FROM research_admissions WHERE client_hash=? AND created_at>=? AND (mode='demo')=?", (client, hour, request["mode"] == "demo")).fetchone()[0]
+            count = db.execute("SELECT COALESCE(SUM(units),0) FROM research_admissions WHERE client_hash=? AND created_at>=? AND (mode='demo')=?", (client, hour, request["mode"] == "demo")).fetchone()[0]
             limit = self.settings.demo_requests_per_hour if request["mode"] == "demo" else self.settings.live_requests_per_hour
-            if count >= limit:
+            if count + units > limit:
                 raise AdmissionError(429, "已达到每小时研究请求额度，请稍后重试。")
             if request["mode"] != "demo":
-                count = db.execute("SELECT COUNT(*) FROM research_admissions WHERE mode!='demo' AND created_at>=?", (day,)).fetchone()[0]
-                if count >= self.settings.live_global_per_day:
+                count = db.execute("SELECT COALESCE(SUM(units),0) FROM research_admissions WHERE mode!='demo' AND created_at>=?", (day,)).fetchone()[0]
+                if count + units > self.settings.live_global_per_day:
                     raise AdmissionError(429, "此部署过去 24 小时的实时研究额度已用完，离线演示仍可使用。")
             db.execute("DELETE FROM research_admissions WHERE created_at<?", (day,))
             db.execute("DELETE FROM research_jobs WHERE status IN ('completed','failed') AND created_at<?", (retention,))
             db.execute("DELETE FROM research_jobs WHERE id IN (SELECT id FROM research_jobs WHERE status IN ('completed','failed') ORDER BY created_at DESC LIMIT -1 OFFSET ?)", (self.settings.max_history,))
             identifier = "research_" + uuid4().hex
             db.execute("INSERT INTO research_jobs(id,status,request_json,request_hash,idempotency_key,created_at,updated_at) VALUES(?,'queued',?,?,?,?,?)", (identifier, canonical(request), request_hash, scoped_key, stamp, stamp))
-            db.execute("INSERT INTO research_admissions VALUES(?,?,?,?)", (identifier, client, request["mode"], stamp))
+            db.execute("INSERT INTO research_admissions(job_id,client_hash,mode,created_at,units) VALUES(?,?,?,?,?)", (identifier, client, request["mode"], stamp, units))
             row = db.execute("SELECT * FROM research_jobs WHERE id=?", (identifier,)).fetchone()
             return self.decode(row), True
 

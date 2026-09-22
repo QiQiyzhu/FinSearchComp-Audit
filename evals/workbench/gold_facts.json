@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "unit": "USD",
+  "audit_method": "Literal source values independently read from issuer/SEC annual statements; derived expected answers are frozen in cases.json and checked with exact rational arithmetic, without importing the product planner, selectors or calculator.",
+  "tags": {
+    "revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax", "Revenues", "SalesRevenueNet"],
+    "operating_income": ["OperatingIncomeLoss"],
+    "operating_cash_flow": ["NetCashProvidedByUsedInOperatingActivities"],
+    "capital_expenditure": ["PaymentsToAcquirePropertyPlantAndEquipment"],
+    "net_income": ["NetIncomeLoss"],
+    "research_and_development": ["ResearchAndDevelopmentExpense"]
+  },
+  "companies": {
+    "MSFT": {
+      "cik":789019,
+      "sources":["https://www.microsoft.com/en-us/investor/earnings/fy-2024-q4/income-statements","https://www.microsoft.com/en-us/investor/earnings/fy-2024-q4/cash-flows","https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm"],
+      "years": {
+        "2023":{"start":"2022-07-01","end":"2023-06-30","first_filed":"2023-07-27","values":{"revenue":"211915000000","operating_income":"88523000000","operating_cash_flow":"87582000000","capital_expenditure":"28107000000","net_income":"72361000000","research_and_development":"27195000000"}},
+        "2024":{"start":"2023-07-01","end":"2024-06-30","first_filed":"2024-07-30","values":{"revenue":"245122000000","operating_income":"109433000000","operating_cash_flow":"118548000000","capital_expenditure":"44477000000","net_income":"88136000000","research_and_development":"29510000000"}}
+      }
+    },
+    "AAPL": {
+      "cik":320193,
+      "sources":["https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/aapl-20240928.htm","https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm"],
+      "years": {
+        "2023":{"start":"2022-09-25","end":"2023-09-30","first_filed":"2023-11-03","values":{"revenue":"383285000000","operating_income":"114301000000","operating_cash_flow":"110543000000","capital_expenditure":"10959000000","net_income":"96995000000","research_and_development":"29915000000"}},
+        "2024":{"start":"2023-10-01","end":"2024-09-28","first_filed":"2024-11-01","values":{"revenue":"391035000000","operating_income":"123216000000","operating_cash_flow":"118254000000","capital_expenditure":"9447000000","net_income":"93736000000","research_and_development":"31370000000"}}
+      }
+    },
+    "NVDA": {
+      "cik":1045810,
+      "sources":["https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/nvda-20240128.htm","https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm"],
+      "years": {
+        "2023":{"start":"2022-01-31","end":"2023-01-29","first_filed":"2023-02-24","values":{"revenue":"26974000000","operating_income":"4224000000","operating_cash_flow":"5641000000","net_income":"4368000000","research_and_development":"7339000000"}},
+        "2024":{"start":"2023-01-30","end":"2024-01-28","first_filed":"2024-02-21","values":{"revenue":"60922000000","operating_income":"32972000000","operating_cash_flow":"28090000000","net_income":"29760000000","research_and_development":"8675000000"}}
+      },
+      "definition_gap":"No pure PP&E cash-payment tag in frozen FY2023/FY2024 annual sample. PP&E plus intangible purchases of 1833/1069 million USD are deliberately not substituted."
+    }
+  }
+}

@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -20,6 +22,10 @@ jobs:
         run: python -m unittest discover -s research_workbench -p 'test_*.py' -v
       - name: Existing research regression
         run: python -m unittest temporal_clash.test_atlas_xbrl temporal_clash.test_pit_audit finagent_platform.test_platform -v
+      - name: Independent scorer integrity
+        run: python -m unittest discover -s evals/workbench -p 'test_*.py' -v
+      - name: Frozen financial questions must not regress
+        run: python scripts/evaluate_workbench.py --split all --output build/quality/ci-evaluation.json --require-no-regression docs/verification/workbench-quality-v2-first.json
       - name: Reproduce research and build product website
         run: python scripts/build_product_site.py
       - uses: actions/setup-node@v4

@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "suite": "workbench-financial-quality-v1",
+  "checked_at": "2026-09-22T13:00:25+00:00",
+  "dataset_sha256": "257b5c30b5c7c87af9bea51d6edacf430ab5b84f5f3fccc73d2bd945c4fba7de",
+  "model_calls": 0,
+  "network_attempts": 0,
+  "scope": "单公司年度财务问题，SEC 冻结样本；不衡量开放研究能力或投资收益。",
+  "baseline": {
+    "revision": "d8ae038",
+    "implementation_sha256": "cdcdc34934b7a3769ffc39620993a462de10e2cd3bff639f17a7bc6f36b632db",
+    "overall": {
+      "cases": 40,
+      "fulfilled": 20,
+      "requested_values": 35,
+      "correct_requested_values": 23,
+      "present_requested_values": 23,
+      "answerable_cases": 29,
+      "false_refusals": 7,
+      "abstain_cases": 11,
+      "correct_abstentions": 11,
+      "evidence_valid_cases": 40,
+      "fulfilled_rate": 0.5,
+      "numeric_accuracy": 0.6571428571428571,
+      "numeric_precision": 1.0
+    },
+    "development": {
+      "cases": 20,
+      "fulfilled": 12,
+      "requested_values": 15,
+      "correct_requested_values": 10,
+      "present_requested_values": 10,
+      "answerable_cases": 13,
+      "false_refusals": 2,
+      "abstain_cases": 7,
+      "correct_abstentions": 7,
+      "evidence_valid_cases": 20,
+      "fulfilled_rate": 0.6,
+      "numeric_accuracy": 0.6666666666666666,
+      "numeric_precision": 1.0
+    },
+    "heldout": {
+      "cases": 20,
+      "fulfilled": 8,
+      "requested_values": 20,
+      "correct_requested_values": 13,
+      "present_requested_values": 13,
+      "answerable_cases": 16,
+      "false_refusals": 5,
+      "abstain_cases": 4,
+      "correct_abstentions": 4,
+      "evidence_valid_cases": 20,
+      "fulfilled_rate": 0.4,
+      "numeric_accuracy": 0.65,
+      "numeric_precision": 1.0
+    }
+  },
+  "current": {
+    "revision": "d8ae038cf24d3a22fc2031ab3adb2d434a7634af+working-tree",
+    "implementation_sha256": "00f6103edbbb10c28513c43c80fb48706e9465d366adc58255f6954797ef1c32",
+    "overall": {
+      "cases": 40,
+      "fulfilled": 38,
+      "requested_values": 35,
+      "correct_requested_values": 33,
+      "present_requested_values": 33,
+      "answerable_cases": 29,
+      "false_refusals": 0,
+      "abstain_cases": 11,
+      "correct_abstentions": 11,
+      "evidence_valid_cases": 40,
+      "fulfilled_rate": 0.95,
+      "numeric_accuracy": 0.9428571428571428,
+      "numeric_precision": 1.0
+    },
+    "development": {
+      "cases": 20,
+      "fulfilled": 20,
+      "requested_values": 15,
+      "correct_requested_values": 15,
+      "present_requested_values": 15,
+      "answerable_cases": 13,
+      "false_refusals": 0,
+      "abstain_cases": 7,
+      "correct_abstentions": 7,
+      "evidence_valid_cases": 20,
+      "fulfilled_rate": 1.0,
+      "numeric_accuracy": 1.0,
+      "numeric_precision": 1.0
+    },
+    "heldout": {
+      "cases": 20,
+      "fulfilled": 18,
+      "requested_values": 20,
+      "correct_requested_values": 18,
+      "present_requested_values": 18,
+      "answerable_cases": 16,
+      "false_refusals": 0,
+      "abstain_cases": 4,
+      "correct_abstentions": 4,
+      "evidence_valid_cases": 20,
+      "fulfilled_rate": 0.9,
+      "numeric_accuracy": 0.9,
+      "numeric_precision": 1.0
+    }
+  },
+  "limitations": [
+    "40 题由项目评估者编写，含 20 道开发题和 20 道实现者未见的保留题；不是外部金融基准。",
+    "原生快照只含三家公司 FY2023/FY2024 的常用年度标签；本轨道中缺失的 FY2022 应明确保留判断。",
+    "后来抓取的 SEC Company Facts 按 filed 日期过滤，不是当时完整归档的数据库；时间审计为日粒度。",
+    "模型调用为零；不测 DeepSeek 文本选择、网页检索质量、实时市场判断或投资收益。",
+    "数值分母只计题目要求的值，缺答案计错；完整问题还要求期间、所需原始证据、回答呈现与正确拒答。"
+  ],
+  "details_url": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/WORKBENCH_QUALITY.md",
+  "first_failures": [
+    {
+      "id": "H05",
+      "question": "How many dollars did Apple's revenue increase from FY2023 to FY2024?",
+      "reason": "未回答 FY2024 相对 FY2023 的营业收入增长金额。"
+    },
+    {
+      "id": "H10",
+      "question": "What percentage of Apple's FY2024 revenue was spent on R&D?",
+      "reason": "未回答 FY2024 研发费用占营业收入的比例。"
+    }
+  ],
+  "post_eval_regression": {
+    "cases": 40,
+    "fulfilled": 40,
+    "correct_requested_values": 35,
+    "requested_values": 35,
+    "checked_at": "2026-09-22T13:07:00+00:00",
+    "detail": "已公开题目上的修复后回归，不是新的独立保留集",
+    "receipt_url": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/verification/workbench-quality-v2-post-eval-regression.json"
+  }
+}

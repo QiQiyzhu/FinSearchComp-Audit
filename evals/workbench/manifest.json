@@ -1,0 +1,22 @@
+{
+  "suite": "workbench-financial-quality-v1",
+  "schema_version": 1,
+  "frozen_at": "2026-09-22T12:47:51+00:00",
+  "baseline_revision": "d8ae038",
+  "data_mode": "native_bundled_snapshot",
+  "model_calls": 0,
+  "development_cases": 20,
+  "heldout_cases": 20,
+  "files": {
+    "cases.json": "afb824b60c3e43268a9338b34f53ad0ce233a0ce16f8b346c2aeafd488b8dd86",
+    "gold_facts.json": "c060d0176dba6a86ef14efc666e2f70f07c719afc4d83175b8521efc08f24bda"
+  },
+  "upstream_sha256": {
+    "MSFT": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+    "AAPL": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+    "NVDA": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff"
+  },
+  "selection_policy": "Questions/gold authored and frozen before observing baseline outputs or v2 outputs. Heldout answers are not sent to implementation agent. Cases are project-authored, not an external benchmark.",
+  "scope": "Single issuer, FY2023/FY2024 frozen native SEC sample. Missing FY2022 is a coverage gap in this data track, not a mathematical impossibility.",
+  "dataset_sha256": "257b5c30b5c7c87af9bea51d6edacf430ab5b84f5f3fccc73d2bd945c4fba7de"
+}

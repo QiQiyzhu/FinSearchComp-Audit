@@ -1,0 +1,146 @@
+{
+  "checked_at": "2026-09-22T13:15:53+00:00",
+  "source": "Reuse previously downloaded SEC responses; no network or model calls during this audit",
+  "as_of": "2024-11-01",
+  "network_calls": 0,
+  "model_calls": 0,
+  "limitations": "Eight-issuer selector regression; not the independent 40-question accuracy evaluation. Exact source replay requires the saved ignored SEC cache.",
+  "issuers": [
+    {
+      "ticker": "MSFT",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "reported_revenue": "245122000000",
+      "evidence_count": 12,
+      "missing_metrics": [],
+      "source_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+      "source_retrieved_at": "2026-09-22T13:14:16+00:00",
+      "checks": {
+        "hash": true,
+        "fiscal_year": true,
+        "filing_cutoff": true
+      }
+    },
+    {
+      "ticker": "AAPL",
+      "fiscal_year": 2024,
+      "period_start": "2023-10-01",
+      "period_end": "2024-09-28",
+      "reported_revenue": "391035000000",
+      "evidence_count": 12,
+      "missing_metrics": [],
+      "source_sha256": "2d1974cf68b105aa4ae1a9da58bc95488993216dde40f8470bcf17eef4c8a472",
+      "source_retrieved_at": "2026-09-22T12:14:43+00:00",
+      "checks": {
+        "hash": true,
+        "fiscal_year": true,
+        "filing_cutoff": true
+      }
+    },
+    {
+      "ticker": "NVDA",
+      "fiscal_year": 2024,
+      "period_start": "2023-01-30",
+      "period_end": "2024-01-28",
+      "reported_revenue": "60922000000",
+      "evidence_count": 10,
+      "missing_metrics": [
+        "capital_expenditure",
+        "capital_expenditure_prior"
+      ],
+      "source_sha256": "c8d2deb79257bf637db44c1166c78aa5f344a138d9e9071ba49c532054ee6e6f",
+      "source_retrieved_at": "2026-09-22T12:14:49+00:00",
+      "checks": {
+        "hash": true,
+        "fiscal_year": true,
+        "filing_cutoff": true
+      }
+    },
+    {
+      "ticker": "GOOGL",
+      "fiscal_year": 2023,
+      "period_start": "2023-01-01",
+      "period_end": "2023-12-31",
+      "reported_revenue": "307394000000",
+      "evidence_count": 12,
+      "missing_metrics": [],
+      "source_sha256": "67e9eb51a09725a55b786cc0a569efcfb9906ad170e445e4775bc2126e22ae7d",
+      "source_retrieved_at": "2026-09-22T12:14:54+00:00",
+      "checks": {
+        "hash": true,
+        "fiscal_year": true,
+        "filing_cutoff": true
+      }
+    },
+    {
+      "ticker": "META",
+      "fiscal_year": 2023,
+      "period_start": "2023-01-01",
+      "period_end": "2023-12-31",
+      "reported_revenue": "134902000000",
+      "evidence_count": 12,
+      "missing_metrics": [],
+      "source_sha256": "0317fc3e86d06ba1660234ad40ec4c1408d9828fd2c4c45e25e2394bfd676699",
+      "source_retrieved_at": "2026-09-22T12:14:57+00:00",
+      "checks": {
+        "hash": true,
+        "fiscal_year": true,
+        "filing_cutoff": true
+      }
+    },
+    {
+      "ticker": "AMZN",
+      "fiscal_year": 2023,
+      "period_start": "2023-01-01",
+      "period_end": "2023-12-31",
+      "reported_revenue": "574785000000",
+      "evidence_count": 8,
+      "missing_metrics": [
+        "capital_expenditure",
+        "research_and_development",
+        "capital_expenditure_prior",
+        "research_and_development_prior"
+      ],
+      "source_sha256": "9ed7d44b3b63e1ddaa71cffd3828101a8f998b7c8198b3c62e218ff3ed440f84",
+      "source_retrieved_at": "2026-09-22T12:15:01+00:00",
+      "checks": {
+        "hash": true,
+        "fiscal_year": true,
+        "filing_cutoff": true
+      }
+    },
+    {
+      "ticker": "TSLA",
+      "fiscal_year": 2023,
+      "period_start": "2023-01-01",
+      "period_end": "2023-12-31",
+      "reported_revenue": "96773000000",
+      "evidence_count": 12,
+      "missing_metrics": [],
+      "source_sha256": "7546c50f42aebd116fa8c665708f40e64200f14a4649444c3171deaf6311553e",
+      "source_retrieved_at": "2026-09-22T12:15:06+00:00",
+      "checks": {
+        "hash": true,
+        "fiscal_year": true,
+        "filing_cutoff": true
+      }
+    },
+    {
+      "ticker": "AMD",
+      "fiscal_year": 2023,
+      "period_start": "2023-01-01",
+      "period_end": "2023-12-30",
+      "reported_revenue": "22680000000",
+      "evidence_count": 12,
+      "missing_metrics": [],
+      "source_sha256": "7a88466c7622fc1d640cc115be5e7badb7bea43b481750e4ae084e158da665e8",
+      "source_retrieved_at": "2026-09-22T12:15:12+00:00",
+      "checks": {
+        "hash": true,
+        "fiscal_year": true,
+        "filing_cutoff": true
+      }
+    }
+  ]
+}
