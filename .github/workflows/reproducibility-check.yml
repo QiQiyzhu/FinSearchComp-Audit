@@ -6,6 +6,8 @@ on:
     paths:
       - "audit/**"
       - "advanced_rag/**"
+      - "finagent_platform/**"
+      - "requirements-platform.txt"
       - "reproduce.py"
       - "docs/REPRODUCIBILITY.md"
       - ".github/workflows/reproducibility-check.yml"
@@ -14,6 +16,8 @@ on:
     paths:
       - "audit/**"
       - "advanced_rag/**"
+      - "finagent_platform/**"
+      - "requirements-platform.txt"
       - "reproduce.py"
       - "docs/REPRODUCIBILITY.md"
       - ".github/workflows/reproducibility-check.yml"
@@ -30,7 +34,11 @@ jobs:
         with:
           python-version: "3.11"
       - name: Reproduce report and validate evidence structure
-        run: python reproduce.py --output build/site
+        # The reproduced platform demo imports the FastAPI application.
+        # Keep this dependency explicit on a fresh GitHub runner.
+        run: |
+          python -m pip install -r requirements-platform.txt
+          python reproduce.py --output build/site
       - name: Show generated artifacts
         run: |
           find build/site -maxdepth 1 -type f -printf "%f %s bytes\n" | sort
