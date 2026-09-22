@@ -1,0 +1,42 @@
+name: FinAgent Workbench checks
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements-workbench.txt -r requirements-platform.txt
+      - name: Financial invariants and API lifecycle
+        run: python -m unittest discover -s research_workbench -p 'test_*.py' -v
+      - name: Existing research regression
+        run: python -m unittest temporal_clash.test_atlas_xbrl temporal_clash.test_pit_audit finagent_platform.test_platform -v
+      - name: Reproduce research and build product website
+        run: python scripts/build_product_site.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Browser journey, static replay and mobile layout
+        run: npm test
+      - name: Build and start container
+        run: |
+          docker compose up --build -d --wait
+          python scripts/smoke_workbench.py --base-url http://127.0.0.1:8090
+          docker compose down
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: workbench-browser-report
+          path: test-results/

@@ -14,6 +14,10 @@ on:
       - "reproduce.py"
       - "docs/REPRODUCIBILITY.md"
       - "README.md"
+      - "site/**"
+      - "research_workbench/**"
+      - "scripts/build_product_site.py"
+      - "requirements-workbench.txt"
       - ".github/workflows/finsearch-audit.yml"
 
 permissions:
@@ -37,7 +41,9 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install platform API dependencies
-        run: python -m pip install -r requirements-platform.txt
+        run: python -m pip install -r requirements-platform.txt -r requirements-workbench.txt
+      - name: Verify product backend
+        run: python -m unittest discover -s research_workbench -p 'test_*.py' -v
       - name: Run offline unit tests
         run: >-
           python -m unittest
@@ -51,11 +57,11 @@ jobs:
           game_qa_agent.test_game_qa_agent
           finagent_platform.test_platform -v
       - name: Reproduce and validate audit
-        run: python reproduce.py --output site
+        run: python scripts/build_product_site.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: build/public
       - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

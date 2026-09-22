@@ -1,0 +1,322 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-22T12:20:01+00:00",
+  "as_of": "2024-11-01",
+  "scope": "SEC annual financial-fact adapter coverage for all eight supported issuers",
+  "network_requests_during_receipt_generation": 0,
+  "model_requests_during_receipt_generation": 0,
+  "method": "Read previously captured local SEC cache; verify canonical JSON SHA-256; rerun select_facts on the specified historical filing cutoff. No provider keys, contact strings, raw cache paths, invented latency, or model usage are included.",
+  "reproduction": {
+    "selector": "research_workbench.sources.select_facts(source, ticker, as_of=\"2024-11-01\")",
+    "cache_integrity": "research_workbench.sources.digest(cache[\"payload\"]) == cache[\"sha256\"]",
+    "offline_regression_command": "python -m unittest research_workbench.test_workbench.FinancialEvidenceTests -v",
+    "limitation": "Exact full live-cache replay requires the original ignored local cache. Bundled three-issuer historical snapshots retain compressed upstream bytes and are independently replayable in tests."
+  },
+  "issuers": [
+    {
+      "ticker": "MSFT",
+      "company": "Microsoft",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "observed_http_success": true,
+      "observation_basis": "Earlier successful SEC adapter execution; SourceClient.live accepts HTTP 200 only. This receipt reuses the saved response without a network request.",
+      "selected_period": {
+        "start": "2023-07-01",
+        "end": "2024-06-30"
+      },
+      "comparison_period": {
+        "start": "2022-07-01",
+        "end": "2023-06-30"
+      },
+      "current_metrics_present": [
+        "revenue",
+        "operating_income",
+        "operating_cash_flow",
+        "capital_expenditure",
+        "net_income",
+        "research_and_development"
+      ],
+      "current_metrics_missing": [],
+      "all_missing_slots": [],
+      "evidence_count": 12,
+      "source_retrieved_at": "2026-09-22T12:12:10+00:00",
+      "canonical_source_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+      "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "canonical_source_hash_verified": true,
+      "filing_cutoff_check_passed": true
+    },
+    {
+      "ticker": "AAPL",
+      "company": "Apple",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+      "observed_http_success": true,
+      "observation_basis": "Earlier successful SEC adapter execution; SourceClient.live accepts HTTP 200 only. This receipt reuses the saved response without a network request.",
+      "selected_period": {
+        "start": "2023-10-01",
+        "end": "2024-09-28"
+      },
+      "comparison_period": {
+        "start": "2022-09-25",
+        "end": "2023-09-30"
+      },
+      "current_metrics_present": [
+        "revenue",
+        "operating_income",
+        "operating_cash_flow",
+        "capital_expenditure",
+        "net_income",
+        "research_and_development"
+      ],
+      "current_metrics_missing": [],
+      "all_missing_slots": [],
+      "evidence_count": 12,
+      "source_retrieved_at": "2026-09-22T12:14:43+00:00",
+      "canonical_source_sha256": "2d1974cf68b105aa4ae1a9da58bc95488993216dde40f8470bcf17eef4c8a472",
+      "upstream_response_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+      "canonical_source_hash_verified": true,
+      "filing_cutoff_check_passed": true
+    },
+    {
+      "ticker": "NVDA",
+      "company": "NVIDIA",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+      "observed_http_success": true,
+      "observation_basis": "Earlier successful SEC adapter execution; SourceClient.live accepts HTTP 200 only. This receipt reuses the saved response without a network request.",
+      "selected_period": {
+        "start": "2023-01-30",
+        "end": "2024-01-28"
+      },
+      "comparison_period": {
+        "start": "2022-01-31",
+        "end": "2023-01-29"
+      },
+      "current_metrics_present": [
+        "revenue",
+        "operating_income",
+        "operating_cash_flow",
+        "net_income",
+        "research_and_development"
+      ],
+      "current_metrics_missing": [
+        "capital_expenditure"
+      ],
+      "all_missing_slots": [
+        "capital_expenditure",
+        "capital_expenditure_prior"
+      ],
+      "evidence_count": 10,
+      "source_retrieved_at": "2026-09-22T12:14:49+00:00",
+      "canonical_source_sha256": "c8d2deb79257bf637db44c1166c78aa5f344a138d9e9071ba49c532054ee6e6f",
+      "upstream_response_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+      "canonical_source_hash_verified": true,
+      "filing_cutoff_check_passed": true
+    },
+    {
+      "ticker": "GOOGL",
+      "company": "Alphabet",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json",
+      "observed_http_success": true,
+      "observation_basis": "Earlier successful SEC adapter execution; SourceClient.live accepts HTTP 200 only. This receipt reuses the saved response without a network request.",
+      "selected_period": {
+        "start": "2023-01-01",
+        "end": "2023-12-31"
+      },
+      "comparison_period": {
+        "start": "2022-01-01",
+        "end": "2022-12-31"
+      },
+      "current_metrics_present": [
+        "revenue",
+        "operating_income",
+        "operating_cash_flow",
+        "capital_expenditure",
+        "net_income",
+        "research_and_development"
+      ],
+      "current_metrics_missing": [],
+      "all_missing_slots": [],
+      "evidence_count": 12,
+      "source_retrieved_at": "2026-09-22T12:14:54+00:00",
+      "canonical_source_sha256": "67e9eb51a09725a55b786cc0a569efcfb9906ad170e445e4775bc2126e22ae7d",
+      "upstream_response_sha256": "a017f26ee88cb4a639d1c1ddb06d53b4afe22f0ac89cabec7cd67c88919fe1c5",
+      "canonical_source_hash_verified": true,
+      "filing_cutoff_check_passed": true
+    },
+    {
+      "ticker": "META",
+      "company": "Meta",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326801.json",
+      "observed_http_success": true,
+      "observation_basis": "Earlier successful SEC adapter execution; SourceClient.live accepts HTTP 200 only. This receipt reuses the saved response without a network request.",
+      "selected_period": {
+        "start": "2023-01-01",
+        "end": "2023-12-31"
+      },
+      "comparison_period": {
+        "start": "2022-01-01",
+        "end": "2022-12-31"
+      },
+      "current_metrics_present": [
+        "revenue",
+        "operating_income",
+        "operating_cash_flow",
+        "capital_expenditure",
+        "net_income",
+        "research_and_development"
+      ],
+      "current_metrics_missing": [],
+      "all_missing_slots": [],
+      "evidence_count": 12,
+      "source_retrieved_at": "2026-09-22T12:14:57+00:00",
+      "canonical_source_sha256": "0317fc3e86d06ba1660234ad40ec4c1408d9828fd2c4c45e25e2394bfd676699",
+      "upstream_response_sha256": "7518e76d6dac2d016e1a3d1dec1cc55ff9ea3bdd58a151b16fcaa067a6c9d94e",
+      "canonical_source_hash_verified": true,
+      "filing_cutoff_check_passed": true
+    },
+    {
+      "ticker": "AMZN",
+      "company": "Amazon",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+      "observed_http_success": true,
+      "observation_basis": "Earlier successful SEC adapter execution; SourceClient.live accepts HTTP 200 only. This receipt reuses the saved response without a network request.",
+      "selected_period": {
+        "start": "2023-01-01",
+        "end": "2023-12-31"
+      },
+      "comparison_period": {
+        "start": "2022-01-01",
+        "end": "2022-12-31"
+      },
+      "current_metrics_present": [
+        "revenue",
+        "operating_income",
+        "operating_cash_flow",
+        "net_income"
+      ],
+      "current_metrics_missing": [
+        "capital_expenditure",
+        "research_and_development"
+      ],
+      "all_missing_slots": [
+        "capital_expenditure",
+        "research_and_development",
+        "capital_expenditure_prior",
+        "research_and_development_prior"
+      ],
+      "evidence_count": 8,
+      "source_retrieved_at": "2026-09-22T12:15:01+00:00",
+      "canonical_source_sha256": "9ed7d44b3b63e1ddaa71cffd3828101a8f998b7c8198b3c62e218ff3ed440f84",
+      "upstream_response_sha256": "7549fb68446eee40e1f50a166fa06b2d2ee6349e07c8553a4828757e032d3cd4",
+      "canonical_source_hash_verified": true,
+      "filing_cutoff_check_passed": true
+    },
+    {
+      "ticker": "TSLA",
+      "company": "Tesla",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001318605.json",
+      "observed_http_success": true,
+      "observation_basis": "Earlier successful SEC adapter execution; SourceClient.live accepts HTTP 200 only. This receipt reuses the saved response without a network request.",
+      "selected_period": {
+        "start": "2023-01-01",
+        "end": "2023-12-31"
+      },
+      "comparison_period": {
+        "start": "2022-01-01",
+        "end": "2022-12-31"
+      },
+      "current_metrics_present": [
+        "revenue",
+        "operating_income",
+        "operating_cash_flow",
+        "capital_expenditure",
+        "net_income",
+        "research_and_development"
+      ],
+      "current_metrics_missing": [],
+      "all_missing_slots": [],
+      "evidence_count": 12,
+      "source_retrieved_at": "2026-09-22T12:15:06+00:00",
+      "canonical_source_sha256": "7546c50f42aebd116fa8c665708f40e64200f14a4649444c3171deaf6311553e",
+      "upstream_response_sha256": "d0c2b9288d027a6d735039a6fe874a348b65a7fdbc6c133130666c777c885204",
+      "canonical_source_hash_verified": true,
+      "filing_cutoff_check_passed": true
+    },
+    {
+      "ticker": "AMD",
+      "company": "AMD",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000002488.json",
+      "observed_http_success": true,
+      "observation_basis": "Earlier successful SEC adapter execution; SourceClient.live accepts HTTP 200 only. This receipt reuses the saved response without a network request.",
+      "selected_period": {
+        "start": "2023-01-01",
+        "end": "2023-12-30"
+      },
+      "comparison_period": {
+        "start": "2021-12-26",
+        "end": "2022-12-31"
+      },
+      "current_metrics_present": [
+        "revenue",
+        "operating_income",
+        "operating_cash_flow",
+        "capital_expenditure",
+        "net_income",
+        "research_and_development"
+      ],
+      "current_metrics_missing": [],
+      "all_missing_slots": [],
+      "evidence_count": 12,
+      "source_retrieved_at": "2026-09-22T12:15:12+00:00",
+      "canonical_source_sha256": "7a88466c7622fc1d640cc115be5e7badb7bea43b481750e4ae084e158da665e8",
+      "upstream_response_sha256": "21a29c75076d90fced568785d855fc427a15c7458bc0bb153a9dedd88ad3349e",
+      "canonical_source_hash_verified": true,
+      "filing_cutoff_check_passed": true
+    }
+  ],
+  "private_data_scan": {
+    "directory": "research_workbench/data",
+    "files_scanned": 5,
+    "compressed_json_scanned_after_decompression": true,
+    "checks": [
+      "Exact locally configured DeepSeek, Tavily, and service-token values",
+      "Exact git author contact email",
+      "Email address patterns",
+      "Common sk-prefixed API-key patterns",
+      "Credential environment-variable names"
+    ],
+    "result": "passed",
+    "violations": [],
+    "files": [
+      {
+        "path": "research_workbench/data/demo_companyfacts.json",
+        "bytes": 24224,
+        "decoded_sha256": "d42fbe6b4d8a3b68140e56d42f4a9b1ed4b909d3808779cbcedea2ec9c05f090",
+        "scan_passed": true
+      },
+      {
+        "path": "research_workbench/data/demo_reports.json",
+        "bytes": 89180,
+        "decoded_sha256": "85a7eab1c133f3058eef0d6bc6ee35e852e65b4441b87facc30482d14279f022",
+        "scan_passed": true
+      },
+      {
+        "path": "research_workbench/data/upstream/AAPL.json.gz",
+        "bytes": 255521,
+        "decoded_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+        "scan_passed": true
+      },
+      {
+        "path": "research_workbench/data/upstream/MSFT.json.gz",
+        "bytes": 313163,
+        "decoded_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+        "scan_passed": true
+      },
+      {
+        "path": "research_workbench/data/upstream/NVDA.json.gz",
+        "bytes": 275663,
+        "decoded_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+        "scan_passed": true
+      }
+    ],
+    "scope_note": "This is a targeted credential/contact scan of shipped research data, not a guarantee that arbitrary personal names do not occur in public SEC company metadata."
+  }
+}

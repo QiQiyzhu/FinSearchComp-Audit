@@ -1,0 +1,27 @@
+services:
+  workbench:
+    build: .
+    ports:
+      - "127.0.0.1:8090:8090"
+    environment:
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-https://api.deepseek.com}
+      DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-deepseek-flash}
+      SEC_USER_AGENT: ${SEC_USER_AGENT:-}
+      FINAGENT_DB_PATH: /app/build/workbench.sqlite3
+      FINAGENT_CACHE_DIR: /app/build/cache
+      FINAGENT_ENABLE_LIVE: ${FINAGENT_ENABLE_LIVE:-false}
+      FINAGENT_API_TOKEN: ${FINAGENT_API_TOKEN:-}
+      FINAGENT_PUBLIC_LIVE: ${FINAGENT_PUBLIC_LIVE:-false}
+      FINAGENT_LIVE_REQUESTS_PER_HOUR: ${FINAGENT_LIVE_REQUESTS_PER_HOUR:-5}
+      FINAGENT_LIVE_GLOBAL_PER_DAY: ${FINAGENT_LIVE_GLOBAL_PER_DAY:-12}
+      FINAGENT_ALLOWED_ORIGINS: ${FINAGENT_ALLOWED_ORIGINS:-}
+      FINAGENT_MAX_WORKERS: ${FINAGENT_MAX_WORKERS:-2}
+      FINAGENT_MAX_PENDING: ${FINAGENT_MAX_PENDING:-16}
+      FINAGENT_HTTP_TRUST_ENV: ${FINAGENT_HTTP_TRUST_ENV:-false}
+      TAVILY_API_KEY: ${TAVILY_API_KEY:-}
+    volumes:
+      - workbench-data:/app/build
+    restart: unless-stopped
+volumes:
+  workbench-data:

@@ -1,0 +1,1981 @@
+{
+  "schema_version": 1,
+  "examples": [
+    {
+      "id": "msft-cashflow",
+      "title": "Microsoft：AI 投入下的现金流",
+      "question": "分析微软 FY2024 相比 FY2023 的收入、盈利与现金流，资本支出增加后还有多少自由现金流？给出需要继续核验的风险。",
+      "ticker": "MSFT",
+      "as_of": "2024-11-01",
+      "mode": "demo"
+    },
+    {
+      "id": "aapl-quality",
+      "title": "Apple：收入与盈利质量",
+      "question": "分析 Apple FY2024 相比 FY2023 的收入增长与营业利润率，哪些证据支持继续研究，哪些信息仍然缺失？",
+      "ticker": "AAPL",
+      "as_of": "2024-11-01",
+      "mode": "demo"
+    },
+    {
+      "id": "nvda-growth",
+      "title": "NVIDIA：高增长与证据缺口",
+      "question": "复核 NVIDIA FY2024 的收入与经营现金流增长，并检查资本支出口径是否足以计算自由现金流。",
+      "ticker": "NVDA",
+      "as_of": "2024-11-01",
+      "mode": "demo"
+    }
+  ],
+  "reports": [
+    {
+      "title": "Microsoft · FY2024 研究简报",
+      "ticker": "MSFT",
+      "company": "Microsoft",
+      "question": "分析微软 FY2024 相比 FY2023 的收入、盈利与现金流，资本支出增加后还有多少自由现金流？给出需要继续核验的风险。",
+      "as_of": "2024-11-01",
+      "mode": "demo",
+      "data_mode": "snapshot",
+      "generated_at": "2026-09-22T11:59:35+00:00",
+      "summary": "截至 2024-06-30 的年度PP&E 现金资本支出为 $44.48B（44,477,000,000 USD）。 [E04] 按经营现金流减 PP&E 现金资本支出口径，自由现金流为 $74.07B；这一计算不是 GAAP 报表行项目。 [E03] [E04] 截至 2024-06-30 的年度经营现金流为 $118.55B（118,548,000,000 USD）。 [E03] 经营现金流较截至 2023-06-30 的上一财年变化 35.36%。 [E03] [E09] PP&E 现金资本支出较截至 2023-06-30 的上一财年变化 58.24%。 [E04] [E10] 截至 2024-06-30 的年度营业收入为 $245.12B（245,122,000,000 USD）。 [E01]",
+      "verdict": {
+        "stance": "constructive",
+        "label": "基本面偏积极 · 估值待核验",
+        "rationale": "已核验的年度收入增长与正营业利润率支持继续研究；买入与否仍取决于价格、资本回报和风险承受能力。",
+        "confidence": "medium",
+        "conditions": [
+          "如果后续披露延续收入增长及现金转换，再提高研究优先级。",
+          "若资本支出增长超过经营现金流改善，或估值已充分反映增长，需下调吸引力判断。"
+        ],
+        "evidence_ids": [
+          "E01",
+          "E02",
+          "E07"
+        ],
+        "basis": "rule-based conditional fundamentals assessment; not a price forecast"
+      },
+      "metrics": [
+        {
+          "id": "revenue",
+          "label": "营业收入",
+          "value": "245122000000",
+          "display_value": "$245.12B",
+          "unit": "USD",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E01",
+            "E07"
+          ],
+          "comparison_value": "211915000000",
+          "comparison_period_end": "2023-06-30",
+          "change_pct": "15.67",
+          "change_formula": "(245122000000 / 211915000000 - 1) × 100"
+        },
+        {
+          "id": "operating_income",
+          "label": "营业利润",
+          "value": "109433000000",
+          "display_value": "$109.43B",
+          "unit": "USD",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E02",
+            "E08"
+          ],
+          "comparison_value": "88523000000",
+          "comparison_period_end": "2023-06-30",
+          "change_pct": "23.62",
+          "change_formula": "(109433000000 / 88523000000 - 1) × 100"
+        },
+        {
+          "id": "operating_cash_flow",
+          "label": "经营现金流",
+          "value": "118548000000",
+          "display_value": "$118.55B",
+          "unit": "USD",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E03",
+            "E09"
+          ],
+          "comparison_value": "87582000000",
+          "comparison_period_end": "2023-06-30",
+          "change_pct": "35.36",
+          "change_formula": "(118548000000 / 87582000000 - 1) × 100"
+        },
+        {
+          "id": "capital_expenditure",
+          "label": "PP&E 现金资本支出",
+          "value": "44477000000",
+          "display_value": "$44.48B",
+          "unit": "USD",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E04",
+            "E10"
+          ],
+          "comparison_value": "28107000000",
+          "comparison_period_end": "2023-06-30",
+          "change_pct": "58.24",
+          "change_formula": "(44477000000 / 28107000000 - 1) × 100"
+        },
+        {
+          "id": "net_income",
+          "label": "净利润",
+          "value": "88136000000",
+          "display_value": "$88.14B",
+          "unit": "USD",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E05",
+            "E11"
+          ],
+          "comparison_value": "72361000000",
+          "comparison_period_end": "2023-06-30",
+          "change_pct": "21.80",
+          "change_formula": "(88136000000 / 72361000000 - 1) × 100"
+        },
+        {
+          "id": "research_and_development",
+          "label": "研发费用",
+          "value": "29510000000",
+          "display_value": "$29.51B",
+          "unit": "USD",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E06",
+            "E12"
+          ],
+          "comparison_value": "27195000000",
+          "comparison_period_end": "2023-06-30",
+          "change_pct": "8.51",
+          "change_formula": "(29510000000 / 27195000000 - 1) × 100"
+        },
+        {
+          "id": "operating_margin",
+          "label": "营业利润率",
+          "value": "44.64",
+          "display_value": "44.64%",
+          "unit": "%",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "formula": "109433000000 / 245122000000 × 100",
+          "evidence_ids": [
+            "E02",
+            "E01"
+          ]
+        },
+        {
+          "id": "free_cash_flow",
+          "label": "自由现金流（OCF − PP&E）",
+          "value": "74071000000",
+          "display_value": "$74.07B",
+          "unit": "USD",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "formula": "118548000000 − 44477000000",
+          "evidence_ids": [
+            "E03",
+            "E04"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "id": "C01",
+          "text": "截至 2024-06-30 的年度营业收入为 $245.12B（245,122,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "revenue",
+          "evidence_ids": [
+            "E01"
+          ]
+        },
+        {
+          "id": "C02",
+          "text": "营业收入较截至 2023-06-30 的上一财年变化 15.67%。",
+          "kind": "derived",
+          "metric_id": "revenue",
+          "evidence_ids": [
+            "E01",
+            "E07"
+          ]
+        },
+        {
+          "id": "C03",
+          "text": "截至 2024-06-30 的年度营业利润为 $109.43B（109,433,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "operating_income",
+          "evidence_ids": [
+            "E02"
+          ]
+        },
+        {
+          "id": "C04",
+          "text": "营业利润较截至 2023-06-30 的上一财年变化 23.62%。",
+          "kind": "derived",
+          "metric_id": "operating_income",
+          "evidence_ids": [
+            "E02",
+            "E08"
+          ]
+        },
+        {
+          "id": "C05",
+          "text": "截至 2024-06-30 的年度经营现金流为 $118.55B（118,548,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "operating_cash_flow",
+          "evidence_ids": [
+            "E03"
+          ]
+        },
+        {
+          "id": "C06",
+          "text": "经营现金流较截至 2023-06-30 的上一财年变化 35.36%。",
+          "kind": "derived",
+          "metric_id": "operating_cash_flow",
+          "evidence_ids": [
+            "E03",
+            "E09"
+          ]
+        },
+        {
+          "id": "C07",
+          "text": "截至 2024-06-30 的年度PP&E 现金资本支出为 $44.48B（44,477,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "capital_expenditure",
+          "evidence_ids": [
+            "E04"
+          ]
+        },
+        {
+          "id": "C08",
+          "text": "PP&E 现金资本支出较截至 2023-06-30 的上一财年变化 58.24%。",
+          "kind": "derived",
+          "metric_id": "capital_expenditure",
+          "evidence_ids": [
+            "E04",
+            "E10"
+          ]
+        },
+        {
+          "id": "C09",
+          "text": "截至 2024-06-30 的年度净利润为 $88.14B（88,136,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "net_income",
+          "evidence_ids": [
+            "E05"
+          ]
+        },
+        {
+          "id": "C10",
+          "text": "净利润较截至 2023-06-30 的上一财年变化 21.80%。",
+          "kind": "derived",
+          "metric_id": "net_income",
+          "evidence_ids": [
+            "E05",
+            "E11"
+          ]
+        },
+        {
+          "id": "C11",
+          "text": "截至 2024-06-30 的年度研发费用为 $29.51B（29,510,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "research_and_development",
+          "evidence_ids": [
+            "E06"
+          ]
+        },
+        {
+          "id": "C12",
+          "text": "研发费用较截至 2023-06-30 的上一财年变化 8.51%。",
+          "kind": "derived",
+          "metric_id": "research_and_development",
+          "evidence_ids": [
+            "E06",
+            "E12"
+          ]
+        },
+        {
+          "id": "C13",
+          "text": "同期间营业利润率为 44.64%，由营业利润除以营业收入计算。",
+          "kind": "derived",
+          "metric_id": "operating_margin",
+          "evidence_ids": [
+            "E02",
+            "E01"
+          ]
+        },
+        {
+          "id": "C14",
+          "text": "按经营现金流减 PP&E 现金资本支出口径，自由现金流为 $74.07B；这一计算不是 GAAP 报表行项目。",
+          "kind": "derived",
+          "metric_id": "free_cash_flow",
+          "evidence_ids": [
+            "E03",
+            "E04"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "id": "E01",
+          "title": "MSFT · 10-K · 营业收入 · 2024-06-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-07-30",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+          "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+          "fact_sha256": "f34dce9ce85ee4cadc31b4cf31f4d4ce7347b7a998852081ca1395cb80f2c648",
+          "excerpt": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax = 245122000000 USD; period 2023-07-01 to 2024-06-30; filed 2024-07-30; accession 0000950170-24-087843.",
+          "metric": "revenue",
+          "value": "245122000000",
+          "unit": "USD",
+          "taxonomy_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "accession": "0000950170-24-087843",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E02",
+          "title": "MSFT · 10-K · 营业利润 · 2024-06-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-07-30",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+          "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+          "fact_sha256": "c81689ff84f1aa555a8cdb99cff76331055abf5426870336518e87b90d93c0f7",
+          "excerpt": "us-gaap:OperatingIncomeLoss = 109433000000 USD; period 2023-07-01 to 2024-06-30; filed 2024-07-30; accession 0000950170-24-087843.",
+          "metric": "operating_income",
+          "value": "109433000000",
+          "unit": "USD",
+          "taxonomy_tag": "OperatingIncomeLoss",
+          "accession": "0000950170-24-087843",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E03",
+          "title": "MSFT · 10-K · 经营现金流 · 2024-06-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-07-30",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+          "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+          "fact_sha256": "84e66370776875aee0eb0f50936a10d0a5bc04aaa28f6328f5ff82cb26a5a2fa",
+          "excerpt": "us-gaap:NetCashProvidedByUsedInOperatingActivities = 118548000000 USD; period 2023-07-01 to 2024-06-30; filed 2024-07-30; accession 0000950170-24-087843.",
+          "metric": "operating_cash_flow",
+          "value": "118548000000",
+          "unit": "USD",
+          "taxonomy_tag": "NetCashProvidedByUsedInOperatingActivities",
+          "accession": "0000950170-24-087843",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E04",
+          "title": "MSFT · 10-K · PP&E 现金资本支出 · 2024-06-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-07-30",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+          "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+          "fact_sha256": "5a68d8de294c3a8be4f8321c2c4cc08a1d572e12eb259e8d367ad3171b8d3f4c",
+          "excerpt": "us-gaap:PaymentsToAcquirePropertyPlantAndEquipment = 44477000000 USD; period 2023-07-01 to 2024-06-30; filed 2024-07-30; accession 0000950170-24-087843.",
+          "metric": "capital_expenditure",
+          "value": "44477000000",
+          "unit": "USD",
+          "taxonomy_tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "accession": "0000950170-24-087843",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E05",
+          "title": "MSFT · 10-K · 净利润 · 2024-06-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-07-30",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+          "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+          "fact_sha256": "855ab26b9252c4b3023c37bd27a34a9ba31ae2f75bd02e5f77bab6fcd35ff25f",
+          "excerpt": "us-gaap:NetIncomeLoss = 88136000000 USD; period 2023-07-01 to 2024-06-30; filed 2024-07-30; accession 0000950170-24-087843.",
+          "metric": "net_income",
+          "value": "88136000000",
+          "unit": "USD",
+          "taxonomy_tag": "NetIncomeLoss",
+          "accession": "0000950170-24-087843",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E06",
+          "title": "MSFT · 10-K · 研发费用 · 2024-06-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-07-30",
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+          "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+          "fact_sha256": "72405221fd510b9456381eab5f0cb5982f6d5381d7e7e60959dd7a396548fc07",
+          "excerpt": "us-gaap:ResearchAndDevelopmentExpense = 29510000000 USD; period 2023-07-01 to 2024-06-30; filed 2024-07-30; accession 0000950170-24-087843.",
+          "metric": "research_and_development",
+          "value": "29510000000",
+          "unit": "USD",
+          "taxonomy_tag": "ResearchAndDevelopmentExpense",
+          "accession": "0000950170-24-087843",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E07",
+          "title": "MSFT · 10-K · 营业收入 · 2023-06-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-07-30",
+          "period_start": "2022-07-01",
+          "period_end": "2023-06-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+          "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+          "fact_sha256": "637848c07d98a5a9f0c34aa2832f043eb73bbe5c01d63dbad7d2611afda1ddec",
+          "excerpt": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax = 211915000000 USD; period 2022-07-01 to 2023-06-30; filed 2024-07-30; accession 0000950170-24-087843.",
+          "metric": "revenue",
+          "value": "211915000000",
+          "unit": "USD",
+          "taxonomy_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "accession": "0000950170-24-087843",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E08",
+          "title": "MSFT · 10-K · 营业利润 · 2023-06-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-07-30",
+          "period_start": "2022-07-01",
+          "period_end": "2023-06-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+          "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+          "fact_sha256": "9f3815c75e3c028536e29c4e1a5ed45c8386a47d487dcfab79d3ab9cf8b419a6",
+          "excerpt": "us-gaap:OperatingIncomeLoss = 88523000000 USD; period 2022-07-01 to 2023-06-30; filed 2024-07-30; accession 0000950170-24-087843.",
+          "metric": "operating_income",
+          "value": "88523000000",
+          "unit": "USD",
+          "taxonomy_tag": "OperatingIncomeLoss",
+          "accession": "0000950170-24-087843",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E09",
+          "title": "MSFT · 10-K · 经营现金流 · 2023-06-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-07-30",
+          "period_start": "2022-07-01",
+          "period_end": "2023-06-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+          "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+          "fact_sha256": "935e100518e1b4ba5ce0ea40e876795dd4325617c81e10ea252dd8f1efa9e4b8",
+          "excerpt": "us-gaap:NetCashProvidedByUsedInOperatingActivities = 87582000000 USD; period 2022-07-01 to 2023-06-30; filed 2024-07-30; accession 0000950170-24-087843.",
+          "metric": "operating_cash_flow",
+          "value": "87582000000",
+          "unit": "USD",
+          "taxonomy_tag": "NetCashProvidedByUsedInOperatingActivities",
+          "accession": "0000950170-24-087843",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E10",
+          "title": "MSFT · 10-K · PP&E 现金资本支出 · 2023-06-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-07-30",
+          "period_start": "2022-07-01",
+          "period_end": "2023-06-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+          "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+          "fact_sha256": "12d6af2810ab37972bc336ccca0ad286641614a26b90f90f399b68019e434b9d",
+          "excerpt": "us-gaap:PaymentsToAcquirePropertyPlantAndEquipment = 28107000000 USD; period 2022-07-01 to 2023-06-30; filed 2024-07-30; accession 0000950170-24-087843.",
+          "metric": "capital_expenditure",
+          "value": "28107000000",
+          "unit": "USD",
+          "taxonomy_tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "accession": "0000950170-24-087843",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E11",
+          "title": "MSFT · 10-K · 净利润 · 2023-06-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-07-30",
+          "period_start": "2022-07-01",
+          "period_end": "2023-06-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+          "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+          "fact_sha256": "fda75cc41d643bcc3ac06f6c13b5ec1cc1b07d0de1a2231a0aec0853db1834f1",
+          "excerpt": "us-gaap:NetIncomeLoss = 72361000000 USD; period 2022-07-01 to 2023-06-30; filed 2024-07-30; accession 0000950170-24-087843.",
+          "metric": "net_income",
+          "value": "72361000000",
+          "unit": "USD",
+          "taxonomy_tag": "NetIncomeLoss",
+          "accession": "0000950170-24-087843",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E12",
+          "title": "MSFT · 10-K · 研发费用 · 2023-06-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-07-30",
+          "period_start": "2022-07-01",
+          "period_end": "2023-06-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+          "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+          "fact_sha256": "09f3512289494774c710db1aba67f88977a4a8aad1ae7269064d1d82d76f1a09",
+          "excerpt": "us-gaap:ResearchAndDevelopmentExpense = 27195000000 USD; period 2022-07-01 to 2023-06-30; filed 2024-07-30; accession 0000950170-24-087843.",
+          "metric": "research_and_development",
+          "value": "27195000000",
+          "unit": "USD",
+          "taxonomy_tag": "ResearchAndDevelopmentExpense",
+          "accession": "0000950170-24-087843",
+          "data_mode": "snapshot"
+        }
+      ],
+      "risks": [
+        "历史年度增长无法证明未来增长会持续。",
+        "高资本投入可能压缩现金流，资本支出定义需逐期核验。",
+        "缺少同一时点估值和完整业务风险披露，基本面积极不等同于股票便宜。"
+      ],
+      "limitations": [
+        "演示使用截至 2024-11-01 已申报的历史快照，抓取时间为 2026-09-22T11:59:35+00:00，不代表当前公司状况。",
+        "年度财报研究，不含实时股价、估值倍数、盘中新闻、分析师预测或交易执行；无法给出买卖指令、目标价或收益保证。",
+        "截止日按 SEC filed 日期（日粒度）过滤；未模拟交易时区或当日提交时刻。后来抓取的 Company Facts 不等同于当时完整归档的数据库。",
+        "仅映射整家公司常见 us-gaap 年度标签，可能遗漏自定义标签、分部数据和财报附注。",
+        "自由现金流使用经营现金流减 PP&E 现金资本支出的明确口径，不包含所有融资租赁或收购支出。"
+      ],
+      "next_steps": [
+        "核对营运资本变动、资本支出定义与融资租赁，检验现金转换质量。",
+        "补充同一时点的股价、稀释股数及净债务，进行估值与情景敏感性分析。",
+        "补充最新 10-K 风险因素、业务集中度与监管披露，形成完整风险清单。"
+      ],
+      "trace": [
+        {
+          "step": "plan",
+          "label": "研究规划",
+          "status": "completed",
+          "detail": "年度报表 · cashflow · 请求财年 2024；拆分 2 个指标槽位。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "retrieve",
+          "label": "官方来源检索",
+          "status": "completed",
+          "detail": "明确标识的历史 SEC 快照；完整性 SHA-256 校验。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "temporal",
+          "label": "时间边界核验",
+          "status": "completed",
+          "detail": "仅接受 filed ≤ 2024-11-01、期间已结束、330–380 天年度 USD 的 10-K/10-K/A 记录；收入锚定精确期间。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "compute",
+          "label": "确定性计算",
+          "status": "completed",
+          "detail": "生成 8 项指标；Decimal 计算同比、利润率与可比口径自由现金流，缺失项不补造。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "verify",
+          "label": "证据缺口复核",
+          "status": "completed",
+          "detail": "14 条事实/计算引用全部通过；检查指标槽位、期间对齐和标签冲突后，保留 0 项缺口。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "synthesize",
+          "label": "可验证归纳",
+          "status": "completed",
+          "detail": "离线确定性摘要；未调用模型。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "publish",
+          "label": "研究报告生成",
+          "status": "completed",
+          "detail": "数字、证据、时间边界、缺口与条件判断已分层保存，可导出重放。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        }
+      ],
+      "model": {
+        "provider": "DeepSeek",
+        "used": false,
+        "model": "deepseek-flash",
+        "status": "not_requested",
+        "strategy": "verified_claim_selection",
+        "detail": "离线确定性摘要；未调用模型。"
+      },
+      "plan": {
+        "focus": "cashflow",
+        "fiscal_year": 2024,
+        "requested_years": [
+          2023,
+          2024
+        ],
+        "supported": true,
+        "gaps": [],
+        "scope": "single-company annual fundamentals",
+        "metric_slots": [
+          "operating_cash_flow",
+          "capital_expenditure"
+        ]
+      },
+      "discoveries": [],
+      "coverage": {
+        "verified_claims": 14,
+        "cited_claims": 14,
+        "evidence_count": 12,
+        "filing_cutoff": "2024-11-01",
+        "missing_metrics": [],
+        "missing_requested_metrics": [],
+        "question_supported": true,
+        "data_as_of": "2024-06-30",
+        "source_retrieved_at": "2026-09-22T11:59:35+00:00"
+      },
+      "method": {
+        "name": "ATLAS-inspired typed evidence workflow",
+        "version": "1.0",
+        "checks": [
+          "filed-cutoff",
+          "period-alignment",
+          "unit-match",
+          "tag-conflict",
+          "decimal-calculation",
+          "citation-integrity",
+          "scope-abstention"
+        ]
+      },
+      "static_replay": true,
+      "timestamp_basis": "data_capture",
+      "trace_note": "预生成的静态工作流回放；步骤时间统一锚定数据抓取日期，不是实际运行时延或实测步骤时间。",
+      "example_id": "msft-cashflow"
+    },
+    {
+      "title": "Apple · FY2024 研究简报",
+      "ticker": "AAPL",
+      "company": "Apple",
+      "question": "分析 Apple FY2024 相比 FY2023 的收入增长与营业利润率，哪些证据支持继续研究，哪些信息仍然缺失？",
+      "as_of": "2024-11-01",
+      "mode": "demo",
+      "data_mode": "snapshot",
+      "generated_at": "2026-09-22T11:59:35+00:00",
+      "summary": "截至 2024-09-28 的年度净利润为 $93.74B（93,736,000,000 USD）。 [E05] 截至 2024-09-28 的年度营业利润为 $123.22B（123,216,000,000 USD）。 [E02] 同期间营业利润率为 31.51%，由营业利润除以营业收入计算。 [E02] [E01] 截至 2024-09-28 的年度营业收入为 $391.04B（391,035,000,000 USD）。 [E01] 营业收入较截至 2023-09-30 的上一财年变化 2.02%。 [E01] [E07] 营业利润较截至 2023-09-30 的上一财年变化 7.80%。 [E02] [E08]",
+      "verdict": {
+        "stance": "constructive",
+        "label": "基本面偏积极 · 估值待核验",
+        "rationale": "已核验的年度收入增长与正营业利润率支持继续研究；买入与否仍取决于价格、资本回报和风险承受能力。",
+        "confidence": "medium",
+        "conditions": [
+          "如果后续披露延续收入增长及现金转换，再提高研究优先级。",
+          "若资本支出增长超过经营现金流改善，或估值已充分反映增长，需下调吸引力判断。"
+        ],
+        "evidence_ids": [
+          "E01",
+          "E02",
+          "E07"
+        ],
+        "basis": "rule-based conditional fundamentals assessment; not a price forecast"
+      },
+      "metrics": [
+        {
+          "id": "revenue",
+          "label": "营业收入",
+          "value": "391035000000",
+          "display_value": "$391.04B",
+          "unit": "USD",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E01",
+            "E07"
+          ],
+          "comparison_value": "383285000000",
+          "comparison_period_end": "2023-09-30",
+          "change_pct": "2.02",
+          "change_formula": "(391035000000 / 383285000000 - 1) × 100"
+        },
+        {
+          "id": "operating_income",
+          "label": "营业利润",
+          "value": "123216000000",
+          "display_value": "$123.22B",
+          "unit": "USD",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E02",
+            "E08"
+          ],
+          "comparison_value": "114301000000",
+          "comparison_period_end": "2023-09-30",
+          "change_pct": "7.80",
+          "change_formula": "(123216000000 / 114301000000 - 1) × 100"
+        },
+        {
+          "id": "operating_cash_flow",
+          "label": "经营现金流",
+          "value": "118254000000",
+          "display_value": "$118.25B",
+          "unit": "USD",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E03",
+            "E09"
+          ],
+          "comparison_value": "110543000000",
+          "comparison_period_end": "2023-09-30",
+          "change_pct": "6.98",
+          "change_formula": "(118254000000 / 110543000000 - 1) × 100"
+        },
+        {
+          "id": "capital_expenditure",
+          "label": "PP&E 现金资本支出",
+          "value": "9447000000",
+          "display_value": "$9.45B",
+          "unit": "USD",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E04",
+            "E10"
+          ],
+          "comparison_value": "10959000000",
+          "comparison_period_end": "2023-09-30",
+          "change_pct": "-13.80",
+          "change_formula": "(9447000000 / 10959000000 - 1) × 100"
+        },
+        {
+          "id": "net_income",
+          "label": "净利润",
+          "value": "93736000000",
+          "display_value": "$93.74B",
+          "unit": "USD",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E05",
+            "E11"
+          ],
+          "comparison_value": "96995000000",
+          "comparison_period_end": "2023-09-30",
+          "change_pct": "-3.36",
+          "change_formula": "(93736000000 / 96995000000 - 1) × 100"
+        },
+        {
+          "id": "research_and_development",
+          "label": "研发费用",
+          "value": "31370000000",
+          "display_value": "$31.37B",
+          "unit": "USD",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E06",
+            "E12"
+          ],
+          "comparison_value": "29915000000",
+          "comparison_period_end": "2023-09-30",
+          "change_pct": "4.86",
+          "change_formula": "(31370000000 / 29915000000 - 1) × 100"
+        },
+        {
+          "id": "operating_margin",
+          "label": "营业利润率",
+          "value": "31.51",
+          "display_value": "31.51%",
+          "unit": "%",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "formula": "123216000000 / 391035000000 × 100",
+          "evidence_ids": [
+            "E02",
+            "E01"
+          ]
+        },
+        {
+          "id": "free_cash_flow",
+          "label": "自由现金流（OCF − PP&E）",
+          "value": "108807000000",
+          "display_value": "$108.81B",
+          "unit": "USD",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "formula": "118254000000 − 9447000000",
+          "evidence_ids": [
+            "E03",
+            "E04"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "id": "C01",
+          "text": "截至 2024-09-28 的年度营业收入为 $391.04B（391,035,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "revenue",
+          "evidence_ids": [
+            "E01"
+          ]
+        },
+        {
+          "id": "C02",
+          "text": "营业收入较截至 2023-09-30 的上一财年变化 2.02%。",
+          "kind": "derived",
+          "metric_id": "revenue",
+          "evidence_ids": [
+            "E01",
+            "E07"
+          ]
+        },
+        {
+          "id": "C03",
+          "text": "截至 2024-09-28 的年度营业利润为 $123.22B（123,216,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "operating_income",
+          "evidence_ids": [
+            "E02"
+          ]
+        },
+        {
+          "id": "C04",
+          "text": "营业利润较截至 2023-09-30 的上一财年变化 7.80%。",
+          "kind": "derived",
+          "metric_id": "operating_income",
+          "evidence_ids": [
+            "E02",
+            "E08"
+          ]
+        },
+        {
+          "id": "C05",
+          "text": "截至 2024-09-28 的年度经营现金流为 $118.25B（118,254,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "operating_cash_flow",
+          "evidence_ids": [
+            "E03"
+          ]
+        },
+        {
+          "id": "C06",
+          "text": "经营现金流较截至 2023-09-30 的上一财年变化 6.98%。",
+          "kind": "derived",
+          "metric_id": "operating_cash_flow",
+          "evidence_ids": [
+            "E03",
+            "E09"
+          ]
+        },
+        {
+          "id": "C07",
+          "text": "截至 2024-09-28 的年度PP&E 现金资本支出为 $9.45B（9,447,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "capital_expenditure",
+          "evidence_ids": [
+            "E04"
+          ]
+        },
+        {
+          "id": "C08",
+          "text": "PP&E 现金资本支出较截至 2023-09-30 的上一财年变化 -13.80%。",
+          "kind": "derived",
+          "metric_id": "capital_expenditure",
+          "evidence_ids": [
+            "E04",
+            "E10"
+          ]
+        },
+        {
+          "id": "C09",
+          "text": "截至 2024-09-28 的年度净利润为 $93.74B（93,736,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "net_income",
+          "evidence_ids": [
+            "E05"
+          ]
+        },
+        {
+          "id": "C10",
+          "text": "净利润较截至 2023-09-30 的上一财年变化 -3.36%。",
+          "kind": "derived",
+          "metric_id": "net_income",
+          "evidence_ids": [
+            "E05",
+            "E11"
+          ]
+        },
+        {
+          "id": "C11",
+          "text": "截至 2024-09-28 的年度研发费用为 $31.37B（31,370,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "research_and_development",
+          "evidence_ids": [
+            "E06"
+          ]
+        },
+        {
+          "id": "C12",
+          "text": "研发费用较截至 2023-09-30 的上一财年变化 4.86%。",
+          "kind": "derived",
+          "metric_id": "research_and_development",
+          "evidence_ids": [
+            "E06",
+            "E12"
+          ]
+        },
+        {
+          "id": "C13",
+          "text": "同期间营业利润率为 31.51%，由营业利润除以营业收入计算。",
+          "kind": "derived",
+          "metric_id": "operating_margin",
+          "evidence_ids": [
+            "E02",
+            "E01"
+          ]
+        },
+        {
+          "id": "C14",
+          "text": "按经营现金流减 PP&E 现金资本支出口径，自由现金流为 $108.81B；这一计算不是 GAAP 报表行项目。",
+          "kind": "derived",
+          "metric_id": "free_cash_flow",
+          "evidence_ids": [
+            "E03",
+            "E04"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "id": "E01",
+          "title": "AAPL · 10-K · 营业收入 · 2024-09-28",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-11-01",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+          "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "fact_sha256": "44e065762557a6c644024f23d92f7bc8fa1681e9457b1e03989275d252b90416",
+          "excerpt": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax = 391035000000 USD; period 2023-10-01 to 2024-09-28; filed 2024-11-01; accession 0000320193-24-000123.",
+          "metric": "revenue",
+          "value": "391035000000",
+          "unit": "USD",
+          "taxonomy_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "accession": "0000320193-24-000123",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E02",
+          "title": "AAPL · 10-K · 营业利润 · 2024-09-28",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-11-01",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+          "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "fact_sha256": "0db23fcf3c42e49ff53a44c9e355bc87de57d7871f402fac23f77ccbeb6425f0",
+          "excerpt": "us-gaap:OperatingIncomeLoss = 123216000000 USD; period 2023-10-01 to 2024-09-28; filed 2024-11-01; accession 0000320193-24-000123.",
+          "metric": "operating_income",
+          "value": "123216000000",
+          "unit": "USD",
+          "taxonomy_tag": "OperatingIncomeLoss",
+          "accession": "0000320193-24-000123",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E03",
+          "title": "AAPL · 10-K · 经营现金流 · 2024-09-28",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-11-01",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+          "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "fact_sha256": "40cfd16ce34b2dd52658a1241057c350b3aa10d005b73df0413b280c08691324",
+          "excerpt": "us-gaap:NetCashProvidedByUsedInOperatingActivities = 118254000000 USD; period 2023-10-01 to 2024-09-28; filed 2024-11-01; accession 0000320193-24-000123.",
+          "metric": "operating_cash_flow",
+          "value": "118254000000",
+          "unit": "USD",
+          "taxonomy_tag": "NetCashProvidedByUsedInOperatingActivities",
+          "accession": "0000320193-24-000123",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E04",
+          "title": "AAPL · 10-K · PP&E 现金资本支出 · 2024-09-28",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-11-01",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+          "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "fact_sha256": "677cd86f822d6177a08b88fdd88dcc8ae5ee2955dcc520525bd01e5a55a073c2",
+          "excerpt": "us-gaap:PaymentsToAcquirePropertyPlantAndEquipment = 9447000000 USD; period 2023-10-01 to 2024-09-28; filed 2024-11-01; accession 0000320193-24-000123.",
+          "metric": "capital_expenditure",
+          "value": "9447000000",
+          "unit": "USD",
+          "taxonomy_tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "accession": "0000320193-24-000123",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E05",
+          "title": "AAPL · 10-K · 净利润 · 2024-09-28",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-11-01",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+          "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "fact_sha256": "b424bbd194e8e3b4d61a8b1a8b81cdd1d834331e5a9ffd1fe4ae06e6f75609dd",
+          "excerpt": "us-gaap:NetIncomeLoss = 93736000000 USD; period 2023-10-01 to 2024-09-28; filed 2024-11-01; accession 0000320193-24-000123.",
+          "metric": "net_income",
+          "value": "93736000000",
+          "unit": "USD",
+          "taxonomy_tag": "NetIncomeLoss",
+          "accession": "0000320193-24-000123",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E06",
+          "title": "AAPL · 10-K · 研发费用 · 2024-09-28",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-11-01",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+          "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "fact_sha256": "2244209523e66e85a11148662ac64c571dda6524038181c920484bb824e16ac2",
+          "excerpt": "us-gaap:ResearchAndDevelopmentExpense = 31370000000 USD; period 2023-10-01 to 2024-09-28; filed 2024-11-01; accession 0000320193-24-000123.",
+          "metric": "research_and_development",
+          "value": "31370000000",
+          "unit": "USD",
+          "taxonomy_tag": "ResearchAndDevelopmentExpense",
+          "accession": "0000320193-24-000123",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E07",
+          "title": "AAPL · 10-K · 营业收入 · 2023-09-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-11-01",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+          "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "fact_sha256": "847b54c159c37bcfff0f40d66dfc6422ad78b697a05c8cb53445b843187de4d8",
+          "excerpt": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax = 383285000000 USD; period 2022-09-25 to 2023-09-30; filed 2024-11-01; accession 0000320193-24-000123.",
+          "metric": "revenue",
+          "value": "383285000000",
+          "unit": "USD",
+          "taxonomy_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "accession": "0000320193-24-000123",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E08",
+          "title": "AAPL · 10-K · 营业利润 · 2023-09-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-11-01",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+          "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "fact_sha256": "501c81bcbe5be902f8995971001ab06270f760a9272e57cee98c11b7bc44def2",
+          "excerpt": "us-gaap:OperatingIncomeLoss = 114301000000 USD; period 2022-09-25 to 2023-09-30; filed 2024-11-01; accession 0000320193-24-000123.",
+          "metric": "operating_income",
+          "value": "114301000000",
+          "unit": "USD",
+          "taxonomy_tag": "OperatingIncomeLoss",
+          "accession": "0000320193-24-000123",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E09",
+          "title": "AAPL · 10-K · 经营现金流 · 2023-09-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-11-01",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+          "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "fact_sha256": "72f57430599b53b71999ef1d2a3b2ba35f5d362760fdaeca790db5c6e60d9cba",
+          "excerpt": "us-gaap:NetCashProvidedByUsedInOperatingActivities = 110543000000 USD; period 2022-09-25 to 2023-09-30; filed 2024-11-01; accession 0000320193-24-000123.",
+          "metric": "operating_cash_flow",
+          "value": "110543000000",
+          "unit": "USD",
+          "taxonomy_tag": "NetCashProvidedByUsedInOperatingActivities",
+          "accession": "0000320193-24-000123",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E10",
+          "title": "AAPL · 10-K · PP&E 现金资本支出 · 2023-09-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-11-01",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+          "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "fact_sha256": "99f99bdea4a0437a3750a2429207774efc39ac40753ef428a6269d3ed7631fcc",
+          "excerpt": "us-gaap:PaymentsToAcquirePropertyPlantAndEquipment = 10959000000 USD; period 2022-09-25 to 2023-09-30; filed 2024-11-01; accession 0000320193-24-000123.",
+          "metric": "capital_expenditure",
+          "value": "10959000000",
+          "unit": "USD",
+          "taxonomy_tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "accession": "0000320193-24-000123",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E11",
+          "title": "AAPL · 10-K · 净利润 · 2023-09-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-11-01",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+          "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "fact_sha256": "5a5e89f36cd62c949818b56f7b9c06572b174b0b3f56ec69b0d3f91c548d4496",
+          "excerpt": "us-gaap:NetIncomeLoss = 96995000000 USD; period 2022-09-25 to 2023-09-30; filed 2024-11-01; accession 0000320193-24-000123.",
+          "metric": "net_income",
+          "value": "96995000000",
+          "unit": "USD",
+          "taxonomy_tag": "NetIncomeLoss",
+          "accession": "0000320193-24-000123",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E12",
+          "title": "AAPL · 10-K · 研发费用 · 2023-09-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-11-01",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+          "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+          "fact_sha256": "6fa72e74805ab05ffd49ef02c694cb66d3ed35cee8ab95fe5aed6f6644a73f93",
+          "excerpt": "us-gaap:ResearchAndDevelopmentExpense = 29915000000 USD; period 2022-09-25 to 2023-09-30; filed 2024-11-01; accession 0000320193-24-000123.",
+          "metric": "research_and_development",
+          "value": "29915000000",
+          "unit": "USD",
+          "taxonomy_tag": "ResearchAndDevelopmentExpense",
+          "accession": "0000320193-24-000123",
+          "data_mode": "snapshot"
+        }
+      ],
+      "risks": [
+        "历史年度增长无法证明未来增长会持续。",
+        "高资本投入可能压缩现金流，资本支出定义需逐期核验。",
+        "缺少同一时点估值和完整业务风险披露，基本面积极不等同于股票便宜。"
+      ],
+      "limitations": [
+        "演示使用截至 2024-11-01 已申报的历史快照，抓取时间为 2026-09-22T11:59:35+00:00，不代表当前公司状况。",
+        "年度财报研究，不含实时股价、估值倍数、盘中新闻、分析师预测或交易执行；无法给出买卖指令、目标价或收益保证。",
+        "截止日按 SEC filed 日期（日粒度）过滤；未模拟交易时区或当日提交时刻。后来抓取的 Company Facts 不等同于当时完整归档的数据库。",
+        "仅映射整家公司常见 us-gaap 年度标签，可能遗漏自定义标签、分部数据和财报附注。",
+        "自由现金流使用经营现金流减 PP&E 现金资本支出的明确口径，不包含所有融资租赁或收购支出。"
+      ],
+      "next_steps": [
+        "结合分部披露，核对营业利润率变化来自产品结构还是一次性因素。",
+        "补充同一时点的股价、稀释股数及净债务，进行估值与情景敏感性分析。",
+        "补充最新 10-K 风险因素、业务集中度与监管披露，形成完整风险清单。"
+      ],
+      "trace": [
+        {
+          "step": "plan",
+          "label": "研究规划",
+          "status": "completed",
+          "detail": "年度报表 · profitability · 请求财年 2024；拆分 3 个指标槽位。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "retrieve",
+          "label": "官方来源检索",
+          "status": "completed",
+          "detail": "明确标识的历史 SEC 快照；完整性 SHA-256 校验。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "temporal",
+          "label": "时间边界核验",
+          "status": "completed",
+          "detail": "仅接受 filed ≤ 2024-11-01、期间已结束、330–380 天年度 USD 的 10-K/10-K/A 记录；收入锚定精确期间。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "compute",
+          "label": "确定性计算",
+          "status": "completed",
+          "detail": "生成 8 项指标；Decimal 计算同比、利润率与可比口径自由现金流，缺失项不补造。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "verify",
+          "label": "证据缺口复核",
+          "status": "completed",
+          "detail": "14 条事实/计算引用全部通过；检查指标槽位、期间对齐和标签冲突后，保留 0 项缺口。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "synthesize",
+          "label": "可验证归纳",
+          "status": "completed",
+          "detail": "离线确定性摘要；未调用模型。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "publish",
+          "label": "研究报告生成",
+          "status": "completed",
+          "detail": "数字、证据、时间边界、缺口与条件判断已分层保存，可导出重放。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        }
+      ],
+      "model": {
+        "provider": "DeepSeek",
+        "used": false,
+        "model": "deepseek-flash",
+        "status": "not_requested",
+        "strategy": "verified_claim_selection",
+        "detail": "离线确定性摘要；未调用模型。"
+      },
+      "plan": {
+        "focus": "profitability",
+        "fiscal_year": 2024,
+        "requested_years": [
+          2023,
+          2024
+        ],
+        "supported": true,
+        "gaps": [],
+        "scope": "single-company annual fundamentals",
+        "metric_slots": [
+          "revenue",
+          "operating_income",
+          "net_income"
+        ]
+      },
+      "discoveries": [],
+      "coverage": {
+        "verified_claims": 14,
+        "cited_claims": 14,
+        "evidence_count": 12,
+        "filing_cutoff": "2024-11-01",
+        "missing_metrics": [],
+        "missing_requested_metrics": [],
+        "question_supported": true,
+        "data_as_of": "2024-09-28",
+        "source_retrieved_at": "2026-09-22T11:59:35+00:00"
+      },
+      "method": {
+        "name": "ATLAS-inspired typed evidence workflow",
+        "version": "1.0",
+        "checks": [
+          "filed-cutoff",
+          "period-alignment",
+          "unit-match",
+          "tag-conflict",
+          "decimal-calculation",
+          "citation-integrity",
+          "scope-abstention"
+        ]
+      },
+      "static_replay": true,
+      "timestamp_basis": "data_capture",
+      "trace_note": "预生成的静态工作流回放；步骤时间统一锚定数据抓取日期，不是实际运行时延或实测步骤时间。",
+      "example_id": "aapl-quality"
+    },
+    {
+      "title": "NVIDIA · FY2024 研究简报",
+      "ticker": "NVDA",
+      "company": "NVIDIA",
+      "question": "复核 NVIDIA FY2024 的收入与经营现金流增长，并检查资本支出口径是否足以计算自由现金流。",
+      "as_of": "2024-11-01",
+      "mode": "demo",
+      "data_mode": "snapshot",
+      "generated_at": "2026-09-22T11:59:35+00:00",
+      "summary": "问题范围存在未覆盖部分，系统暂不对原问题给出完整结论。问题所需指标尚缺：PP&E 现金资本支出。 以下仅供参考：截至 2024-01-28 的年度经营现金流为 $28.09B（28,090,000,000 USD）。 [E03] 经营现金流较截至 2023-01-29 的上一财年变化 397.96%。 [E03] [E08] 截至 2024-01-28 的年度营业收入为 $60.92B（60,922,000,000 USD）。 [E01] 营业收入较截至 2023-01-29 的上一财年变化 125.85%。 [E01] [E06] 截至 2024-01-28 的年度营业利润为 $32.97B（32,972,000,000 USD）。 [E02] 营业利润较截至 2023-01-29 的上一财年变化 680.59%。 [E02] [E07]",
+      "verdict": {
+        "stance": "insufficient_evidence",
+        "label": "证据不足 · 暂缓判断",
+        "rationale": "关键指标或请求范围未被证据覆盖。",
+        "confidence": "low",
+        "conditions": [
+          "如果后续披露延续收入增长及现金转换，再提高研究优先级。",
+          "若资本支出增长超过经营现金流改善，或估值已充分反映增长，需下调吸引力判断。"
+        ],
+        "evidence_ids": [
+          "E01",
+          "E02",
+          "E06"
+        ],
+        "basis": "rule-based conditional fundamentals assessment; not a price forecast"
+      },
+      "metrics": [
+        {
+          "id": "revenue",
+          "label": "营业收入",
+          "value": "60922000000",
+          "display_value": "$60.92B",
+          "unit": "USD",
+          "period_start": "2023-01-30",
+          "period_end": "2024-01-28",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E01",
+            "E06"
+          ],
+          "comparison_value": "26974000000",
+          "comparison_period_end": "2023-01-29",
+          "change_pct": "125.85",
+          "change_formula": "(60922000000 / 26974000000 - 1) × 100"
+        },
+        {
+          "id": "operating_income",
+          "label": "营业利润",
+          "value": "32972000000",
+          "display_value": "$32.97B",
+          "unit": "USD",
+          "period_start": "2023-01-30",
+          "period_end": "2024-01-28",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E02",
+            "E07"
+          ],
+          "comparison_value": "4224000000",
+          "comparison_period_end": "2023-01-29",
+          "change_pct": "680.59",
+          "change_formula": "(32972000000 / 4224000000 - 1) × 100"
+        },
+        {
+          "id": "operating_cash_flow",
+          "label": "经营现金流",
+          "value": "28090000000",
+          "display_value": "$28.09B",
+          "unit": "USD",
+          "period_start": "2023-01-30",
+          "period_end": "2024-01-28",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E03",
+            "E08"
+          ],
+          "comparison_value": "5641000000",
+          "comparison_period_end": "2023-01-29",
+          "change_pct": "397.96",
+          "change_formula": "(28090000000 / 5641000000 - 1) × 100"
+        },
+        {
+          "id": "net_income",
+          "label": "净利润",
+          "value": "29760000000",
+          "display_value": "$29.76B",
+          "unit": "USD",
+          "period_start": "2023-01-30",
+          "period_end": "2024-01-28",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E04",
+            "E09"
+          ],
+          "comparison_value": "4368000000",
+          "comparison_period_end": "2023-01-29",
+          "change_pct": "581.32",
+          "change_formula": "(29760000000 / 4368000000 - 1) × 100"
+        },
+        {
+          "id": "research_and_development",
+          "label": "研发费用",
+          "value": "8675000000",
+          "display_value": "$8.68B",
+          "unit": "USD",
+          "period_start": "2023-01-30",
+          "period_end": "2024-01-28",
+          "formula": "SEC reported value",
+          "evidence_ids": [
+            "E05",
+            "E10"
+          ],
+          "comparison_value": "7339000000",
+          "comparison_period_end": "2023-01-29",
+          "change_pct": "18.20",
+          "change_formula": "(8675000000 / 7339000000 - 1) × 100"
+        },
+        {
+          "id": "operating_margin",
+          "label": "营业利润率",
+          "value": "54.12",
+          "display_value": "54.12%",
+          "unit": "%",
+          "period_start": "2023-01-30",
+          "period_end": "2024-01-28",
+          "formula": "32972000000 / 60922000000 × 100",
+          "evidence_ids": [
+            "E02",
+            "E01"
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "id": "C01",
+          "text": "截至 2024-01-28 的年度营业收入为 $60.92B（60,922,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "revenue",
+          "evidence_ids": [
+            "E01"
+          ]
+        },
+        {
+          "id": "C02",
+          "text": "营业收入较截至 2023-01-29 的上一财年变化 125.85%。",
+          "kind": "derived",
+          "metric_id": "revenue",
+          "evidence_ids": [
+            "E01",
+            "E06"
+          ]
+        },
+        {
+          "id": "C03",
+          "text": "截至 2024-01-28 的年度营业利润为 $32.97B（32,972,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "operating_income",
+          "evidence_ids": [
+            "E02"
+          ]
+        },
+        {
+          "id": "C04",
+          "text": "营业利润较截至 2023-01-29 的上一财年变化 680.59%。",
+          "kind": "derived",
+          "metric_id": "operating_income",
+          "evidence_ids": [
+            "E02",
+            "E07"
+          ]
+        },
+        {
+          "id": "C05",
+          "text": "截至 2024-01-28 的年度经营现金流为 $28.09B（28,090,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "operating_cash_flow",
+          "evidence_ids": [
+            "E03"
+          ]
+        },
+        {
+          "id": "C06",
+          "text": "经营现金流较截至 2023-01-29 的上一财年变化 397.96%。",
+          "kind": "derived",
+          "metric_id": "operating_cash_flow",
+          "evidence_ids": [
+            "E03",
+            "E08"
+          ]
+        },
+        {
+          "id": "C07",
+          "text": "截至 2024-01-28 的年度净利润为 $29.76B（29,760,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "net_income",
+          "evidence_ids": [
+            "E04"
+          ]
+        },
+        {
+          "id": "C08",
+          "text": "净利润较截至 2023-01-29 的上一财年变化 581.32%。",
+          "kind": "derived",
+          "metric_id": "net_income",
+          "evidence_ids": [
+            "E04",
+            "E09"
+          ]
+        },
+        {
+          "id": "C09",
+          "text": "截至 2024-01-28 的年度研发费用为 $8.68B（8,675,000,000 USD）。",
+          "kind": "verified",
+          "metric_id": "research_and_development",
+          "evidence_ids": [
+            "E05"
+          ]
+        },
+        {
+          "id": "C10",
+          "text": "研发费用较截至 2023-01-29 的上一财年变化 18.20%。",
+          "kind": "derived",
+          "metric_id": "research_and_development",
+          "evidence_ids": [
+            "E05",
+            "E10"
+          ]
+        },
+        {
+          "id": "C11",
+          "text": "同期间营业利润率为 54.12%，由营业利润除以营业收入计算。",
+          "kind": "derived",
+          "metric_id": "operating_margin",
+          "evidence_ids": [
+            "E02",
+            "E01"
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "id": "E01",
+          "title": "NVDA · 10-K · 营业收入 · 2024-01-28",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-02-21",
+          "period_start": "2023-01-30",
+          "period_end": "2024-01-28",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "12c2b1c3d98525a0149cee78a3bd6b00951eefc28cd69f1a0ea6fbaa4827b3b8",
+          "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+          "fact_sha256": "badf75ed8408dbb5513b229541b0122e14b679dd91d15bb78105e5ea4eceeed8",
+          "excerpt": "us-gaap:Revenues = 60922000000 USD; period 2023-01-30 to 2024-01-28; filed 2024-02-21; accession 0001045810-24-000029.",
+          "metric": "revenue",
+          "value": "60922000000",
+          "unit": "USD",
+          "taxonomy_tag": "Revenues",
+          "accession": "0001045810-24-000029",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E02",
+          "title": "NVDA · 10-K · 营业利润 · 2024-01-28",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-02-21",
+          "period_start": "2023-01-30",
+          "period_end": "2024-01-28",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "12c2b1c3d98525a0149cee78a3bd6b00951eefc28cd69f1a0ea6fbaa4827b3b8",
+          "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+          "fact_sha256": "8c9aff0f456671ab80c5d8cffdfe3559440b685e0cea068c61b800da917f6296",
+          "excerpt": "us-gaap:OperatingIncomeLoss = 32972000000 USD; period 2023-01-30 to 2024-01-28; filed 2024-02-21; accession 0001045810-24-000029.",
+          "metric": "operating_income",
+          "value": "32972000000",
+          "unit": "USD",
+          "taxonomy_tag": "OperatingIncomeLoss",
+          "accession": "0001045810-24-000029",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E03",
+          "title": "NVDA · 10-K · 经营现金流 · 2024-01-28",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-02-21",
+          "period_start": "2023-01-30",
+          "period_end": "2024-01-28",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "12c2b1c3d98525a0149cee78a3bd6b00951eefc28cd69f1a0ea6fbaa4827b3b8",
+          "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+          "fact_sha256": "23612be3083d83c859b3121b5fb68f3db01fdfbe1a616b17b5465020b3951d66",
+          "excerpt": "us-gaap:NetCashProvidedByUsedInOperatingActivities = 28090000000 USD; period 2023-01-30 to 2024-01-28; filed 2024-02-21; accession 0001045810-24-000029.",
+          "metric": "operating_cash_flow",
+          "value": "28090000000",
+          "unit": "USD",
+          "taxonomy_tag": "NetCashProvidedByUsedInOperatingActivities",
+          "accession": "0001045810-24-000029",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E04",
+          "title": "NVDA · 10-K · 净利润 · 2024-01-28",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-02-21",
+          "period_start": "2023-01-30",
+          "period_end": "2024-01-28",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "12c2b1c3d98525a0149cee78a3bd6b00951eefc28cd69f1a0ea6fbaa4827b3b8",
+          "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+          "fact_sha256": "01d173666a4d2056211230c602e00c4f10563ef7f92d46ef7c52a7aa54fc0514",
+          "excerpt": "us-gaap:NetIncomeLoss = 29760000000 USD; period 2023-01-30 to 2024-01-28; filed 2024-02-21; accession 0001045810-24-000029.",
+          "metric": "net_income",
+          "value": "29760000000",
+          "unit": "USD",
+          "taxonomy_tag": "NetIncomeLoss",
+          "accession": "0001045810-24-000029",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E05",
+          "title": "NVDA · 10-K · 研发费用 · 2024-01-28",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-02-21",
+          "period_start": "2023-01-30",
+          "period_end": "2024-01-28",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "12c2b1c3d98525a0149cee78a3bd6b00951eefc28cd69f1a0ea6fbaa4827b3b8",
+          "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+          "fact_sha256": "2605abc189249407674bea8d570fa592d3d5edac60d15c147697fb392b14ff48",
+          "excerpt": "us-gaap:ResearchAndDevelopmentExpense = 8675000000 USD; period 2023-01-30 to 2024-01-28; filed 2024-02-21; accession 0001045810-24-000029.",
+          "metric": "research_and_development",
+          "value": "8675000000",
+          "unit": "USD",
+          "taxonomy_tag": "ResearchAndDevelopmentExpense",
+          "accession": "0001045810-24-000029",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E06",
+          "title": "NVDA · 10-K · 营业收入 · 2023-01-29",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-02-21",
+          "period_start": "2022-01-31",
+          "period_end": "2023-01-29",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "12c2b1c3d98525a0149cee78a3bd6b00951eefc28cd69f1a0ea6fbaa4827b3b8",
+          "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+          "fact_sha256": "967db92e734babe6924882e710166c5df751a084aeda9c14fdf7023bf2bfcbd4",
+          "excerpt": "us-gaap:Revenues = 26974000000 USD; period 2022-01-31 to 2023-01-29; filed 2024-02-21; accession 0001045810-24-000029.",
+          "metric": "revenue",
+          "value": "26974000000",
+          "unit": "USD",
+          "taxonomy_tag": "Revenues",
+          "accession": "0001045810-24-000029",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E07",
+          "title": "NVDA · 10-K · 营业利润 · 2023-01-29",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-02-21",
+          "period_start": "2022-01-31",
+          "period_end": "2023-01-29",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "12c2b1c3d98525a0149cee78a3bd6b00951eefc28cd69f1a0ea6fbaa4827b3b8",
+          "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+          "fact_sha256": "5c07d2a7148c4ce11304a2d5a652b58ec90f3c3563f11d4c280d95cb640df9fa",
+          "excerpt": "us-gaap:OperatingIncomeLoss = 4224000000 USD; period 2022-01-31 to 2023-01-29; filed 2024-02-21; accession 0001045810-24-000029.",
+          "metric": "operating_income",
+          "value": "4224000000",
+          "unit": "USD",
+          "taxonomy_tag": "OperatingIncomeLoss",
+          "accession": "0001045810-24-000029",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E08",
+          "title": "NVDA · 10-K · 经营现金流 · 2023-01-29",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-02-21",
+          "period_start": "2022-01-31",
+          "period_end": "2023-01-29",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "12c2b1c3d98525a0149cee78a3bd6b00951eefc28cd69f1a0ea6fbaa4827b3b8",
+          "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+          "fact_sha256": "ed9efb25b06d4f2ac8cbe12e9ba4e02723c5130697ee5f8ae27ac4540e4fcc2e",
+          "excerpt": "us-gaap:NetCashProvidedByUsedInOperatingActivities = 5641000000 USD; period 2022-01-31 to 2023-01-29; filed 2024-02-21; accession 0001045810-24-000029.",
+          "metric": "operating_cash_flow",
+          "value": "5641000000",
+          "unit": "USD",
+          "taxonomy_tag": "NetCashProvidedByUsedInOperatingActivities",
+          "accession": "0001045810-24-000029",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E09",
+          "title": "NVDA · 10-K · 净利润 · 2023-01-29",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-02-21",
+          "period_start": "2022-01-31",
+          "period_end": "2023-01-29",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "12c2b1c3d98525a0149cee78a3bd6b00951eefc28cd69f1a0ea6fbaa4827b3b8",
+          "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+          "fact_sha256": "11096abe053db2a4d91ec8bb494d3ac4388f8590038cf205843b87670a174ab2",
+          "excerpt": "us-gaap:NetIncomeLoss = 4368000000 USD; period 2022-01-31 to 2023-01-29; filed 2024-02-21; accession 0001045810-24-000029.",
+          "metric": "net_income",
+          "value": "4368000000",
+          "unit": "USD",
+          "taxonomy_tag": "NetIncomeLoss",
+          "accession": "0001045810-24-000029",
+          "data_mode": "snapshot"
+        },
+        {
+          "id": "E10",
+          "title": "NVDA · 10-K · 研发费用 · 2023-01-29",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm",
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "source_type": "sec_companyfacts",
+          "published_at": "2024-02-21",
+          "period_start": "2022-01-31",
+          "period_end": "2023-01-29",
+          "retrieved_at": "2026-09-22T11:59:35+00:00",
+          "sha256": "12c2b1c3d98525a0149cee78a3bd6b00951eefc28cd69f1a0ea6fbaa4827b3b8",
+          "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+          "fact_sha256": "1a2d20a29cabf3ebe3a2fd5516b1f30c114b9d6a7ec2383f50173eb1af90dfaf",
+          "excerpt": "us-gaap:ResearchAndDevelopmentExpense = 7339000000 USD; period 2022-01-31 to 2023-01-29; filed 2024-02-21; accession 0001045810-24-000029.",
+          "metric": "research_and_development",
+          "value": "7339000000",
+          "unit": "USD",
+          "taxonomy_tag": "ResearchAndDevelopmentExpense",
+          "accession": "0001045810-24-000029",
+          "data_mode": "snapshot"
+        }
+      ],
+      "risks": [
+        "历史年度增长无法证明未来增长会持续。",
+        "高资本投入可能压缩现金流，资本支出定义需逐期核验。",
+        "缺少同一时点估值和完整业务风险披露，基本面积极不等同于股票便宜。"
+      ],
+      "limitations": [
+        "演示使用截至 2024-11-01 已申报的历史快照，抓取时间为 2026-09-22T11:59:35+00:00，不代表当前公司状况。",
+        "问题所需指标尚缺：PP&E 现金资本支出。",
+        "未找到与本期间一致的纯 PP&E 现金支出标签；不把 PP&E 与无形资产合计冒充同口径资本支出，自由现金流暂缺。",
+        "年度财报研究，不含实时股价、估值倍数、盘中新闻、分析师预测或交易执行；无法给出买卖指令、目标价或收益保证。",
+        "截止日按 SEC filed 日期（日粒度）过滤；未模拟交易时区或当日提交时刻。后来抓取的 Company Facts 不等同于当时完整归档的数据库。",
+        "仅映射整家公司常见 us-gaap 年度标签，可能遗漏自定义标签、分部数据和财报附注。",
+        "自由现金流使用经营现金流减 PP&E 现金资本支出的明确口径，不包含所有融资租赁或收购支出。"
+      ],
+      "next_steps": [
+        "核对营运资本变动、资本支出定义与融资租赁，检验现金转换质量。",
+        "补充同一时点的股价、稀释股数及净债务，进行估值与情景敏感性分析。",
+        "补充最新 10-K 风险因素、业务集中度与监管披露，形成完整风险清单。"
+      ],
+      "trace": [
+        {
+          "step": "plan",
+          "label": "研究规划",
+          "status": "completed",
+          "detail": "年度报表 · cashflow · 请求财年 2024；拆分 2 个指标槽位。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "retrieve",
+          "label": "官方来源检索",
+          "status": "completed",
+          "detail": "明确标识的历史 SEC 快照；完整性 SHA-256 校验。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "temporal",
+          "label": "时间边界核验",
+          "status": "completed",
+          "detail": "仅接受 filed ≤ 2024-11-01、期间已结束、330–380 天年度 USD 的 10-K/10-K/A 记录；收入锚定精确期间。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "compute",
+          "label": "确定性计算",
+          "status": "completed",
+          "detail": "生成 6 项指标；Decimal 计算同比、利润率与可比口径自由现金流，缺失项不补造。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "verify",
+          "label": "证据缺口复核",
+          "status": "partial",
+          "detail": "11 条事实/计算引用全部通过；检查指标槽位、期间对齐和标签冲突后，保留 2 项缺口。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "synthesize",
+          "label": "可验证归纳",
+          "status": "completed",
+          "detail": "离线确定性摘要；未调用模型。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        },
+        {
+          "step": "publish",
+          "label": "研究报告生成",
+          "status": "completed",
+          "detail": "数字、证据、时间边界、缺口与条件判断已分层保存，可导出重放。",
+          "timestamp": "2026-09-22T11:59:35+00:00",
+          "timestamp_basis": "data_capture"
+        }
+      ],
+      "model": {
+        "provider": "DeepSeek",
+        "used": false,
+        "model": "deepseek-flash",
+        "status": "not_requested",
+        "strategy": "verified_claim_selection",
+        "detail": "离线确定性摘要；未调用模型。"
+      },
+      "plan": {
+        "focus": "cashflow",
+        "fiscal_year": 2024,
+        "requested_years": [
+          2024
+        ],
+        "supported": true,
+        "gaps": [],
+        "scope": "single-company annual fundamentals",
+        "metric_slots": [
+          "operating_cash_flow",
+          "capital_expenditure"
+        ]
+      },
+      "discoveries": [],
+      "coverage": {
+        "verified_claims": 11,
+        "cited_claims": 11,
+        "evidence_count": 10,
+        "filing_cutoff": "2024-11-01",
+        "missing_metrics": [
+          "capital_expenditure",
+          "capital_expenditure_prior"
+        ],
+        "missing_requested_metrics": [
+          "capital_expenditure"
+        ],
+        "question_supported": false,
+        "data_as_of": "2024-01-28",
+        "source_retrieved_at": "2026-09-22T11:59:35+00:00"
+      },
+      "method": {
+        "name": "ATLAS-inspired typed evidence workflow",
+        "version": "1.0",
+        "checks": [
+          "filed-cutoff",
+          "period-alignment",
+          "unit-match",
+          "tag-conflict",
+          "decimal-calculation",
+          "citation-integrity",
+          "scope-abstention"
+        ]
+      },
+      "static_replay": true,
+      "timestamp_basis": "data_capture",
+      "trace_note": "预生成的静态工作流回放；步骤时间统一锚定数据抓取日期，不是实际运行时延或实测步骤时间。",
+      "example_id": "nvda-growth"
+    }
+  ]
+}
