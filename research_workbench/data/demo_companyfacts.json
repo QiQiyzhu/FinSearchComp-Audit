@@ -1,0 +1,676 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-09-22T11:59:35+00:00",
+  "cutoff": "2024-11-01",
+  "note": "Historical admissibility filter applied to a later SEC API capture. Not a contemporaneously archived database. Exact upstream captures are in upstream/*.json.gz; sha256 hashes decompressed bytes.",
+  "companies": {
+    "MSFT": {
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "sha256": "629ef3630cde51807cfbb368a5e16d9662d8d94c519f07b4e9bb14f1dd1a4c6b",
+      "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "payload": {
+        "cik": 789019,
+        "entityName": "MICROSOFT CORPORATION",
+        "facts": {
+          "us-gaap": {
+            "NetCashProvidedByUsedInOperatingActivities": {
+              "label": "Net Cash Provided by (Used in) Operating Activities",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-07-01",
+                    "end": "2023-06-30",
+                    "val": 87582000000,
+                    "accn": "0000950170-23-035122",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-07-27"
+                  },
+                  {
+                    "start": "2022-07-01",
+                    "end": "2023-06-30",
+                    "val": 87582000000,
+                    "accn": "0000950170-24-087843",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-07-30"
+                  },
+                  {
+                    "start": "2023-07-01",
+                    "end": "2024-06-30",
+                    "val": 118548000000,
+                    "accn": "0000950170-24-087843",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-07-30"
+                  }
+                ]
+              }
+            },
+            "NetIncomeLoss": {
+              "label": "Net Income (Loss) Attributable to Parent",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-07-01",
+                    "end": "2023-06-30",
+                    "val": 72361000000,
+                    "accn": "0000950170-23-035122",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-07-27"
+                  },
+                  {
+                    "start": "2022-07-01",
+                    "end": "2023-06-30",
+                    "val": 72361000000,
+                    "accn": "0000950170-24-087843",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-07-30"
+                  },
+                  {
+                    "start": "2023-07-01",
+                    "end": "2024-06-30",
+                    "val": 88136000000,
+                    "accn": "0000950170-24-087843",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-07-30"
+                  }
+                ]
+              }
+            },
+            "OperatingIncomeLoss": {
+              "label": "Operating Income (Loss)",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-07-01",
+                    "end": "2023-06-30",
+                    "val": 88523000000,
+                    "accn": "0000950170-23-035122",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-07-27"
+                  },
+                  {
+                    "start": "2022-07-01",
+                    "end": "2023-06-30",
+                    "val": 88523000000,
+                    "accn": "0000950170-24-087843",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-07-30"
+                  },
+                  {
+                    "start": "2023-07-01",
+                    "end": "2024-06-30",
+                    "val": 109433000000,
+                    "accn": "0000950170-24-087843",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-07-30"
+                  }
+                ]
+              }
+            },
+            "PaymentsToAcquirePropertyPlantAndEquipment": {
+              "label": "Payments to Acquire Property, Plant, and Equipment",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-07-01",
+                    "end": "2023-06-30",
+                    "val": 28107000000,
+                    "accn": "0000950170-23-035122",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-07-27"
+                  },
+                  {
+                    "start": "2022-07-01",
+                    "end": "2023-06-30",
+                    "val": 28107000000,
+                    "accn": "0000950170-24-087843",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-07-30"
+                  },
+                  {
+                    "start": "2023-07-01",
+                    "end": "2024-06-30",
+                    "val": 44477000000,
+                    "accn": "0000950170-24-087843",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-07-30"
+                  }
+                ]
+              }
+            },
+            "ResearchAndDevelopmentExpense": {
+              "label": "Research and Development Expense",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-07-01",
+                    "end": "2023-06-30",
+                    "val": 27195000000,
+                    "accn": "0000950170-23-035122",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-07-27"
+                  },
+                  {
+                    "start": "2022-07-01",
+                    "end": "2023-06-30",
+                    "val": 27195000000,
+                    "accn": "0000950170-24-087843",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-07-30"
+                  },
+                  {
+                    "start": "2023-07-01",
+                    "end": "2024-06-30",
+                    "val": 29510000000,
+                    "accn": "0000950170-24-087843",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-07-30"
+                  }
+                ]
+              }
+            },
+            "RevenueFromContractWithCustomerExcludingAssessedTax": {
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-07-01",
+                    "end": "2023-06-30",
+                    "val": 211915000000,
+                    "accn": "0000950170-23-035122",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-07-27"
+                  },
+                  {
+                    "start": "2022-07-01",
+                    "end": "2023-06-30",
+                    "val": 211915000000,
+                    "accn": "0000950170-24-087843",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-07-30"
+                  },
+                  {
+                    "start": "2023-07-01",
+                    "end": "2024-06-30",
+                    "val": 245122000000,
+                    "accn": "0000950170-24-087843",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-07-30"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "AAPL": {
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+      "sha256": "0128f452f3edc72abf3a203606b377b1f12e997f372b0994b63c684eaa646b86",
+      "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+      "payload": {
+        "cik": 320193,
+        "entityName": "Apple Inc.",
+        "facts": {
+          "us-gaap": {
+            "NetCashProvidedByUsedInOperatingActivities": {
+              "label": "Net Cash Provided by (Used in) Operating Activities",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-09-25",
+                    "end": "2023-09-30",
+                    "val": 110543000000,
+                    "accn": "0000320193-23-000106",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-11-03"
+                  },
+                  {
+                    "start": "2022-09-25",
+                    "end": "2023-09-30",
+                    "val": 110543000000,
+                    "accn": "0000320193-24-000123",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-11-01"
+                  },
+                  {
+                    "start": "2023-10-01",
+                    "end": "2024-09-28",
+                    "val": 118254000000,
+                    "accn": "0000320193-24-000123",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-11-01"
+                  }
+                ]
+              }
+            },
+            "NetIncomeLoss": {
+              "label": "Net Income (Loss) Attributable to Parent",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-09-25",
+                    "end": "2023-09-30",
+                    "val": 96995000000,
+                    "accn": "0000320193-23-000106",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-11-03"
+                  },
+                  {
+                    "start": "2022-09-25",
+                    "end": "2023-09-30",
+                    "val": 96995000000,
+                    "accn": "0000320193-24-000123",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-11-01"
+                  },
+                  {
+                    "start": "2023-10-01",
+                    "end": "2024-09-28",
+                    "val": 93736000000,
+                    "accn": "0000320193-24-000123",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-11-01"
+                  }
+                ]
+              }
+            },
+            "OperatingIncomeLoss": {
+              "label": "Operating Income (Loss)",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-09-25",
+                    "end": "2023-09-30",
+                    "val": 114301000000,
+                    "accn": "0000320193-23-000106",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-11-03"
+                  },
+                  {
+                    "start": "2022-09-25",
+                    "end": "2023-09-30",
+                    "val": 114301000000,
+                    "accn": "0000320193-24-000123",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-11-01"
+                  },
+                  {
+                    "start": "2023-10-01",
+                    "end": "2024-09-28",
+                    "val": 123216000000,
+                    "accn": "0000320193-24-000123",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-11-01"
+                  }
+                ]
+              }
+            },
+            "PaymentsToAcquirePropertyPlantAndEquipment": {
+              "label": "Payments to Acquire Property, Plant, and Equipment",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-09-25",
+                    "end": "2023-09-30",
+                    "val": 10959000000,
+                    "accn": "0000320193-23-000106",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-11-03"
+                  },
+                  {
+                    "start": "2022-09-25",
+                    "end": "2023-09-30",
+                    "val": 10959000000,
+                    "accn": "0000320193-24-000123",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-11-01"
+                  },
+                  {
+                    "start": "2023-10-01",
+                    "end": "2024-09-28",
+                    "val": 9447000000,
+                    "accn": "0000320193-24-000123",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-11-01"
+                  }
+                ]
+              }
+            },
+            "ResearchAndDevelopmentExpense": {
+              "label": "Research and Development Expense",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-09-25",
+                    "end": "2023-09-30",
+                    "val": 29915000000,
+                    "accn": "0000320193-23-000106",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-11-03"
+                  },
+                  {
+                    "start": "2022-09-25",
+                    "end": "2023-09-30",
+                    "val": 29915000000,
+                    "accn": "0000320193-24-000123",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-11-01"
+                  },
+                  {
+                    "start": "2023-10-01",
+                    "end": "2024-09-28",
+                    "val": 31370000000,
+                    "accn": "0000320193-24-000123",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-11-01"
+                  }
+                ]
+              }
+            },
+            "RevenueFromContractWithCustomerExcludingAssessedTax": {
+              "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-09-25",
+                    "end": "2023-09-30",
+                    "val": 383285000000,
+                    "accn": "0000320193-23-000106",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-11-03"
+                  },
+                  {
+                    "start": "2022-09-25",
+                    "end": "2023-09-30",
+                    "val": 383285000000,
+                    "accn": "0000320193-24-000123",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-11-01"
+                  },
+                  {
+                    "start": "2023-10-01",
+                    "end": "2024-09-28",
+                    "val": 391035000000,
+                    "accn": "0000320193-24-000123",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-11-01"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "NVDA": {
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+      "sha256": "12c2b1c3d98525a0149cee78a3bd6b00951eefc28cd69f1a0ea6fbaa4827b3b8",
+      "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+      "payload": {
+        "cik": 1045810,
+        "entityName": "NVIDIA CORP",
+        "facts": {
+          "us-gaap": {
+            "NetCashProvidedByUsedInOperatingActivities": {
+              "label": "Net Cash Provided by (Used in) Operating Activities",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-01-31",
+                    "end": "2023-01-29",
+                    "val": 5641000000,
+                    "accn": "0001045810-23-000017",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-02-24"
+                  },
+                  {
+                    "start": "2022-01-31",
+                    "end": "2023-01-29",
+                    "val": 5641000000,
+                    "accn": "0001045810-24-000029",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-02-21"
+                  },
+                  {
+                    "start": "2023-01-30",
+                    "end": "2024-01-28",
+                    "val": 28090000000,
+                    "accn": "0001045810-24-000029",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-02-21"
+                  }
+                ]
+              }
+            },
+            "NetIncomeLoss": {
+              "label": "Net Income (Loss) Attributable to Parent",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-01-31",
+                    "end": "2023-01-29",
+                    "val": 4368000000,
+                    "accn": "0001045810-23-000017",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-02-24"
+                  },
+                  {
+                    "start": "2022-01-31",
+                    "end": "2023-01-29",
+                    "val": 4368000000,
+                    "accn": "0001045810-24-000029",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-02-21"
+                  },
+                  {
+                    "start": "2023-01-30",
+                    "end": "2024-01-28",
+                    "val": 29760000000,
+                    "accn": "0001045810-24-000029",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-02-21"
+                  }
+                ]
+              }
+            },
+            "OperatingIncomeLoss": {
+              "label": "Operating Income (Loss)",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-01-31",
+                    "end": "2023-01-29",
+                    "val": 4224000000,
+                    "accn": "0001045810-23-000017",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-02-24"
+                  },
+                  {
+                    "start": "2022-01-31",
+                    "end": "2023-01-29",
+                    "val": 4224000000,
+                    "accn": "0001045810-24-000029",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-02-21"
+                  },
+                  {
+                    "start": "2023-01-30",
+                    "end": "2024-01-28",
+                    "val": 32972000000,
+                    "accn": "0001045810-24-000029",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-02-21"
+                  }
+                ]
+              }
+            },
+            "ResearchAndDevelopmentExpense": {
+              "label": "Research and Development Expense",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-01-31",
+                    "end": "2023-01-29",
+                    "val": 7339000000,
+                    "accn": "0001045810-23-000017",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-02-24"
+                  },
+                  {
+                    "start": "2022-01-31",
+                    "end": "2023-01-29",
+                    "val": 7339000000,
+                    "accn": "0001045810-24-000029",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-02-21"
+                  },
+                  {
+                    "start": "2023-01-30",
+                    "end": "2024-01-28",
+                    "val": 8675000000,
+                    "accn": "0001045810-24-000029",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-02-21"
+                  }
+                ]
+              }
+            },
+            "Revenues": {
+              "label": "Revenues",
+              "units": {
+                "USD": [
+                  {
+                    "start": "2022-01-31",
+                    "end": "2023-01-29",
+                    "val": 26974000000,
+                    "accn": "0001045810-23-000017",
+                    "fy": 2023,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2023-02-24"
+                  },
+                  {
+                    "start": "2022-01-31",
+                    "end": "2023-01-29",
+                    "val": 26974000000,
+                    "accn": "0001045810-24-000029",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-02-21"
+                  },
+                  {
+                    "start": "2023-01-30",
+                    "end": "2024-01-28",
+                    "val": 60922000000,
+                    "accn": "0001045810-24-000029",
+                    "fy": 2024,
+                    "fp": "FY",
+                    "form": "10-K",
+                    "filed": "2024-02-21"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

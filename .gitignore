@@ -14,3 +14,12 @@ tmp/
 build/*.sqlite3
 build/*.sqlite3-shm
 build/*.sqlite3-wal
+
+.workbench/
+.env.*
+!.env.example
+build/
+
+node_modules/
+test-results/
+playwright-report/

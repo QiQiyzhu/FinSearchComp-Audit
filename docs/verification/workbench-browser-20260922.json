@@ -1,0 +1,46 @@
+{
+  "checked_at": "2026-09-22T12:17:58.139Z",
+  "base_url": "http://127.0.0.1:8100",
+  "source": "actual browser, actual HTTP backend and actual DeepSeek; no mocks",
+  "submitted_jobs": 1,
+  "job_id": "research_13d6ef15b3c640d18b9725bffb521535",
+  "model": {
+    "detail": "DeepSeek 已选择和排列核验后的事实；展示文字由可信事实模板生成。",
+    "latency_ms": 1000,
+    "model": "deepseek-flash",
+    "provider": "DeepSeek",
+    "request_id": "d369dd27-c11c-47c0-8aa9-1658a889271f",
+    "selection": {
+      "claim_ids": [
+        "C05",
+        "C07",
+        "C14",
+        "C06",
+        "C08",
+        "C09"
+      ],
+      "watch_ids": [
+        "cashflow",
+        "risks",
+        "growth",
+        "profitability"
+      ]
+    },
+    "status": "completed",
+    "strategy": "verified_claim_selection",
+    "usage": {
+      "completion_tokens": 40,
+      "prompt_tokens": 1357,
+      "total_tokens": 1397
+    },
+    "used": true
+  },
+  "checks": {
+    "real_model": true,
+    "evidence_drawer": true,
+    "trace": true,
+    "markdown_export": true,
+    "page_errors": []
+  },
+  "limitations": "Single authored interaction; not an investment accuracy evaluation."
+}

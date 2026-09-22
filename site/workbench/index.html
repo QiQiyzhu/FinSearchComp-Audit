@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#12202b">
+  <meta name="description" content="FinAgent Research：可追溯的金融研究工作台。体验真实 SEC 历史数据，从研究问题到证据、指标与有条件的判断。">
+  <title>研究工作台 · FinAgent Research</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至研究工作台</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="主导航">
+      <a class="brand" href="../" aria-label="FinAgent 首页"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M5 22V6h18M5 14h13M13 22V6"/><path d="m16 19 3 3 5-7"/></svg></span><span>FinAgent<small>RESEARCH INTELLIGENCE</small></span></a>
+      <div class="workspace-name"><span class="workspace-avatar">F</span><div>研究空间<small>Personal workspace</small></div><span class="workspace-badge">OPEN</span></div>
+      <p class="nav-label">WORKSPACE</p>
+      <nav class="main-nav">
+        <a class="nav-item active" href="#main" aria-current="page"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>研究工作台</a>
+        <button class="nav-item" id="nav-evidence"><svg viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5zM14 3v5h5M8 12h8M8 16h6"/></svg>证据与来源</button>
+        <button class="nav-item" id="nav-trace"><svg viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="12" r="2"/><circle cx="6" cy="19" r="2"/><path d="M8 5h3a4 4 0 0 1 0 8H9a3 3 0 0 0 0 6H8M15 12h1"/></svg>Agent 运行记录</button>
+      </nav>
+      <div class="history-heading"><p class="nav-label">RECENT RESEARCH</p><button class="icon-button subtle" id="clear-history" aria-label="清空本地研究历史" title="清空本地研究历史"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 10v7M14 10v7"/></svg></button></div>
+      <div class="history-list" id="history-list"><p class="history-empty">完成的研究会保存在此设备。</p></div>
+      <div class="sidebar-bottom">
+        <div class="sidebar-note"><span class="tiny-dot"></span>Built for verifiable research<p>从检索到判断，<br>保留每一步的依据。</p></div>
+        <a class="nav-item" href="https://github.com/QiQiyzhu/FinSearchComp-Audit" id="repo-link" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>项目与部署文档<svg class="external-small" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+        <div class="user-profile"><span class="user-avatar">R</span><div>Researcher<small>本地优先 · 无需注册</small></div><button class="icon-button subtle" id="sidebar-settings" aria-label="连接设置"><svg viewBox="0 0 24 24"><path d="m10 3-1 3-3 1-3 3 2 3-1 4 4 1 2 3 3-2 4 1 1-4 3-2-2-3 1-4-4-1-2-3z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+      </div>
+    </aside>
+
+    <main id="main" class="main-content">
+      <header class="topbar"><div class="breadcrumb"><a href="../">FinAgent</a><span>/</span><strong>研究工作台</strong></div><div class="topbar-actions"><button class="connection-status" id="connection-status" title="打开连接设置"><span class="status-dot" id="status-dot"></span><span id="connection-label">历史案例模式</span></button><span class="topbar-divider"></span><button class="icon-button" id="settings-button" aria-label="打开连接设置"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="15" cy="17" r="3"/></svg></button></div></header>
+      <div class="page-content">
+        <section class="page-heading"><div><p class="eyebrow"><span></span> EVIDENCE BEFORE OPINION</p><h1>把金融信息，变成有据可循的判断<span>。</span></h1><p class="page-description">搜索公开披露，核验关键指标，让结论与证据一起交付。</p></div><div class="heading-decoration" aria-hidden="true"><svg viewBox="0 0 100 70"><path d="M4 58h88M16 12v46M40 12v46M64 12v46M88 12v46"/><path d="m8 47 19-10 17 4 21-23 21 7"/><circle cx="65" cy="18" r="4"/></svg></div></section>
+
+        <section class="research-composer" aria-labelledby="composer-heading">
+          <div class="composer-top"><h2 id="composer-heading"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>开始一项研究</h2><div class="mode-switch" role="group" aria-label="研究模式"><button id="mode-demo" type="button" class="selected" aria-pressed="true">历史案例</button><button id="mode-snapshot" type="button" aria-pressed="false">AI 研读</button><button id="mode-live" type="button" aria-pressed="false">实时研究<span class="live-dot"></span></button></div></div>
+          <form id="research-form">
+            <label class="visually-hidden" for="question">研究问题</label><textarea id="question" name="question" rows="2" maxlength="2000" required placeholder="例如：微软的收入增长是否转化为现金流？哪些证据支持，哪些风险值得关注？"></textarea>
+            <div class="composer-controls"><div class="input-group ticker-field"><label for="ticker">研究标的</label><select id="ticker" name="ticker"><option value="MSFT">MSFT · 微软</option><option value="AAPL">AAPL · 苹果</option><option value="NVDA">NVDA · 英伟达</option></select></div><span class="control-divider"></span><div class="input-group"><label for="as-of">信息截止日</label><input type="date" id="as-of" name="as_of" required></div><div class="composer-spacer"></div><span class="composer-privacy" id="mode-hint"><svg viewBox="0 0 24 24"><path d="M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4"/></svg>无需 API Key</span><button class="primary-button" id="research-button" type="submit"><span>运行研究</span><svg viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button></div>
+          </form>
+          <div class="example-row"><span>试试这些</span><div id="example-buttons" class="example-buttons"><span class="subtle-text">正在加载真实历史案例…</span></div></div>
+        </section>
+
+        <div class="notice-bar" id="mode-notice"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v1"/></svg><p><strong>真实数据，历史回放。</strong>案例使用已保存的 SEC 官方披露；不代表最新行情。接入后端即可运行新的研究。</p><button id="connect-inline">连接后端 <span>↗</span></button></div>
+        <div id="error-banner" class="error-banner" role="alert" hidden><svg viewBox="0 0 24 24"><path d="m12 3 10 18H2zM12 9v5M12 17v1"/></svg><div><strong id="error-title">研究未完成</strong><p id="error-message"></p><button class="secondary-button" id="reload-linked-report" type="button" hidden>重新读取报告</button></div><button class="icon-button" id="dismiss-error" aria-label="关闭提示">×</button></div>
+        <section id="run-progress" class="run-progress" aria-live="polite" hidden><div class="progress-top"><span class="spinner"></span><strong id="progress-label">正在创建研究任务</strong><span id="progress-detail">等待后端响应</span><button class="text-button" id="cancel-run">停止等待</button></div><div class="progress-track"><div id="progress-fill"></div></div><div id="progress-steps" class="progress-steps"></div></section>
+
+        <section class="report-area" id="report-area" aria-labelledby="report-title" hidden>
+          <div class="report-heading"><div class="report-heading-title"><div class="company-avatar" id="company-avatar" aria-hidden="true">M</div><div><div class="report-title-line"><h2 id="report-title">研究简报</h2><span class="ticker-badge" id="report-ticker"></span></div><p id="report-meta"></p></div></div><div class="report-actions"><button class="secondary-button" id="copy-report-link" title="复制报告链接" aria-label="复制报告链接"><svg viewBox="0 0 24 24"><path d="m10 7 2-2a5 5 0 0 1 7 7l-2 2M14 17l-2 2a5 5 0 0 1-7-7l2-2M8 16l8-8"/></svg>复制链接</button><button class="secondary-button" id="export-md" aria-label="导出 Markdown 报告"><svg viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 15v6h16v-6"/></svg>导出报告</button><button class="icon-button json-export" id="export-json" aria-label="下载 JSON 研究数据" title="下载 JSON 数据">{ }</button></div></div>
+          <p class="report-question" id="report-question"></p>
+          <div class="report-tabs" role="tablist" aria-label="研究报告"><button class="report-tab active" role="tab" aria-selected="true" aria-controls="panel-overview" id="tab-overview" data-tab="overview">研究概览</button><button class="report-tab" role="tab" aria-selected="false" aria-controls="panel-evidence" id="tab-evidence" data-tab="evidence" tabindex="-1">证据与来源 <span id="evidence-count">0</span></button><button class="report-tab" role="tab" aria-selected="false" aria-controls="panel-trace" id="tab-trace" data-tab="trace" tabindex="-1">Agent 运行记录 <span id="trace-count">0</span></button><span class="report-audit" id="report-audit"></span></div>
+
+          <div id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" class="tab-panel">
+            <div class="metrics-grid" id="metrics-grid"></div>
+            <div class="report-columns">
+              <div class="report-main-column">
+                <section class="card conclusion-card"><div class="section-head"><h3><span class="section-icon"><svg viewBox="0 0 24 24"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"/></svg></span>研究结论</h3><span class="verdict-badge" id="verdict-badge"></span></div><p class="conclusion-summary" id="summary-text"></p><div class="verdict-rationale" id="verdict-rationale"></div><div id="claims-list" class="claims-list"></div><div class="conclusion-footer"><span id="confidence-label"></span><span id="model-label"></span></div></section>
+                <section class="card chart-card" id="chart-card"><div class="section-head"><div><h3>关键指标对照</h3><p class="section-description" id="chart-description">同口径披露数据，保留指标的期间与单位</p></div><span class="small-label">FUNDAMENTALS</span></div><div class="financial-chart" id="financial-chart"></div><p class="chart-note" id="chart-note"></p></section>
+                <section class="thesis-grid"><div class="card thesis-card positive"><h3><span>↗</span>判断成立的条件</h3><ul id="conditions-list"></ul></div><div class="card thesis-card negative"><h3><span>↘</span>需要警惕的风险</h3><ul id="risks-list"></ul></div></section>
+              </div>
+              <aside class="report-side-column" aria-label="研究质量与证据">
+                <section class="card quality-card"><div class="section-head"><h3>证据覆盖</h3><span class="outline-label">AUDIT</span></div><div class="quality-score"><strong id="coverage-score">—</strong><div>结论引用覆盖<small id="coverage-caption"></small></div><svg class="coverage-ring" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18"/><circle id="coverage-ring-value" cx="22" cy="22" r="18"/></svg></div><div class="quality-divider"></div><dl class="quality-list"><div><dt>可查证来源</dt><dd id="quality-sources">—</dd></div><div><dt>信息时间边界</dt><dd id="quality-cutoff">—</dd></div><div><dt>缺失指标</dt><dd id="quality-missing">—</dd></div></dl><p class="quality-note">覆盖率衡量引用完整性，不能代替结论正确性。</p></section>
+                <section class="card source-preview-card"><div class="section-head"><h3>原始证据</h3><button class="text-button" id="all-evidence">查看全部 ↗</button></div><div id="source-preview-list"></div><div class="source-footer"><span class="tiny-dot"></span>点击来源，查看原文与取数记录</div></section>
+                <section class="limitations-card"><h3><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16v1"/></svg>这份研究的边界</h3><ul id="limitations-list"></ul><div class="next-steps"><h4>下一步值得验证</h4><ul id="next-steps-list"></ul></div></section>
+              </aside>
+            </div>
+          </div>
+          <div id="panel-evidence" role="tabpanel" aria-labelledby="tab-evidence" class="tab-panel" hidden><div class="panel-intro"><div><h3>判断背后的每一条依据</h3><p>查看披露原文、时间边界、来源链接与可验证的数据摘要。</p></div><span class="outline-label">SOURCE OF TRUTH</span></div><div class="evidence-toolbar"><label class="evidence-search"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg><input id="evidence-search" type="search" placeholder="搜索指标、来源或证据编号" aria-label="搜索证据"></label><span id="evidence-filter-count"></span></div><div class="evidence-table-wrap"><table class="evidence-table"><thead><tr><th>证据 / 指标</th><th>报告期间</th><th>披露时间</th><th>来源类型</th><th><span class="visually-hidden">查看</span></th></tr></thead><tbody id="evidence-table-body"></tbody></table></div><p class="empty-state" id="evidence-empty" hidden>没有匹配的证据，试试其他关键词。</p></div>
+          <div id="panel-trace" role="tabpanel" aria-labelledby="tab-trace" class="tab-panel" hidden><div class="panel-intro"><div><h3>一次研究，完整可见</h3><p>下方记录来自报告中的实际执行轨迹，历史案例展示保存的运行记录。</p></div><span class="outline-label">OBSERVABILITY</span></div><div class="trace-summary" id="trace-summary"></div><ol class="trace-timeline" id="trace-timeline"></ol></div>
+        </section>
+        <div id="initial-loading" class="initial-loading"><span class="spinner"></span><p>正在加载可追溯的历史研究案例</p></div>
+        <footer class="page-footer"><span>FINAGENT RESEARCH <b>·</b> 每一个结论，都应可以追问。</span><p>研究辅助工具 · 非个性化投资建议 · 数据截止日以每份报告为准</p></footer>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="settings-dialog" class="settings-dialog"><form method="dialog" class="dialog-close-form"><button class="icon-button" aria-label="关闭设置">×</button></form><p class="eyebrow">CONNECT YOUR RESEARCH ENGINE</p><h2>连接研究后端</h2><p class="dialog-description">历史案例可直接体验。连接已部署的 FinAgent 后端，即可使用实时数据与服务端配置的 DeepSeek。</p><form id="connection-form"><label for="backend-url">后端地址</label><input type="url" id="backend-url" placeholder="https://your-finagent.example.com" autocomplete="url"><p class="field-help">留空使用当前站点后端。地址保存在此浏览器，模型 API Key 始终只在服务端配置。</p><label class="token-field-label" for="service-token">服务访问令牌 <span>可选 · 非模型 API Key</span></label><input type="password" id="service-token" placeholder="由部署者提供；仅在本次浏览器会话保存" autocomplete="off" spellcheck="false"><p class="field-help">受保护的部署需要此令牌。不要在这里填写 DeepSeek API Key。</p><div class="connection-test-result" id="connection-test-result" aria-live="polite" hidden></div><div class="dialog-actions"><button class="secondary-button" id="reset-connection" type="button">恢复默认</button><button class="primary-button" id="save-connection" type="submit">连接并保存 <span>↗</span></button></div></form><div class="deployment-callout"><span class="outline-label">SELF HOSTED</span><p>本地启动或 Docker 部署后，把访问地址填在这里。</p><a id="deployment-docs" href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/WORKBENCH_DEPLOY.md" target="_blank" rel="noopener noreferrer">查看部署指南 ↗</a></div></dialog>
+  <dialog id="source-dialog" class="source-dialog"><div class="source-drawer-top"><span class="eyebrow">EVIDENCE INSPECTOR</span><form method="dialog"><button class="icon-button" aria-label="关闭证据详情">×</button></form></div><div id="source-dialog-content"></div></dialog>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>

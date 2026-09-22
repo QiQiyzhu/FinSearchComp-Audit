@@ -1,4 +1,87 @@
-# FinSearchComp-Audit · ATLAS-PIT-XBRL
+# FinAgent · 金融研究工作台
+
+**从一个研究问题，到可核验的财务事实、研究摘要与条件判断。**
+
+面向面试展示和单机研究部署的完整应用：浏览器工作台 + FastAPI 服务 + SEC 财报检索 + DeepSeek 证据编排 + 持久任务与审计轨迹。它把本仓库的金融搜索论文实践接到可操作的产品流程中。
+
+[**立即体验 →**](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/) · [项目首页](https://qiqiyzhu.github.io/FinSearchComp-Audit/) · [部署指南](docs/WORKBENCH_DEPLOY.md) · [90 秒面试讲解](docs/WORKBENCH_INTERVIEW.md) · [论文与产品依据](docs/WORKBENCH_RESEARCH.md)
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/QiQiyzhu/FinSearchComp-Audit?quickstart=1)
+
+> 在线体验使用有来源的历史财报快照，无需注册或 API Key。完整服务提供历史快照 + 真实 DeepSeek，以及 SEC 实时获取 + DeepSeek 两种模式；数据时间、模型调用和证据状态分别标注。
+
+[![FinAgent 工作台实际界面](docs/assets/workbench/workbench-desktop.png)](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/)
+
+[实际 DeepSeek 操作录像](docs/assets/workbench/workbench-demo.webm) · [真实调用与验证记录](docs/WORKBENCH_VERIFICATION.md)
+
+## 给面试官的 3 分钟路径
+
+1. **打开工作台**，选择示例，查看财务指标和研究判断。
+2. **点击证据**，核对原始申报链接、期间、申报时间、数据指纹和计算公式。
+3. **打开执行轨迹**，看问题范围、检索、验证、计算和总结的实际步骤；导出报告。
+4. **运行完整服务**，连接自己的 DeepSeek 配置，换一个公司或历史截止日发起研究。
+
+## 这次升级具体做了什么
+
+| 产品能力 | 可检查的实现 |
+|---|---|
+| 搜索与提取 | SEC Company Facts，显式公司、财务标签、年度期间与 filing date；可选 Tavily 上下文 |
+| 证据验证 | 截止日过滤、期间与单位检查、缺项拒答、来源 ID 与 SHA-256 |
+| 计算与归纳 | Decimal 计算营收增长、利润率和现金流指标；模型在已验证事实范围内组织摘要 |
+| 研究判断 | 支持因素、风险、条件与下一步；证据质量和市场预测分开 |
+| 完整操作链 | 持久异步任务、幂等、容量限制、运行历史、故障状态与报告导出 |
+| 部署体验 | GitHub Pages 免 Key 体验、Codespaces、Docker Compose、Windows 一键启动 |
+
+```mermaid
+flowchart LR
+    Q[研究问题 / 公司 / 截止日] --> P[指标与期间规划]
+    P --> R[SEC 数据检索 / 可选网页搜索]
+    R --> V[时间 / 单位 / 证据验证]
+    V --> C[Decimal 财务计算]
+    C --> M[DeepSeek 有依据的摘要编排]
+    M --> W[报告 / 原文 / 执行轨迹]
+    V --> G[证据缺口与条件判断]
+    G --> W
+```
+
+## 运行
+
+Python 3.11+：
+
+```bash
+pip install -r requirements-workbench.txt
+python -m uvicorn research_workbench.api:create_app --factory --host 127.0.0.1 --port 8090
+```
+
+打开 **http://127.0.0.1:8090**。首次启动就能运行离线案例。Windows 可直接执行：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/start-workbench.ps1
+```
+
+Docker：
+
+```bash
+docker compose up --build -d
+```
+
+真实模型模式先复制 `.env.example` 为 `.env`，设置 DeepSeek Key、开启 live，并按[配置说明](docs/WORKBENCH_DEPLOY.md)选择服务访问令牌或仅本机访问。前端不接收 DeepSeek Key。
+
+## 验证与边界
+
+- [验证记录](docs/WORKBENCH_VERIFICATION.md)：分别记录离线测试、真实网络验证和浏览器验收，避免把 Mock 当线上结果。
+- 新工作台聚焦 **8 家美股公司、年度基本面研究**；未覆盖 A 股、实时股价、估值数据库或自动交易。报告中的判断是证据范围内的研究结论，不是回测证明的交易策略。
+- SQLite 与进程内执行器面向单实例部署；多租户权限、队列集群、合规审计与服务等级保障属于后续工作。
+- 论文迁移是工程方法吸收。原 ATLAS 的 20 题研究指标保留在[研究档案](https://qiqiyzhu.github.io/FinSearchComp-Audit/research.html)，**不代表新工作台的线上准确率**。
+
+## 研究基础与原始实验
+
+原有实验、负结果、证据与复现命令完整保留。以下是产品升级前的研究说明：
+
+<details>
+<summary>展开 FinSearchComp-Audit / ATLAS-PIT-XBRL 研究档案</summary>
+
+## FinSearchComp-Audit · ATLAS-PIT-XBRL
 
 > **让答案正确，也让每条证据在历史截止日之前真实可用。**
 
@@ -251,3 +334,5 @@ python reproduce.py
 - [ATLAS-XBRL 20题数值实验](temporal_clash/results/atlas_xbrl_20q_sonnet5_20260813/README.md)
 
 API密钥只从环境变量读取，未进入仓库、trace或GitHub Pages。本项目不构成投资建议。
+
+</details>

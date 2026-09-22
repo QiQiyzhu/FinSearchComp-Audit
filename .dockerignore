@@ -1,0 +1,11 @@
+.git
+.env
+.env.*
+**/__pycache__
+.venv
+build
+tmp
+node_modules
+docs
+deliverables
+output
