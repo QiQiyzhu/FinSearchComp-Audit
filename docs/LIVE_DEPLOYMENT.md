@@ -10,6 +10,8 @@ GitHub Pages 保留公开研究工作台。联网研究需要独立 HTTPS Python
 
 2026-09-26 已创建免费 Web 与免费 Key Value，并完成公网匿名任务验证：实时读取 SEC 原文、调用 DeepSeek 规划／起草／复核、核验年度财务数字、查询执行轨迹并导出 Markdown 和 JSON。GitHub Pages 通过受限 CORS 接入；访客无需填写模型密钥。服务有冷启动与公开额度限制，详见下文。
 
+后续后端发布仍需核对 Render 中实际运行的 Git commit。当前服务通过公开仓库地址建立；没有验证 GitHub 集成或部署 Hook，因此不能把 Render 的 Auto-Deploy 开关视为 CI 已接通。仓库测试通过后，可在 Render Dashboard 选择手动部署最新 `main`，或使用已授权的 Render CLI 触发部署；GitHub Pages 自身的发布流程保持独立。连好 GitHub 集成后，`render.yaml` 的文件过滤器只在后端、终端或容器配置变更时触发构建。
+
 ## 免费演示服务：Render Blueprint
 
 [使用本仓库在 Render 部署](https://render.com/deploy?repo=https://github.com/QiQiyzhu/FinSearchComp-Audit)。根目录 `render.yaml` 明确使用 **free** Web 方案、**free** Key Value 预算存储、单个应用容器和 `/api/health` 健康检查；不会创建付费数据库或磁盘。需要先登录自己的 Render 账户。密钥仅在 Render 的环境变量设置中填写。
