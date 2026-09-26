@@ -1,0 +1,14 @@
+{
+  "suite": "terminal-nlq-intent-v1",
+  "frozen_at": "2026-09-26T05:13:37+00:00",
+  "cases": 16,
+  "development": 8,
+  "heldout": 8,
+  "files": {
+    "nlq_development.json": "0ea5f5370928f5688b8fccda7de46ba69b55db39eeff9d0f2205efcca119638a",
+    "nlq_heldout.json": "376025343b5bc7b4177d3336446e3ce2809bca8e854739d2fe489c6645da7bad"
+  },
+  "dataset_sha256": "2c5c66e9156ca9fa810019000451b7293957467a64bc2236264a9dd3e2252903",
+  "scope": "Intent parsing only: metric IDs, explicit fiscal year, operation, unsupported scope. No generated-language or numerical-answer accuracy claim.",
+  "policy": "Grade only expected fields; unsupported queries must have supported=false and a non-empty gaps array; metric selection order is irrelevant. Context ticker is controlled by UI selector; company name recognition is outside this small test."
+}
