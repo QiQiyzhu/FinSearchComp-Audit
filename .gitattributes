@@ -1,0 +1,7 @@
+# Preserve reproducible financial artifacts and frozen implementation bytes.
+research_workbench/terminal_data.py -text
+research_workbench/generate_terminal.py -text
+research_workbench/data/terminal_upstream/*.json -text
+site/workbench/data/finance_cube.json -text
+site/terminal/query.mjs -text
+scripts/evaluate_terminal*.py -text
