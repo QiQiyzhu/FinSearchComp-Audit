@@ -60,6 +60,12 @@ class DeliveryGateTests(unittest.TestCase):
         self.assertNotIn("None", report["summary"])
         self.assertTrue(any("期间不同" in note for note in report["limitations"]))
 
+    def test_model_ranking_cannot_drop_requested_company_or_metric(self):
+        with patch("research_workbench.terminal_engine.synthesize", return_value={"selection": {"claim_ids": ["C01"], "watch_ids": ["risks"]}, "receipt": {}}):
+            report = TerminalEngine(Settings()).run(request(compare_with="AAPL", mode="snapshot"))
+        self.assertEqual(len(report["brief"]), report["coverage"]["available"])
+        self.assertEqual({row["answer_id"].split("-")[0] for row in report["brief"]}, {"MSFT", "AAPL"})
+
 
 class TerminalApiTests(unittest.TestCase):
     def setUp(self):

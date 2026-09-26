@@ -1,0 +1,425 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-09-26T05:24:16+00:00",
+  "title": "质量与研究协议",
+  "structured_first": {
+    "label": "首次结构化查询评测",
+    "summary": {
+      "cases": 60,
+      "strict_passed": 58,
+      "strict_pass_pct": 96.67,
+      "numeric_correct": 47,
+      "numeric_total": 48,
+      "correct_abstentions": 11,
+      "abstention_total": 12,
+      "atomic_passed": 436,
+      "atomic_total": 444,
+      "dimensions": {
+        "availability_status": {
+          "passed": 58,
+          "total": 60
+        },
+        "entity_and_fiscal_year": {
+          "passed": 60,
+          "total": 60
+        },
+        "period_alignment": {
+          "passed": 47,
+          "total": 48
+        },
+        "value_and_unit": {
+          "passed": 47,
+          "total": 48
+        },
+        "source_integrity": {
+          "passed": 59,
+          "total": 60
+        },
+        "time_compliance": {
+          "passed": 59,
+          "total": 60
+        },
+        "complete_operands": {
+          "passed": 47,
+          "total": 48
+        },
+        "no_wrong_period_operands": {
+          "passed": 47,
+          "total": 48
+        },
+        "no_unjustified_value": {
+          "passed": 12,
+          "total": 12
+        }
+      },
+      "expected_statuses": {
+        "available": 48,
+        "unavailable_as_of": 9,
+        "unknown": 2,
+        "unsupported": 1
+      }
+    },
+    "by_split": {
+      "development": {
+        "cases": 24,
+        "strict_passed": 24,
+        "strict_pass_pct": 100.0,
+        "numeric_correct": 24,
+        "numeric_total": 24,
+        "correct_abstentions": 0,
+        "abstention_total": 0,
+        "atomic_passed": 192,
+        "atomic_total": 192,
+        "dimensions": {
+          "availability_status": {
+            "passed": 24,
+            "total": 24
+          },
+          "entity_and_fiscal_year": {
+            "passed": 24,
+            "total": 24
+          },
+          "period_alignment": {
+            "passed": 24,
+            "total": 24
+          },
+          "value_and_unit": {
+            "passed": 24,
+            "total": 24
+          },
+          "source_integrity": {
+            "passed": 24,
+            "total": 24
+          },
+          "time_compliance": {
+            "passed": 24,
+            "total": 24
+          },
+          "complete_operands": {
+            "passed": 24,
+            "total": 24
+          },
+          "no_wrong_period_operands": {
+            "passed": 24,
+            "total": 24
+          }
+        },
+        "expected_statuses": {
+          "available": 24
+        }
+      },
+      "heldout": {
+        "cases": 36,
+        "strict_passed": 34,
+        "strict_pass_pct": 94.44,
+        "numeric_correct": 23,
+        "numeric_total": 24,
+        "correct_abstentions": 11,
+        "abstention_total": 12,
+        "atomic_passed": 244,
+        "atomic_total": 252,
+        "dimensions": {
+          "availability_status": {
+            "passed": 34,
+            "total": 36
+          },
+          "entity_and_fiscal_year": {
+            "passed": 36,
+            "total": 36
+          },
+          "period_alignment": {
+            "passed": 23,
+            "total": 24
+          },
+          "value_and_unit": {
+            "passed": 23,
+            "total": 24
+          },
+          "source_integrity": {
+            "passed": 35,
+            "total": 36
+          },
+          "time_compliance": {
+            "passed": 35,
+            "total": 36
+          },
+          "complete_operands": {
+            "passed": 23,
+            "total": 24
+          },
+          "no_wrong_period_operands": {
+            "passed": 23,
+            "total": 24
+          },
+          "no_unjustified_value": {
+            "passed": 12,
+            "total": 12
+          }
+        },
+        "expected_statuses": {
+          "available": 24,
+          "unavailable_as_of": 9,
+          "unknown": 2,
+          "unsupported": 1
+        }
+      }
+    },
+    "dataset_sha256": "b138e3e4e1d0e15616169208bf1f35b91dfd5afb92298c798d8ea082abaf5976",
+    "code_revision": "9cfd3aa7ff8f1c196e2476f2e50053c3d78ef850",
+    "evaluated_at": "2026-09-26T05:16:58+00:00",
+    "scope": "Project-authored structured metric queries, 8 issuers, FY2022-FY2024; no natural-language accuracy or investment-return claim.",
+    "receipt_url": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/verification/terminal-structured-first.json",
+    "failures": [
+      {
+        "id": "H07",
+        "description": "cash_to_assets 指标目录遗漏；应返回现金/资产比率。"
+      },
+      {
+        "id": "H32",
+        "description": "未来财年被标为 unsupported，应为 unavailable_as_of。"
+      }
+    ]
+  },
+  "structured_regression": {
+    "summary": {
+      "cases": 60,
+      "strict_passed": 60,
+      "strict_pass_pct": 100.0,
+      "numeric_correct": 48,
+      "numeric_total": 48,
+      "correct_abstentions": 12,
+      "abstention_total": 12,
+      "atomic_passed": 444,
+      "atomic_total": 444,
+      "dimensions": {
+        "availability_status": {
+          "passed": 60,
+          "total": 60
+        },
+        "entity_and_fiscal_year": {
+          "passed": 60,
+          "total": 60
+        },
+        "period_alignment": {
+          "passed": 48,
+          "total": 48
+        },
+        "value_and_unit": {
+          "passed": 48,
+          "total": 48
+        },
+        "source_integrity": {
+          "passed": 60,
+          "total": 60
+        },
+        "time_compliance": {
+          "passed": 60,
+          "total": 60
+        },
+        "complete_operands": {
+          "passed": 48,
+          "total": 48
+        },
+        "no_wrong_period_operands": {
+          "passed": 48,
+          "total": 48
+        },
+        "no_unjustified_value": {
+          "passed": 12,
+          "total": 12
+        }
+      },
+      "expected_statuses": {
+        "available": 48,
+        "unavailable_as_of": 9,
+        "unknown": 2,
+        "unsupported": 1
+      }
+    },
+    "by_split": {
+      "development": {
+        "cases": 24,
+        "strict_passed": 24,
+        "strict_pass_pct": 100.0,
+        "numeric_correct": 24,
+        "numeric_total": 24,
+        "correct_abstentions": 0,
+        "abstention_total": 0,
+        "atomic_passed": 192,
+        "atomic_total": 192,
+        "dimensions": {
+          "availability_status": {
+            "passed": 24,
+            "total": 24
+          },
+          "entity_and_fiscal_year": {
+            "passed": 24,
+            "total": 24
+          },
+          "period_alignment": {
+            "passed": 24,
+            "total": 24
+          },
+          "value_and_unit": {
+            "passed": 24,
+            "total": 24
+          },
+          "source_integrity": {
+            "passed": 24,
+            "total": 24
+          },
+          "time_compliance": {
+            "passed": 24,
+            "total": 24
+          },
+          "complete_operands": {
+            "passed": 24,
+            "total": 24
+          },
+          "no_wrong_period_operands": {
+            "passed": 24,
+            "total": 24
+          }
+        },
+        "expected_statuses": {
+          "available": 24
+        }
+      },
+      "heldout": {
+        "cases": 36,
+        "strict_passed": 36,
+        "strict_pass_pct": 100.0,
+        "numeric_correct": 24,
+        "numeric_total": 24,
+        "correct_abstentions": 12,
+        "abstention_total": 12,
+        "atomic_passed": 252,
+        "atomic_total": 252,
+        "dimensions": {
+          "availability_status": {
+            "passed": 36,
+            "total": 36
+          },
+          "entity_and_fiscal_year": {
+            "passed": 36,
+            "total": 36
+          },
+          "period_alignment": {
+            "passed": 24,
+            "total": 24
+          },
+          "value_and_unit": {
+            "passed": 24,
+            "total": 24
+          },
+          "source_integrity": {
+            "passed": 36,
+            "total": 36
+          },
+          "time_compliance": {
+            "passed": 36,
+            "total": 36
+          },
+          "complete_operands": {
+            "passed": 24,
+            "total": 24
+          },
+          "no_wrong_period_operands": {
+            "passed": 24,
+            "total": 24
+          },
+          "no_unjustified_value": {
+            "passed": 12,
+            "total": 12
+          }
+        },
+        "expected_statuses": {
+          "available": 24,
+          "unavailable_as_of": 9,
+          "unknown": 2,
+          "unsupported": 1
+        }
+      }
+    },
+    "dataset_sha256": "b138e3e4e1d0e15616169208bf1f35b91dfd5afb92298c798d8ea082abaf5976",
+    "code_revision": "1c2a0cdeabd237c1d6d438323568e827493a12f0",
+    "evaluated_at": "2026-09-26T05:23:47+00:00",
+    "scope": "Project-authored structured metric queries, 8 issuers, FY2022-FY2024; no natural-language accuracy or investment-return claim.",
+    "label": "修复后结构化查询回归",
+    "receipt_url": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/verification/terminal-structured-regression.json",
+    "failures": [],
+    "exposure": "After seeing first-evaluation failures; these are regression scores, not fresh heldout scores."
+  },
+  "nlq_first": {
+    "label": "首次自然语言意图小测",
+    "summary": {
+      "cases": 16,
+      "strict_passed": 14
+    },
+    "by_split": {
+      "development": {
+        "cases": 8,
+        "strict_passed": 8
+      },
+      "heldout": {
+        "cases": 8,
+        "strict_passed": 6
+      }
+    },
+    "dataset_sha256": "2c5c66e9156ca9fa810019000451b7293957467a64bc2236264a9dd3e2252903",
+    "code_revision": "9cfd3aa7ff8f1c196e2476f2e50053c3d78ef850",
+    "evaluated_at": "2026-09-26T05:16:57+00:00",
+    "scope": "Intent parsing only: metric IDs, explicit fiscal year, operation, unsupported scope. No generated-language or numerical-answer accuracy claim.",
+    "receipt_url": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/verification/terminal-nlq-first.json",
+    "failures": [
+      {
+        "id": "NH02",
+        "description": "经营现金流占净利润比例误解为两个绝对值。"
+      },
+      {
+        "id": "NH07",
+        "description": "相对年份“上一年”被静默代入默认年份。"
+      }
+    ]
+  },
+  "nlq_regression": {
+    "summary": {
+      "cases": 16,
+      "strict_passed": 16
+    },
+    "by_split": {
+      "development": {
+        "cases": 8,
+        "strict_passed": 8
+      },
+      "heldout": {
+        "cases": 8,
+        "strict_passed": 8
+      }
+    },
+    "dataset_sha256": "2c5c66e9156ca9fa810019000451b7293957467a64bc2236264a9dd3e2252903",
+    "code_revision": "1c2a0cdeabd237c1d6d438323568e827493a12f0",
+    "evaluated_at": "2026-09-26T05:23:47+00:00",
+    "scope": "Intent parsing only: metric IDs, explicit fiscal year, operation, unsupported scope. No generated-language or numerical-answer accuracy claim.",
+    "label": "修复后意图解析回归",
+    "receipt_url": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/verification/terminal-nlq-regression.json",
+    "failures": [],
+    "exposure": "After seeing first-evaluation failures; these are regression scores, not fresh heldout scores."
+  },
+  "model_calls": 0,
+  "source_issuers": 8,
+  "source_policy": "SEC 申报日期 + 1 天起可用；日粒度保守政策，不是首次公开时刻。",
+  "interpretation": [
+    "60 题评价结构化财务/PIT 查询系统，不等于任意自然语言准确率。",
+    "16 题单独评价指标、年份、运算与范围识别，不评价生成语言。",
+    "题目为项目自建；开发/保留分离依靠协作约定，没有物理访问隔离或第三方盲评。",
+    "首评与修复后回归分开呈现；不能从这些题推断投资收益或模型训练截止日。"
+  ],
+  "links": {
+    "methods": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/TERMINAL_METHODS.md",
+    "briefing": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/TERMINAL_BRIEFING.md",
+    "first_replay": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/verification/terminal-first-code-replay.json",
+    "dataset": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/evals/terminal/manifest.json",
+    "nlq_dataset": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/evals/terminal/nlq_manifest.json"
+  }
+}

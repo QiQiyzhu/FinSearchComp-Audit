@@ -104,7 +104,10 @@ class TerminalEngine:
         elif request["mode"] == "snapshot":
             model.update(status="skipped_no_verified_claims")
         chosen = {row["id"]: row for row in claims}
-        brief = [chosen[identifier] for identifier in selection["claim_ids"]]
+        # The provider prioritizes a bounded subset; append every other verified
+        # claim so a two-issuer brief cannot omit a company or requested metric.
+        ordered_ids = selection["claim_ids"] + [key for key in chosen if key not in selection["claim_ids"]]
+        brief = [chosen[identifier] for identifier in ordered_ids]
         event("synthesize", "研究摘要", "DeepSeek 已完成受约束的事实排序。" if model["used"] else "使用完整的已验证事实摘要；模型状态单独记录。")
         periods = {(row.get("period_start"), row.get("period_end")) for row in available if row.get("period_start")}
         limitations = [cube["policy"]["source_limitation"], "这是历史财务证据研究；不包含估值所需的股价、未来预测或交易执行。"]

@@ -3,6 +3,7 @@ from __future__ import annotations
 from contextlib import asynccontextmanager
 from datetime import date
 import hashlib
+import mimetypes
 import secrets
 from typing import Annotated, Any, Literal
 
@@ -120,6 +121,8 @@ def public_config(settings: Settings) -> dict[str, Any]:
 
 
 def create_app(settings: Settings | None = None, *, engine: ResearchEngine | None = None) -> FastAPI:
+    mimetypes.add_type("text/javascript", ".mjs")
+    mimetypes.add_type("text/javascript", ".js")
     config = settings or Settings.from_env()
     service = JobService(config, engine or ApplicationEngine(config))
 

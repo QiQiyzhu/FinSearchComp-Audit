@@ -1,0 +1,441 @@
+{
+  "verified_at": "2026-09-26T05:30:05.611Z",
+  "purpose": "one real DeepSeek request through the browser; integration check, not accuracy evaluation",
+  "model_calls": 1,
+  "page_errors": [],
+  "request": {
+    "as_of": "2024-11-02",
+    "fiscal_year": 2024,
+    "metric_ids": [
+      "revenue",
+      "operating_margin",
+      "free_cash_flow"
+    ],
+    "mode": "snapshot",
+    "question": "营收、营业利润率和自由现金流是多少？",
+    "ticker": "MSFT",
+    "workflow": "terminal"
+  },
+  "result": {
+    "answers": [
+      {
+        "annual_id": "MSFT-2024-230babda4ff3",
+        "display_value": "$245.12B",
+        "entity": "Microsoft",
+        "evidence_ids": [
+          "MSFT-390ab9990d0ac7b4"
+        ],
+        "exact_value": "245122000000",
+        "fiscal_year": 2024,
+        "formula": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+        "gate": {
+          "checks": {
+            "available": true,
+            "complete_operands": true,
+            "entity": true,
+            "metric": true,
+            "period": true,
+            "source_time": true,
+            "unit": true,
+            "value": true
+          },
+          "passed": true,
+          "provenance": {
+            "empty": false,
+            "future_ids": [],
+            "passed": true,
+            "unknown_ids": [],
+            "wrong_company_ids": []
+          }
+        },
+        "id": "MSFT-2024-revenue",
+        "inputs": [
+          "revenue"
+        ],
+        "label": "营业收入",
+        "metric_id": "revenue",
+        "operation": "reported",
+        "period_end": "2024-06-30",
+        "period_start": "2023-07-01",
+        "reason": null,
+        "required_inputs": [
+          "revenue"
+        ],
+        "status": "available",
+        "ticker": "MSFT",
+        "unit": "USD",
+        "value": "245122000000"
+      },
+      {
+        "annual_id": "MSFT-2024-230babda4ff3",
+        "display_value": "44.64%",
+        "entity": "Microsoft",
+        "evidence_ids": [
+          "MSFT-0ea473e4198691e8",
+          "MSFT-390ab9990d0ac7b4"
+        ],
+        "exact_value": "5471650/122561",
+        "fiscal_year": 2024,
+        "formula": "operating_income / revenue × 100",
+        "gate": {
+          "checks": {
+            "available": true,
+            "complete_operands": true,
+            "entity": true,
+            "metric": true,
+            "period": true,
+            "source_time": true,
+            "unit": true,
+            "value": true
+          },
+          "passed": true,
+          "provenance": {
+            "empty": false,
+            "future_ids": [],
+            "passed": true,
+            "unknown_ids": [],
+            "wrong_company_ids": []
+          }
+        },
+        "id": "MSFT-2024-operating_margin",
+        "inputs": [
+          "operating_income",
+          "revenue"
+        ],
+        "label": "营业利润率",
+        "metric_id": "operating_margin",
+        "operation": "ratio",
+        "period_end": "2024-06-30",
+        "period_start": "2023-07-01",
+        "reason": null,
+        "required_inputs": [
+          "operating_income",
+          "revenue"
+        ],
+        "status": "available",
+        "ticker": "MSFT",
+        "unit": "%",
+        "value": "44.64"
+      },
+      {
+        "annual_id": "MSFT-2024-230babda4ff3",
+        "display_value": "$74.07B",
+        "entity": "Microsoft",
+        "evidence_ids": [
+          "MSFT-478ea93077ead4f2",
+          "MSFT-5fc8fd42a5a2d7f5"
+        ],
+        "exact_value": "74071000000",
+        "fiscal_year": 2024,
+        "formula": "operating_cash_flow − capital_expenditure",
+        "gate": {
+          "checks": {
+            "available": true,
+            "complete_operands": true,
+            "entity": true,
+            "metric": true,
+            "period": true,
+            "source_time": true,
+            "unit": true,
+            "value": true
+          },
+          "passed": true,
+          "provenance": {
+            "empty": false,
+            "future_ids": [],
+            "passed": true,
+            "unknown_ids": [],
+            "wrong_company_ids": []
+          }
+        },
+        "id": "MSFT-2024-free_cash_flow",
+        "inputs": [
+          "operating_cash_flow",
+          "capital_expenditure"
+        ],
+        "label": "自由现金流",
+        "metric_id": "free_cash_flow",
+        "operation": "subtract",
+        "period_end": "2024-06-30",
+        "period_start": "2023-07-01",
+        "reason": null,
+        "required_inputs": [
+          "operating_cash_flow",
+          "capital_expenditure"
+        ],
+        "status": "available",
+        "ticker": "MSFT",
+        "unit": "USD",
+        "value": "74071000000"
+      }
+    ],
+    "as_of": "2024-11-02",
+    "brief": [
+      {
+        "answer_id": "MSFT-2024-revenue",
+        "evidence_ids": [
+          "MSFT-390ab9990d0ac7b4"
+        ],
+        "id": "C01",
+        "metric_id": "revenue",
+        "text": "MSFT FY2024 营业收入：$245.12B（2023-07-01 至 2024-06-30）。"
+      },
+      {
+        "answer_id": "MSFT-2024-operating_margin",
+        "evidence_ids": [
+          "MSFT-0ea473e4198691e8",
+          "MSFT-390ab9990d0ac7b4"
+        ],
+        "id": "C02",
+        "metric_id": "operating_margin",
+        "text": "MSFT FY2024 营业利润率：44.64%（2023-07-01 至 2024-06-30）。"
+      },
+      {
+        "answer_id": "MSFT-2024-free_cash_flow",
+        "evidence_ids": [
+          "MSFT-478ea93077ead4f2",
+          "MSFT-5fc8fd42a5a2d7f5"
+        ],
+        "id": "C03",
+        "metric_id": "free_cash_flow",
+        "text": "MSFT FY2024 自由现金流：$74.07B（2023-07-01 至 2024-06-30）。"
+      }
+    ],
+    "coverage": {
+      "available": 3,
+      "total": 3
+    },
+    "data_mode": "snapshot",
+    "evidence": [
+      {
+        "accession": "0000950170-24-087843",
+        "available_from": "2024-07-31",
+        "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+        "fact_sha256": "0ea473e4198691e8250d3523df348b2179e1c7a59e56da0e5076783ea35e0e6d",
+        "filed": "2024-07-30",
+        "fiscal_year": 2024,
+        "form": "10-K",
+        "id": "MSFT-0ea473e4198691e8",
+        "metric_id": "operating_income",
+        "period_end": "2024-06-30",
+        "period_start": "2023-07-01",
+        "raw_row": {
+          "accn": "0000950170-24-087843",
+          "end": "2024-06-30",
+          "filed": "2024-07-30",
+          "form": "10-K",
+          "fp": "FY",
+          "fy": 2024,
+          "start": "2023-07-01",
+          "val": 109433000000
+        },
+        "retrieved_at": "2026-09-22T13:14:16+00:00",
+        "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+        "taxonomy": "us-gaap",
+        "taxonomy_tag": "OperatingIncomeLoss",
+        "ticker": "MSFT",
+        "unit": "USD",
+        "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+        "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+        "value": "109433000000"
+      },
+      {
+        "accession": "0000950170-24-087843",
+        "available_from": "2024-07-31",
+        "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+        "fact_sha256": "390ab9990d0ac7b4599c4917b2c85dcdb499b8a92fe5ad516e32319bc1243d68",
+        "filed": "2024-07-30",
+        "fiscal_year": 2024,
+        "form": "10-K",
+        "id": "MSFT-390ab9990d0ac7b4",
+        "metric_id": "revenue",
+        "period_end": "2024-06-30",
+        "period_start": "2023-07-01",
+        "raw_row": {
+          "accn": "0000950170-24-087843",
+          "end": "2024-06-30",
+          "filed": "2024-07-30",
+          "form": "10-K",
+          "fp": "FY",
+          "fy": 2024,
+          "start": "2023-07-01",
+          "val": 245122000000
+        },
+        "retrieved_at": "2026-09-22T13:14:16+00:00",
+        "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+        "taxonomy": "us-gaap",
+        "taxonomy_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "ticker": "MSFT",
+        "unit": "USD",
+        "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+        "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+        "value": "245122000000"
+      },
+      {
+        "accession": "0000950170-24-087843",
+        "available_from": "2024-07-31",
+        "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+        "fact_sha256": "478ea93077ead4f21cb07611c58e66f19489c6b4b3347b851d396048b93dfe08",
+        "filed": "2024-07-30",
+        "fiscal_year": 2024,
+        "form": "10-K",
+        "id": "MSFT-478ea93077ead4f2",
+        "metric_id": "operating_cash_flow",
+        "period_end": "2024-06-30",
+        "period_start": "2023-07-01",
+        "raw_row": {
+          "accn": "0000950170-24-087843",
+          "end": "2024-06-30",
+          "filed": "2024-07-30",
+          "form": "10-K",
+          "fp": "FY",
+          "fy": 2024,
+          "start": "2023-07-01",
+          "val": 118548000000
+        },
+        "retrieved_at": "2026-09-22T13:14:16+00:00",
+        "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+        "taxonomy": "us-gaap",
+        "taxonomy_tag": "NetCashProvidedByUsedInOperatingActivities",
+        "ticker": "MSFT",
+        "unit": "USD",
+        "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+        "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+        "value": "118548000000"
+      },
+      {
+        "accession": "0000950170-24-087843",
+        "available_from": "2024-07-31",
+        "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+        "fact_sha256": "5fc8fd42a5a2d7f53fab799e1eca15dba3d0f622ec6d32c38e6b3877975a85d6",
+        "filed": "2024-07-30",
+        "fiscal_year": 2024,
+        "form": "10-K",
+        "id": "MSFT-5fc8fd42a5a2d7f5",
+        "metric_id": "capital_expenditure",
+        "period_end": "2024-06-30",
+        "period_start": "2023-07-01",
+        "raw_row": {
+          "accn": "0000950170-24-087843",
+          "end": "2024-06-30",
+          "filed": "2024-07-30",
+          "form": "10-K",
+          "fp": "FY",
+          "fy": 2024,
+          "start": "2023-07-01",
+          "val": 44477000000
+        },
+        "retrieved_at": "2026-09-22T13:14:16+00:00",
+        "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+        "taxonomy": "us-gaap",
+        "taxonomy_tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+        "ticker": "MSFT",
+        "unit": "USD",
+        "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+        "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+        "value": "44477000000"
+      }
+    ],
+    "fiscal_year": 2024,
+    "gaps": [],
+    "generated_at": "2026-09-26T05:30:05+00:00",
+    "limitations": [
+      "2026-09-22 抓取的 CompanyFacts 历史条目重建，不是当时保存的完整数据库；不包含业绩公告、新闻及盘中数据。",
+      "这是历史财务证据研究；不包含估值所需的股价、未来预测或交易执行。"
+    ],
+    "model": {
+      "configured_model": "deepseek-flash",
+      "provider": "DeepSeek",
+      "receipt": {
+        "latency_ms": 813,
+        "request_id": "c06d3182-4e30-4e9c-a634-732e80e4b7b2",
+        "response_model": "deepseek-flash",
+        "usage": {
+          "completion_tokens": 30,
+          "prompt_tokens": 665,
+          "total_tokens": 695
+        }
+      },
+      "role": "organize_verified_claims_only",
+      "status": "completed",
+      "used": true
+    },
+    "next_steps": [
+      "核对营运资本变动、资本支出定义与融资租赁，检验现金转换质量。",
+      "结合分部披露，核对营业利润率变化来自产品结构还是一次性因素。",
+      "补充同一时点的股价、稀释股数及净债务，进行估值与情景敏感性分析。",
+      "阅读下一份季报，核对收入增速能否延续，并区分价格、销量和并购贡献。"
+    ],
+    "policy": {
+      "availability": "filed_date_plus_one_calendar_day",
+      "availability_note": "SEC CompanyFacts 只有申报日期；保守地从申报后下一日起纳入，不推断申报当日盘中可用性。",
+      "calculation": "exact rational operands; final display rounded half up to 2 decimals; same-accession operands required",
+      "fiscal_year": "FY filing accession anchor plus consecutive annual end dates; no calendar-year relabeling",
+      "gross_profit_fallback": "When GrossProfit is absent, revenue minus cost_of_revenue from the same accession and period; explicitly marked calculated.",
+      "liabilities": "Only reported Liabilities. Assets minus parent equity is not substituted because noncontrolling interests may exist.",
+      "missing": "unknown / unavailable_as_of / unsupported / conflict are explicit; missing is never zero",
+      "scope": "annual US-GAAP USD facts from 10-K and 10-K/A; FY2019–FY2026 when present",
+      "source_limitation": "2026-09-22 抓取的 CompanyFacts 历史条目重建，不是当时保存的完整数据库；不包含业绩公告、新闻及盘中数据。",
+      "version_selection": "latest_available_filing_per_exact_period; unequal same-date values abstain"
+    },
+    "question": "营收、营业利润率和自由现金流是多少？",
+    "report_type": "terminal",
+    "sources": [
+      {
+        "selected_available_from": "2024-07-31",
+        "status": "available",
+        "ticker": "MSFT"
+      }
+    ],
+    "summary": "MSFT FY2024 营业收入：$245.12B（2023-07-01 至 2024-06-30）。 MSFT FY2024 营业利润率：44.64%（2023-07-01 至 2024-06-30）。 MSFT FY2024 自由现金流：$74.07B（2023-07-01 至 2024-06-30）。",
+    "tickers": [
+      "MSFT"
+    ],
+    "title": "MSFT · FY2024 财务研究",
+    "trace": [
+      {
+        "detail": "1 家公司 × 3 个指标；FY2024；截止 2024-11-02。",
+        "label": "研究计划",
+        "status": "completed",
+        "step": "plan",
+        "timestamp": "2026-09-26T05:30:04+00:00"
+      },
+      {
+        "detail": "仅使用申报日期下一日及此前可得的 SEC 年报条目；不从后续版本补数。",
+        "label": "历史版本选择",
+        "status": "completed",
+        "step": "temporal",
+        "timestamp": "2026-09-26T05:30:04+00:00"
+      },
+      {
+        "detail": "取得 4 条可追溯 XBRL 记录，保留标签、期间、申报号及哈希。",
+        "label": "原始操作数检索",
+        "status": "completed",
+        "step": "retrieve",
+        "timestamp": "2026-09-26T05:30:04+00:00"
+      },
+      {
+        "detail": "3/3 项获得数值；缺失依赖与冲突作为显式缺口。",
+        "label": "确定性财务计算",
+        "status": "completed",
+        "step": "compute",
+        "timestamp": "2026-09-26T05:30:04+00:00"
+      },
+      {
+        "detail": "检查公司、指标、年度期间、单位、数值、完整操作数及证据时间。",
+        "label": "答案交付检查",
+        "status": "completed",
+        "step": "verify",
+        "timestamp": "2026-09-26T05:30:04+00:00"
+      },
+      {
+        "detail": "DeepSeek 已完成受约束的事实排序。",
+        "label": "研究摘要",
+        "status": "completed",
+        "step": "synthesize",
+        "timestamp": "2026-09-26T05:30:05+00:00"
+      }
+    ],
+    "version": "3.0.0"
+  }
+}

@@ -131,6 +131,8 @@ def validate_local_links(output_dir: Path, html_path: Path) -> None:
             target == root or root in target.parents,
             f"local link escapes output directory: {href}",
         )
+        if target.is_dir():
+            target = target / "index.html"
         require(target.is_file(), f"broken local link in {html_path.name}: {href}")
 
 

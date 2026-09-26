@@ -26,7 +26,7 @@ const PATTERNS = [
   ['cost_of_revenue', /营业成本|销售成本|cost\s+of\s+(?:revenue|sales|goods)/gi],
   ['revenue', /营业收入|营收|收入|净销售额|revenue|net\s+sales|\bsales\b/gi],
 ];
-const RATIOS = new Set(['operating_margin','gross_margin','net_margin','rd_ratio','cash_conversion','liabilities_to_assets','capex_ratio','free_cash_flow_margin']);
+const RATIOS = new Set(['operating_margin','gross_margin','net_margin','rd_ratio','cash_conversion','liabilities_to_assets','capex_ratio','free_cash_flow_margin','cash_to_assets']);
 const GAPS = [
   [/股价|目标价|市盈率|市净率|估值|市值|买入|卖出|stock\s+price|target\s+price|valuation|market\s+cap|\bp\/e\b|\bbuy\b|\bsell\b/i,'价格、估值或买卖建议需要本工作台尚未覆盖的市场数据。'],
   [/\bq[1-4]\b|季度|季报|quarter|月度|monthly|\bttm\b|滚动十二|过去十二个月|过去12个月/i,'当前证据为年度财报，暂不回答季度、月度或 TTM 指标。'],
@@ -50,6 +50,10 @@ export function parseQuestion(question,context={}) {
   const text=String(question??'').trim();
   const gaps=GAPS.filter(([pattern])=>pattern.test(text)).map(([,message])=>message);
   const years=yearsIn(text);
+  const directed=text.match(/(?:FY\s*)?((?:19|20)\d{2})[^，,；;。\d]{0,25}(?:相比|比|较|versus|\bvs\b)[^\d]{0,10}(?:FY\s*)?((?:19|20)\d{2})/i);
+  const movement=text.match(/(?:从|from)\s*(?:FY\s*)?((?:19|20)\d{2})\s*(?:年)?\s*(?:到|至|to)\s*(?:FY\s*)?((?:19|20)\d{2})/i);
+  if(directed&&Number(directed[1])<Number(directed[2])||movement&&Number(movement[2])<Number(movement[1]))gaps.push('当前只提供后一年相对前一年的变化；反向比较不会静默颠倒，请调整年份顺序。');
+  if(/(?:流动比率|current\s+ratio).{0,20}(?:变化|增长|增加|下降|change|growth|increase|decrease)/i.test(text))gaps.push('流动比率的变化请求尚未支持；可分别查询两个明确年度的流动比率。');
   const year=years.length?Math.max(...years):Number(context.year??context.fiscal_year);
   const matches=[];
   for(const [id,pattern] of PATTERNS){

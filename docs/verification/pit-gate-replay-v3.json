@@ -1,0 +1,2403 @@
+{
+  "schema_version": 1,
+  "experiment_id": "pit-exposed-pilot-evidence-gate-replay-v3",
+  "gate_version": "supplied-evidence-gate-1.0",
+  "experiment_type": "deterministic_system_intervention_on_already_exposed_responses",
+  "source_dataset_sha256": "926006e4dc6ab8d2192cad3b117e797f67545e4822890f5762a81836c2171ed0",
+  "source_receipt_sha256": "368c2246baf5c14013fe21c2d79b66a003e2e026026dd27b67aa3e656dcdc8d9",
+  "source_trace_sha256": "5477e4fe23e2f3e4d854b2557eda07f3688b216ad3dec3523d950df00cc905af",
+  "gate_code_sha256": "4f071a77f318e88f6fc2daa6d7e7e93c16edb81eb32abc7802ddb9ab3f432566",
+  "network_calls": 0,
+  "new_model_calls": 0,
+  "retrieval_calls": 0,
+  "protocol": {
+    "decision_inputs": [
+      "original supplied documents",
+      "original cutoff",
+      "requested metric and formula",
+      "original structured response"
+    ],
+    "gold_in_gate": false,
+    "availability": "filed_date_plus_one_calendar_day",
+    "action": "Accept only if the original response cites all required supplied operands, all are historically available and the structured value/unit equal exact recomputation. Otherwise abstain. No value repair or retrieval.",
+    "scorer": "unchanged pit_benchmark.pilot.score_answer, applied after gate",
+    "limitations": [
+      "36 outputs reuse 6 exposed development questions and 3 shared filings; not a new heldout/model evaluation.",
+      "This changes the system evidence policy; it does not improve or re-run the LLM.",
+      "Memory-only correct post-filing answers are blocked, reducing answer coverage.",
+      "The gate certifies the structured value, unit and citations only; raw model explanatory prose is replaced by a deterministic statement.",
+      "Historical support is relative to supplied designated filings, not all public information."
+    ]
+  },
+  "summary": {
+    "before": {
+      "planned": 36,
+      "decision_correct": 23,
+      "pre_planned": 18,
+      "pre_correct_abstention": 5,
+      "pre_unsupported_answers": 13,
+      "post_planned": 18,
+      "post_answers": 18,
+      "post_numeric_correct": 18,
+      "post_correct_supported": 12,
+      "future_evidence_accepted": 1
+    },
+    "after": {
+      "planned": 36,
+      "decision_correct": 30,
+      "pre_planned": 18,
+      "pre_correct_abstention": 18,
+      "pre_unsupported_answers": 0,
+      "post_planned": 18,
+      "post_answers": 12,
+      "post_numeric_correct": 12,
+      "post_correct_supported": 12,
+      "future_evidence_accepted": 0
+    },
+    "post_answer_coverage_loss": 6,
+    "accepted_original_answers": 12,
+    "blocked_original_answers": 19,
+    "retained_model_abstentions": 5,
+    "gate_reason_counts": {
+      "no_cited_evidence": 18,
+      "model_abstained": 5,
+      "complete_supported_value": 12,
+      "future_or_same_day_evidence": 1
+    },
+    "by_condition": [
+      {
+        "condition": "closed_book",
+        "before": {
+          "planned": 12,
+          "decision_correct": 6,
+          "pre_planned": 6,
+          "pre_correct_abstention": 0,
+          "pre_unsupported_answers": 6,
+          "post_planned": 6,
+          "post_answers": 6,
+          "post_numeric_correct": 6,
+          "post_correct_supported": 0,
+          "future_evidence_accepted": 0
+        },
+        "after": {
+          "planned": 12,
+          "decision_correct": 6,
+          "pre_planned": 6,
+          "pre_correct_abstention": 6,
+          "pre_unsupported_answers": 0,
+          "post_planned": 6,
+          "post_answers": 0,
+          "post_numeric_correct": 0,
+          "post_correct_supported": 0,
+          "future_evidence_accepted": 0
+        }
+      },
+      {
+        "condition": "unfiltered",
+        "before": {
+          "planned": 12,
+          "decision_correct": 11,
+          "pre_planned": 6,
+          "pre_correct_abstention": 5,
+          "pre_unsupported_answers": 1,
+          "post_planned": 6,
+          "post_answers": 6,
+          "post_numeric_correct": 6,
+          "post_correct_supported": 6,
+          "future_evidence_accepted": 1
+        },
+        "after": {
+          "planned": 12,
+          "decision_correct": 12,
+          "pre_planned": 6,
+          "pre_correct_abstention": 6,
+          "pre_unsupported_answers": 0,
+          "post_planned": 6,
+          "post_answers": 6,
+          "post_numeric_correct": 6,
+          "post_correct_supported": 6,
+          "future_evidence_accepted": 0
+        }
+      },
+      {
+        "condition": "pit_filtered",
+        "before": {
+          "planned": 12,
+          "decision_correct": 6,
+          "pre_planned": 6,
+          "pre_correct_abstention": 0,
+          "pre_unsupported_answers": 6,
+          "post_planned": 6,
+          "post_answers": 6,
+          "post_numeric_correct": 6,
+          "post_correct_supported": 6,
+          "future_evidence_accepted": 0
+        },
+        "after": {
+          "planned": 12,
+          "decision_correct": 12,
+          "pre_planned": 6,
+          "pre_correct_abstention": 6,
+          "pre_unsupported_answers": 0,
+          "post_planned": 6,
+          "post_answers": 6,
+          "post_numeric_correct": 6,
+          "post_correct_supported": 6,
+          "future_evidence_accepted": 0
+        }
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "msft_fy2024_revenue__pre__closed_book",
+      "case_id": "msft_fy2024_revenue",
+      "phase": "pre",
+      "condition": "closed_book",
+      "as_of": "2024-07-29",
+      "original_answer": {
+        "action": "answer",
+        "value": "245122000000",
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Microsoft FY2024 total revenue was $245.122 billion, per the fiscal year ended June 30, 2024."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "14223ee25a47ed1cdf2aa775d972074fa18b2a2720cf4eb1df445065dfa9dd95"
+    },
+    {
+      "id": "msft_fy2024_revenue__pre__unfiltered",
+      "case_id": "msft_fy2024_revenue",
+      "phase": "pre",
+      "condition": "unfiltered",
+      "as_of": "2024-07-29",
+      "original_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": null,
+        "evidence_ids": [],
+        "explanation": "The designated 10-K accession was filed 2024-07-30, after the as-of date 2024-07-29, so it was not yet public and cannot be used."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "retained_abstention",
+        "reason": "model_abstained",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: model_abstained."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: model_abstained."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "ea1e7a4a4ab2d185a9d4705a0bece857cb2e104472627e2cf82c9cdad9218c69"
+    },
+    {
+      "id": "msft_fy2024_revenue__pre__pit_filtered",
+      "case_id": "msft_fy2024_revenue",
+      "phase": "pre",
+      "condition": "pit_filtered",
+      "as_of": "2024-07-29",
+      "original_answer": {
+        "action": "answer",
+        "value": "245122000000",
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Microsoft FY2024 total revenue was $245.122 billion, per the fiscal year ended June 30, 2024."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "14223ee25a47ed1cdf2aa775d972074fa18b2a2720cf4eb1df445065dfa9dd95"
+    },
+    {
+      "id": "msft_fy2024_revenue__post__unfiltered",
+      "case_id": "msft_fy2024_revenue",
+      "phase": "post",
+      "condition": "unfiltered",
+      "as_of": "2024-07-31",
+      "original_answer": {
+        "action": "answer",
+        "value": "245122000000",
+        "unit": "USD",
+        "evidence_ids": [
+          "MSFT-FY2024-revenue"
+        ],
+        "explanation": "The designated FY2024 10-K reports revenue of $245,122,000,000 for the fiscal year ended 2024-06-30."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "gate": {
+        "accepted": true,
+        "decision": "accepted",
+        "reason": "complete_supported_value",
+        "typed_state": "available",
+        "verified_evidence_ids": [
+          "MSFT-FY2024-revenue"
+        ],
+        "computed_value": "245122000000",
+        "answer": {
+          "action": "answer",
+          "evidence_ids": [
+            "MSFT-FY2024-revenue"
+          ],
+          "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+          "unit": "USD",
+          "value": "245122000000"
+        }
+      },
+      "gated_answer": {
+        "action": "answer",
+        "evidence_ids": [
+          "MSFT-FY2024-revenue"
+        ],
+        "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+        "unit": "USD",
+        "value": "245122000000"
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "original_request_sha256": "5abb6053846e3c32034bdd36e85bf581afd79c584e1e9572fe3d68ab27a911a7"
+    },
+    {
+      "id": "msft_fy2024_revenue__post__pit_filtered",
+      "case_id": "msft_fy2024_revenue",
+      "phase": "post",
+      "condition": "pit_filtered",
+      "as_of": "2024-07-31",
+      "original_answer": {
+        "action": "answer",
+        "value": "245122000000",
+        "unit": "USD",
+        "evidence_ids": [
+          "MSFT-FY2024-revenue"
+        ],
+        "explanation": "The designated FY2024 10-K reports revenue of $245,122,000,000 for the fiscal year ended 2024-06-30."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "gate": {
+        "accepted": true,
+        "decision": "accepted",
+        "reason": "complete_supported_value",
+        "typed_state": "available",
+        "verified_evidence_ids": [
+          "MSFT-FY2024-revenue"
+        ],
+        "computed_value": "245122000000",
+        "answer": {
+          "action": "answer",
+          "evidence_ids": [
+            "MSFT-FY2024-revenue"
+          ],
+          "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+          "unit": "USD",
+          "value": "245122000000"
+        }
+      },
+      "gated_answer": {
+        "action": "answer",
+        "evidence_ids": [
+          "MSFT-FY2024-revenue"
+        ],
+        "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+        "unit": "USD",
+        "value": "245122000000"
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "original_request_sha256": "5abb6053846e3c32034bdd36e85bf581afd79c584e1e9572fe3d68ab27a911a7"
+    },
+    {
+      "id": "msft_fy2024_revenue__post__closed_book",
+      "case_id": "msft_fy2024_revenue",
+      "phase": "post",
+      "condition": "closed_book",
+      "as_of": "2024-07-31",
+      "original_answer": {
+        "action": "answer",
+        "value": "245122000000",
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Microsoft FY2024 total revenue was $245.122 billion, per the fiscal year ended June 30, 2024."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": false,
+        "numeric_correct": false,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "3bf0f5b41e813646fe6baa47ba5fc42329cb68094e1400e5a559088ac884dde2"
+    },
+    {
+      "id": "msft_fy2024_operating_margin__pre__unfiltered",
+      "case_id": "msft_fy2024_operating_margin",
+      "phase": "pre",
+      "condition": "unfiltered",
+      "as_of": "2024-07-29",
+      "original_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": null,
+        "evidence_ids": [],
+        "explanation": "The designated 10-K accession was filed 2024-07-30, after the as-of date 2024-07-29, so it was not yet public and cannot be used."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "retained_abstention",
+        "reason": "model_abstained",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: model_abstained."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: model_abstained."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "72fb3d3969fb3c5a7c5f8d0656453f17b6c88370f0003b299cb718112ad3f3a2"
+    },
+    {
+      "id": "msft_fy2024_operating_margin__pre__pit_filtered",
+      "case_id": "msft_fy2024_operating_margin",
+      "phase": "pre",
+      "condition": "pit_filtered",
+      "as_of": "2024-07-29",
+      "original_answer": {
+        "action": "answer",
+        "value": "44.64",
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Microsoft FY2024 revenue was $245.122B and operating income was $109.433B, giving an operating margin of 44.64%."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "699fd7d1b1b811ed2a728665a61224c318759544b29da4eadc554511d09b3830"
+    },
+    {
+      "id": "msft_fy2024_operating_margin__pre__closed_book",
+      "case_id": "msft_fy2024_operating_margin",
+      "phase": "pre",
+      "condition": "closed_book",
+      "as_of": "2024-07-29",
+      "original_answer": {
+        "action": "answer",
+        "value": "44.64",
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Microsoft FY2024 revenue was $245.122B and operating income was $109.433B, giving an operating margin of 44.64%."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "699fd7d1b1b811ed2a728665a61224c318759544b29da4eadc554511d09b3830"
+    },
+    {
+      "id": "msft_fy2024_operating_margin__post__pit_filtered",
+      "case_id": "msft_fy2024_operating_margin",
+      "phase": "post",
+      "condition": "pit_filtered",
+      "as_of": "2024-07-31",
+      "original_answer": {
+        "action": "answer",
+        "value": "44.64",
+        "unit": "%",
+        "evidence_ids": [
+          "MSFT-FY2024-revenue",
+          "MSFT-FY2024-operating_income"
+        ],
+        "explanation": "Operating margin = 109,433,000,000 / 245,122,000,000 × 100 = 44.64%."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "gate": {
+        "accepted": true,
+        "decision": "accepted",
+        "reason": "complete_supported_value",
+        "typed_state": "available",
+        "verified_evidence_ids": [
+          "MSFT-FY2024-revenue",
+          "MSFT-FY2024-operating_income"
+        ],
+        "computed_value": "44.64",
+        "answer": {
+          "action": "answer",
+          "evidence_ids": [
+            "MSFT-FY2024-revenue",
+            "MSFT-FY2024-operating_income"
+          ],
+          "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+          "unit": "%",
+          "value": "44.64"
+        }
+      },
+      "gated_answer": {
+        "action": "answer",
+        "evidence_ids": [
+          "MSFT-FY2024-revenue",
+          "MSFT-FY2024-operating_income"
+        ],
+        "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+        "unit": "%",
+        "value": "44.64"
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "original_request_sha256": "455a9ce853b14d27fec4338ab17a50ecd658fefe2878541320889a2734a9b4cd"
+    },
+    {
+      "id": "msft_fy2024_operating_margin__post__closed_book",
+      "case_id": "msft_fy2024_operating_margin",
+      "phase": "post",
+      "condition": "closed_book",
+      "as_of": "2024-07-31",
+      "original_answer": {
+        "action": "answer",
+        "value": "44.64",
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Microsoft FY2024 revenue was $245,122 million and operating income was $109,433 million, giving an operating margin of 44.64%."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": false,
+        "numeric_correct": false,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "a8a6e8d9c91a427cb6dda00985e1c4e07744c43e9a277324bf6b1115f3ecfd1c"
+    },
+    {
+      "id": "msft_fy2024_operating_margin__post__unfiltered",
+      "case_id": "msft_fy2024_operating_margin",
+      "phase": "post",
+      "condition": "unfiltered",
+      "as_of": "2024-07-31",
+      "original_answer": {
+        "action": "answer",
+        "value": "44.64",
+        "unit": "%",
+        "evidence_ids": [
+          "MSFT-FY2024-revenue",
+          "MSFT-FY2024-operating_income"
+        ],
+        "explanation": "Operating margin = 109,433,000,000 / 245,122,000,000 × 100 = 44.64%."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "gate": {
+        "accepted": true,
+        "decision": "accepted",
+        "reason": "complete_supported_value",
+        "typed_state": "available",
+        "verified_evidence_ids": [
+          "MSFT-FY2024-revenue",
+          "MSFT-FY2024-operating_income"
+        ],
+        "computed_value": "44.64",
+        "answer": {
+          "action": "answer",
+          "evidence_ids": [
+            "MSFT-FY2024-revenue",
+            "MSFT-FY2024-operating_income"
+          ],
+          "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+          "unit": "%",
+          "value": "44.64"
+        }
+      },
+      "gated_answer": {
+        "action": "answer",
+        "evidence_ids": [
+          "MSFT-FY2024-revenue",
+          "MSFT-FY2024-operating_income"
+        ],
+        "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+        "unit": "%",
+        "value": "44.64"
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "original_request_sha256": "455a9ce853b14d27fec4338ab17a50ecd658fefe2878541320889a2734a9b4cd"
+    },
+    {
+      "id": "aapl_fy2024_revenue__pre__pit_filtered",
+      "case_id": "aapl_fy2024_revenue",
+      "phase": "pre",
+      "condition": "pit_filtered",
+      "as_of": "2024-10-31",
+      "original_answer": {
+        "action": "answer",
+        "value": "391035000000",
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Apple's FY2024 total net sales were $391.035 billion, per the fiscal year ended September 28, 2024."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "03b4799f4b8f552f3e5223de99fb32efb9f16d5a9131381d84d6491ad014ad2d"
+    },
+    {
+      "id": "aapl_fy2024_revenue__pre__closed_book",
+      "case_id": "aapl_fy2024_revenue",
+      "phase": "pre",
+      "condition": "closed_book",
+      "as_of": "2024-10-31",
+      "original_answer": {
+        "action": "answer",
+        "value": "391035000000",
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Apple's FY2024 total net sales were $391.035 billion, per the designated FY2024 10-K."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "03b4799f4b8f552f3e5223de99fb32efb9f16d5a9131381d84d6491ad014ad2d"
+    },
+    {
+      "id": "aapl_fy2024_revenue__pre__unfiltered",
+      "case_id": "aapl_fy2024_revenue",
+      "phase": "pre",
+      "condition": "unfiltered",
+      "as_of": "2024-10-31",
+      "original_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": null,
+        "evidence_ids": [],
+        "explanation": "The designated 10-K accession was filed 2024-11-01, after the as-of date 2024-10-31, so it was not yet public and cannot be used."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "retained_abstention",
+        "reason": "model_abstained",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: model_abstained."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: model_abstained."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "cd9a14766e975010df5c72e59100402f299179f3ce7f7a0734ac44ef8a8518b9"
+    },
+    {
+      "id": "aapl_fy2024_revenue__post__closed_book",
+      "case_id": "aapl_fy2024_revenue",
+      "phase": "post",
+      "condition": "closed_book",
+      "as_of": "2024-11-02",
+      "original_answer": {
+        "action": "answer",
+        "value": "391035000000",
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Apple's FY2024 total net sales were $391.035 billion, per the fiscal year ended September 28, 2024."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": false,
+        "numeric_correct": false,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "12f8b45aa603567921854b2b473154580bf52c6a10946a43ef834dafc4499799"
+    },
+    {
+      "id": "aapl_fy2024_revenue__post__unfiltered",
+      "case_id": "aapl_fy2024_revenue",
+      "phase": "post",
+      "condition": "unfiltered",
+      "as_of": "2024-11-02",
+      "original_answer": {
+        "action": "answer",
+        "value": "391035000000",
+        "unit": "USD",
+        "evidence_ids": [
+          "AAPL-FY2024-revenue"
+        ],
+        "explanation": "The designated FY2024 10-K reports total net revenue of $391,035,000,000 for the period 2023-10-01 to 2024-09-28."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "gate": {
+        "accepted": true,
+        "decision": "accepted",
+        "reason": "complete_supported_value",
+        "typed_state": "available",
+        "verified_evidence_ids": [
+          "AAPL-FY2024-revenue"
+        ],
+        "computed_value": "391035000000",
+        "answer": {
+          "action": "answer",
+          "evidence_ids": [
+            "AAPL-FY2024-revenue"
+          ],
+          "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+          "unit": "USD",
+          "value": "391035000000"
+        }
+      },
+      "gated_answer": {
+        "action": "answer",
+        "evidence_ids": [
+          "AAPL-FY2024-revenue"
+        ],
+        "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+        "unit": "USD",
+        "value": "391035000000"
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "original_request_sha256": "dc7ba17af43657a90c6449ecee1a6594ce8795419ec3bb5051f945b55557a684"
+    },
+    {
+      "id": "aapl_fy2024_revenue__post__pit_filtered",
+      "case_id": "aapl_fy2024_revenue",
+      "phase": "post",
+      "condition": "pit_filtered",
+      "as_of": "2024-11-02",
+      "original_answer": {
+        "action": "answer",
+        "value": "391035000000",
+        "unit": "USD",
+        "evidence_ids": [
+          "AAPL-FY2024-revenue"
+        ],
+        "explanation": "The designated FY2024 10-K reports total net revenue of $391,035,000,000 for the period 2023-10-01 to 2024-09-28."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "gate": {
+        "accepted": true,
+        "decision": "accepted",
+        "reason": "complete_supported_value",
+        "typed_state": "available",
+        "verified_evidence_ids": [
+          "AAPL-FY2024-revenue"
+        ],
+        "computed_value": "391035000000",
+        "answer": {
+          "action": "answer",
+          "evidence_ids": [
+            "AAPL-FY2024-revenue"
+          ],
+          "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+          "unit": "USD",
+          "value": "391035000000"
+        }
+      },
+      "gated_answer": {
+        "action": "answer",
+        "evidence_ids": [
+          "AAPL-FY2024-revenue"
+        ],
+        "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+        "unit": "USD",
+        "value": "391035000000"
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "original_request_sha256": "dc7ba17af43657a90c6449ecee1a6594ce8795419ec3bb5051f945b55557a684"
+    },
+    {
+      "id": "aapl_fy2024_operating_margin__pre__closed_book",
+      "case_id": "aapl_fy2024_operating_margin",
+      "phase": "pre",
+      "condition": "closed_book",
+      "as_of": "2024-10-31",
+      "original_answer": {
+        "action": "answer",
+        "value": "31.51",
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Apple FY2024 operating income was $123,216 million on revenue of $391,035 million, giving 31.51%."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "92821ccec2e50e89c038e1e91c9e1613c3e13648478c3fdbd418b5ed37abb9b3"
+    },
+    {
+      "id": "aapl_fy2024_operating_margin__pre__unfiltered",
+      "case_id": "aapl_fy2024_operating_margin",
+      "phase": "pre",
+      "condition": "unfiltered",
+      "as_of": "2024-10-31",
+      "original_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": null,
+        "evidence_ids": [],
+        "explanation": "The designated 10-K accession was filed 2024-11-01, after the as-of date 2024-10-31, so it was not yet public and cannot be used."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "retained_abstention",
+        "reason": "model_abstained",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: model_abstained."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: model_abstained."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "20098c87b8e0bf6d75a5befabd4348b91930509ab8d1eeea6e484cd09989ae40"
+    },
+    {
+      "id": "aapl_fy2024_operating_margin__pre__pit_filtered",
+      "case_id": "aapl_fy2024_operating_margin",
+      "phase": "pre",
+      "condition": "pit_filtered",
+      "as_of": "2024-10-31",
+      "original_answer": {
+        "action": "answer",
+        "value": "31.51",
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Apple FY2024 operating income was $123,216M on revenue of $391,035M, giving 31.51%."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "92821ccec2e50e89c038e1e91c9e1613c3e13648478c3fdbd418b5ed37abb9b3"
+    },
+    {
+      "id": "aapl_fy2024_operating_margin__post__unfiltered",
+      "case_id": "aapl_fy2024_operating_margin",
+      "phase": "post",
+      "condition": "unfiltered",
+      "as_of": "2024-11-02",
+      "original_answer": {
+        "action": "answer",
+        "value": "31.51",
+        "unit": "%",
+        "evidence_ids": [
+          "AAPL-FY2024-revenue",
+          "AAPL-FY2024-operating_income"
+        ],
+        "explanation": "Operating margin = 123,216,000,000 / 391,035,000,000 × 100 = 31.51%, using the designated FY2024 10-K figures."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "gate": {
+        "accepted": true,
+        "decision": "accepted",
+        "reason": "complete_supported_value",
+        "typed_state": "available",
+        "verified_evidence_ids": [
+          "AAPL-FY2024-revenue",
+          "AAPL-FY2024-operating_income"
+        ],
+        "computed_value": "31.51",
+        "answer": {
+          "action": "answer",
+          "evidence_ids": [
+            "AAPL-FY2024-revenue",
+            "AAPL-FY2024-operating_income"
+          ],
+          "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+          "unit": "%",
+          "value": "31.51"
+        }
+      },
+      "gated_answer": {
+        "action": "answer",
+        "evidence_ids": [
+          "AAPL-FY2024-revenue",
+          "AAPL-FY2024-operating_income"
+        ],
+        "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+        "unit": "%",
+        "value": "31.51"
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "original_request_sha256": "e462d6189bcf23d14bec4e61a27b4f6ae05c4a310a9a892bd7d6ac2a1f39668a"
+    },
+    {
+      "id": "aapl_fy2024_operating_margin__post__pit_filtered",
+      "case_id": "aapl_fy2024_operating_margin",
+      "phase": "post",
+      "condition": "pit_filtered",
+      "as_of": "2024-11-02",
+      "original_answer": {
+        "action": "answer",
+        "value": "31.51",
+        "unit": "%",
+        "evidence_ids": [
+          "AAPL-FY2024-revenue",
+          "AAPL-FY2024-operating_income"
+        ],
+        "explanation": "Operating margin = 123,216,000,000 / 391,035,000,000 × 100 = 31.51%."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "gate": {
+        "accepted": true,
+        "decision": "accepted",
+        "reason": "complete_supported_value",
+        "typed_state": "available",
+        "verified_evidence_ids": [
+          "AAPL-FY2024-revenue",
+          "AAPL-FY2024-operating_income"
+        ],
+        "computed_value": "31.51",
+        "answer": {
+          "action": "answer",
+          "evidence_ids": [
+            "AAPL-FY2024-revenue",
+            "AAPL-FY2024-operating_income"
+          ],
+          "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+          "unit": "%",
+          "value": "31.51"
+        }
+      },
+      "gated_answer": {
+        "action": "answer",
+        "evidence_ids": [
+          "AAPL-FY2024-revenue",
+          "AAPL-FY2024-operating_income"
+        ],
+        "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+        "unit": "%",
+        "value": "31.51"
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "original_request_sha256": "e462d6189bcf23d14bec4e61a27b4f6ae05c4a310a9a892bd7d6ac2a1f39668a"
+    },
+    {
+      "id": "aapl_fy2024_operating_margin__post__closed_book",
+      "case_id": "aapl_fy2024_operating_margin",
+      "phase": "post",
+      "condition": "closed_book",
+      "as_of": "2024-11-02",
+      "original_answer": {
+        "action": "answer",
+        "value": "31.51",
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Apple FY2024 operating income was $123,216 million on revenue of $391,035 million, giving an operating margin of 31.51%."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": false,
+        "numeric_correct": false,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "317ca0cb4c3212ff55cf17c09be5ec50ca292fd7f479d798fef0c7f289702783"
+    },
+    {
+      "id": "nvda_fy2024_revenue__pre__unfiltered",
+      "case_id": "nvda_fy2024_revenue",
+      "phase": "pre",
+      "condition": "unfiltered",
+      "as_of": "2024-02-20",
+      "original_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": null,
+        "evidence_ids": [],
+        "explanation": "The designated 10-K accession 0001045810-24-000029 has filing_date 2024-02-21, which is after the as_of date 2024-02-20, so it was not yet public and cannot be used."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "retained_abstention",
+        "reason": "model_abstained",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: model_abstained."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: model_abstained."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "a7bcf5c40cdfb5ad574d1fabb50ffbd40aa4bacf2f1abbee6ee40722538b5581"
+    },
+    {
+      "id": "nvda_fy2024_revenue__pre__pit_filtered",
+      "case_id": "nvda_fy2024_revenue",
+      "phase": "pre",
+      "condition": "pit_filtered",
+      "as_of": "2024-02-20",
+      "original_answer": {
+        "action": "answer",
+        "value": "60922000000",
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "NVIDIA FY2024 revenue was $60.922 billion, per the designated 10-K period; no supplied document text available, answered from knowledge."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "eb4db6de14a94514bbb853ea5b516450610d80f5ad9df9b06402112ea21e823d"
+    },
+    {
+      "id": "nvda_fy2024_revenue__pre__closed_book",
+      "case_id": "nvda_fy2024_revenue",
+      "phase": "pre",
+      "condition": "closed_book",
+      "as_of": "2024-02-20",
+      "original_answer": {
+        "action": "answer",
+        "value": "60922000000",
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "NVIDIA FY2024 revenue was $60.922 billion, per the FY2024 10-K."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "eb4db6de14a94514bbb853ea5b516450610d80f5ad9df9b06402112ea21e823d"
+    },
+    {
+      "id": "nvda_fy2024_revenue__post__pit_filtered",
+      "case_id": "nvda_fy2024_revenue",
+      "phase": "post",
+      "condition": "pit_filtered",
+      "as_of": "2024-02-22",
+      "original_answer": {
+        "action": "answer",
+        "value": "60922000000",
+        "unit": "USD",
+        "evidence_ids": [
+          "NVDA-FY2024-revenue"
+        ],
+        "explanation": "The designated FY2024 10-K reports revenue of $60,922,000,000 for the period 2023-01-30 to 2024-01-28."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "gate": {
+        "accepted": true,
+        "decision": "accepted",
+        "reason": "complete_supported_value",
+        "typed_state": "available",
+        "verified_evidence_ids": [
+          "NVDA-FY2024-revenue"
+        ],
+        "computed_value": "60922000000",
+        "answer": {
+          "action": "answer",
+          "evidence_ids": [
+            "NVDA-FY2024-revenue"
+          ],
+          "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+          "unit": "USD",
+          "value": "60922000000"
+        }
+      },
+      "gated_answer": {
+        "action": "answer",
+        "evidence_ids": [
+          "NVDA-FY2024-revenue"
+        ],
+        "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+        "unit": "USD",
+        "value": "60922000000"
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "original_request_sha256": "f470b8c64b2c96c38519d6d9152d5f83c5313720d6f8a82b05e4ce9e587edc34"
+    },
+    {
+      "id": "nvda_fy2024_revenue__post__closed_book",
+      "case_id": "nvda_fy2024_revenue",
+      "phase": "post",
+      "condition": "closed_book",
+      "as_of": "2024-02-22",
+      "original_answer": {
+        "action": "answer",
+        "value": "60922000000",
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "NVIDIA FY2024 revenue was $60.922 billion, per its fiscal year 2024 results."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "USD",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": false,
+        "numeric_correct": false,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "12f3f632f58a47ed1a2d0c508208ede18caabe3a430df18a3fd815271a7cd239"
+    },
+    {
+      "id": "nvda_fy2024_revenue__post__unfiltered",
+      "case_id": "nvda_fy2024_revenue",
+      "phase": "post",
+      "condition": "unfiltered",
+      "as_of": "2024-02-22",
+      "original_answer": {
+        "action": "answer",
+        "value": "60922000000",
+        "unit": "USD",
+        "evidence_ids": [
+          "NVDA-FY2024-revenue"
+        ],
+        "explanation": "The designated FY2024 10-K reports revenue of $60,922,000,000 for the period 2023-01-30 to 2024-01-28."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "gate": {
+        "accepted": true,
+        "decision": "accepted",
+        "reason": "complete_supported_value",
+        "typed_state": "available",
+        "verified_evidence_ids": [
+          "NVDA-FY2024-revenue"
+        ],
+        "computed_value": "60922000000",
+        "answer": {
+          "action": "answer",
+          "evidence_ids": [
+            "NVDA-FY2024-revenue"
+          ],
+          "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+          "unit": "USD",
+          "value": "60922000000"
+        }
+      },
+      "gated_answer": {
+        "action": "answer",
+        "evidence_ids": [
+          "NVDA-FY2024-revenue"
+        ],
+        "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+        "unit": "USD",
+        "value": "60922000000"
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "original_request_sha256": "f470b8c64b2c96c38519d6d9152d5f83c5313720d6f8a82b05e4ce9e587edc34"
+    },
+    {
+      "id": "nvda_fy2024_operating_margin__pre__pit_filtered",
+      "case_id": "nvda_fy2024_operating_margin",
+      "phase": "pre",
+      "condition": "pit_filtered",
+      "as_of": "2024-02-20",
+      "original_answer": {
+        "action": "answer",
+        "value": "54.12",
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "NVIDIA FY2024 revenue was $60,922 million and operating income was $32,972 million, giving an operating margin of 54.12%."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "3a2a299237900240670bcac93fe754441ca0f2e310f1cae7a301ee2defbc2c0c"
+    },
+    {
+      "id": "nvda_fy2024_operating_margin__pre__closed_book",
+      "case_id": "nvda_fy2024_operating_margin",
+      "phase": "pre",
+      "condition": "closed_book",
+      "as_of": "2024-02-20",
+      "original_answer": {
+        "action": "answer",
+        "value": "54.12",
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "NVIDIA FY2024 revenue was $60,922 million and operating income was $32,972 million, giving an operating margin of 54.12%."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "3a2a299237900240670bcac93fe754441ca0f2e310f1cae7a301ee2defbc2c0c"
+    },
+    {
+      "id": "nvda_fy2024_operating_margin__pre__unfiltered",
+      "case_id": "nvda_fy2024_operating_margin",
+      "phase": "pre",
+      "condition": "unfiltered",
+      "as_of": "2024-02-20",
+      "original_answer": {
+        "action": "answer",
+        "value": "54.12",
+        "unit": "%",
+        "evidence_ids": [
+          "NVDA-FY2024-revenue",
+          "NVDA-FY2024-operating_income"
+        ],
+        "explanation": "Operating margin = 32,972,000,000 / 60,922,000,000 × 100 = 54.12%."
+      },
+      "original_score": {
+        "decision_correct": false,
+        "numeric_correct": null,
+        "unsupported_historical_answer": true,
+        "accepted_future_evidence": true,
+        "accepted_future_evidence_ids": [
+          "NVDA-FY2024-operating_income",
+          "NVDA-FY2024-revenue"
+        ],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "future_or_same_day_evidence",
+        "typed_state": "unavailable_as_of",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: future_or_same_day_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: future_or_same_day_evidence."
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": null,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "a589842b78e03dc350840953858828452ab2320926191a06d963909929c33dda"
+    },
+    {
+      "id": "nvda_fy2024_operating_margin__post__closed_book",
+      "case_id": "nvda_fy2024_operating_margin",
+      "phase": "post",
+      "condition": "closed_book",
+      "as_of": "2024-02-22",
+      "original_answer": {
+        "action": "answer",
+        "value": "54.12",
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "NVIDIA FY2024 revenue was $60,922 million and operating income was $32,972 million, giving an operating margin of 54.12%."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "gate": {
+        "accepted": false,
+        "decision": "blocked_answer",
+        "reason": "no_cited_evidence",
+        "typed_state": "unknown",
+        "verified_evidence_ids": [],
+        "computed_value": null,
+        "answer": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%",
+          "evidence_ids": [],
+          "explanation": "Evidence gate: no_cited_evidence."
+        }
+      },
+      "gated_answer": {
+        "action": "abstain",
+        "value": null,
+        "unit": "%",
+        "evidence_ids": [],
+        "explanation": "Evidence gate: no_cited_evidence."
+      },
+      "gated_score": {
+        "decision_correct": false,
+        "numeric_correct": false,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": false,
+        "joint_correct_and_supported": false
+      },
+      "original_request_sha256": "427b0d2b3d5660c76a05c3f5fd8505469f392cc1785e9ad7cc7ea094856ceb6b"
+    },
+    {
+      "id": "nvda_fy2024_operating_margin__post__unfiltered",
+      "case_id": "nvda_fy2024_operating_margin",
+      "phase": "post",
+      "condition": "unfiltered",
+      "as_of": "2024-02-22",
+      "original_answer": {
+        "action": "answer",
+        "value": "54.12",
+        "unit": "%",
+        "evidence_ids": [
+          "NVDA-FY2024-revenue",
+          "NVDA-FY2024-operating_income"
+        ],
+        "explanation": "Operating margin = 32,972,000,000 / 60,922,000,000 × 100 = 54.12%."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "gate": {
+        "accepted": true,
+        "decision": "accepted",
+        "reason": "complete_supported_value",
+        "typed_state": "available",
+        "verified_evidence_ids": [
+          "NVDA-FY2024-revenue",
+          "NVDA-FY2024-operating_income"
+        ],
+        "computed_value": "54.12",
+        "answer": {
+          "action": "answer",
+          "evidence_ids": [
+            "NVDA-FY2024-revenue",
+            "NVDA-FY2024-operating_income"
+          ],
+          "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+          "unit": "%",
+          "value": "54.12"
+        }
+      },
+      "gated_answer": {
+        "action": "answer",
+        "evidence_ids": [
+          "NVDA-FY2024-revenue",
+          "NVDA-FY2024-operating_income"
+        ],
+        "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+        "unit": "%",
+        "value": "54.12"
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "original_request_sha256": "582d706410a73717de93948bf7edaba34990228ab5306c301ecaab9c0aa87daa"
+    },
+    {
+      "id": "nvda_fy2024_operating_margin__post__pit_filtered",
+      "case_id": "nvda_fy2024_operating_margin",
+      "phase": "post",
+      "condition": "pit_filtered",
+      "as_of": "2024-02-22",
+      "original_answer": {
+        "action": "answer",
+        "value": "54.12",
+        "unit": "%",
+        "evidence_ids": [
+          "NVDA-FY2024-revenue",
+          "NVDA-FY2024-operating_income"
+        ],
+        "explanation": "Operating margin = 32,972,000,000 / 60,922,000,000 × 100 = 54.12%."
+      },
+      "original_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "gate": {
+        "accepted": true,
+        "decision": "accepted",
+        "reason": "complete_supported_value",
+        "typed_state": "available",
+        "verified_evidence_ids": [
+          "NVDA-FY2024-revenue",
+          "NVDA-FY2024-operating_income"
+        ],
+        "computed_value": "54.12",
+        "answer": {
+          "action": "answer",
+          "evidence_ids": [
+            "NVDA-FY2024-revenue",
+            "NVDA-FY2024-operating_income"
+          ],
+          "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+          "unit": "%",
+          "value": "54.12"
+        }
+      },
+      "gated_answer": {
+        "action": "answer",
+        "evidence_ids": [
+          "NVDA-FY2024-revenue",
+          "NVDA-FY2024-operating_income"
+        ],
+        "explanation": "Verified structured value, unit, complete operands and historical availability against supplied documents.",
+        "unit": "%",
+        "value": "54.12"
+      },
+      "gated_score": {
+        "decision_correct": true,
+        "numeric_correct": true,
+        "unsupported_historical_answer": false,
+        "accepted_future_evidence": false,
+        "accepted_future_evidence_ids": [],
+        "unsupported_citations": false,
+        "unsupported_citation_ids": [],
+        "evidence_support_complete": true,
+        "joint_correct_and_supported": true
+      },
+      "original_request_sha256": "582d706410a73717de93948bf7edaba34990228ab5306c301ecaab9c0aa87daa"
+    }
+  ]
+}

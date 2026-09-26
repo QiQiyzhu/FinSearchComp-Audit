@@ -32,7 +32,18 @@ def main():
     assert report['metrics'] and report['evidence']
     assert all(item['published_at'] <= report['as_of'] for item in report['evidence'])
     request('/api/research/' + run['id'] + '/export?format=json')
-    print(json.dumps({'status': 'passed', 'mode': 'demo', 'metrics': len(report['metrics']), 'evidence': len(report['evidence']), 'paid_calls': 0}))
+    terminal = request('/api/terminal/research', {'question': '查询微软年度营业利润率和资产负债情况', 'ticker': 'MSFT', 'as_of': '2024-11-02', 'fiscal_year': 2024, 'metric_ids': ['operating_margin', 'assets'], 'mode': 'demo'})
+    deadline = time.monotonic() + 40
+    while time.monotonic() < deadline:
+        terminal = request('/api/research/' + terminal['id'])
+        if terminal['status'] in ('completed', 'failed'):
+            break
+        time.sleep(.2)
+    assert terminal['status'] == 'completed', terminal.get('error')
+    assert terminal['result']['coverage'] == {'available': 2, 'total': 2}
+    assert all(answer['gate']['passed'] for answer in terminal['result']['answers'])
+    request('/workbench/data/finance_cube.json')
+    print(json.dumps({'status': 'passed', 'mode': 'demo', 'legacy_metrics': len(report['metrics']), 'terminal_verified_answers': 2, 'paid_calls': 0}))
 
 
 if __name__ == '__main__':
