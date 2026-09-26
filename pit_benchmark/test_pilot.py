@@ -10,9 +10,9 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from .pilot import (audit_fixture, canonical, evidence_for, load_fixture, parse_answer, plan_bundle,
+from pit_benchmark.pilot import (audit_fixture, canonical, evidence_for, load_fixture, parse_answer, plan_bundle,
                     request_payload, round_fraction, score_answer, sha, summarize)
-from .run import apply_response, code_hashes, replay, write_exclusive
+from pit_benchmark.run import apply_response, code_hashes, replay, write_exclusive
 
 
 class PilotTests(unittest.TestCase):
