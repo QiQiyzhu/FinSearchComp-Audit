@@ -36,6 +36,7 @@ jobs:
           python scripts/evaluate_terminal.py --split all --label ci-regression --output build/quality/terminal-ci.json --require-no-regression docs/verification/terminal-structured-first.json
           python scripts/verify_terminal_release.py
           python scripts/replay_pit_gate.py --verify
+          python scripts/verify_live_receipts.py
       - name: Reproduce research and build product website
         run: python scripts/build_product_site.py
       - uses: actions/setup-node@v4

@@ -10,7 +10,7 @@ const submit=args.includes('--submit');
 
 (async()=>{
   if(fs.existsSync(output))throw new Error('Refusing to overwrite a browser acceptance receipt');
-  const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true});
+  const browser=await chromium.launch({channel:process.env.CI?undefined:'msedge',headless:true,args:['--no-proxy-server']});
   const page=await browser.newPage({viewport:{width:1440,height:1080},acceptDownloads:true});
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   let report=null,jobId=null,posts=0;
@@ -37,9 +37,9 @@ const submit=args.includes('--submit');
       if(exported.question!==report.question)throw new Error('Export mismatched');
     }
     fs.mkdirSync(path.dirname(output),{recursive:true});
-    await page.screenshot({path:output.replace(/\.json$/,'.desktop.png'),fullPage:true});
+    await page.screenshot({path:output.replace(/\.json$/,'.desktop.png'),fullPage:true,animations:'disabled'});
     await page.setViewportSize({width:390,height:844});
-    await page.screenshot({path:output.replace(/\.json$/,'.mobile.png'),fullPage:true});
+    await page.screenshot({path:output.replace(/\.json$/,'.mobile.png'),fullPage:true,animations:'disabled'});
     const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1);
     if(overflow||errors.length)throw new Error(JSON.stringify({overflow,errors}));
     const receipt={checked_at:new Date().toISOString(),url,submitted:submit,posts,job_id:jobId,claims:report?.claims.length,sources:report?.sources.length,financial_answers:report?.financial_answers.length,model_receipts:report?.model_receipts,errors,mobile_overflow:overflow,passed:true};

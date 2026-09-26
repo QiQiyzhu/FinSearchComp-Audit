@@ -31,6 +31,7 @@
 
 ```bash
 python -m unittest research_workbench.test_live_engine research_workbench.test_live_sources research_workbench.test_budget -v
+python scripts/verify_live_receipts.py
 # 以下命令真实联网并产生 DeepSeek API 费用，需先配置服务端 .env
 python scripts/run_live_acceptance.py --ticker NVDA --question "英伟达最新年度的研发投入和营业利润率如何？" --output build/live-nvda.json
 # 默认仅验证公网健康、配置和 CORS；加 --submit 才提交一次真实研究
@@ -38,3 +39,5 @@ python scripts/verify_live_deployment.py --help
 ```
 
 部署步骤见 [LIVE_DEPLOYMENT.md](LIVE_DEPLOYMENT.md)。金融计算与原始评测记录继续见 [TERMINAL_VERIFICATION.md](TERMINAL_VERIFICATION.md)。
+
+2026-09-26 已归档四次本地真实运行与一次 Render 公网运行，包含首轮失败与修复后的结果。原报告逐字保存，独立离线验证器可重算 180 项来源、截止日、引用与财务检查。这是执行链路验收，不是随机题集上的准确率。[完整验收清单](verification/live-research-acceptance.json)

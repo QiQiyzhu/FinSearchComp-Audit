@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-09-26T06:15:36.193501+00:00",
+  "base_url": "https://finagent-live-research.onrender.com",
+  "paid_run_requested": true,
+  "checks": {
+    "health": true,
+    "deepseek_configured": true,
+    "live_route": true,
+    "terminal": true,
+    "cors": true,
+    "job_completed": true,
+    "live_report": true,
+    "sources_present": true,
+    "model_receipts_present": true,
+    "execution_trace": true,
+    "export_markdown": true,
+    "export_json": true
+  },
+  "version": "3.1.0",
+  "job_id": "research_9c199ad719604a988b30275d4bdae1b9",
+  "job_status": "completed",
+  "report_type": "live_research",
+  "source_count": 4,
+  "claim_count": 1,
+  "model_receipt_count": 3,
+  "report_sha256": "c4b25818b17da39e54669d0108a8286abb6963a68837c3379777afa6c9681fa2",
+  "event_count": 10,
+  "passed": true
+}
