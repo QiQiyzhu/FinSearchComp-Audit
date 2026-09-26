@@ -1,0 +1,631 @@
+{
+  "report_type": "live_research",
+  "version": "3.1.0",
+  "title": "NVDA · 联网研究",
+  "question": "英伟达最新可得年度的营业利润率与研发费用率如何？数据中心需求有哪些支持与风险证据？",
+  "ticker": "NVDA",
+  "company": "NVIDIA",
+  "as_of": "2026-09-26",
+  "generated_at": "2026-09-26T06:11:54+00:00",
+  "plan": {
+    "objective": "检索 NVIDIA 在 2026-09-26 前可得的披露，回答所提问题并核验计算清单。",
+    "research_questions": [
+      "英伟达最新可得年度的营业利润率与研发费用率分别是多少，与收入、营业利润和研发费用的绝对水平如何对应？",
+      "公司披露中哪些证据支持数据中心需求的持续增长（如收入结构、客户、产能与订单相关表述）？",
+      "公司披露中哪些风险因素可能削弱数据中心需求（如供应链、出口管制、客户集中度与竞争）？"
+    ],
+    "queries": [
+      "data center revenue demand growth",
+      "research and development expense operating income",
+      "export controls supply constraints risk factors"
+    ],
+    "metric_ids": [
+      "revenue",
+      "operating_income",
+      "research_and_development",
+      "operating_margin",
+      "rd_ratio"
+    ],
+    "fiscal_year": null,
+    "forms": [
+      "10-K",
+      "10-Q",
+      "8-K"
+    ]
+  },
+  "answer": "当前证据不足以交付已核验的文字判断；请查看财务结果、原文和缺口。",
+  "claims": [],
+  "sources": [
+    {
+      "title": "NVIDIA 10-Q · 2026-08-26",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "published_at": "2026-08-26",
+      "available_from": "2026-08-27",
+      "source_type": "sec_filing",
+      "accession": "0001045810-26-000075",
+      "form": "10-Q",
+      "discovered_by": "sec_submissions",
+      "id": "DOC_1",
+      "retrieved_at": "2026-09-26T06:11:47+00:00",
+      "sha256": "ae8a6f875ac4b86ba3ccfa5b73292cdd8c5e9a32dd99a7aa965a90974f67d959",
+      "text_sha256": "591c5a7ae0ef58f04be6a05473d0fcc9e38bc1a47fdad63319bdb872ed2140e4",
+      "text": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\n[... omitted source paragraphs ...]\n| Risk Factors |\n[... omitted source paragraphs ...]\nWe primarily utilize foreign currency forward contracts to mitigate the impact of foreign currency exchange rate movements on our operating expenses. These foreign currency forward contracts for operating expenses are designated as accounting hedges. Gains or losses on the contracts are recognized in Accumulated other comprehensive income or loss and reclassified to Operating expenses when the related operating expenses are recognized in earnings. During the first half of fiscal years 2027 and 2026, the impact of foreign currency forward contracts designated as accounting hedges on other comprehensive income or loss was not significant and all such instruments were determined to be highly effective.\n[... omitted source paragraphs ...]\nOur Chief Executive Officer is our chief operating decision maker, or CODM, and reviews financial information presented on an operating segment basis for purposes of making decisions and assessing financial performance. Our CODM assesses operating performance of each segment based on regularly provided segment revenue and segment operating income. Operating results by segment include costs or expenses directly attributable to each segment, and costs or expenses that are leveraged across our unified architecture and therefore allocated between our two segments. Our CODM reviews expenses on a consolidated basis, and expenses attributable to each segment are not regularly provided to our CODM.\n[... omitted source paragraphs ...]\nSegment operating income\n[... omitted source paragraphs ...]\nOur next-generation Data Center architecture, Vera Rubin, began production shipments in the third quarter of fiscal year 2027. We will be shipping both Blackwell and Rubin systems in the future and are currently experiencing certain supply constraints. Demand estimates for our products can be inaccurate and create volatility in our revenue or supply levels. To secure inventory and capacity to meet demand for the next several years, we have entered into significant commitments and may continue to enter into manufacturing and supply agreements for both current and future products, and we continue to expand our supplier base. The scale and size of our production needs and the complexity of producing our data center systems has caused and could in the future cause delays in production, challenges in managing supply and demand, revenue volatility, quality issues, increased inventory provisions, decreases in product yields, higher material\n[... omitted source paragraphs ...]\nThe availability of land, power, shell, and capital is crucial to support the buildout of a full data center inclusive of NVIDIA AI infrastructure by our customers and partners, and any shortage of these or other necessary resources could impact our future revenue and financial performance. Expanding land, power, shell, and energy needs to meet demand is a complex, multi-year process that involves significant regulatory, technical, and construction challenges. In addition, access to capital can be particularly constrained for less-capitalized companies, which may face difficulties securing financing for large-scale infrastructure projects. We believe AI clouds and AI model makers have significant demand for training and inference compute and currently lack the ability to secure long-term infrastructure contracts and investment-grade financing capacity to secure the AI infrastructure necessary to grow. These limitations could delay customer and partner deployments or reduce the scale of accelerated computing and AI adoption and may impact the growth of our revenue. We have undertaken initiatives to address these challenges including securing and providing guarantees of land, power, shell, and capacity of select data center infrastructure that customers require to deploy our products. We expect to focus our data center infrastructure initiatives on exceptional sites and apply the same discipline to these initiatives as we do to our supply-chain management by securing critical inputs when we have visibility into customer demand and when doing so enables long-term productive capacity. We expect our large cloud service provider customers and investment grade enterprises to continue to secure land, power, and shell commitments independently. Our land, power, and shell commitments and guarantees may impact our financial results and are dependent on the performance of our customers and partners.\n[... omitted source paragraphs ...]\nIn the second quarter of fiscal year 2027, we introduced a new business model with certain select AI cloud partners, to enable broader access to our data center infrastructure products to serve AI startups, model builders, enterprises, research organizations, and sovereign customers. We believe these AI cloud partners have strong customer demand and robust sales pipelines but are constrained by the large-scale infrastructure that is required to meet that demand. Through this model, we expect our AI cloud partners will be able to deploy incremental NVIDIA AI infrastructure, enabling them to serve a broader set of customers and address expanding demand for AI compute. Under these agreements, AI clouds procure our data center infrastructure products and we commit to cloud service agreements, which the AI clouds can unilaterally stop providing to us and sell to third-party customers at more advantageous rates. Our commitments, which are typically six years in duration, totaled $36 billion as of July 26, 2026, and decrease as capacity is used by third-party customers or by us for our research and development efforts. If certain criteria are met, we will participate in revenue share generated by the AI clouds from third-party customers, which may contribute to revenue in the future. If market conditions change, it may negatively impact our financial results. Refer to Note 10 of the Notes to Condensed Consolidated Financial Statements in Part 1, Item 1 of this Quarterly Report on Form 10-Q.\n[... omitted source paragraphs ...]\nData Center revenue was $89.0 billion, up 117% from a year ago and up 18% sequentially, driven by the ramp of our Blackwell Ultra infrastructure. Hyperscale revenue more than doubled from a year ago and increased 13% sequentially on the strength of Blackwell Ultra. ACIE revenue increased 138% from a year ago and 25% sequentially driven by end-demand from AI natives, enterprises, and sovereign customers, as well as hyperscalers utilizing AI clouds. Shipments of Data Center Hopper products to China during the second quarter of fiscal year 2027 were less than 1% of Data Center revenue.\n[... omitted source paragraphs ...]\nReportable segment operating income – The year-over-year increase in Compute & Networking segment operating income in the second quarter of fiscal year 2027 was driven by the growth in revenue. The year-over-year increase in Compute & Networking segment operating income in the first half of fiscal year 2027 was driven by the growth in revenue and the non-recurrence of a $4.5 billion charge associated with H20 excess inventory and purchase obligations in the first quarter of fiscal year 2026. The year-over-year increase in Graphics segment operating income in the second quarter and first half of fiscal year 2027 was driven by the growth in revenue.\n[... omitted source paragraphs ...]\nWe are subject to laws and regulations domestically and worldwide, affecting our operations in areas including, but not limited to, IP ownership and infringement; taxes; import and export requirements and tariffs; anti-corruption, including the Foreign Corrupt Practices Act; business acquisitions; foreign exchange controls and cash repatriation restrictions; foreign ownership and investment; data privacy requirements; competition and antitrust; investing; advertising; employment; product regulations; cybersecurity; environmental, health, and safety requirements; the responsible use of AI; sustainability; cryptocurrency; and consumer laws. Compliance with such requirements can be onerous and expensive, could impact our competitive position, and may negatively impact our business operations and ability to manufacture and ship our products. There can be no assurance that our employees, contractors, suppliers, customers or agents will not violate applicable laws or the policies, controls, and procedures that we have designed to help ensure compliance with such laws, and violations could result in fines, criminal sanctions against us, our officers, or our employees, prohibitions on the conduct of our business, and damage to our reputation. Changes to the laws, rules and regulations to which we are subject, or changes to their interpretation and enforcement, could lead to materially greater compliance and other costs, and/or further restrictions on our ability to manufacture and supply our products and operate our business. For example, we may face increased compliance costs as a result of changes or increases in antitrust legislation, regulation, administrative rule making, increased focus from regulators on cybersecurity vulnerabilities and risks. Our business is facing increased interest from regulators worldwide, including the European Union, the United States, the United Kingdom, South Korea, Japan, and China. For example, the French Competition Authority is questioning whether gaming GPUs and data center GPUs are separate product categories, an inquiry that may impact the export controls applicable to gaming products sold in France and Europe. We have also received, and continue to receive, broad requests for information from competition regulators in the European Union, the United States, the United Kingdom, China, and South Korea regarding our sales of GPU\n[... omitted source paragraphs ...]\nSuch restrictions could include additional unilateral or multilateral export controls on certain products or technology, including but not limited to AI technologies. As geopolitical tensions have increased, semiconductors associated with AI, including GPUs and related products, are increasingly the focus of export control restrictions proposed by stakeholders in the U.S. and its allies. The United States has imposed unilateral worldwide controls restricting GPUs and associated products, and it is likely that additional unilateral or multilateral controls will be adopted. Such controls have been and may again be very broad in scope and application, prohibit us from exporting our products to any or all customers in one or more markets, and could negatively impact our manufacturing, testing and warehousing locations and options, or could impose other conditions that limit our ability to serve demand abroad and could negatively and materially impact our business, revenue and financial results. Export controls and other restrictions targeting GPUs and semiconductors associated with AI, which have been imposed and are likely to be more restrictive, would further limit our ability to export our technology, products, or services, creating a competitive disadvantage for us and negatively impacting our business and financial results. Export controls targeting GPUs and semiconductors associated with AI have subjected and may in the future subject downstream users of our products to restrictions on the use, resale, repair, or transfer of our products, negatively impacting our business and financial results. Controls could negatively impact our cost and/or ability to provide services such as NVIDIA AI cloud services and could impact the cost and/or ability for our CSPs and customers to provide services to their end customers, even outside China.\nExport controls have and could in the future disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our non-data center products. The possibility of additional export controls has negatively impacted and may in the future negatively impact demand for our products, benefiting competitors that offer alternatives less likely to be restricted by further controls. Repeated changes in the export control rules are likely to impose compliance burdens on our business and our customers, negatively and materially impacting our business. Complex U.S. export rules have already and are likely in the future to result in inquiries and investigations from foreign governments regarding sales of our products, subjecting our business, employees, and customers to increased burdens, disruption and risk.\nIncreasing use of economic sanctions and export controls has impacted and may in the future impact demand for our products or services, negatively impacting our business and financial results. Reduced demand due to export controls has and could in the future lead to excess inventory or cause us to incur related supply charges. Additional unilateral or multilateral controls are also likely to include deemed export control limitations that negatively impact the ability of our research and development teams to execute our roadmap or other objectives in a timely manner. Additional export restrictions may not only impact our ability to serve overseas markets, but also provoke responses from foreign governments, including China, that negatively impact our supply chain or our ability to provide our products and services to customers in all markets worldwide, which could also substantially reduce our revenue. Regulators in China have inquired about our sales and efforts to supply the China market and our fulfillment of the commitments we entered into at the close of our Mellanox acquisition. On September 15, 2025, China’s antitrust regulators published their preliminary finding that our compliance with applicable U.S. export controls, which required us to offer degraded products to the Chinese market, discriminated unfairly against customers in the China market and therefore violated the terms of China’s approval of our Mellanox acquisition. If regulators conclude that we have failed to fulfill the terms of our Mellanox acquisition or we have violated any applicable law in China, we could be subject to financial penalties, restrictions on our ability to conduct our business, restrictions or other orders regarding our networking business, products, and services, or otherwise impact our operations in China, any of which could have a material and adverse impact on our business, operating results and financial condition.\n[... omitted source paragraphs ...]\nThe USG already imposed export controls restricting certain gaming GPUs, and if the USG expands such controls to restrict additional gaming products, it may disrupt a significant portion of our supply and distribution chain and negatively impact sales of such products to markets outside China, including the U.S. and Europe. For example, the French Competition Authority (FCA) is questioning whether gaming GPUs and data center GPUs are separate product categories, an inquiry that may impact the export controls applicable to gaming products sold in France and Europe. In addition, as the performance of the gaming GPUs increases over time, export controls may have a greater impact on our ability to compete in markets subject to those controls. Export controls may disrupt our supply and distribution chain for a substantial portion of our products, which are warehoused in and distributed from Hong Kong.\n[... omitted source paragraphs ...]\nAs a result, export controls have in the past and may in the future negatively impact demand for our products and services not only in China, but also in other markets, such as Europe, Latin America, and Southeast Asia. Export controls increase the risk of investing in U.S. advanced semiconductor products, because by the time a new product is ready for market, it may be subject to new unilateral export controls restricting its sale, resulting in excess inventory and purchase obligations as we recently experienced with the H20. At the same time, such controls may increase investment in foreign competitors, which would be less likely to be restricted by U.S. controls.\n[... omitted source paragraphs ...]\nAdditionally, restrictions imposed by the Chinese government on the duration of gaming activities and access to games may adversely affect our Edge Computing revenue, and even if we are able to participate in the China data center compute market, increased oversight of digital platform companies may adversely affect our Data Center revenue. The Chinese government has encouraged customers to purchase from our China-based competitors and discouraged customers from purchasing, importing, or using our data center products, including any China-specific product designed to comply with U.S. export controls. As another example, an agency of the Chinese government announced an Action Plan that endorses new standards regarding the compute performance per watt and per memory bandwidth of accelerators used in new and renovated data centers in China. Although we are already effectively foreclosed from the China market by U.S. export controls, if those controls changed to allow us to return to the market, the Chinese government could modify or implement the Action Plan in a way that effectively prevents us from being able to design products to meet the new standard, which may restrict the ability of customers to use some of our data center products and may have a material and adverse impact on our business, operating results and financial condition. Further restrictions on our products or the products of our suppliers could negatively impact our business and financial results.\n[... omitted source paragraphs ...]",
+      "snippet": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\n[... omitted source paragraphs ...]\n| Risk Factors |\n[... omitted source paragraphs ...]\nWe primarily utilize foreign currency forward contracts to mitigate the impact of foreign currency exchange rate movements on our operating expenses. These foreign currency forward contracts for operating expenses are designated as accounting hedges. Gains or lo",
+      "status": "read",
+      "text_truncated": true,
+      "original_text_chars": 161462,
+      "bytes_fetched": 1517153,
+      "date_policy": "published_date_plus_one_day",
+      "excerpt": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\n[... omitted source paragraphs ...]\n| Risk Factors |\n[... omitted source paragraphs ...]\nWe primarily utilize foreign currency forward contracts to mitigate the impact of foreign currency exchange rate movements on our operating expenses. These foreign currency forward contracts for operating expenses are designated as accounting hedges. Gains or lo"
+    },
+    {
+      "title": "NVIDIA 10-K · 2026-02-25",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+      "published_at": "2026-02-25",
+      "available_from": "2026-02-26",
+      "source_type": "sec_filing",
+      "accession": "0001045810-26-000021",
+      "form": "10-K",
+      "discovered_by": "sec_submissions",
+      "id": "DOC_2",
+      "retrieved_at": "2026-09-26T06:11:47+00:00",
+      "sha256": "a67bf005fe138d05d5ac6c00a6d38ad016a6ac693e1072315ff2137d8de18c13",
+      "text_sha256": "1f92f4649c6fa48464b406833f1ac844663eccc864c644a123f8d458b690fa24",
+      "text": "Table of Contents\nUNITED STATES\n[... omitted source paragraphs ...]\nRisk Factors\n[... omitted source paragraphs ...]\nInnovation is at our core. We have invested over $76.7 billion in research and development since our inception, yielding inventions that are essential to modern computing. Our invention of the GPU in 1999 sparked the growth of the PC gaming market and redefined computer graphics. With our introduction of CUDA in 2006, we opened the parallel processing capabilities of our GPU to a broad range of compute-intensive applications, paving the way for the emergence of modern AI. In 2012, the AlexNet neural network, trained on NVIDIA GPUs, won the ImageNet computer image recognition competition, marking the “Big Bang” moment of AI. We introduced our first Tensor Core GPU in 2017, built from the ground-up for the new era of AI, and our first autonomous driving system-on-chips, or SoC, in 2018. Our acquisition of Mellanox in 2020 expanded our offerings to include networking, enabled our platforms to be data center scale, and led to the introduction of a new processor class – the data processing unit, or DPU. Over the past 5 years, we have built full software stacks that run on top of our GPUs and CUDA to bring AI to the world’s largest industries, including NVIDIA DRIVE stack for autonomous driving, Clara for healthcare, Omniverse for physical AI applications, and NVIDIA AI Enterprise software – essentially an operating system for enterprise AI applications. In 2023, we introduced our first data center CPU, Grace, built for giant-scale AI and high-performance computing, or HPC. In 2024, we launched the NVIDIA Blackwell architecture – connecting 36 Grace CPUs and 72 Blackwell GPUs in a data center scale, liquid-cooled design – for real-time trillion-parameter inference and training. In fiscal year 2026, we launched and scaled the NVIDIA Blackwell Ultra platform, optimized for agentic, reasoning, and physical AI. Building on the architectural breakthroughs of Blackwell and leveraging Dynamo inference software, it delivers a significant increase in token throughput and reduction in cost per token compared to the Hopper generation. More recently, in support of market development, we have accelerated the release cadence of our open AI model platforms including NVIDIA Nemotron for agentic AI and Cosmos for physical AI. With a strong engineering culture, we drive fast, yet harmonized, product and technology innovations in all dimensions of computing including silicon, system\n[... omitted source paragraphs ...]\nAdditionally, restrictions imposed by the Chinese government on the duration of gaming activities and access to games may adversely affect our Gaming revenue, and even if we are able to participate in the China data center compute market, increased oversight of digital platform companies may adversely affect our Data Center revenue. The Chinese government has encouraged customers to purchase from our China-based competitors and discouraged customers from purchasing, importing, or using our data center products, including any China-specific product designed to comply with U.S. export controls.\n[... omitted source paragraphs ...]\nIf we inaccurately estimate demand, or our customers change orders, as we have experienced in the past, we may not be able to reduce our supply commitments in time, at the same rate, or at all. Significant mismatches between supply and demand have varied across our market platforms, resulted in both product shortages and excess inventory, significantly harmed our financial results and could reoccur. If we underestimate demand, and our foundry partners and contract manufacturers are unable to increase production or provide sufficient supply, we may not be able to meet increased customer demand in a timely manner, or at all. Our reputation and customer relationships could be damaged and we could lose revenue and market share. Additionally, since some of our products are part of a complex data center buildout, supply constraints or availability issues with respect to any one component have had and may have a broader revenue impact. For example, our ability to sell certain products has been and could be impeded if components necessary for the finished products are not available from third parties.\n[... omitted source paragraphs ...]\nWe continue to increase our supply and capacity purchases with existing and new suppliers to support our demand projections and increasing complexity of our data center products. We expect supply constraints to be a headwind to Gaming in the first quarter of fiscal year 2027 and beyond. We have also entered and may continue to enter into prepaid manufacturing and capacity agreements to supply both current and future products. The increased purchase volumes and integration of new suppliers and contract manufacturers into our supply chain creates more complexity in managing multiple suppliers with variations in production planning, execution and logistics. Our expanding product portfolio and varying component compatibility and quality may lead to increased inventory levels. We have incurred and may in the future incur inventory provisions or impairments if our inventory or supply or capacity commitments exceed demand for our products or demand declines.\n[... omitted source paragraphs ...]\nProduct transitions are complex and we often ship both new and prior architecture products simultaneously as our channel partners prepare to ship and support new products. We are generally in various stages of transitioning the architectures of our Data Center, Gaming, Professional Visualization, and Automotive products. The computing industry is experiencing a broader and faster launch cadence of accelerated computing platforms to meet a growing and diverse set of AI opportunities. We have introduced a new product and architecture cadence of our Data Center solutions where we seek to complete new computing solutions each year and provide a greater variety of Data Center offerings. The increased frequency of these transitions and the larger number of products and product configurations may magnify the challenges associated with managing our supply and demand which may further create volatility in our revenue. Qualification time for new products, customers anticipating product transitions, and channel partners reducing channel inventory of prior architectures ahead of new product introductions can reduce, or create volatility in, our revenue. Customers may delay adopting new architectures if their data center infrastructure is not ready, which could affect the timing of our revenue. We have experienced and may in the future experience reduced demand for current generation architectures when customers anticipate transitions, and we may be unable to sell multiple product architectures at the same time for current and future architecture transitions. Our financial results have been and may in the future be negatively impacted if we are unable to execute our architectural transitions as planned for any reason. The increased frequency and complexity of newly introduced products could result in unanticipated quality or production issues that could increase the magnitude of inventory provisions, warranty, or other costs or result in product delays. For example, our gross margins in the second quarter of fiscal year 2025 were negatively impacted by inventory provisions for low-yielding Blackwell material.\n[... omitted source paragraphs ...]\nactions, epidemics or pandemics, abrupt regulatory changes, and other natural or man-made disasters and catastrophic events. Our corporate headquarters, a large portion of our current data center capacity, and a portion of our research and development activities are located in California, and other critical business operations, finished goods inventory and some of our suppliers are located in Asia, making our operations vulnerable to natural disasters such as earthquakes, wildfires or other business disruptions occurring in these geographical areas. Catastrophic events can also have an impact on third-party vendors who provide us critical infrastructure services for IT and research and development systems and personnel. Geopolitical and domestic political developments and other events beyond our control can increase economic volatility globally. Political instability, changes in government or adverse political developments in or around any of the major countries in which we do business may harm our business, financial condition, and results of operations. Worldwide geopolitical tensions and conflicts, including but not limited to China, Hong Kong, Israel, Korea and Taiwan where the manufacture of our product components and final assembly of our products are concentrated may result in changing regulatory requirements, and other disruptions that could impact our operations and operating strategies, product demand, access to global markets, hiring, and profitability. For example, other countries have restricted and may continue in the future to restrict business with the State of Israel, where we have engineering, sales support operations and manufacturing, and companies with Israeli operations, including by economic boycotts. Our operations could be harmed and our costs could increase if manufacturing, logistics, or other operations are disrupted for any reason, including natural disasters, high heat events, water shortages, power shortages, information technology system failures or cyber-attacks, military actions or economic, and business, labor, environmental, public health, or political issues. The ultimate impact on us, our third-party foundries and other suppliers of being located and consolidated in certain geographical areas is unknown. In the event a disaster, war, or catastrophic event affects us, the third-party systems on which we rely, or our custo\n[... omitted source paragraphs ...]\nWe have experienced periods where we receive a significant amount of our revenue from a limited number of customers, and this trend may continue. For fiscal year 2026, sales to one direct customer represented 22% of total revenue and sales to another direct customer represented 14% of total revenue, all of which were primarily attributable to the Compute & Networking segment. With several of these partners, we are selling multiple products and systems in our portfolio through their channels. Our operating results depend on sales to our partner network, as well as the ability of these partners to sell products that incorporate our technologies. We have a small number of partners that are involved in system integration with our key customers. As our system design becomes increasingly complex, system integrators may be unable to meet specifications of our key customers. Changes in our partners' or customers' business models or their ownership can reduce the number of partners available to us and harm our ability to sell our advanced data center systems to customers. In the future, these partners may decide to purchase fewer products, not to incorporate our products into their ecosystem, or to alter their purchasing patterns in some other way. Because most of our sales are made on a purchase order basis, our customers can generally cancel, change, or delay product purchase commitments with little notice to us and without penalty. Our partners or customers may develop their own solutions; our customers may purchase products from our competitors; and our partners may discontinue sales or lose market share in the markets for which they purchase our products, all of which may alter partners’ or customers’ purchasing patterns. Many of our indirect customers often do not purchase directly from us but through multiple OEMs, ODMs, system integrators, distributors, and other channel partners. We generate a significant amount of our revenue from a limited number of indirect customers, and we estimate some individually representing 10% or more of our revenue. If end demand increases or our finished goods supply availability is concentrated near a quarter end, the system integrators, distributors, and channel partners may have limited ability to increase their credit, which could impact the timing and amount of our revenue. The loss of any of our large customers, a signific\n[... omitted source paragraphs ...]\nSuch restrictions could include additional unilateral or multilateral export controls on certain products or technology, including but not limited to AI technologies. As geopolitical tensions have increased, semiconductors associated with AI, including GPUs and related products, are increasingly the focus of export control restrictions proposed by stakeholders in the U.S. and its allies. The United States has imposed unilateral worldwide controls restricting GPUs and associated products, and it is likely that additional unilateral or multilateral controls will be adopted. Such controls have been and may again be very broad in scope and application, prohibit us from exporting our products to any or all customers in one or more markets, and could negatively impact our manufacturing, testing and warehousing locations and options, or could impose other conditions that limit our ability to serve demand abroad and could negatively and materially impact our business, revenue and financial results. Export controls and other restrictions targeting GPUs and semiconductors associated with AI, which have been imposed and are likely to be more restrictive, would further limit our ability to export our technology, products, or services, creating a competitive disadvantage for us and negatively impacting our business\n[... omitted source paragraphs ...]\nExport controls have and could in the future disrupt our supply chain and distribution channels, negatively impacting our ability to serve demand, including in markets outside China and for our non-data center products. The possibility of additional export controls has negatively impacted and may in the future negatively impact demand for our products, benefiting competitors that offer alternatives less likely to be restricted by further controls. Repeated changes in the export control rules are likely to impose compliance burdens on our business and our customers, negatively and materially impacting our business.\nIncreasing use of economic sanctions and export controls has impacted and may in the future impact demand for our products or services, negatively impacting our business and financial results. Reduced demand due to export controls has and could in the future lead to excess inventory or cause us to incur related supply charges. Additional unilateral or multilateral controls are also likely to include deemed export control limitations that negatively impact the ability of our research and development teams to execute our roadmap or other objectives in a timely manner. Additional export restrictions may not only impact our ability to serve overseas markets, but also provoke responses from foreign governments, including China, that negatively impact our supply chain or our ability to provide our products and services to customers in all markets worldwide, which could also substantially reduce our revenue. Regulators in China have inquired about our sales and efforts to supply the China market and our fulfillment of the commitments we entered at the close of our Mellanox acquisition. On September 15, 2025, China’s antitrust regulators published their preliminary finding that our compliance with applicable U.S. export controls, which required us to offer degraded products to the Chinese market, discriminated unfairly against customers in the China market and therefore violated the terms of China’s approval of our Mellanox acquisition. If regulators conclude that we have failed to fulfill the terms of our Mellanox acquisition or we have violated any applicable law in China, we could be subject to financial penalties, restrictions on our ability to conduct our business, restrictions or other orders regarding our networking business, products, and services, or otherwise impact our operations in China, any of which could have a material and adverse impact on our business, operating results and financial condition.\n[... omitted source paragraphs ...]\nAdditionally, restrictions imposed by the Chinese government on the duration of gaming activities and access to games may adversely affect our Gaming revenue, and even if we are able to participate in the China data center compute market, increased oversight of digital platform companies may adversely affect our Data Center revenue. The Chinese government has encouraged customers to purchase from our China-based competitors and discouraged customers from purchasing, importing, or using our data center products, including any China-specific product designed to comply with U.S. export controls. As another example, an agency of the Chinese government announced an Action Plan that endorses new standards regarding the compute performance per watt and per memory bandwidth of accelerators used in new and renovated data centers in China. Although we are already effectively foreclosed from the China market by U.S. export controls, if those controls changed to allow us to return to the market, the Chinese government could modify or implement the Action Plan in a way that effectively prevents us from being able to design products to meet the new standard, which may restrict the ability of customers to use some of our data center products and may have a material and adverse impact on our business, operating results and financial condition. Further restrictions on our products or the products of our suppliers could negatively impact our business and financial results.\n[... omitted source paragraphs ...]",
+      "snippet": "Table of Contents\nUNITED STATES\n[... omitted source paragraphs ...]\nRisk Factors\n[... omitted source paragraphs ...]\nInnovation is at our core. We have invested over $76.7 billion in research and development since our inception, yielding inventions that are essential to modern computing. Our invention of the GPU in 1999 sparked the growth of the PC gaming market and redefined computer graphics. Wi",
+      "status": "read",
+      "text_truncated": true,
+      "original_text_chars": 354014,
+      "bytes_fetched": 1967922,
+      "date_policy": "published_date_plus_one_day",
+      "excerpt": "Table of Contents\nUNITED STATES\n[... omitted source paragraphs ...]\nRisk Factors\n[... omitted source paragraphs ...]\nInnovation is at our core. We have invested over $76.7 billion in research and development since our inception, yielding inventions that are essential to modern computing. Our invention of the GPU in 1999 sparked the growth of the PC gaming market and redefined computer graphics. Wi"
+    },
+    {
+      "title": "NVIDIA EX-99.2 · 2026-08-26",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27cfocommentary.htm",
+      "published_at": "2026-08-26",
+      "available_from": "2026-08-27",
+      "source_type": "sec_filing",
+      "accession": "0001045810-26-000073",
+      "form": "8-K",
+      "discovered_by": "sec_efts",
+      "query": "data center revenue demand growth",
+      "id": "DOC_3",
+      "retrieved_at": "2026-09-26T06:11:47+00:00",
+      "sha256": "4aa57d9b923c98cbe3e1e502fcff9b577211a11feded2f5231f102573df6ba5a",
+      "text_sha256": "7883acb3c26596ae24c20cb82471ebf340086f4bb45e0e701c10f69f57ef3409",
+      "text": "EX-99.2\n3\nq2fy27cfocommentary.htm\nEX-99.2\nCFO Commentary on Second Quarter Fiscal 2027 Results\nQ2 Fiscal 2027 Summary\n| | | | | | | | | | | | | | | | | |\n| GAAP\n| ($ in millions, except earnings per share) | Q2 FY27 | Q1 FY27 | Q2 FY26 | Q/Q | Y/Y\n| Revenue | $96,221 | $81,615 | $46,743 | 18 | % | 106 | %\n| Gross margin | 75.0 | % | 74.9 | % | 72.4 | % | 0.1 pts | 2.6 pts\n| Operating expenses | $8,408 | $7,621 | $5,413 | 10 | % | 55 | %\n| Operating income | $63,734 | $53,536 | $28,440 | 19 | % | 124 | %\n| Net income | $59,688 | $58,321 | $26,422 | 2 | % | 126 | %\n[... omitted source paragraphs ...]\n| Revenue | $96,221 | $81,615 | $46,743 | 18 | % | 106 | %\n[... omitted source paragraphs ...]\n| Operating expenses | $8,232 | $7,449 | $5,361 | 11 | % | 54 | %\n| Operating income | $63,956 | $53,783 | $28,541 | 19 | % | 124 | %\n| Net income | $53,954 | $45,548 | $24,763 | 18 | % | 118 | %\n[... omitted source paragraphs ...]\n| Revenue by Reportable Segments\n[... omitted source paragraphs ...]\n| Revenue by Market Platform\n[... omitted source paragraphs ...]\n| Data Center | $89,023 | $75,246 | $41,096 | 18 | % | 117 | %\n[... omitted source paragraphs ...]\nWe specialize in markets where our computing platforms can provide tremendous acceleration for applications. These platforms incorporate processors, interconnects, software, algorithms, systems, and services to deliver unique value. Our platforms address large markets where our expertise is critical: Data Center and Edge Computing.\nDuring the second quarter we reclassified a company from AI Clouds, Industrial, & Enterprise (ACIE) to Hyperscale due to a change in their business model and recast the prior period revenue associated with this company.\nRevenue\nRevenue for the second quarter was a record $96.2 billion, up 106% from a year ago and up 18% sequentially.\nData Center revenue for the second quarter was a record $89.0 billion, up 117% from a year ago and up 18% sequentially, driven by the ramp of our Blackwell Ultra infrastructure. Hyperscale revenue more than doubled from a year ago and increased 13% sequentially on the strength of Blackwell Ultra. ACIE revenue increased 138% from a year ago and 25% sequentially driven by end-demand from AI natives, enterprises, and sovereign customers, as well as hyperscalers utilizing AI clouds. Shipments of Data Center Hopper products to China during the quarter were less than 1% of Data Center revenue.\nEdge Computing revenue for the second quarter was $7.2 billion, up 27% from a year ago and up 13% sequentially. The increases were driven by strong sales of Blackwell workstations, partially offset by slower consumer PC sales that were tempered by elevated memory and systems prices.\n[... omitted source paragraphs ...]\nGAAP and non-GAAP gross margins for the second quarter increased from a year ago on improved mix from Blackwell Ultra. GAAP and non-GAAP gross margins were approximately flat sequentially as our Blackwell architecture remains the vast majority of our revenue.\nExpenses\nGAAP operating expenses for the second quarter were up 55% from a year ago and up 10% sequentially, and non-GAAP operating expenses were up 54% from a year ago and up 11% sequentially. These increases were driven by higher compute infrastructure and compensation and benefits costs.\nOther Income, Net and Income Tax\nGAAP other income, net includes equity securities gains or losses, interest income, interest expense, and other income and expense. Non-GAAP other income, net excludes equity securities gains or losses and certain other income and expense.\n[... omitted source paragraphs ...]\nGAAP effective tax rate for the second quarter was 16.5%, an increase from a year ago, primarily due to higher revenue. Non-GAAP effective tax rate for the second quarter was 16.0%.\n[... omitted source paragraphs ...]\nWe continue to make strategic commitments across our supply, infrastructure, and partner ecosystems to capitalize on the substantial growth opportunities ahead of us.\nWe’ve partnered with our extensive network of suppliers to secure the critical components needed to meet demand for the next several years. Our commitments increased from $119 billion last quarter to $279 billion, primarily related to the procurement of memory.\nOur cloud service agreements and data center lease commitments together provide the physical and cloud infrastructure that powers our research and development — from the engineering, product design, and testing of our compute chips, networking products, and systems, to the development of our open models, such as NVIDIA Nemotron™, NVIDIA Cosmos™, and GR00T, and our autonomous vehicle software. Our upcoming data center leases have terms up to twenty years and are expected to commence between the third quarter of fiscal year 2027 and fiscal year 2033.\n[... omitted source paragraphs ...]\n| Supply and capacity | $ | 92 | | | $ | 87 | | | $ | 88 | | | $ | 6 | | | $ | 5 | | | $ | 1 | | | $ | 279 |\n[... omitted source paragraphs ...]\n| Data center leases not commenced | — | | | 1 | | | 1 | | | 2 | | | 1 | | | 20 | | | 25 |\n[... omitted source paragraphs ...]\nSecuring land, power and shell for data centers has become the next critical phase in the AI infrastructure buildout. AI clouds and model makers are seeing extraordinary demand for AI infrastructure, yet many are growing faster than their balance sheets and long-term credit profiles can support. In response, we have entered into arrangements that help select customers secure the land, power and data center capacity needed to support their growth. We will focus on exceptional sites where visible, durable demand can support multiple generations of NVIDIA compute.\nWe have partnered with leading AI clouds to enable broader access to our AI infrastructure to serve AI startups, model builders, enterprises, research organizations and sovereign customers. Under these agreements, we will earn revenue on the upfront sale of our infrastructure and if certain criteria are met, we will participate in revenue share generated by the AI clouds from their third-party customers.\nWe signed data center lease agreements with terms of approximately fifteen years that are expected to commence between fiscal year 2028 and fiscal year 2029. We expect to reassign these data center leases to third parties.\n[... omitted source paragraphs ...]\n| Data center leases not commenced for third party | — | | | — | | | 1 | | | 1 | | | 1 | | | 17 | | | 20 |\n[... omitted source paragraphs ...]\nWe have land, power, and shell guarantees for certain AI cloud partners’ data center lease obligations in the event of their default. The maximum gross exposure under all agreements is $3.5 billion.\nIn August 2026, we entered into guarantees to provide credit support on the land, power, and shell buildout to secure approximately 4.25 gigawatts (GW) at SB Energy's PORTS-Pike Technology Campus in Ohio, which will exclusively host NVIDIA infrastructure under 20-year leases to OpenAI, subject to limited exceptions. Our guarantee obligations are capped at a total of $105 billion and become effective in phases as certain conditions are met, including data centers becoming ready for service, with the first expected in fiscal 2029. Our guarantee exposure declines as OpenAI fulfills lease payments. We also have the option to provide credit support in phases for approximately 3.8 additional GW as the site scales. Each generation of NVIDIA infrastructure deployed at PORTS-Pike could represent approximately 1.5 million NVIDIA GPUs, or approximately $150 billion to $200 billion in NVIDIA revenue. Over 20 years, we expect the site can support multiple infrastructure upgrade cycles.\n[... omitted source paragraphs ...]\nCash flow from operating activities was $24.1 billion, up from $15.4 billion a year ago and down from $50.3 billion a quarter ago. The year-on-year increase reflects growth in revenue, while the sequential decrease was driven by higher working capital adjustments and cash taxes.\n[... omitted source paragraphs ...]\n•Revenue is expected to be $108.0 billion, plus or minus 2%. We are not assuming any Data Center compute revenue from China in our outlook.\n[... omitted source paragraphs ...]\n•GAAP and non-GAAP operating expenses are expected to be approximately $9.2 billion and $9.0 billion, respectively.\n[... omitted source paragraphs ...]\nTo supplement NVIDIA’s condensed consolidated financial statements presented in accordance with GAAP, the company uses non-GAAP measures of certain components of financial performance. These non-GAAP measures include non-GAAP gross profit, non-GAAP gross margin, non-GAAP operating expenses, non-GAAP operating income, non-GAAP other income (expense), net, non-GAAP net income, non-GAAP net income, or earnings, per diluted share, and free cash flow. For NVIDIA’s investors to be better able to compare its current results with those of previous periods, the company has shown a reconciliation of GAAP to non-GAAP financial measures. These reconciliations adjust the related GAAP financial measures to exclude acquisition-related and other costs, other, gains/losses from equity securities, net, certain other income and expense, and the associated tax impact of these items where applicable. Beginning in the first quarter of fiscal 2027, NVIDIA’s non-GAAP financial measures no longer exclude stock-based compensation expense. The historical non-GAAP financial information presented has been updated to include stock-based compensation expense. Free cash flow is calculated as GAAP net cash provided by operating activities less both purchases related to property and equipment and intangible assets and principal payments on property and equipment and intangible assets. NVIDIA believes the presentation of its non-GAAP financial measures enhances the users' overall understanding of the company’s historical financial performance. The presentation of the company’s non-GAAP financial measures is not meant to be considered in isolation or as a substitute for the company’s financial results prepared in accordance with GAAP, and the company’s non-GAAP measures may be different from non-GAAP measures used by other companies.\nCertain statements in this CFO Commentary including, but not limited to, statements as to: the buildout of AI factories; our strategy and expectations regarding data center sites; expectations with respect to growth, performance and benefits of our products, services, and technologies, including Blackwell and Vera Rubin, and related trends and drivers; expectations with respect to supply and demand for our products, services, and technologies, including Blackwell and Vera Rubin, and related matters including inventory, production and distribution; expectations with respect to our strategic commitments and their anticipated benefits; expectations with respect to our third party arrangements, including with our collaborators and partners; expectations with respect to upcoming data center leases, including their commencement and reassignment; expectations regarding revenue under agreements with AI clouds; expectations with respect to the PORTS-Pike Technology\nCampus, including its buildout, related guarantees, and anticipated NVIDIA deployments, revenue and upgrade cycles; expectations with respect to our investments; expectations with respect to our financing arrangements; expectations with respect to technology developments, and related trends and drivers; our future cash dividends or other returns to stockholders, our financial and business outlook for the third quarter of fiscal 2027 and beyond; projected market growth and trends; expectations with respect to AI and related industries; and other statements that are not historical facts are forward-looking statements within the meaning of Section 27A of the Securities Act of 1933, as amended, and Section 21E of the Securities Exchange Act of 1934, as amended, which are subject to the “safe harbor” created by those sections based on management’s beliefs and assumptions and on information currently available to management and are subject to risks and uncertainties that could cause results to be materially different than expectations. Important factors that could cause actual results to differ materially include: global economic and political conditions; our reliance on third parties to manufacture, assemble, package and test our products; the impact of technological development and competition; development of new products and technologies or enhancements to our existing products and technologies; market acceptance of our products or our partners’ products; design, manufacturing or software defects; changes in consumer preferences or demands; changes in industry standards and interfaces; unexpected loss of performance of our products or technologies when integrated into systems; our ability to realize the potential benefits of business investments or acquisitions; and changes in applicable laws and regulations, as well as other factors detailed from time to time in the most recent reports NVIDIA files with the Securities and Exchange Commission, or SEC, including, but not limited to, its Annual Report on Form 10-K and Quarterly Reports on Form 10-Q. Copies of reports filed with the SEC are posted on the company’s website and are available from NVIDIA without charge. These forward-looking statements are not guarantees of future performance and speak only as of the date hereof, and, except as required by law, NVIDIA disclaims any obligation to update these forward-\n[... omitted source paragraphs ...]\n| | ($ In millions, except per share data)\n[... omitted source paragraphs ...]\n| GAAP cost of revenue | | $ | 24,079 | | | $ | 20,458 | | | $ | 12,890 | | | $ | 44,538 | | | $ | 30,284 |\n[... omitted source paragraphs ...]\n| Non-GAAP cost of revenue | | $ | 24,033 | | | $ | 20,383 | | | $ | 12,841 | | | $ | 44,417 | | | $ | 30,110 |\n[... omitted source paragraphs ...]\n| GAAP operating expenses | | $ | 8,408 | | | $ | 7,621 | | | $ | 5,413 | | | $ | 16,029 | | | $ | 10,443 |\n[... omitted source paragraphs ...]\n| Non-GAAP operating expenses | | $ | 8,232 | | | $ | 7,449 | | | $ | 5,361 | | | $ | 15,681 | | | $ | 10,354 |\n[... omitted source paragraphs ...]\n| GAAP operating income | | $ | 63,734 | | | $ | 53,536 | | | $ | 28,440 | | | $ | 117,270 | | | $ | 50,078 |\n| | Total impact of non-GAAP adjustments to operating income | | 222 | | | 247 | | | 101 | | | 469 | | | 263 |\n| Non-GAAP operating income* | | $ | 63,956 | | | $ | 53,783 | | | $ | 28,541 | | | $ | 117,739 | | | $ | 50,341 |\n[... omitted source paragraphs ...]\n| GAAP other income, net | | $ | 7,773 | | | $ | 16,367 | | | $ | 2,766 | | | $ | 24,140 | | | $ | 3,039 |\n[... omitted source paragraphs ...]\n| Non-GAAP other income, net | | $ | 300 | | | $ | 457 | | | $ | 520 | | | $ | 756 | | | $ | 968 |\n[... omitted source paragraphs ...]\n| GAAP net income | | $ | 59,688 | | | $ | 58,321 | | | $ | 26,422 | | | $ | 118,010 | | | $ | 45,197 |\n[... omitted source paragraphs ...]\n| | Income tax impact of non-GAAP adjustments | | 1,517 | | | 2,890 | | | 438 | | | 4,407 | | | 418 |\n[... omitted source paragraphs ...]\nTax expense from OBBBA**\n[... omitted source paragraphs ...]\n| Non-GAAP net income* | | $ | 53,954 | | | $ | 45,548 | | | $ | 24,763 | | | $ | 99,502 | | | $ | 43,855 |\n[... omitted source paragraphs ...]\nDiluted net income per share\n[... omitted source paragraphs ...]\nWeighted average shares used in diluted net income per share computation\n[... omitted source paragraphs ...]\n| GAAP net cash provided by operating activities | | $ | 24,077 | | | $ | 50,344 | | | $ | 15,365 | | | $ | 74,421 | | | $ | 42,779 |\n[... omitted source paragraphs ...]\n| **Tax expense included represents impact from OBBBA (One Big Beautiful Bill Act).\n[... omitted source paragraphs ...]\n| | Cost of revenue | | $ | 46 | | | $ | 47 | | | $ | 49 | | | $ | 93 | | | $ | 170 | |\n| | Research and development | | $ | 170 | | | $ | 167 | | | $ | 29 | | | $ | 337 | | | $ | 57 | |\n[... omitted source paragraphs ...]\n(B) Comprised of net (gains)/losses on equity derivatives, interest expense related to acquisition consideration discount to be paid in the future, share of net (earnings)/losses related to equity method investments, and dividend income on equity securities.\n[... omitted source paragraphs ...]\n| GAAP operating expenses | | $ | 9.2 |\n[... omitted source paragraphs ...]\n| Non-GAAP operating expenses | | $ | 9.0 |\n[... omitted source paragraphs ...]",
+      "snippet": "EX-99.2\n3\nq2fy27cfocommentary.htm\nEX-99.2\nCFO Commentary on Second Quarter Fiscal 2027 Results\nQ2 Fiscal 2027 Summary\n| | | | | | | | | | | | | | | | | |\n| GAAP\n| ($ in millions, except earnings per share) | Q2 FY27 | Q1 FY27 | Q2 FY26 | Q/Q | Y/Y\n| Revenue | $96,221 | $81,615 | $46,743 | 18 | % | 106 | %\n| Gross margin | 75.0 | % | 74.9 | % | 72.4 | % | 0.1 pts | 2.6 pts\n| Operating expenses | $8",
+      "status": "read",
+      "text_truncated": true,
+      "original_text_chars": 23220,
+      "bytes_fetched": 256987,
+      "date_policy": "published_date_plus_one_day",
+      "excerpt": "EX-99.2\n3\nq2fy27cfocommentary.htm\nEX-99.2\nCFO Commentary on Second Quarter Fiscal 2027 Results\nQ2 Fiscal 2027 Summary\n| | | | | | | | | | | | | | | | | |\n| GAAP\n| ($ in millions, except earnings per share) | Q2 FY27 | Q1 FY27 | Q2 FY26 | Q/Q | Y/Y\n| Revenue | $96,221 | $81,615 | $46,743 | 18 | % | 106 | %\n| Gross margin | 75.0 | % | 74.9 | % | 72.4 | % | 0.1 pts | 2.6 pts\n| Operating expenses | $8"
+    },
+    {
+      "title": "NVIDIA EX-99.2 · 2026-05-20",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27cfocommentary.htm",
+      "published_at": "2026-05-20",
+      "available_from": "2026-05-21",
+      "source_type": "sec_filing",
+      "accession": "0001045810-26-000051",
+      "form": "8-K",
+      "discovered_by": "sec_efts",
+      "query": "data center revenue demand growth",
+      "id": "DOC_4",
+      "retrieved_at": "2026-09-26T06:11:48+00:00",
+      "sha256": "b1764d11086017fe02da349f84e160a51b795ecacc47bdf3277ea813115fec6c",
+      "text_sha256": "a61b4805e132793d15d172e3f5283ed42ec82b89d8bb96af9495fd209c636ef9",
+      "text": "EX-99.2\n3\nq1fy27cfocommentary.htm\nEX-99.2\nCFO Commentary on First Quarter Fiscal 2027 Results\nQ1 Fiscal 2027 Summary\n| | | | | | | | | | | | | | | | | |\n| GAAP\n| ($ in millions, except earnings per share) | Q1 FY27 | Q4 FY26 | Q1 FY26 | Q/Q | Y/Y\n| Revenue | $81,615 | $68,127 | $44,062 | 20 | % | 85 | %\n| Gross margin | 74.9 | % | 75.0 | % | 60.5 | % | (0.1) pts | 14.4 pts\n| Operating expenses | $7,621 | $6,794 | $5,030 | 12 | % | 52 | %\n| Operating income | $53,536 | $44,299 | $21,638 | 21 | % | 147 | %\n| Net income | $58,321 | $42,960 | $18,775 | 36 | % | 211 | %\n|\nDiluted earnings per share\n| $2.39 | $1.76 | $0.76 | 36 | % | 214 | %\n| | | | | | | | | | | | | | | | | |\n| Non-GAAP\n| ($ in millions, except earnings per share) | Q1 FY27 | Q4 FY26 | Q1 FY26 | Q/Q | Y/Y\n| Revenue | $81,615 | $68,127 | $44,062 | 20 | % | 85 | %\n| Gross margin | 75.0 | % | 75.1 | % | 60.8 | % | (0.1) pts | 14.2 pts\n| Operating expenses | $7,449 | $6,666 | $4,993 | 12 | % | 49 | %\n| Operating income | $53,783 | $44,474 | $21,801 | 21 | % | 147 | %\n| Net income | $45,548 | $38,969 | $19,094 | 17 | % | 139 | %\n|\nDiluted earnings per share\n| $1.87 | $1.59 | $0.78 | 18 | % | 140 | %\n| | | | | | | | | | | | | | | | | |\n| Revenue by Reportable Segments\n| ($ in millions) | Q1 FY27 | Q4 FY26 | Q1 FY26 | Q/Q | Y/Y\n| Compute & Networking | $74,550 | $61,651 | $39,589 | 21 | % | 88 | %\n| Graphics | 7,065 | 6,476 | 4,473 | 9 | % | 58 | %\n| Total | $81,615 | $68,127 | $44,062 | 20 | % | 85 | %\n| | | | | | | | | | | | | | | | | |\n| Revenue by Market Platform\n| ($ in millions) | Q1 FY27 | Q4 FY26 | Q1 FY26 | Q/Q | Y/Y\n| Data Center | $75,246 | $62,314 | $39,112 | 21 | % | 92 | %\n| Hyperscale | 37,869 | 33,814 | 17,599 | 12 | % | 115 | %\n| AI Clouds, Industrial, & Enterprise | 37,377 | 28,500 | 21,513 | 31 | % | 74 | %\n| Edge Computing | 6,369 | 5,813 | 4,950 | 10 | % | 29 | %\n| | | | | |\n| | | | | |\n| | | | | |\n| | | | | |\n| Total | $81,615 | $68,127 | $44,062 | 20 | % | 85 | %\nWe specialize in markets where our computing platforms can provide tremendous acceleration for applications. These platforms incorporate processors, interconnects, software, algorithms, systems, and services to deliver unique value.\nFollowing the rapid evolution in our businesses, we are transitioning to a new reporting framework that better reflects our current and future growth drivers.\nWe will have two market platforms – Data Center and Edge Computing.\nWithin Data Center, we will report two sub-markets, Hyperscale and ACIE which incorporates AI Clouds, Industrial, and Enterprise. Hyperscale will include revenue from the public clouds and the world’s largest consumer internet companies, while ACIE addresses our growth opportunity in diverse AI purpose-built data centers and AI factories across industries and countries.\nEdge Computing highlights devices for agentic and physical AI including PCs, game consoles, workstations, AI-RAN base stations, robotics and automotive.\nRevenue\nRevenue for the first quarter was a record $81.6 billion, up 85% from a year ago and up 20% sequentially.\nData Center revenue for the first quarter was a record $75.2 billion, up 92% from a year ago and up 21% sequentially, driven by the ramp of our Blackwell 300 products and demand for our InfiniBand, Spectrum-X™ Ethernet, and NVLink™ solutions. Hyperscale revenue increased sequentially and remained at approximately 50% of Data Center revenue, while the remaining 50% came from a continued diversification of customers, including AI Clouds, industrial, enterprise, and sovereign customers. No shipments of Data Center Hopper products to China occurred during the quarter, compared with $4.6 billion in the first quarter of fiscal year 2026.\nUnder the previous sub-markets, Data Center compute revenue was a record $60.4 billion, up 77% from a year ago and up 18% sequentially. Data Center networking revenue was a record $14.8 billion, up 199% from a year ago and up 35% sequentially.\nEdge Computing revenue for the first quarter was $6.4 billion, up 29% from a year ago and up 10% sequentially. The increases were driven by robust Blackwell workstation demand, partially offset by slower consumer PC demand that was tempered by elevated memory and systems prices.\nGross Margin\nGAAP and non-GAAP gross margins for the first quarter increased from a year ago on lower inventory provisions, primarily due to the prior year’s $4.5 billion charge associated with H20 excess inventory and purchase obligations. GAAP and non-GAAP gross margins were approximately flat sequentially as our Blackwell architecture remains the majority of our revenue.\nExpenses\nGAAP operating expenses for the first quarter were up 52% from a year ago and up 12% sequentially, and non-GAAP operating expenses were up 49% from a year ago and up 12% sequentially. These increases were driven by higher compensation and benefits expense due to employee growth and compensation increases, compute and infrastructure costs, and engineering development materials for new product developments.\nOther Income & Expense and Income Tax\nGAAP other income and expense (OI&E) includes interest income, interest expense, and equity securities gains or losses. Non-GAAP OI&E excludes equity securities gains or losses.\nInterest income for the first quarter was $540 million, up slightly from a year ago and down slightly sequentially. Net gains from equity securities for the first quarter was $15.9 billion, driven by unrealized gains in publicly-held and non-marketable equity securities.\nGAAP effective tax rate for the first quarter was 16.6%, an increase from a year ago, primarily due to a lower impact from stock-based compensation tax benefits. Non-GAAP effective tax rate for the first quarter was 16.0%.\nBalance Sheet and Cash Flow\nCash, cash equivalents, and marketable debt securities were $50.3 billion, down from $52.4 billion a year ago and up from $49.7 billion a quarter ago. These changes primarily reflect higher revenue, offset by outlays for stock repurchases and strategic investments.\nAccounts receivable was $40.7 billion with 45 days sales outstanding (DSO), down from 51 days sequentially, driven by timing of cash collections and customer payments received prior to next quarter’s invoice due dates. We expect our DSO to return to more normal levels next quarter.\nInventory was $25.8 billion, up from $21.4 billion sequentially, and total supply-related commitments were $119.0 billion. We have strategically secured inventory and capacity to meet demand beyond the next several quarters.\nMulti-year cloud service commitments were $30.0 billion, up from $27.0 billion sequentially, to support the growing needs of our research and development efforts.\nCash flow from operating activities was $50.3 billion, up from $27.4 billion a year ago and up from $36.2 billion a quarter ago. The year-on-year increase reflects growth in revenue, while the sequential increase was driven by higher revenue and lower cash taxes. We expect a substantial increase in cash taxes in the second quarter related to estimated federal and state cash tax payments.\nWe returned a record level of approximately $20.0 billion to shareholders in the first quarter through share repurchases and cash dividends.\nOn May 18, 2026, our Board of Directors approved an increase to our quarterly dividend from $0.01 per share to $0.25 per share and an additional $80.0 billion to our share repurchase authorization, without expiration.\nOutlook\n[... omitted source paragraphs ...]\n•Revenue is expected to be $91.0 billion, plus or minus 2%. We are not assuming any Data Center compute revenue from China in our outlook.\n[... omitted source paragraphs ...]\n•GAAP and non-GAAP operating expenses are expected to be approximately $8.5 billion and $8.3 billion, respectively.\n[... omitted source paragraphs ...]\nTo supplement NVIDIA’s condensed consolidated financial statements presented in accordance with GAAP, the company uses non-GAAP measures of certain components of financial performance. These non-GAAP measures include non-GAAP gross profit, non-GAAP gross margin, non-GAAP operating expenses, non-GAAP operating income, non-GAAP other income (expense), net, non-GAAP net income, non-GAAP net income, or earnings, per diluted share, and free cash flow. For NVIDIA’s investors to be better able to compare its current results with those of previous periods, the company has shown a reconciliation of GAAP to non-GAAP financial measures. These reconciliations adjust the related GAAP financial measures to exclude acquisition-related and other costs, other, gains/losses from equity securities, net, certain other income and expense, and the associated tax impact of these items where applicable. Beginning in the first quarter of fiscal 2027, NVIDIA’s non-GAAP financial measures no longer exclude stock-based compensation expense. The historical non-GAAP financial information presented has been updated to include stock-based compensation expense. Free cash flow is calculated as GAAP net cash provided by operating activities less both purchases related to property and equipment and intangible assets and principal payments on property and equipment and intangible assets. NVIDIA believes the presentation of its non-GAAP financial measures enhances the users' overall understanding of the company’s historical financial performance. The presentation of the company’s non-GAAP financial measures is not meant to be considered in isolation or as a substitute for the company’s financial results prepared in accordance with GAAP, and the company’s non-GAAP measures may be different from non-GAAP measures used by other companies.\nCertain statements in this CFO Commentary including, but not limited to, statements as to: expectations with respect to growth, performance and benefits of our products, services, and technologies, including Blackwell, and related trends and drivers; expectations with respect to supply and demand for our products, services, and technologies, including Blackwell, and related matters including inventory, production and distribution; expectations with respect to our third party arrangements, including with its collaborators and partners; expectations with respect to technology developments, and related trends and drivers; our future cash dividends or other returns to stockholders, our financial and business outlook for the second quarter of fiscal 2027 and beyond; projected market growth and trends; expectations with respect to AI and related industries; and other statements that are not historical facts are forward-looking statements within the meaning of Section 27A of the Securities Act of 1933, as amended, and Section 21E of the Securities Exchange Act of 1934, as amended, which are subject to the “safe harbor” created by those sections based on management’s beliefs and assumptions and on information currently available to management and are subject to risks and uncertainties that could cause results to be materially different than expectations. Important factors that could cause actual results to differ materially include: global economic and political conditions; our reliance on third parties to manufacture, assemble, package and test our products; the impact of technological development and competition; development of new products and technologies or enhancements to our existing products and technologies; market acceptance of our products or our partners’ products; design, manufacturing or software defects; changes in consumer preferences or demands; changes in industry standards and interfaces; unexpected loss of performance of our products or technologies when integrated into systems; our ability to realize the potential benefits of business investments or acquisitions; and changes in applicable laws\nand regulations, as well as other factors detailed from time to time in the most recent reports NVIDIA files with the Securities and Exchange Commission, or SEC, including, but not limited to, its Annual Report on Form 10-K and Quarterly Reports on Form 10-Q. Copies of reports filed with the SEC are posted on the company’s website and are available from NVIDIA without charge. These forward-looking statements are not guarantees of future performance and speak only as of the date hereof, and, except as required by law, NVIDIA disclaims any obligation to update these forward-looking statements to reflect future events or circumstances.\n[... omitted source paragraphs ...]\n| | ($ In millions, except per share data)\n[... omitted source paragraphs ...]\n| GAAP cost of revenue | | $ | 20,458 | | | $ | 17,034 | | | $ | 17,394 | | | | |\n[... omitted source paragraphs ...]\n| Non-GAAP cost of revenue | | $ | 20,383 | | | $ | 16,987 | | | $ | 17,268 | | | | |\n[... omitted source paragraphs ...]\n| GAAP operating expenses | | $ | 7,621 | | | $ | 6,794 | | | $ | 5,030 | | | | |\n[... omitted source paragraphs ...]\n| Non-GAAP operating expenses | | $ | 7,449 | | | $ | 6,666 | | | $ | 4,993 | | | | |\n[... omitted source paragraphs ...]\n| GAAP operating income | | $ | 53,536 | | | $ | 44,299 | | | $ | 21,638 | | | | |\n| | Total impact of non-GAAP adjustments to operating income | | 247 | | | 175 | | | 163 | | | | |\n| Non-GAAP operating income* | | $ | 53,783 | | | $ | 44,474 | | | $ | 21,801 | | | | |\n[... omitted source paragraphs ...]\n| GAAP total other income, net | | $ | 16,367 | | | $ | 6,098 | | | $ | 272 | | | | |\n[... omitted source paragraphs ...]\n| Non-GAAP total other income, net | | $ | 457 | | | $ | 620 | | | $ | 448 | | | | |\n[... omitted source paragraphs ...]\n| GAAP net income | | $ | 58,321 | | | $ | 42,960 | | | $ | 18,775 | | | | |\n[... omitted source paragraphs ...]\n| | Income tax impact of non-GAAP adjustments | | 2,890 | | | 1,312 | | | (20) | | | | |\n[... omitted source paragraphs ...]\n| Non-GAAP net income* | | $ | 45,548 | | | $ | 38,969 | | | $ | 19,094 | | | | |\n[... omitted source paragraphs ...]\nDiluted net income per share\n[... omitted source paragraphs ...]\nWeighted average shares used in diluted net income per share computation\n[... omitted source paragraphs ...]\n| GAAP net cash provided by operating activities | | $ | 50,344 | | | $ | 36,190 | | | $ | 27,414 | | | | |\n[... omitted source paragraphs ...]\n| | Cost of revenue | | $ | 47 | | | $ | 48 | | | $ | 123 | | | | | |\n| | Research and development | | $ | 167 | | | $ | 83 | | | $ | 28 | | | | | |\n[... omitted source paragraphs ...]\n| (B) Comprised of interest expense related to acquisition consideration discount to be paid in the future, dividend income on equity securities, share of net (earnings)/losses related to equity method investments, and amortization of debt discount. | | | | |\n[... omitted source paragraphs ...]\n| GAAP operating expenses | | $ | 8,500 |\n[... omitted source paragraphs ...]\n| Non-GAAP operating expenses | | $ | 8,300 |\n[... omitted source paragraphs ...]",
+      "snippet": "EX-99.2\n3\nq1fy27cfocommentary.htm\nEX-99.2\nCFO Commentary on First Quarter Fiscal 2027 Results\nQ1 Fiscal 2027 Summary\n| | | | | | | | | | | | | | | | | |\n| GAAP\n| ($ in millions, except earnings per share) | Q1 FY27 | Q4 FY26 | Q1 FY26 | Q/Q | Y/Y\n| Revenue | $81,615 | $68,127 | $44,062 | 20 | % | 85 | %\n| Gross margin | 74.9 | % | 75.0 | % | 60.5 | % | (0.1) pts | 14.4 pts\n| Operating expenses | $",
+      "status": "read",
+      "text_truncated": true,
+      "original_text_chars": 18128,
+      "bytes_fetched": 165542,
+      "date_policy": "published_date_plus_one_day",
+      "excerpt": "EX-99.2\n3\nq1fy27cfocommentary.htm\nEX-99.2\nCFO Commentary on First Quarter Fiscal 2027 Results\nQ1 Fiscal 2027 Summary\n| | | | | | | | | | | | | | | | | |\n| GAAP\n| ($ in millions, except earnings per share) | Q1 FY27 | Q4 FY26 | Q1 FY26 | Q/Q | Y/Y\n| Revenue | $81,615 | $68,127 | $44,062 | 20 | % | 85 | %\n| Gross margin | 74.9 | % | 75.0 | % | 60.5 | % | (0.1) pts | 14.4 pts\n| Operating expenses | $"
+    }
+  ],
+  "financial_answers": [
+    {
+      "ticker": "NVDA",
+      "entity": "NVIDIA",
+      "metric_id": "revenue",
+      "fiscal_year": 2026,
+      "period_start": "2025-01-27",
+      "period_end": "2026-01-25",
+      "required_inputs": [
+        "revenue"
+      ],
+      "status": "available",
+      "value": "215938000000",
+      "exact_value": "215938000000",
+      "display_value": "$215.94B",
+      "unit": "USD",
+      "evidence_ids": [
+        "NVDA-8841b3e1b75562ab"
+      ],
+      "formula": "us-gaap:Revenues",
+      "operation": "reported",
+      "inputs": [
+        "revenue"
+      ],
+      "reason": null,
+      "annual_id": "NVDA-2026-efd36358934d",
+      "id": "F01",
+      "label": "营业收入",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "NVDA",
+      "entity": "NVIDIA",
+      "metric_id": "operating_income",
+      "fiscal_year": 2026,
+      "period_start": "2025-01-27",
+      "period_end": "2026-01-25",
+      "required_inputs": [
+        "operating_income"
+      ],
+      "status": "available",
+      "value": "130387000000",
+      "exact_value": "130387000000",
+      "display_value": "$130.39B",
+      "unit": "USD",
+      "evidence_ids": [
+        "NVDA-de36b502603eb07e"
+      ],
+      "formula": "us-gaap:OperatingIncomeLoss",
+      "operation": "reported",
+      "inputs": [
+        "operating_income"
+      ],
+      "reason": null,
+      "annual_id": "NVDA-2026-efd36358934d",
+      "id": "F02",
+      "label": "营业利润",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "NVDA",
+      "entity": "NVIDIA",
+      "metric_id": "research_and_development",
+      "fiscal_year": 2026,
+      "period_start": "2025-01-27",
+      "period_end": "2026-01-25",
+      "required_inputs": [
+        "research_and_development"
+      ],
+      "status": "available",
+      "value": "18497000000",
+      "exact_value": "18497000000",
+      "display_value": "$18.50B",
+      "unit": "USD",
+      "evidence_ids": [
+        "NVDA-41445eed9ed4eb4b"
+      ],
+      "formula": "us-gaap:ResearchAndDevelopmentExpense",
+      "operation": "reported",
+      "inputs": [
+        "research_and_development"
+      ],
+      "reason": null,
+      "annual_id": "NVDA-2026-efd36358934d",
+      "id": "F03",
+      "label": "研发费用",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "NVDA",
+      "entity": "NVIDIA",
+      "metric_id": "operating_margin",
+      "fiscal_year": 2026,
+      "period_start": "2025-01-27",
+      "period_end": "2026-01-25",
+      "required_inputs": [
+        "operating_income",
+        "revenue"
+      ],
+      "status": "available",
+      "value": "60.38",
+      "exact_value": "6519350/107969",
+      "display_value": "60.38%",
+      "unit": "%",
+      "evidence_ids": [
+        "NVDA-de36b502603eb07e",
+        "NVDA-8841b3e1b75562ab"
+      ],
+      "formula": "operating_income / revenue × 100",
+      "operation": "ratio",
+      "inputs": [
+        "operating_income",
+        "revenue"
+      ],
+      "reason": null,
+      "annual_id": "NVDA-2026-efd36358934d",
+      "id": "F04",
+      "label": "营业利润率",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "NVDA",
+      "entity": "NVIDIA",
+      "metric_id": "rd_ratio",
+      "fiscal_year": 2026,
+      "period_start": "2025-01-27",
+      "period_end": "2026-01-25",
+      "required_inputs": [
+        "research_and_development",
+        "revenue"
+      ],
+      "status": "available",
+      "value": "8.57",
+      "exact_value": "924850/107969",
+      "display_value": "8.57%",
+      "unit": "%",
+      "evidence_ids": [
+        "NVDA-41445eed9ed4eb4b",
+        "NVDA-8841b3e1b75562ab"
+      ],
+      "formula": "research_and_development / revenue × 100",
+      "operation": "ratio",
+      "inputs": [
+        "research_and_development",
+        "revenue"
+      ],
+      "reason": null,
+      "annual_id": "NVDA-2026-efd36358934d",
+      "id": "F05",
+      "label": "研发费用率",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    }
+  ],
+  "financial_evidence": [
+    {
+      "id": "NVDA-8841b3e1b75562ab",
+      "ticker": "NVDA",
+      "metric_id": "revenue",
+      "taxonomy": "us-gaap",
+      "taxonomy_tag": "Revenues",
+      "unit": "USD",
+      "value": "215938000000",
+      "fiscal_year": 2026,
+      "period_start": "2025-01-27",
+      "period_end": "2026-01-25",
+      "filed": "2026-02-25",
+      "available_from": "2026-02-26",
+      "accession": "0001045810-26-000021",
+      "form": "10-K",
+      "raw_row": {
+        "start": "2025-01-27",
+        "end": "2026-01-25",
+        "val": 215938000000,
+        "accn": "0001045810-26-000021",
+        "fy": 2026,
+        "fp": "FY",
+        "form": "10-K",
+        "filed": "2026-02-25",
+        "frame": "CY2025"
+      },
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/0001045810-26-000021-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+      "retrieved_at": "2026-09-26T06:11:46+00:00",
+      "canonical_payload_sha256": "c8d2deb79257bf637db44c1166c78aa5f344a138d9e9071ba49c532054ee6e6f",
+      "upstream_response_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+      "fact_sha256": "8841b3e1b75562abf26426c71199e3d2186a43c7a6bb36740873db5f4ef537ba"
+    },
+    {
+      "id": "NVDA-de36b502603eb07e",
+      "ticker": "NVDA",
+      "metric_id": "operating_income",
+      "taxonomy": "us-gaap",
+      "taxonomy_tag": "OperatingIncomeLoss",
+      "unit": "USD",
+      "value": "130387000000",
+      "fiscal_year": 2026,
+      "period_start": "2025-01-27",
+      "period_end": "2026-01-25",
+      "filed": "2026-02-25",
+      "available_from": "2026-02-26",
+      "accession": "0001045810-26-000021",
+      "form": "10-K",
+      "raw_row": {
+        "start": "2025-01-27",
+        "end": "2026-01-25",
+        "val": 130387000000,
+        "accn": "0001045810-26-000021",
+        "fy": 2026,
+        "fp": "FY",
+        "form": "10-K",
+        "filed": "2026-02-25",
+        "frame": "CY2025"
+      },
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/0001045810-26-000021-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+      "retrieved_at": "2026-09-26T06:11:46+00:00",
+      "canonical_payload_sha256": "c8d2deb79257bf637db44c1166c78aa5f344a138d9e9071ba49c532054ee6e6f",
+      "upstream_response_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+      "fact_sha256": "de36b502603eb07e547ad009544ef79dd8c5c4fe05dfccce9db3ff5e8d7c7d79"
+    },
+    {
+      "id": "NVDA-41445eed9ed4eb4b",
+      "ticker": "NVDA",
+      "metric_id": "research_and_development",
+      "taxonomy": "us-gaap",
+      "taxonomy_tag": "ResearchAndDevelopmentExpense",
+      "unit": "USD",
+      "value": "18497000000",
+      "fiscal_year": 2026,
+      "period_start": "2025-01-27",
+      "period_end": "2026-01-25",
+      "filed": "2026-02-25",
+      "available_from": "2026-02-26",
+      "accession": "0001045810-26-000021",
+      "form": "10-K",
+      "raw_row": {
+        "start": "2025-01-27",
+        "end": "2026-01-25",
+        "val": 18497000000,
+        "accn": "0001045810-26-000021",
+        "fy": 2026,
+        "fp": "FY",
+        "form": "10-K",
+        "filed": "2026-02-25",
+        "frame": "CY2025"
+      },
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/0001045810-26-000021-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+      "retrieved_at": "2026-09-26T06:11:46+00:00",
+      "canonical_payload_sha256": "c8d2deb79257bf637db44c1166c78aa5f344a138d9e9071ba49c532054ee6e6f",
+      "upstream_response_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+      "fact_sha256": "41445eed9ed4eb4b8d82330aca3b7ef3fdbbfd260dc6776f9e39ce429b87cf24"
+    }
+  ],
+  "model_receipts": [
+    {
+      "stage": "plan",
+      "provider": "DeepSeek",
+      "response_model": "deepseek-flash",
+      "request_id": "db7ebe3b-264a-4026-bb47-bbba4dca5870",
+      "usage": {
+        "prompt_tokens": 1930,
+        "completion_tokens": 204,
+        "total_tokens": 2134,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 1674
+      },
+      "latency_ms": 1297,
+      "status": "completed"
+    },
+    {
+      "stage": "draft",
+      "provider": "DeepSeek",
+      "status": "failed"
+    }
+  ],
+  "trace": [
+    {
+      "step": "plan",
+      "label": "DeepSeek 拆解问题",
+      "detail": "绑定公司和截止日，生成检索词、材料类型与计算清单。",
+      "status": "running",
+      "timestamp": "2026-09-26T06:11:31+00:00"
+    },
+    {
+      "step": "plan",
+      "label": "研究计划已生成",
+      "detail": "检索 NVIDIA 在 2026-09-26 前可得的披露，回答所提问题并核验计算清单。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:11:32+00:00"
+    },
+    {
+      "step": "search",
+      "label": "搜索 SEC 新材料",
+      "detail": "实时查询申报目录与全文搜索；仅接纳截止日前可得的材料。",
+      "status": "running",
+      "timestamp": "2026-09-26T06:11:32+00:00"
+    },
+    {
+      "step": "search",
+      "label": "联网搜索完成",
+      "detail": "执行 4 项搜索；接纳 4 篇材料。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:11:48+00:00"
+    },
+    {
+      "step": "read",
+      "label": "原文读取与时间检查",
+      "detail": "逐篇保留原文摘录、申报日、抓取时间和内容哈希；材料中的指令按数据处理。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:11:48+00:00"
+    },
+    {
+      "step": "compute",
+      "label": "确定性提取与计算",
+      "detail": "5 项年度指标通过期间、单位、完整操作数与数值核验；原文中的季度数据不自动转成年数。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:11:48+00:00"
+    },
+    {
+      "step": "synthesize",
+      "label": "DeepSeek 生成有据分析",
+      "detail": "仅根据已读取原文和计算结果起草；每条观点绑定引用。",
+      "status": "running",
+      "timestamp": "2026-09-26T06:11:48+00:00"
+    },
+    {
+      "step": "verify",
+      "label": "核验完成",
+      "detail": "交付 0 条有据观点；隔离 1 条未通过项。语义复核不等同于事实正确率保证。",
+      "status": "partial",
+      "timestamp": "2026-09-26T06:11:54+00:00"
+    },
+    {
+      "step": "report",
+      "label": "生成引用报告",
+      "detail": "包含检索记录、原文引用、确定性计算、模型调用凭据和证据缺口。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:11:54+00:00"
+    }
+  ],
+  "gaps": [
+    {
+      "code": "NARRATIVE_UNAVAILABLE",
+      "message": "模型分析或复核未完成；保留已验证财务结果和已读取材料。"
+    },
+    {
+      "code": "CLAIMS_WITHHELD",
+      "message": "1 条候选观点或分析批次未通过验证，已从交付正文移除。"
+    }
+  ],
+  "searches": [
+    {
+      "query": "NVDA 10-K/10-K/A/10-Q/10-Q/A/8-K/8-K/A before 2026-09-26",
+      "provider": "sec_submissions",
+      "result_count": 85,
+      "status": "ok"
+    },
+    {
+      "query": "data center revenue demand growth",
+      "provider": "sec_efts",
+      "result_count": 20,
+      "status": "ok"
+    },
+    {
+      "query": "research and development expense operating income",
+      "provider": "sec_efts",
+      "result_count": 20,
+      "status": "ok"
+    },
+    {
+      "query": "export controls supply constraints risk factors",
+      "provider": "sec_efts",
+      "result_count": 19,
+      "status": "ok"
+    }
+  ],
+  "data_mode": "live",
+  "verification": {
+    "accepted_claims": 0,
+    "rejected_claims": 1,
+    "total_claims": 0,
+    "rejected": [
+      {
+        "id": "narrative",
+        "reasons": [
+          "MODEL_UNAVAILABLE"
+        ]
+      }
+    ],
+    "method": "exact quotes + known references + cutoff + deterministic numeric kernel + separate model entailment review"
+  },
+  "budget": {
+    "max_model_calls": 3,
+    "model_calls": 2,
+    "documents_read": 4
+  },
+  "limitations": [
+    "当前覆盖八家美股公司的 SEC 申报检索和原文读取；不是全网或实时行情服务。",
+    "CompanyFacts 为本次抓取后按申报日期重建；不是当时保存的完整数据库。日期粒度材料保守地从申报次日纳入。",
+    "财务计算支持年度指标；不自动把季度、分部或公司自定义口径映射为年度指标。",
+    "模型语义复核仍可能出错；通过率不是准确率。缺少股价、估值和未来信息时不生成买卖结论。"
+  ]
+}

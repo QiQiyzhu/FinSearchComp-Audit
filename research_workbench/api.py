@@ -124,7 +124,7 @@ def public_config(settings: Settings) -> dict[str, Any]:
             "features": {"sec": bool(settings.sec_user_agent), "deepseek": bool(settings.deepseek_api_key), "web_search": bool(settings.tavily_api_key), "sec_full_text_search": True, "live_research": settings.available("live_research"), "exports": True, "comparison": True, "question_answers": True, "terminal": True, "persistence": "sqlite", "budget_store": "redis" if settings.redis_url else "sqlite"},
             "tickers": [{"ticker": ticker, "name": company["name"]} for ticker, company in COMPANIES.items()], "demo_tickers": DEMO_TICKERS,
             "limits": {"question_chars": 2000, "live_requests_per_hour": settings.live_requests_per_hour, "live_global_per_day": settings.live_global_per_day, "quota_unit": "issuer_analysis", "comparison_units": 2},
-            "scope": "单公司及双公司年度 10-K 财务研究；不同期间仅并列展示；不含价格预测或交易执行。"}
+            "scope": "八家公司 SEC 申报联网研究与年度财务计算；保留历史查询和同业比较；不含全网新闻库、实时股价或交易执行。"}
 
 
 def create_app(settings: Settings | None = None, *, engine: ResearchEngine | None = None) -> FastAPI:
@@ -270,6 +270,12 @@ def create_app(settings: Settings | None = None, *, engine: ResearchEngine | Non
             renderer = live_markdown
         content = renderer(job["result"]) if format == "markdown" else canonical(job["result"])
         return Response(content, media_type="text/markdown" if format == "markdown" else "application/json", headers={"Content-Disposition": f'attachment; filename="{identifier}.{extension}"'})
+
+    @app.get("/terminal/data/runtime.json")
+    def terminal_runtime() -> dict[str, Any]:
+        # A self-hosted terminal must use its own server, not the public demo
+        # URL embedded in the GitHub Pages static build.
+        return {"api_base_url": "", "use_same_origin": True}
 
     terminal_static = ROOT / "site" / "terminal"
     if terminal_static.is_dir():

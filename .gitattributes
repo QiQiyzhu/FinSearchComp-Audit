@@ -7,3 +7,4 @@ site/terminal/query.mjs -text
 scripts/evaluate_terminal*.py -text
 scripts/replay_pit_gate.py -text
 site/terminal/data/*.json -text
+docs/verification/live-research-runs/*.json -text

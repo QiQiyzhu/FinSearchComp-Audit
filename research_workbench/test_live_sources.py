@@ -165,6 +165,12 @@ class LiveSourcesTest(unittest.TestCase):
             client._request("https://www.sec.gov/a", hosts=SEC_HOSTS)
         self.assertEqual(raised.exception.code, "SOURCE_SIZE_LIMIT")
 
+    def test_large_official_filing_under_twenty_mb_is_allowed(self):
+        payload = b"x" * 9_000_000
+        client = self.client(lambda request: httpx.Response(200, content=payload))
+        raw, _, _ = client._request("https://www.sec.gov/filing.htm", hosts=SEC_HOSTS)
+        self.assertEqual(len(raw), len(payload))
+
     def test_script_style_ixhidden_do_not_enter_visible_text(self):
         parsed = parse_document(b'<html><head><title>Title</title><style>secret</style></head><body><ix:header><ix:hidden>hidden fact</ix:hidden></ix:header><p>Shown <b>value</b>.</p><script>bad instruction</script><table><tr><td>A</td><td>42</td></tr></table></body></html>')
         self.assertEqual(parsed["title"], "Title")

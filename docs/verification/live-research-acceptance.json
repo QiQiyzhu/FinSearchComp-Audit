@@ -1,0 +1,2660 @@
+{
+  "artifact_type": "integration_acceptance_not_accuracy_benchmark",
+  "schema_version": 1,
+  "prepared_at": "2026-09-26T06:21:33+00:00",
+  "scope": "Four local integration runs and the first deployed-backend report from 2026-09-26; all requested runs retained, including a partial failure and early limitations.",
+  "not_claimed": [
+    "No held-out accuracy estimate, representative sample, or trading/forecast quality estimate.",
+    "No independent validation of original HTTP body hashes: saved reports contain those receipts but only selected document text. Selected-text and raw-XBRL-row hashes are recomputed.",
+    "No full raw model request/response trace or exact source-code revision was captured in these report artifacts. Requests are the fields preserved in each report.",
+    "No exact all-attempt token total: the failed initial NVIDIA draft lacks a usage receipt."
+  ],
+  "totals": {
+    "reports": 5,
+    "recorded_model_attempts": 14,
+    "completed_provider_receipts": 13,
+    "known_total_tokens_lower_bound": 128297,
+    "usage_complete": false
+  },
+  "independent_saved_source_review": {
+    "reviewed_final_reports": [
+      "live-research-msft-historical",
+      "live-research-nvda-final"
+    ],
+    "reviewer": "Separate assistant review of saved source passages, claims and raw facts; no additional external model or network calls.",
+    "conclusion": "No clear unsupported delivered financial value or narrative proposition found in these two saved final reports. This limited source-grounding review is not an accuracy measurement.",
+    "findings": [
+      {
+        "report": "live-research-msft-historical",
+        "severity": "note",
+        "location": "financial_answers",
+        "detail": "Eight answers use FY2024, 2023-07-01 to 2024-06-30, with underlying 10-K filed 2024-07-30 and conservative availability 2024-07-31, before cutoff 2024-08-01. Independent calculations reproduce margin 44.64%, FCF 74071000000 USD, FCF margin 30.22%, and capex ratio 18.14%."
+      },
+      {
+        "report": "live-research-msft-historical",
+        "severity": "note",
+        "location": "verification.rejected.C04",
+        "detail": "The separate model review rejected a draft that reversed the direction of AI infrastructure costs versus margin improvement. The original rejected prose was not preserved; only the rejection reason is available."
+      },
+      {
+        "report": "live-research-msft-historical",
+        "severity": "advisory",
+        "location": "plan.research_questions[2]",
+        "detail": "The planning question presupposes capex/R&D ratios increased, while the delivered financial table is a single fiscal year. This is a planning hypothesis, not a verified finding; final claims do not repeat the asserted increase."
+      },
+      {
+        "report": "live-research-nvda-final",
+        "severity": "note",
+        "location": "financial_answers",
+        "detail": "Five answers use FY2026, 2025-01-27 to 2026-01-25, and the 2026-02-25 10-K, available 2026-02-26. Independent ratios reproduce operating margin 60.38% and R&D ratio 8.57%."
+      },
+      {
+        "report": "live-research-nvda-final",
+        "severity": "advisory",
+        "location": "claims.C06",
+        "detail": "The claim includes export-control risk but its two attached short quotes cover supply, estimation, and capital. The cited DOC_2 selected full text separately contains explicit export-control disruption language, so the proposition is supported at document level; attach that sentence as an additional quote for a complete claim-level citation."
+      },
+      {
+        "report": "live-research-nvda-final",
+        "severity": "advisory",
+        "location": "claims.C07.quotes[0]",
+        "detail": "The DOC_1 quote ends mid-clause at “higher material”. The other cited DOC_2 full text supports higher costs and gross-margin risk, so the conditional interpretation is not contradicted. Prefer complete-sentence quotations to make the evidentiary link reviewable."
+      },
+      {
+        "report": "live-research-msft-first",
+        "severity": "known_initial_issue",
+        "location": "claims.C01.verification.reason",
+        "detail": "The saved model review reason renders $59.3 billion as 59.3亿美元 rather than 593亿美元. The delivered claim contains no amount and its verbatim source quote is correct. This illustrates why model review explanations are not a numeric accuracy oracle."
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "live-research-msft-first",
+      "phase": "initial_local",
+      "report_path": "docs/verification/live-research-runs/live-research-msft-first.json",
+      "report_sha256": "16a94ee0bc968f19ac8e6e8e493fc5cd564258b1a6a8d3078bcaf73bedd53ea5",
+      "report_bytes": 96811,
+      "unchanged_bytes_from_recorded_run": true,
+      "generated_at": "2026-09-26T06:07:05+00:00",
+      "request_as_recorded_in_report": {
+        "question": "微软最新可得年度的云需求和AI投入如何？核验营业利润率、经营现金流、PP&E资本支出及自由现金流，并说明仍需要验证的风险。",
+        "ticker": "MSFT",
+        "as_of": "2026-09-26",
+        "data_mode": "live"
+      },
+      "plan": {
+        "objective": "核验微软（MSFT）最新可得年度（FY2025）的云需求与AI投入强度，并验证其营业利润率、经营现金流、PP&E资本支出与自由现金流表现，同时识别仍需进一步验证的风险。",
+        "research_questions": [
+          "微软最新年度的云需求（Azure及智能云）与AI相关投入在收入、研发和资本支出上如何体现？",
+          "该年度的营业利润率、经营现金流、PP&E资本支出与自由现金流的具体数值与同比变化如何？",
+          "在云与AI高投入背景下，哪些风险（如资本支出回报、利润率压力、现金流可持续性）仍需进一步验证？"
+        ],
+        "queries": [
+          "Azure OR cloud OR AI infrastructure",
+          "capital expenditures OR property plant equipment",
+          "operating income OR cash flow"
+        ],
+        "metric_ids": [
+          "revenue",
+          "operating_income",
+          "operating_margin",
+          "operating_cash_flow",
+          "capital_expenditure",
+          "free_cash_flow",
+          "research_and_development",
+          "capex_ratio"
+        ],
+        "fiscal_year": null,
+        "forms": [
+          "10-K",
+          "10-Q",
+          "8-K"
+        ]
+      },
+      "searches": [
+        {
+          "query": "MSFT 10-K/10-K/A/10-Q/10-Q/A/8-K/8-K/A before 2026-09-26",
+          "provider": "sec_submissions",
+          "result_count": 81,
+          "status": "ok"
+        },
+        {
+          "query": "Azure OR cloud OR AI infrastructure",
+          "provider": "sec_efts",
+          "result_count": 20,
+          "status": "ok"
+        },
+        {
+          "query": "capital expenditures OR property plant equipment",
+          "provider": "sec_efts",
+          "result_count": 3,
+          "status": "ok"
+        },
+        {
+          "query": "operating income OR cash flow",
+          "provider": "sec_efts",
+          "result_count": 20,
+          "status": "ok"
+        }
+      ],
+      "sources": [
+        {
+          "id": "DOC_1",
+          "title": "Microsoft 10-Q · 2026-04-29",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191507/msft-20260331.htm",
+          "source_type": "sec_filing",
+          "accession": "0001193125-26-191507",
+          "published_at": "2026-04-29",
+          "available_from": "2026-04-30",
+          "retrieved_at": "2026-09-26T06:06:59+00:00",
+          "sha256": "49baf20163b1c3730e8014ca1e0a315f1a7663c03d8cbc4587e81f3002f8761e",
+          "text_sha256": "5039a26e88465cc86fb5d6cbf3451e7e92b1c0e276092a3d42bf87334855c1d7",
+          "text_truncated": true,
+          "original_text_chars": 242390,
+          "bytes_fetched": 7732054
+        },
+        {
+          "id": "DOC_2",
+          "title": "Microsoft EX-99.1 · 2026-09-02",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526380280/d291965dex991.htm",
+          "source_type": "sec_filing",
+          "accession": "0001193125-26-380280",
+          "published_at": "2026-09-02",
+          "available_from": "2026-09-03",
+          "retrieved_at": "2026-09-26T06:06:59+00:00",
+          "sha256": "47a0a4a1d6a335fffab571789aba597eca0637d2650f0f62371afa10e205b987",
+          "text_sha256": "333fd6fcaa97e2f4410d4d70e5d790a97e9e37fbff96af1ac190c69afcf6ebbd",
+          "text_truncated": true,
+          "original_text_chars": 24954,
+          "bytes_fetched": 34288
+        },
+        {
+          "id": "DOC_3",
+          "title": "Microsoft EX-99.1 · 2026-07-29",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323632/msft-ex99_1.htm",
+          "source_type": "sec_filing",
+          "accession": "0001193125-26-323632",
+          "published_at": "2026-07-29",
+          "available_from": "2026-07-30",
+          "retrieved_at": "2026-09-26T06:07:00+00:00",
+          "sha256": "de6758dd524a46f73c8f65c46686455a5ec563477f62cfb07fa56c14d4af6009",
+          "text_sha256": "2d1f135f4b89295ffa5e5626d611734a1dbae06314efd124092161bb15d2372e",
+          "text_truncated": true,
+          "original_text_chars": 27611,
+          "bytes_fetched": 901706
+        },
+        {
+          "id": "DOC_4",
+          "title": "Microsoft EX-99.1 · 2026-04-29",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191457/msft-ex99_1.htm",
+          "source_type": "sec_filing",
+          "accession": "0001193125-26-191457",
+          "published_at": "2026-04-29",
+          "available_from": "2026-04-30",
+          "retrieved_at": "2026-09-26T06:07:00+00:00",
+          "sha256": "20d6c2d4b5db3ec4c2fda6ef0c61894aafe3c1ad9fb914b4cde17bdf2f6153fb",
+          "text_sha256": "a7dd3b0ce6457abbf5739e310d24d3405aab88b6da3b369b4ce2bc9e9843ee4b",
+          "text_truncated": true,
+          "original_text_chars": 23865,
+          "bytes_fetched": 835713
+        }
+      ],
+      "financial_answers": [
+        {
+          "id": "F01",
+          "metric_id": "revenue",
+          "fiscal_year": 2026,
+          "period_start": "2025-07-01",
+          "period_end": "2026-06-30",
+          "value": "331839000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-e0eb2e95aeeaf2a2"
+          ]
+        },
+        {
+          "id": "F02",
+          "metric_id": "operating_income",
+          "fiscal_year": 2026,
+          "period_start": "2025-07-01",
+          "period_end": "2026-06-30",
+          "value": "155237000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-aaf5541741856c30"
+          ]
+        },
+        {
+          "id": "F03",
+          "metric_id": "operating_margin",
+          "fiscal_year": 2026,
+          "period_start": "2025-07-01",
+          "period_end": "2026-06-30",
+          "value": "46.78",
+          "unit": "%",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-aaf5541741856c30",
+            "MSFT-e0eb2e95aeeaf2a2"
+          ]
+        },
+        {
+          "id": "F04",
+          "metric_id": "operating_cash_flow",
+          "fiscal_year": 2026,
+          "period_start": "2025-07-01",
+          "period_end": "2026-06-30",
+          "value": "182935000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-797c930bd7fe9581"
+          ]
+        },
+        {
+          "id": "F05",
+          "metric_id": "capital_expenditure",
+          "fiscal_year": 2026,
+          "period_start": "2025-07-01",
+          "period_end": "2026-06-30",
+          "value": "115948000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-9abf9d6d73766fd6"
+          ]
+        },
+        {
+          "id": "F06",
+          "metric_id": "free_cash_flow",
+          "fiscal_year": 2026,
+          "period_start": "2025-07-01",
+          "period_end": "2026-06-30",
+          "value": "66987000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-797c930bd7fe9581",
+            "MSFT-9abf9d6d73766fd6"
+          ]
+        },
+        {
+          "id": "F07",
+          "metric_id": "research_and_development",
+          "fiscal_year": 2026,
+          "period_start": "2025-07-01",
+          "period_end": "2026-06-30",
+          "value": "35562000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-cbd13a5af3e5607e"
+          ]
+        },
+        {
+          "id": "F08",
+          "metric_id": "capex_ratio",
+          "fiscal_year": 2026,
+          "period_start": "2025-07-01",
+          "period_end": "2026-06-30",
+          "value": "34.94",
+          "unit": "%",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-9abf9d6d73766fd6",
+            "MSFT-e0eb2e95aeeaf2a2"
+          ]
+        }
+      ],
+      "companyfacts_receipts": [
+        {
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "retrieved_at": "2026-09-26T06:06:58+00:00",
+          "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+          "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f"
+        }
+      ],
+      "model_receipts": [
+        {
+          "stage": "plan",
+          "provider": "DeepSeek",
+          "response_model": "deepseek-flash",
+          "request_id": "71e13603-d17f-4e43-9d23-898163de5247",
+          "usage": {
+            "prompt_tokens": 1941,
+            "completion_tokens": 245,
+            "total_tokens": 2186,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "prompt_cache_hit_tokens": 0,
+            "prompt_cache_miss_tokens": 1941
+          },
+          "latency_ms": 1609,
+          "status": "completed"
+        },
+        {
+          "stage": "draft",
+          "provider": "DeepSeek",
+          "response_model": "deepseek-flash",
+          "request_id": "8b6f6cf6-22e7-422b-8a96-7008ca5eabd8",
+          "usage": {
+            "prompt_tokens": 15835,
+            "completion_tokens": 999,
+            "total_tokens": 16834,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "prompt_cache_hit_tokens": 0,
+            "prompt_cache_miss_tokens": 15835
+          },
+          "latency_ms": 3906,
+          "status": "completed"
+        },
+        {
+          "stage": "verify",
+          "provider": "DeepSeek",
+          "response_model": "deepseek-flash",
+          "request_id": "f72d79e0-856d-4aac-990b-309d9b2a9743",
+          "usage": {
+            "prompt_tokens": 3495,
+            "completion_tokens": 242,
+            "total_tokens": 3737,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "prompt_cache_hit_tokens": 0,
+            "prompt_cache_miss_tokens": 3495
+          },
+          "latency_ms": 1578,
+          "status": "completed"
+        }
+      ],
+      "model_attempts_recorded": 3,
+      "completed_provider_receipts": 3,
+      "known_total_tokens": 22757,
+      "usage_complete_for_recorded_attempts": true,
+      "verification_as_reported": {
+        "accepted_claims": 6,
+        "rejected_claims": 1,
+        "total_claims": 7,
+        "rejected": [
+          {
+            "id": "C04",
+            "reasons": [
+              "numeric_prose_requires_calculator"
+            ]
+          }
+        ],
+        "method": "exact quotes + known references + cutoff + deterministic numeric kernel + separate model entailment review"
+      },
+      "gaps": [
+        {
+          "code": "SOURCE_SIZE_LIMIT",
+          "message": "材料超过 8 MB 读取上限。",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm"
+        },
+        {
+          "code": "CLAIMS_WITHHELD",
+          "message": "1 条候选观点或分析批次未通过验证，已从交付正文移除。"
+        }
+      ],
+      "notes": [
+        "Initial model objective incorrectly named FY2025 as latest. The recorded fiscal_year was null and delivered numeric answers already selected FY2026 correctly. Later code replaces the model objective and binds fiscal year from explicit user input."
+      ],
+      "offline_checks": {
+        "passed": 50,
+        "failed": 0,
+        "quotes_checked": 9,
+        "quotes_literal_substring": 9,
+        "method": "Independent standard-library date, hash, reference and Decimal arithmetic checks on saved reports; no product calculator imports and no network/provider calls.",
+        "items": [
+          {
+            "kind": "document_time",
+            "subject": "DOC_1",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_1",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_2",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_2",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_3",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_3",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_4",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_4",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "MSFT-e0eb2e95aeeaf2a2",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "MSFT-e0eb2e95aeeaf2a2",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "MSFT-aaf5541741856c30",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "MSFT-aaf5541741856c30",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "MSFT-797c930bd7fe9581",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "MSFT-797c930bd7fe9581",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "MSFT-9abf9d6d73766fd6",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "MSFT-9abf9d6d73766fd6",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "MSFT-cbd13a5af3e5607e",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "MSFT-cbd13a5af3e5607e",
+            "passed": true
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F01",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F01",
+            "passed": true,
+            "detail": {
+              "expected_value": "331839000000",
+              "expected_unit": "USD",
+              "metric_id": "revenue"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F02",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F02",
+            "passed": true,
+            "detail": {
+              "expected_value": "155237000000",
+              "expected_unit": "USD",
+              "metric_id": "operating_income"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F03",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F03",
+            "passed": true,
+            "detail": {
+              "expected_value": "46.78",
+              "expected_unit": "%",
+              "metric_id": "operating_margin"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F04",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F04",
+            "passed": true,
+            "detail": {
+              "expected_value": "182935000000",
+              "expected_unit": "USD",
+              "metric_id": "operating_cash_flow"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F05",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F05",
+            "passed": true,
+            "detail": {
+              "expected_value": "115948000000",
+              "expected_unit": "USD",
+              "metric_id": "capital_expenditure"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F06",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F06",
+            "passed": true,
+            "detail": {
+              "expected_value": "66987000000",
+              "expected_unit": "USD",
+              "metric_id": "free_cash_flow"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F07",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F07",
+            "passed": true,
+            "detail": {
+              "expected_value": "35562000000",
+              "expected_unit": "USD",
+              "metric_id": "research_and_development"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F08",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F08",
+            "passed": true,
+            "detail": {
+              "expected_value": "34.94",
+              "expected_unit": "%",
+              "metric_id": "capex_ratio"
+            }
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C01",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C01.quote1",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C01.quote2",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C02",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C02.quote1",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C03",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C03.quote1",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C05",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C05.quote1",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C06",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C06.quote1",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C06.quote2",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C07",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C07.quote1",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C07.quote2",
+            "passed": true
+          },
+          {
+            "kind": "delivered_count_matches",
+            "subject": "report",
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "live-research-nvda-release",
+      "phase": "initial_local_partial_failure",
+      "report_path": "docs/verification/live-research-runs/live-research-nvda-release.json",
+      "report_sha256": "51092fec03a5fa1cb0b521e3ef1ac17946a8412eb8d3b7af2ae05eb9fa5cccf7",
+      "report_bytes": 91522,
+      "unchanged_bytes_from_recorded_run": true,
+      "generated_at": "2026-09-26T06:11:54+00:00",
+      "request_as_recorded_in_report": {
+        "question": "英伟达最新可得年度的营业利润率与研发费用率如何？数据中心需求有哪些支持与风险证据？",
+        "ticker": "NVDA",
+        "as_of": "2026-09-26",
+        "data_mode": "live"
+      },
+      "plan": {
+        "objective": "检索 NVIDIA 在 2026-09-26 前可得的披露，回答所提问题并核验计算清单。",
+        "research_questions": [
+          "英伟达最新可得年度的营业利润率与研发费用率分别是多少，与收入、营业利润和研发费用的绝对水平如何对应？",
+          "公司披露中哪些证据支持数据中心需求的持续增长（如收入结构、客户、产能与订单相关表述）？",
+          "公司披露中哪些风险因素可能削弱数据中心需求（如供应链、出口管制、客户集中度与竞争）？"
+        ],
+        "queries": [
+          "data center revenue demand growth",
+          "research and development expense operating income",
+          "export controls supply constraints risk factors"
+        ],
+        "metric_ids": [
+          "revenue",
+          "operating_income",
+          "research_and_development",
+          "operating_margin",
+          "rd_ratio"
+        ],
+        "fiscal_year": null,
+        "forms": [
+          "10-K",
+          "10-Q",
+          "8-K"
+        ]
+      },
+      "searches": [
+        {
+          "query": "NVDA 10-K/10-K/A/10-Q/10-Q/A/8-K/8-K/A before 2026-09-26",
+          "provider": "sec_submissions",
+          "result_count": 85,
+          "status": "ok"
+        },
+        {
+          "query": "data center revenue demand growth",
+          "provider": "sec_efts",
+          "result_count": 20,
+          "status": "ok"
+        },
+        {
+          "query": "research and development expense operating income",
+          "provider": "sec_efts",
+          "result_count": 20,
+          "status": "ok"
+        },
+        {
+          "query": "export controls supply constraints risk factors",
+          "provider": "sec_efts",
+          "result_count": 19,
+          "status": "ok"
+        }
+      ],
+      "sources": [
+        {
+          "id": "DOC_1",
+          "title": "NVIDIA 10-Q · 2026-08-26",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+          "source_type": "sec_filing",
+          "accession": "0001045810-26-000075",
+          "published_at": "2026-08-26",
+          "available_from": "2026-08-27",
+          "retrieved_at": "2026-09-26T06:11:47+00:00",
+          "sha256": "ae8a6f875ac4b86ba3ccfa5b73292cdd8c5e9a32dd99a7aa965a90974f67d959",
+          "text_sha256": "591c5a7ae0ef58f04be6a05473d0fcc9e38bc1a47fdad63319bdb872ed2140e4",
+          "text_truncated": true,
+          "original_text_chars": 161462,
+          "bytes_fetched": 1517153
+        },
+        {
+          "id": "DOC_2",
+          "title": "NVIDIA 10-K · 2026-02-25",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+          "source_type": "sec_filing",
+          "accession": "0001045810-26-000021",
+          "published_at": "2026-02-25",
+          "available_from": "2026-02-26",
+          "retrieved_at": "2026-09-26T06:11:47+00:00",
+          "sha256": "a67bf005fe138d05d5ac6c00a6d38ad016a6ac693e1072315ff2137d8de18c13",
+          "text_sha256": "1f92f4649c6fa48464b406833f1ac844663eccc864c644a123f8d458b690fa24",
+          "text_truncated": true,
+          "original_text_chars": 354014,
+          "bytes_fetched": 1967922
+        },
+        {
+          "id": "DOC_3",
+          "title": "NVIDIA EX-99.2 · 2026-08-26",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27cfocommentary.htm",
+          "source_type": "sec_filing",
+          "accession": "0001045810-26-000073",
+          "published_at": "2026-08-26",
+          "available_from": "2026-08-27",
+          "retrieved_at": "2026-09-26T06:11:47+00:00",
+          "sha256": "4aa57d9b923c98cbe3e1e502fcff9b577211a11feded2f5231f102573df6ba5a",
+          "text_sha256": "7883acb3c26596ae24c20cb82471ebf340086f4bb45e0e701c10f69f57ef3409",
+          "text_truncated": true,
+          "original_text_chars": 23220,
+          "bytes_fetched": 256987
+        },
+        {
+          "id": "DOC_4",
+          "title": "NVIDIA EX-99.2 · 2026-05-20",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27cfocommentary.htm",
+          "source_type": "sec_filing",
+          "accession": "0001045810-26-000051",
+          "published_at": "2026-05-20",
+          "available_from": "2026-05-21",
+          "retrieved_at": "2026-09-26T06:11:48+00:00",
+          "sha256": "b1764d11086017fe02da349f84e160a51b795ecacc47bdf3277ea813115fec6c",
+          "text_sha256": "a61b4805e132793d15d172e3f5283ed42ec82b89d8bb96af9495fd209c636ef9",
+          "text_truncated": true,
+          "original_text_chars": 18128,
+          "bytes_fetched": 165542
+        }
+      ],
+      "financial_answers": [
+        {
+          "id": "F01",
+          "metric_id": "revenue",
+          "fiscal_year": 2026,
+          "period_start": "2025-01-27",
+          "period_end": "2026-01-25",
+          "value": "215938000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "NVDA-8841b3e1b75562ab"
+          ]
+        },
+        {
+          "id": "F02",
+          "metric_id": "operating_income",
+          "fiscal_year": 2026,
+          "period_start": "2025-01-27",
+          "period_end": "2026-01-25",
+          "value": "130387000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "NVDA-de36b502603eb07e"
+          ]
+        },
+        {
+          "id": "F03",
+          "metric_id": "research_and_development",
+          "fiscal_year": 2026,
+          "period_start": "2025-01-27",
+          "period_end": "2026-01-25",
+          "value": "18497000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "NVDA-41445eed9ed4eb4b"
+          ]
+        },
+        {
+          "id": "F04",
+          "metric_id": "operating_margin",
+          "fiscal_year": 2026,
+          "period_start": "2025-01-27",
+          "period_end": "2026-01-25",
+          "value": "60.38",
+          "unit": "%",
+          "status": "available",
+          "evidence_ids": [
+            "NVDA-de36b502603eb07e",
+            "NVDA-8841b3e1b75562ab"
+          ]
+        },
+        {
+          "id": "F05",
+          "metric_id": "rd_ratio",
+          "fiscal_year": 2026,
+          "period_start": "2025-01-27",
+          "period_end": "2026-01-25",
+          "value": "8.57",
+          "unit": "%",
+          "status": "available",
+          "evidence_ids": [
+            "NVDA-41445eed9ed4eb4b",
+            "NVDA-8841b3e1b75562ab"
+          ]
+        }
+      ],
+      "companyfacts_receipts": [
+        {
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "retrieved_at": "2026-09-26T06:11:46+00:00",
+          "canonical_payload_sha256": "c8d2deb79257bf637db44c1166c78aa5f344a138d9e9071ba49c532054ee6e6f",
+          "upstream_response_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff"
+        }
+      ],
+      "model_receipts": [
+        {
+          "stage": "plan",
+          "provider": "DeepSeek",
+          "response_model": "deepseek-flash",
+          "request_id": "db7ebe3b-264a-4026-bb47-bbba4dca5870",
+          "usage": {
+            "prompt_tokens": 1930,
+            "completion_tokens": 204,
+            "total_tokens": 2134,
+            "prompt_tokens_details": {
+              "cached_tokens": 256
+            },
+            "prompt_cache_hit_tokens": 256,
+            "prompt_cache_miss_tokens": 1674
+          },
+          "latency_ms": 1297,
+          "status": "completed"
+        },
+        {
+          "stage": "draft",
+          "provider": "DeepSeek",
+          "status": "failed"
+        }
+      ],
+      "model_attempts_recorded": 2,
+      "completed_provider_receipts": 1,
+      "known_total_tokens": 2134,
+      "usage_complete_for_recorded_attempts": false,
+      "verification_as_reported": {
+        "accepted_claims": 0,
+        "rejected_claims": 1,
+        "total_claims": 0,
+        "rejected": [
+          {
+            "id": "narrative",
+            "reasons": [
+              "MODEL_UNAVAILABLE"
+            ]
+          }
+        ],
+        "method": "exact quotes + known references + cutoff + deterministic numeric kernel + separate model entailment review"
+      },
+      "gaps": [
+        {
+          "code": "NARRATIVE_UNAVAILABLE",
+          "message": "模型分析或复核未完成；保留已验证财务结果和已读取材料。"
+        },
+        {
+          "code": "CLAIMS_WITHHELD",
+          "message": "1 条候选观点或分析批次未通过验证，已从交付正文移除。"
+        }
+      ],
+      "notes": [
+        "Draft call failed or failed schema validation; the saved receipt has no provider usage. No narrative was delivered. Numeric results and source documents were retained. Exact total token usage and the specific provider failure cause cannot be recovered from this report."
+      ],
+      "offline_checks": {
+        "passed": 25,
+        "failed": 0,
+        "quotes_checked": 0,
+        "quotes_literal_substring": 0,
+        "method": "Independent standard-library date, hash, reference and Decimal arithmetic checks on saved reports; no product calculator imports and no network/provider calls.",
+        "items": [
+          {
+            "kind": "document_time",
+            "subject": "DOC_1",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_1",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_2",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_2",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_3",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_3",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_4",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_4",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "NVDA-8841b3e1b75562ab",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "NVDA-8841b3e1b75562ab",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "NVDA-de36b502603eb07e",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "NVDA-de36b502603eb07e",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "NVDA-41445eed9ed4eb4b",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "NVDA-41445eed9ed4eb4b",
+            "passed": true
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F01",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F01",
+            "passed": true,
+            "detail": {
+              "expected_value": "215938000000",
+              "expected_unit": "USD",
+              "metric_id": "revenue"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F02",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F02",
+            "passed": true,
+            "detail": {
+              "expected_value": "130387000000",
+              "expected_unit": "USD",
+              "metric_id": "operating_income"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F03",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F03",
+            "passed": true,
+            "detail": {
+              "expected_value": "18497000000",
+              "expected_unit": "USD",
+              "metric_id": "research_and_development"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F04",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F04",
+            "passed": true,
+            "detail": {
+              "expected_value": "60.38",
+              "expected_unit": "%",
+              "metric_id": "operating_margin"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F05",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F05",
+            "passed": true,
+            "detail": {
+              "expected_value": "8.57",
+              "expected_unit": "%",
+              "metric_id": "rd_ratio"
+            }
+          },
+          {
+            "kind": "delivered_count_matches",
+            "subject": "report",
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "live-research-msft-historical",
+      "phase": "final_local_historical",
+      "report_path": "docs/verification/live-research-runs/live-research-msft-historical.json",
+      "report_sha256": "1b92ed8431c5fdb9479a522d70c4c45864acc3e7211bf2dab7df78389e19dfca",
+      "report_bytes": 103437,
+      "unchanged_bytes_from_recorded_run": true,
+      "generated_at": "2026-09-26T06:13:11+00:00",
+      "request_as_recorded_in_report": {
+        "question": "微软FY2024的营业利润率、自由现金流和AI投资压力如何？请根据截止日前披露形成有引用的分析。",
+        "ticker": "MSFT",
+        "as_of": "2024-08-01",
+        "data_mode": "live"
+      },
+      "plan": {
+        "objective": "检索 Microsoft 在 2024-08-01 前可得的披露，回答所提问题并核验计算清单。",
+        "research_questions": [
+          "微软FY2024的营业利润率与营业利润、营业收入相比上一财年如何变化？",
+          "微软FY2024的自由现金流（经营现金流减资本支出）规模及自由现金流率表现如何？",
+          "微软FY2024资本支出与研发费用相对收入的比重上升，反映了多大的AI投资压力？"
+        ],
+        "queries": [
+          "capital expenditures AI infrastructure",
+          "operating income revenue",
+          "free cash flow operating activities"
+        ],
+        "metric_ids": [
+          "operating_margin",
+          "operating_income",
+          "revenue",
+          "free_cash_flow",
+          "operating_cash_flow",
+          "capital_expenditure",
+          "free_cash_flow_margin",
+          "capex_ratio"
+        ],
+        "fiscal_year": 2024,
+        "forms": [
+          "10-K",
+          "10-Q",
+          "8-K"
+        ]
+      },
+      "searches": [
+        {
+          "query": "MSFT 10-K/10-K/A/10-Q/10-Q/A/8-K/8-K/A before 2024-08-01",
+          "provider": "sec_submissions",
+          "result_count": 55,
+          "status": "ok"
+        },
+        {
+          "query": "capital expenditures AI infrastructure",
+          "provider": "sec_efts",
+          "result_count": 20,
+          "status": "ok"
+        },
+        {
+          "query": "operating income revenue",
+          "provider": "sec_efts",
+          "result_count": 20,
+          "status": "ok"
+        },
+        {
+          "query": "free cash flow operating activities",
+          "provider": "sec_efts",
+          "result_count": 20,
+          "status": "ok"
+        }
+      ],
+      "sources": [
+        {
+          "id": "DOC_1",
+          "title": "Microsoft 10-Q · 2024-04-25",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024048288/msft-20240331.htm",
+          "source_type": "sec_filing",
+          "accession": "0000950170-24-048288",
+          "published_at": "2024-04-25",
+          "available_from": "2024-04-26",
+          "retrieved_at": "2026-09-26T06:13:03+00:00",
+          "sha256": "065aa976c66c743710361cc9da2febe9b9b0337c5681787661c246181828afa1",
+          "text_sha256": "bc8cc918d1ca0d2e364dbc00cd8f30a61bca2dc9df124579864c0e9d43fe2ec7",
+          "text_truncated": true,
+          "original_text_chars": 244096,
+          "bytes_fetched": 5698655
+        },
+        {
+          "id": "DOC_2",
+          "title": "Microsoft 10-K · 2024-07-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/msft-20240630.htm",
+          "source_type": "sec_filing",
+          "accession": "0000950170-24-087843",
+          "published_at": "2024-07-30",
+          "available_from": "2024-07-31",
+          "retrieved_at": "2026-09-26T06:13:04+00:00",
+          "sha256": "099a7f9d9561a7347e0965ac85e8f1a194f8236d47f2afcff39deeda70ad50a6",
+          "text_sha256": "3828b9e023e60409c065411a84d6598f74ad17b92b9717e1769b536f50266b83",
+          "text_truncated": true,
+          "original_text_chars": 394421,
+          "bytes_fetched": 6861017
+        },
+        {
+          "id": "DOC_3",
+          "title": "Microsoft 10-Q · 2024-01-30",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024008814/msft-20231231.htm",
+          "source_type": "sec_filing",
+          "accession": "0000950170-24-008814",
+          "published_at": "2024-01-30",
+          "available_from": "2024-01-31",
+          "retrieved_at": "2026-09-26T06:13:05+00:00",
+          "sha256": "48aa73842dbbf0240b5e49841e3f74ee78164500dd75b576ac5705c6a2f87967",
+          "text_sha256": "9084cdfd92e0d46079bc0cd952f19072bf651c7bdb9f8fdcbf5a2aaf46273535",
+          "text_truncated": true,
+          "original_text_chars": 243967,
+          "bytes_fetched": 5673406
+        },
+        {
+          "id": "DOC_4",
+          "title": "Microsoft 10-Q · 2023-10-24",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023054855/msft-20230930.htm",
+          "source_type": "sec_filing",
+          "accession": "0000950170-23-054855",
+          "published_at": "2023-10-24",
+          "available_from": "2023-10-25",
+          "retrieved_at": "2026-09-26T06:13:05+00:00",
+          "sha256": "ffe1b942bff2aaa686a7724d3bdb075f04ffc439fdbb605891a77392a4ce709a",
+          "text_sha256": "b6daa5947673b9b1b226a1552cdf55a33cfff8ea219f0f427d0169d0bcd4b179",
+          "text_truncated": true,
+          "original_text_chars": 205866,
+          "bytes_fetched": 4966857
+        }
+      ],
+      "financial_answers": [
+        {
+          "id": "F01",
+          "metric_id": "operating_margin",
+          "fiscal_year": 2024,
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "value": "44.64",
+          "unit": "%",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-0ea473e4198691e8",
+            "MSFT-390ab9990d0ac7b4"
+          ]
+        },
+        {
+          "id": "F02",
+          "metric_id": "operating_income",
+          "fiscal_year": 2024,
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "value": "109433000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-0ea473e4198691e8"
+          ]
+        },
+        {
+          "id": "F03",
+          "metric_id": "revenue",
+          "fiscal_year": 2024,
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "value": "245122000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-390ab9990d0ac7b4"
+          ]
+        },
+        {
+          "id": "F04",
+          "metric_id": "free_cash_flow",
+          "fiscal_year": 2024,
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "value": "74071000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-478ea93077ead4f2",
+            "MSFT-5fc8fd42a5a2d7f5"
+          ]
+        },
+        {
+          "id": "F05",
+          "metric_id": "operating_cash_flow",
+          "fiscal_year": 2024,
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "value": "118548000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-478ea93077ead4f2"
+          ]
+        },
+        {
+          "id": "F06",
+          "metric_id": "capital_expenditure",
+          "fiscal_year": 2024,
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "value": "44477000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-5fc8fd42a5a2d7f5"
+          ]
+        },
+        {
+          "id": "F07",
+          "metric_id": "free_cash_flow_margin",
+          "fiscal_year": 2024,
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "value": "30.22",
+          "unit": "%",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-478ea93077ead4f2",
+            "MSFT-5fc8fd42a5a2d7f5",
+            "MSFT-390ab9990d0ac7b4"
+          ]
+        },
+        {
+          "id": "F08",
+          "metric_id": "capex_ratio",
+          "fiscal_year": 2024,
+          "period_start": "2023-07-01",
+          "period_end": "2024-06-30",
+          "value": "18.14",
+          "unit": "%",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-5fc8fd42a5a2d7f5",
+            "MSFT-390ab9990d0ac7b4"
+          ]
+        }
+      ],
+      "companyfacts_receipts": [
+        {
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "retrieved_at": "2026-09-26T06:13:02+00:00",
+          "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+          "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f"
+        }
+      ],
+      "model_receipts": [
+        {
+          "stage": "plan",
+          "provider": "DeepSeek",
+          "response_model": "deepseek-flash",
+          "request_id": "d88d9a42-5f9b-4070-9a2d-c53cf73111c3",
+          "usage": {
+            "prompt_tokens": 1934,
+            "completion_tokens": 220,
+            "total_tokens": 2154,
+            "prompt_tokens_details": {
+              "cached_tokens": 256
+            },
+            "prompt_cache_hit_tokens": 256,
+            "prompt_cache_miss_tokens": 1678
+          },
+          "latency_ms": 1703,
+          "status": "completed"
+        },
+        {
+          "stage": "draft",
+          "provider": "DeepSeek",
+          "response_model": "deepseek-flash",
+          "request_id": "f590e8b2-457b-42e9-84cd-ba5776afd643",
+          "usage": {
+            "prompt_tokens": 16133,
+            "completion_tokens": 709,
+            "total_tokens": 16842,
+            "prompt_tokens_details": {
+              "cached_tokens": 384
+            },
+            "prompt_cache_hit_tokens": 384,
+            "prompt_cache_miss_tokens": 15749
+          },
+          "latency_ms": 3484,
+          "status": "completed"
+        },
+        {
+          "stage": "verify",
+          "provider": "DeepSeek",
+          "response_model": "deepseek-flash",
+          "request_id": "986eb5fd-13e6-4019-911f-6e7ee043fe09",
+          "usage": {
+            "prompt_tokens": 16534,
+            "completion_tokens": 300,
+            "total_tokens": 16834,
+            "prompt_tokens_details": {
+              "cached_tokens": 128
+            },
+            "prompt_cache_hit_tokens": 128,
+            "prompt_cache_miss_tokens": 16406
+          },
+          "latency_ms": 1813,
+          "status": "completed"
+        }
+      ],
+      "model_attempts_recorded": 3,
+      "completed_provider_receipts": 3,
+      "known_total_tokens": 35830,
+      "usage_complete_for_recorded_attempts": true,
+      "verification_as_reported": {
+        "accepted_claims": 5,
+        "rejected_claims": 1,
+        "total_claims": 6,
+        "rejected": [
+          {
+            "id": "C04",
+            "reasons": [
+              "DOC_1与DOC_3原文均称AI基础设施规模扩张是抵消毛利率改善的因素之一，而非被毛利率改善所抵消，命题方向颠倒。"
+            ]
+          }
+        ],
+        "method": "exact quotes + known references + cutoff + deterministic numeric kernel + separate model entailment review"
+      },
+      "gaps": [
+        {
+          "code": "CLAIMS_WITHHELD",
+          "message": "1 条候选观点或分析批次未通过验证，已从交付正文移除。"
+        }
+      ],
+      "notes": [
+        "Historical cutoff acceptance scenario; later-captured CompanyFacts reconstructed from filed dates, not a contemporaneous database archive."
+      ],
+      "offline_checks": {
+        "passed": 46,
+        "failed": 0,
+        "quotes_checked": 8,
+        "quotes_literal_substring": 8,
+        "method": "Independent standard-library date, hash, reference and Decimal arithmetic checks on saved reports; no product calculator imports and no network/provider calls.",
+        "items": [
+          {
+            "kind": "document_time",
+            "subject": "DOC_1",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_1",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_2",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_2",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_3",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_3",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_4",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_4",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "MSFT-0ea473e4198691e8",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "MSFT-0ea473e4198691e8",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "MSFT-390ab9990d0ac7b4",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "MSFT-390ab9990d0ac7b4",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "MSFT-478ea93077ead4f2",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "MSFT-478ea93077ead4f2",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "MSFT-5fc8fd42a5a2d7f5",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "MSFT-5fc8fd42a5a2d7f5",
+            "passed": true
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F01",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F01",
+            "passed": true,
+            "detail": {
+              "expected_value": "44.64",
+              "expected_unit": "%",
+              "metric_id": "operating_margin"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F02",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F02",
+            "passed": true,
+            "detail": {
+              "expected_value": "109433000000",
+              "expected_unit": "USD",
+              "metric_id": "operating_income"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F03",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F03",
+            "passed": true,
+            "detail": {
+              "expected_value": "245122000000",
+              "expected_unit": "USD",
+              "metric_id": "revenue"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F04",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F04",
+            "passed": true,
+            "detail": {
+              "expected_value": "74071000000",
+              "expected_unit": "USD",
+              "metric_id": "free_cash_flow"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F05",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F05",
+            "passed": true,
+            "detail": {
+              "expected_value": "118548000000",
+              "expected_unit": "USD",
+              "metric_id": "operating_cash_flow"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F06",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F06",
+            "passed": true,
+            "detail": {
+              "expected_value": "44477000000",
+              "expected_unit": "USD",
+              "metric_id": "capital_expenditure"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F07",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F07",
+            "passed": true,
+            "detail": {
+              "expected_value": "30.22",
+              "expected_unit": "%",
+              "metric_id": "free_cash_flow_margin"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F08",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F08",
+            "passed": true,
+            "detail": {
+              "expected_value": "18.14",
+              "expected_unit": "%",
+              "metric_id": "capex_ratio"
+            }
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C01",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C01.quote1",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C01.quote2",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C02",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C02.quote1",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C03",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C03.quote1",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C03.quote2",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C05",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C05.quote1",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C06",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C06.quote1",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C06.quote2",
+            "passed": true
+          },
+          {
+            "kind": "delivered_count_matches",
+            "subject": "report",
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "live-research-nvda-final",
+      "phase": "final_local_current",
+      "report_path": "docs/verification/live-research-runs/live-research-nvda-final.json",
+      "report_sha256": "65bdf6bcf40692eded5106b96f1f3dc5bd5ffe1111cfe0d3b2a82407baa73170",
+      "report_bytes": 99505,
+      "unchanged_bytes_from_recorded_run": true,
+      "generated_at": "2026-09-26T06:14:30+00:00",
+      "request_as_recorded_in_report": {
+        "question": "英伟达最新可得年度的营业利润率与研发费用率如何？数据中心需求有哪些支持与风险证据？",
+        "ticker": "NVDA",
+        "as_of": "2026-09-26",
+        "data_mode": "live"
+      },
+      "plan": {
+        "objective": "检索 NVIDIA 在 2026-09-26 前可得的披露，回答所提问题并核验计算清单。",
+        "research_questions": [
+          "英伟达最新可得年度的营业利润率与研发费用率分别是多少，与上一财年相比如何变化？",
+          "财报与公告中支持数据中心需求增长的证据有哪些（如收入结构、客户、产能与订单相关表述）？",
+          "财报与公告中提示的数据中心需求风险有哪些（如供应、客户集中度、出口管制与竞争）？"
+        ],
+        "queries": [
+          "data center revenue demand",
+          "research and development expense",
+          "export controls supply constraints"
+        ],
+        "metric_ids": [
+          "operating_margin",
+          "rd_ratio",
+          "revenue",
+          "operating_income",
+          "research_and_development"
+        ],
+        "fiscal_year": null,
+        "forms": [
+          "10-K",
+          "10-Q",
+          "8-K"
+        ]
+      },
+      "searches": [
+        {
+          "query": "NVDA 10-K/10-K/A/10-Q/10-Q/A/8-K/8-K/A before 2026-09-26",
+          "provider": "sec_submissions",
+          "result_count": 85,
+          "status": "ok"
+        },
+        {
+          "query": "data center revenue demand",
+          "provider": "sec_efts",
+          "result_count": 20,
+          "status": "ok"
+        },
+        {
+          "query": "research and development expense",
+          "provider": "sec_efts",
+          "result_count": 20,
+          "status": "ok"
+        },
+        {
+          "query": "export controls supply constraints",
+          "provider": "sec_efts",
+          "result_count": 19,
+          "status": "ok"
+        }
+      ],
+      "sources": [
+        {
+          "id": "DOC_1",
+          "title": "NVIDIA 10-Q · 2026-08-26",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+          "source_type": "sec_filing",
+          "accession": "0001045810-26-000075",
+          "published_at": "2026-08-26",
+          "available_from": "2026-08-27",
+          "retrieved_at": "2026-09-26T06:14:22+00:00",
+          "sha256": "ae8a6f875ac4b86ba3ccfa5b73292cdd8c5e9a32dd99a7aa965a90974f67d959",
+          "text_sha256": "985ac161eb7920b6020cd7051ce2ae05a0aee211e638baacf65cdc47f54d2eb6",
+          "text_truncated": true,
+          "original_text_chars": 161462,
+          "bytes_fetched": 1517153
+        },
+        {
+          "id": "DOC_2",
+          "title": "NVIDIA 10-K · 2026-02-25",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm",
+          "source_type": "sec_filing",
+          "accession": "0001045810-26-000021",
+          "published_at": "2026-02-25",
+          "available_from": "2026-02-26",
+          "retrieved_at": "2026-09-26T06:14:23+00:00",
+          "sha256": "a67bf005fe138d05d5ac6c00a6d38ad016a6ac693e1072315ff2137d8de18c13",
+          "text_sha256": "585db864fcf7703d85faf934453113b0a10fb69872cf186cefc8835bf3d5879b",
+          "text_truncated": true,
+          "original_text_chars": 354014,
+          "bytes_fetched": 1967922
+        },
+        {
+          "id": "DOC_3",
+          "title": "NVIDIA EX-99.2 · 2026-08-26",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27cfocommentary.htm",
+          "source_type": "sec_filing",
+          "accession": "0001045810-26-000073",
+          "published_at": "2026-08-26",
+          "available_from": "2026-08-27",
+          "retrieved_at": "2026-09-26T06:14:23+00:00",
+          "sha256": "4aa57d9b923c98cbe3e1e502fcff9b577211a11feded2f5231f102573df6ba5a",
+          "text_sha256": "3b717185920149fe85b43b6fbe7524da860476129bd07c8a1d44113ff477146b",
+          "text_truncated": true,
+          "original_text_chars": 23220,
+          "bytes_fetched": 256987
+        },
+        {
+          "id": "DOC_4",
+          "title": "NVIDIA 10-Q · 2026-05-20",
+          "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000052/nvda-20260426.htm",
+          "source_type": "sec_filing",
+          "accession": "0001045810-26-000052",
+          "published_at": "2026-05-20",
+          "available_from": "2026-05-21",
+          "retrieved_at": "2026-09-26T06:14:24+00:00",
+          "sha256": "d1d5014810027ce07fdd0cf2bd6192af740db2768b19df312a891fde5e94d4fc",
+          "text_sha256": "a28222ebdd73f296befc1941d65d12534d3bf7ae1309f5e5c1e622ce1dff7472",
+          "text_truncated": true,
+          "original_text_chars": 146965,
+          "bytes_fetched": 1167159
+        }
+      ],
+      "financial_answers": [
+        {
+          "id": "F01",
+          "metric_id": "operating_margin",
+          "fiscal_year": 2026,
+          "period_start": "2025-01-27",
+          "period_end": "2026-01-25",
+          "value": "60.38",
+          "unit": "%",
+          "status": "available",
+          "evidence_ids": [
+            "NVDA-de36b502603eb07e",
+            "NVDA-8841b3e1b75562ab"
+          ]
+        },
+        {
+          "id": "F02",
+          "metric_id": "rd_ratio",
+          "fiscal_year": 2026,
+          "period_start": "2025-01-27",
+          "period_end": "2026-01-25",
+          "value": "8.57",
+          "unit": "%",
+          "status": "available",
+          "evidence_ids": [
+            "NVDA-41445eed9ed4eb4b",
+            "NVDA-8841b3e1b75562ab"
+          ]
+        },
+        {
+          "id": "F03",
+          "metric_id": "revenue",
+          "fiscal_year": 2026,
+          "period_start": "2025-01-27",
+          "period_end": "2026-01-25",
+          "value": "215938000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "NVDA-8841b3e1b75562ab"
+          ]
+        },
+        {
+          "id": "F04",
+          "metric_id": "operating_income",
+          "fiscal_year": 2026,
+          "period_start": "2025-01-27",
+          "period_end": "2026-01-25",
+          "value": "130387000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "NVDA-de36b502603eb07e"
+          ]
+        },
+        {
+          "id": "F05",
+          "metric_id": "research_and_development",
+          "fiscal_year": 2026,
+          "period_start": "2025-01-27",
+          "period_end": "2026-01-25",
+          "value": "18497000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "NVDA-41445eed9ed4eb4b"
+          ]
+        }
+      ],
+      "companyfacts_receipts": [
+        {
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+          "retrieved_at": "2026-09-26T06:14:22+00:00",
+          "canonical_payload_sha256": "c8d2deb79257bf637db44c1166c78aa5f344a138d9e9071ba49c532054ee6e6f",
+          "upstream_response_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff"
+        }
+      ],
+      "model_receipts": [
+        {
+          "stage": "plan",
+          "provider": "DeepSeek",
+          "response_model": "deepseek-flash",
+          "request_id": "948965c4-556c-4f17-8e3c-7db8fbd32f59",
+          "usage": {
+            "prompt_tokens": 1930,
+            "completion_tokens": 206,
+            "total_tokens": 2136,
+            "prompt_tokens_details": {
+              "cached_tokens": 1792
+            },
+            "prompt_cache_hit_tokens": 1792,
+            "prompt_cache_miss_tokens": 138
+          },
+          "latency_ms": 1469,
+          "status": "completed"
+        },
+        {
+          "stage": "draft",
+          "provider": "DeepSeek",
+          "response_model": "deepseek-flash",
+          "request_id": "8cf78b5f-03ac-43f5-b7e5-b148e16a62e4",
+          "usage": {
+            "prompt_tokens": 16328,
+            "completion_tokens": 1022,
+            "total_tokens": 17350,
+            "prompt_tokens_details": {
+              "cached_tokens": 512
+            },
+            "prompt_cache_hit_tokens": 512,
+            "prompt_cache_miss_tokens": 15816
+          },
+          "latency_ms": 4078,
+          "status": "completed"
+        },
+        {
+          "stage": "verify",
+          "provider": "DeepSeek",
+          "response_model": "deepseek-flash",
+          "request_id": "ae11611d-aa7f-4284-931c-5cecf48a82e4",
+          "usage": {
+            "prompt_tokens": 16836,
+            "completion_tokens": 279,
+            "total_tokens": 17115,
+            "prompt_tokens_details": {
+              "cached_tokens": 128
+            },
+            "prompt_cache_hit_tokens": 128,
+            "prompt_cache_miss_tokens": 16708
+          },
+          "latency_ms": 1953,
+          "status": "completed"
+        }
+      ],
+      "model_attempts_recorded": 3,
+      "completed_provider_receipts": 3,
+      "known_total_tokens": 36601,
+      "usage_complete_for_recorded_attempts": true,
+      "verification_as_reported": {
+        "accepted_claims": 6,
+        "rejected_claims": 1,
+        "total_claims": 7,
+        "rejected": [
+          {
+            "id": "C04",
+            "reasons": [
+              "numeric_prose_requires_calculator"
+            ]
+          }
+        ],
+        "method": "exact quotes + known references + cutoff + deterministic numeric kernel + separate model entailment review"
+      },
+      "gaps": [
+        {
+          "code": "CLAIMS_WITHHELD",
+          "message": "1 条候选观点或分析批次未通过验证，已从交付正文移除。"
+        }
+      ],
+      "notes": [
+        "Explicit retry following the partial failure is retained alongside the failed first attempt; not a new independent accuracy sample."
+      ],
+      "offline_checks": {
+        "passed": 39,
+        "failed": 0,
+        "quotes_checked": 8,
+        "quotes_literal_substring": 8,
+        "method": "Independent standard-library date, hash, reference and Decimal arithmetic checks on saved reports; no product calculator imports and no network/provider calls.",
+        "items": [
+          {
+            "kind": "document_time",
+            "subject": "DOC_1",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_1",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_2",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_2",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_3",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_3",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_4",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_4",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "NVDA-de36b502603eb07e",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "NVDA-de36b502603eb07e",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "NVDA-8841b3e1b75562ab",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "NVDA-8841b3e1b75562ab",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "NVDA-41445eed9ed4eb4b",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "NVDA-41445eed9ed4eb4b",
+            "passed": true
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F01",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F01",
+            "passed": true,
+            "detail": {
+              "expected_value": "60.38",
+              "expected_unit": "%",
+              "metric_id": "operating_margin"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F02",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F02",
+            "passed": true,
+            "detail": {
+              "expected_value": "8.57",
+              "expected_unit": "%",
+              "metric_id": "rd_ratio"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F03",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F03",
+            "passed": true,
+            "detail": {
+              "expected_value": "215938000000",
+              "expected_unit": "USD",
+              "metric_id": "revenue"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F04",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F04",
+            "passed": true,
+            "detail": {
+              "expected_value": "130387000000",
+              "expected_unit": "USD",
+              "metric_id": "operating_income"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F05",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F05",
+            "passed": true,
+            "detail": {
+              "expected_value": "18497000000",
+              "expected_unit": "USD",
+              "metric_id": "research_and_development"
+            }
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C01",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C01.quote1",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C02",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C02.quote1",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C03",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C03.quote1",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C05",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C05.quote1",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C06",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C06.quote1",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C06.quote2",
+            "passed": true
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C07",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C07.quote1",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C07.quote2",
+            "passed": true
+          },
+          {
+            "kind": "delivered_count_matches",
+            "subject": "report",
+            "passed": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "render-live-first-report",
+      "phase": "first_public_backend",
+      "report_path": "docs/verification/live-research-runs/render-live-first-report.json",
+      "report_sha256": "65ce4feacd506e71b74b9682fc93318c6042eb4a60cdf5c05833bfe8c2a1f3b5",
+      "report_bytes": 74428,
+      "unchanged_bytes_from_recorded_run": true,
+      "generated_at": "2026-09-26T06:16:05+00:00",
+      "request_as_recorded_in_report": {
+        "question": "检索微软最新官方年度财报，核验收入与经营现金流，列出来源日期和仍需核验的问题。",
+        "ticker": "MSFT",
+        "as_of": "2026-09-26",
+        "data_mode": "live"
+      },
+      "plan": {
+        "fiscal_year": null,
+        "forms": [
+          "10-K",
+          "10-Q",
+          "8-K"
+        ],
+        "metric_ids": [
+          "revenue",
+          "operating_cash_flow"
+        ],
+        "objective": "检索 Microsoft 在 2026-09-26 前可得的披露，回答所提问题并核验计算清单。",
+        "queries": [
+          "revenue",
+          "NetCashProvidedByUsedInOperatingActivities",
+          "annual report"
+        ],
+        "research_questions": [
+          "微软最新年度10-K披露的营业收入与经营活动现金流净额分别是多少？",
+          "该年度财报的披露日期与所覆盖的财年区间是什么？",
+          "在收入确认口径与经营现金流构成上，还有哪些项目需要进一步核验？"
+        ]
+      },
+      "searches": [
+        {
+          "provider": "sec_submissions",
+          "query": "MSFT 10-K/10-K/A/10-Q/10-Q/A/8-K/8-K/A before 2026-09-26",
+          "result_count": 81,
+          "status": "ok"
+        },
+        {
+          "provider": "sec_efts",
+          "query": "revenue",
+          "result_count": 20,
+          "status": "ok"
+        },
+        {
+          "provider": "sec_efts",
+          "query": "NetCashProvidedByUsedInOperatingActivities",
+          "result_count": 0,
+          "status": "ok"
+        },
+        {
+          "provider": "sec_efts",
+          "query": "annual report",
+          "result_count": 20,
+          "status": "ok"
+        }
+      ],
+      "sources": [
+        {
+          "id": "DOC_1",
+          "title": "Microsoft 10-Q · 2026-04-29",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191507/msft-20260331.htm",
+          "source_type": "sec_filing",
+          "accession": "0001193125-26-191507",
+          "published_at": "2026-04-29",
+          "available_from": "2026-04-30",
+          "retrieved_at": "2026-09-26T06:15:57+00:00",
+          "sha256": "49baf20163b1c3730e8014ca1e0a315f1a7663c03d8cbc4587e81f3002f8761e",
+          "text_sha256": "a7911d53588be70e5d675849b111e6ee0afa0561b38a74e4aca5974582fed616",
+          "text_truncated": true,
+          "original_text_chars": 242390,
+          "bytes_fetched": 7732054
+        },
+        {
+          "id": "DOC_2",
+          "title": "Microsoft EX-99.1 · 2026-09-02",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526380280/d291965dex991.htm",
+          "source_type": "sec_filing",
+          "accession": "0001193125-26-380280",
+          "published_at": "2026-09-02",
+          "available_from": "2026-09-03",
+          "retrieved_at": "2026-09-26T06:15:57+00:00",
+          "sha256": "47a0a4a1d6a335fffab571789aba597eca0637d2650f0f62371afa10e205b987",
+          "text_sha256": "f808fe4261efc4eb6985380986eeebeb9f9c0cd206da9d891ff5a19c776ed447",
+          "text_truncated": true,
+          "original_text_chars": 24954,
+          "bytes_fetched": 34288
+        },
+        {
+          "id": "DOC_3",
+          "title": "Microsoft EX-99.1 · 2026-07-29",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323632/msft-ex99_1.htm",
+          "source_type": "sec_filing",
+          "accession": "0001193125-26-323632",
+          "published_at": "2026-07-29",
+          "available_from": "2026-07-30",
+          "retrieved_at": "2026-09-26T06:15:58+00:00",
+          "sha256": "de6758dd524a46f73c8f65c46686455a5ec563477f62cfb07fa56c14d4af6009",
+          "text_sha256": "0098e63d956c84c548ddb38a80a67b674b543ee7410ce04c2fc666143ccff49b",
+          "text_truncated": true,
+          "original_text_chars": 27611,
+          "bytes_fetched": 901706
+        },
+        {
+          "id": "DOC_4",
+          "title": "Microsoft EX-99.1 · 2026-04-29",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191457/msft-ex99_1.htm",
+          "source_type": "sec_filing",
+          "accession": "0001193125-26-191457",
+          "published_at": "2026-04-29",
+          "available_from": "2026-04-30",
+          "retrieved_at": "2026-09-26T06:15:59+00:00",
+          "sha256": "20d6c2d4b5db3ec4c2fda6ef0c61894aafe3c1ad9fb914b4cde17bdf2f6153fb",
+          "text_sha256": "19817ff8380d30316fc0529a733f3a1550acc68071366278d957ba20530bb850",
+          "text_truncated": true,
+          "original_text_chars": 23865,
+          "bytes_fetched": 835713
+        }
+      ],
+      "financial_answers": [
+        {
+          "id": "F01",
+          "metric_id": "revenue",
+          "fiscal_year": 2026,
+          "period_start": "2025-07-01",
+          "period_end": "2026-06-30",
+          "value": "331839000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-e0eb2e95aeeaf2a2"
+          ]
+        },
+        {
+          "id": "F02",
+          "metric_id": "operating_cash_flow",
+          "fiscal_year": 2026,
+          "period_start": "2025-07-01",
+          "period_end": "2026-06-30",
+          "value": "182935000000",
+          "unit": "USD",
+          "status": "available",
+          "evidence_ids": [
+            "MSFT-797c930bd7fe9581"
+          ]
+        }
+      ],
+      "companyfacts_receipts": [
+        {
+          "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+          "retrieved_at": "2026-09-26T06:15:50+00:00",
+          "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+          "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f"
+        }
+      ],
+      "model_receipts": [
+        {
+          "latency_ms": 1406,
+          "provider": "DeepSeek",
+          "request_id": "d84d4df9-91fe-4630-a8de-1cba04829b93",
+          "response_model": "deepseek-flash",
+          "stage": "plan",
+          "status": "completed",
+          "usage": {
+            "completion_tokens": 153,
+            "prompt_cache_hit_tokens": 256,
+            "prompt_cache_miss_tokens": 1675,
+            "prompt_tokens": 1931,
+            "prompt_tokens_details": {
+              "cached_tokens": 256
+            },
+            "total_tokens": 2084
+          }
+        },
+        {
+          "latency_ms": 4477,
+          "provider": "DeepSeek",
+          "request_id": "9aeb88da-3900-4cce-9202-09457f4ccf24",
+          "response_model": "deepseek-flash",
+          "stage": "draft",
+          "status": "completed",
+          "usage": {
+            "completion_tokens": 1262,
+            "prompt_cache_hit_tokens": 384,
+            "prompt_cache_miss_tokens": 13480,
+            "prompt_tokens": 13864,
+            "prompt_tokens_details": {
+              "cached_tokens": 384
+            },
+            "total_tokens": 15126
+          }
+        },
+        {
+          "latency_ms": 1006,
+          "provider": "DeepSeek",
+          "request_id": "770ef917-4696-4994-b575-66c06f9a89fb",
+          "response_model": "deepseek-flash",
+          "stage": "verify",
+          "status": "completed",
+          "usage": {
+            "completion_tokens": 73,
+            "prompt_cache_hit_tokens": 128,
+            "prompt_cache_miss_tokens": 13564,
+            "prompt_tokens": 13692,
+            "prompt_tokens_details": {
+              "cached_tokens": 128
+            },
+            "total_tokens": 13765
+          }
+        }
+      ],
+      "model_attempts_recorded": 3,
+      "completed_provider_receipts": 3,
+      "known_total_tokens": 30975,
+      "usage_complete_for_recorded_attempts": true,
+      "verification_as_reported": {
+        "accepted_claims": 1,
+        "method": "exact quotes + known references + cutoff + deterministic numeric kernel + separate model entailment review",
+        "rejected": [
+          {
+            "id": "C01",
+            "reasons": [
+              "numeric_prose_requires_calculator"
+            ]
+          },
+          {
+            "id": "C02",
+            "reasons": [
+              "numeric_prose_requires_calculator"
+            ]
+          },
+          {
+            "id": "C03",
+            "reasons": [
+              "numeric_prose_requires_calculator"
+            ]
+          },
+          {
+            "id": "C04",
+            "reasons": [
+              "numeric_prose_requires_calculator"
+            ]
+          },
+          {
+            "id": "C06",
+            "reasons": [
+              "numeric_prose_requires_calculator"
+            ]
+          },
+          {
+            "id": "C07",
+            "reasons": [
+              "numeric_prose_requires_calculator"
+            ]
+          }
+        ],
+        "rejected_claims": 6,
+        "total_claims": 7
+      },
+      "gaps": [
+        {
+          "code": "SOURCE_SIZE_LIMIT",
+          "message": "材料超过 8 MB 读取上限。",
+          "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm"
+        },
+        {
+          "code": "CLAIMS_WITHHELD",
+          "message": "6 条候选观点或分析批次未通过验证，已从交付正文移除。"
+        }
+      ],
+      "notes": [
+        "First deployed backend acceptance report. Latest 10-K exceeded the then-current 8 MB bound; the gap is preserved. Six draft claims were withheld by the numeric prose gate, leaving one qualitative claim and two verified annual financial answers. The subsequent source limit is 20 MB; this report is not rewritten to imply it used the new limit."
+      ],
+      "offline_checks": {
+        "passed": 20,
+        "failed": 0,
+        "quotes_checked": 2,
+        "quotes_literal_substring": 2,
+        "method": "Independent standard-library date, hash, reference and Decimal arithmetic checks on saved reports; no product calculator imports and no network/provider calls.",
+        "items": [
+          {
+            "kind": "document_time",
+            "subject": "DOC_1",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_1",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_2",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_2",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_3",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_3",
+            "passed": true
+          },
+          {
+            "kind": "document_time",
+            "subject": "DOC_4",
+            "passed": true
+          },
+          {
+            "kind": "selected_text_hash",
+            "subject": "DOC_4",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "MSFT-e0eb2e95aeeaf2a2",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "MSFT-e0eb2e95aeeaf2a2",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_time_identity_period",
+            "subject": "MSFT-797c930bd7fe9581",
+            "passed": true
+          },
+          {
+            "kind": "raw_fact_hash",
+            "subject": "MSFT-797c930bd7fe9581",
+            "passed": true
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F01",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F01",
+            "passed": true,
+            "detail": {
+              "expected_value": "331839000000",
+              "expected_unit": "USD",
+              "metric_id": "revenue"
+            }
+          },
+          {
+            "kind": "answer_period_and_accession",
+            "subject": "F02",
+            "passed": true
+          },
+          {
+            "kind": "independent_decimal_recompute",
+            "subject": "F02",
+            "passed": true,
+            "detail": {
+              "expected_value": "182935000000",
+              "expected_unit": "USD",
+              "metric_id": "operating_cash_flow"
+            }
+          },
+          {
+            "kind": "claim_references",
+            "subject": "C05",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C05.quote1",
+            "passed": true
+          },
+          {
+            "kind": "quote_whitespace_normalized_substring",
+            "subject": "C05.quote2",
+            "passed": true
+          },
+          {
+            "kind": "delivered_count_matches",
+            "subject": "report",
+            "passed": true
+          }
+        ]
+      }
+    }
+  ]
+}

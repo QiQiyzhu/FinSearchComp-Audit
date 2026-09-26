@@ -17,7 +17,14 @@ services:
     dockerfilePath: ./Dockerfile
     dockerContext: .
     healthCheckPath: /api/health
-    maxShutdownDelaySeconds: 150
+    buildFilter:
+      paths:
+        - research_workbench/**
+        - site/terminal/**
+        - site/workbench/**
+        - requirements-workbench.txt
+        - Dockerfile
+        - render.yaml
     envVars:
       - key: PORT
         value: "8090"

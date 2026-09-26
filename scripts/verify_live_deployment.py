@@ -81,8 +81,10 @@ def verify(args: argparse.Namespace) -> dict:
                 receipt["source_count"] = len(result.get("sources", []))
                 receipt["claim_count"] = len(result.get("claims", []))
                 receipt["model_receipt_count"] = len(result.get("model_receipts", []))
+                receipt["model_stages_completed"] = sorted({row.get("stage") for row in result.get("model_receipts", []) if row.get("status") == "completed" and row.get("stage")})
                 receipt["checks"]["sources_present"] = receipt["source_count"] > 0
-                receipt["checks"]["model_receipts_present"] = receipt["model_receipt_count"] > 0
+                receipt["checks"]["model_chain_completed"] = {"plan", "draft", "verify"}.issubset(receipt["model_stages_completed"])
+                receipt["checks"]["verified_claim_present"] = any(claim.get("verification", {}).get("structural") is True and claim.get("verification", {}).get("entailment") == "supported" for claim in result.get("claims", []))
                 receipt["report_sha256"] = hashlib.sha256(json.dumps(result, ensure_ascii=False, sort_keys=True).encode()).hexdigest()
                 events = client.get(f"/api/research/{identifier}/events", headers=headers)
                 events.raise_for_status()

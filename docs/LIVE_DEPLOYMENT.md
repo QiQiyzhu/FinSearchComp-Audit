@@ -2,6 +2,14 @@
 
 GitHub Pages 保留公开研究工作台。联网研究需要独立 HTTPS Python 服务：服务端持有 DeepSeek 密钥，接受问题后返回任务编号，再由网页轮询进度与报告。静态网页不会内嵌模型密钥。
 
+## 本项目已部署服务
+
+- [公开 HTTPS 研究终端](https://finagent-live-research.onrender.com/terminal/)
+- [服务健康检查](https://finagent-live-research.onrender.com/api/health)
+- API 地址：`https://finagent-live-research.onrender.com`
+
+2026-09-26 已创建免费 Web 与免费 Key Value，并完成公网匿名任务验证：实时读取 SEC 原文、调用 DeepSeek 规划／起草／复核、核验年度财务数字、查询执行轨迹并导出 Markdown 和 JSON。GitHub Pages 通过受限 CORS 接入；访客无需填写模型密钥。服务有冷启动与公开额度限制，详见下文。
+
 ## 免费演示服务：Render Blueprint
 
 [使用本仓库在 Render 部署](https://render.com/deploy?repo=https://github.com/QiQiyzhu/FinSearchComp-Audit)。根目录 `render.yaml` 明确使用 **free** Web 方案、**free** Key Value 预算存储、单个应用容器和 `/api/health` 健康检查；不会创建付费数据库或磁盘。需要先登录自己的 Render 账户。密钥仅在 Render 的环境变量设置中填写。
@@ -19,7 +27,7 @@ Render Free 会在闲置约 15 分钟后休眠，重新访问需要冷启动；�
 
 一键公开演示必须同时满足：有独立后端、服务端已配置模型/数据访问、前端连接到该后端、真实任务与导出均通过验证。
 
-当前 Blueprint 已将 `FINAGENT_API_TOKEN` 留空并设 `FINAGENT_PUBLIC_LIVE=true`。独立预算服务的默认全局限额为 12 次发行人分析/过去 24 小时、3 次/过去一小时，同时只执行一项研究、等待队列最多一项；这是次数限制，不是人民币账单上限。SQLite 仍会检查单来源限额；反向代理后可能共享同一来源。
+当前 Blueprint 已将 `FINAGENT_API_TOKEN` 留空并设 `FINAGENT_PUBLIC_LIVE=true`。独立预算服务的默认全局限额为 12 次发行人分析/过去 24 小时、3 次/过去一小时，同时最多接纳一项未完成任务；这是次数限制，不是人民币账单上限。SQLite 仍会检查单来源限额；反向代理后可能共享同一来源。
 
 Blueprint 将预算放在同区域的独立 Key Value 服务，Web 休眠、重启后仍可使用原计数。它仅接受 Render 私网访问，内存满时不逐出预算键。**免费 Key Value 本身重启仍可能丢失数据，因此不能据此保证不可重置的长期金额预算。** 更严格的预算需要自己的 VPS + 持久 Docker 卷，或部署者另行选择支持持久存储的方案。仓库不会自动升级实例。[Key Value 存储说明](https://render.com/docs/key-value)
 
@@ -63,7 +71,7 @@ python scripts/verify_live_deployment.py --base-url https://YOUR-ASSIGNED-SERVIC
 
 ## 托管选择记录
 
-2026-09-26 检查的本机 OpsPilot / RepoPilot 项目已有 DeepSeek 配置与本地容器方案，但未发现已授权的公网应用托管凭据，因此不能据此推定已有线上服务。本部署文件是可复用交付，实际服务地址与上线回执必须在账号接入后产生。
+2026-09-26 检查的本机 OpsPilot / RepoPilot 项目已有 DeepSeek 配置与本地容器方案，没有可直接复用的公网应用服务。随后通过部署者在 Render 官方页面授权 CLI，新建了上述两项免费资源；模型密钥通过服务端环境变量传入，不在网页或 Git 仓库中。
 
 Hugging Face 当前文档注明：新建运行计算的 Gradio / Docker Space 要求付费计划，即便 CPU Basic 的小时价格为零。因此这里没有把它列成无需条件的免费替代方案。[Hugging Face Spaces 资源说明](https://huggingface.co/docs/hub/spaces-overview)
 

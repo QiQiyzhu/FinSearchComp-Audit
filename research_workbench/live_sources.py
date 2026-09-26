@@ -25,7 +25,7 @@ import httpx
 from .config import Settings
 from .sources import COMPANIES, ResearchError, Source, digest, now, sec_url
 
-MAX_BYTES = 8_000_000
+MAX_BYTES = 20_000_000
 MAX_TEXT = 18_000
 MAX_REQUESTS = 22
 MAX_SECONDS = 120
@@ -273,14 +273,14 @@ class LiveSourceClient:
                                 raise ResearchError("SOURCE_HTTP", f"官方材料读取失败（HTTP {response.status_code}）。")
                             declared_size = response.headers.get("content-length", "")
                             if declared_size.isdigit() and int(declared_size) > MAX_BYTES:
-                                raise ResearchError("SOURCE_SIZE_LIMIT", "材料超过 8 MB 读取上限。")
+                                raise ResearchError("SOURCE_SIZE_LIMIT", "材料超过 20 MB 读取上限。")
                             raw = bytearray()
                             for chunk in response.iter_bytes():
                                 if time.monotonic() - self.started_at > MAX_SECONDS:
                                     raise ResearchError("SOURCE_TIME_BUDGET", "本次联网材料读取达到两分钟时间上限。")
                                 raw.extend(chunk)
                                 if len(raw) > MAX_BYTES:
-                                    raise ResearchError("SOURCE_SIZE_LIMIT", "材料超过 8 MB 读取上限。")
+                                    raise ResearchError("SOURCE_SIZE_LIMIT", "材料超过 20 MB 读取上限。")
                             return bytes(raw), response.headers.get("content-type", "text/html"), str(response.url)
                 except httpx.HTTPError as exc:
                     if attempt == 0:

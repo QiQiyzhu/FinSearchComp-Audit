@@ -1,0 +1,1015 @@
+{
+  "report_type": "live_research",
+  "version": "3.1.0",
+  "title": "MSFT · 联网研究",
+  "question": "微软最新可得年度的云需求和AI投入如何？核验营业利润率、经营现金流、PP&E资本支出及自由现金流，并说明仍需要验证的风险。",
+  "ticker": "MSFT",
+  "company": "Microsoft",
+  "as_of": "2026-09-26",
+  "generated_at": "2026-09-26T06:07:05+00:00",
+  "plan": {
+    "objective": "核验微软（MSFT）最新可得年度（FY2025）的云需求与AI投入强度，并验证其营业利润率、经营现金流、PP&E资本支出与自由现金流表现，同时识别仍需进一步验证的风险。",
+    "research_questions": [
+      "微软最新年度的云需求（Azure及智能云）与AI相关投入在收入、研发和资本支出上如何体现？",
+      "该年度的营业利润率、经营现金流、PP&E资本支出与自由现金流的具体数值与同比变化如何？",
+      "在云与AI高投入背景下，哪些风险（如资本支出回报、利润率压力、现金流可持续性）仍需进一步验证？"
+    ],
+    "queries": [
+      "Azure OR cloud OR AI infrastructure",
+      "capital expenditures OR property plant equipment",
+      "operating income OR cash flow"
+    ],
+    "metric_ids": [
+      "revenue",
+      "operating_income",
+      "operating_margin",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "free_cash_flow",
+      "research_and_development",
+      "capex_ratio"
+    ],
+    "fiscal_year": null,
+    "forms": [
+      "10-K",
+      "10-Q",
+      "8-K"
+    ]
+  },
+  "answer": "微软披露其云与AI相关需求强劲，Azure及其他云服务收入在最新季度实现增长，且微软云收入同比上升。\n\n微软将AI基础设施与训练列为持续资本投入方向，并说明资本支出将继续用于支持云业务增长。\n\n微软提示，为建设和维护支持云与AI服务的基础设施而产生显著成本，并会降低营业利润率。\n\n微软表示，现有现金、现金等价物、短期投资、经营现金流及资本市场准入预计足以支持未来至少十二个月及可预见未来的经营活动和投资、融资承诺。\n\n微软提示，云与AI战略依赖客户需求、技术发展、竞争动态和监管条件，且存在无法开发或扩展足够基础设施的风险。\n\n若AI基础设施投入持续超过云与AI服务收入增长，则微软云毛利率和营业利润率可能继续承压；该判断取决于客户需求、技术发展和竞争动态等条件。",
+  "claims": [
+    {
+      "id": "C01",
+      "type": "observation",
+      "text": "微软披露其云与AI相关需求强劲，Azure及其他云服务收入在最新季度实现增长，且微软云收入同比上升。",
+      "evidence_ids": [
+        "DOC_3"
+      ],
+      "quotes": [
+        {
+          "source_id": "DOC_3",
+          "quote": "Azure and other cloud services revenue increased 43%"
+        },
+        {
+          "source_id": "DOC_3",
+          "quote": "Microsoft Cloud revenue was $59.3 billion and increased 27%, and commercial remaining performance obligation increased 84% to $678 billion."
+        }
+      ],
+      "verification": {
+        "structural": true,
+        "entailment": "supported",
+        "reason": "引文直接给出Azure及其他云服务收入增长43%、微软云收入59.3亿美元增长27%，与主张一致。"
+      }
+    },
+    {
+      "id": "C02",
+      "type": "observation",
+      "text": "微软将AI基础设施与训练列为持续资本投入方向，并说明资本支出将继续用于支持云业务增长。",
+      "evidence_ids": [
+        "DOC_1"
+      ],
+      "quotes": [
+        {
+          "source_id": "DOC_1",
+          "quote": "We will continue to invest in capital expenditures to support growth in our cloud offerings and our investments in AI infrastructure and training."
+        }
+      ],
+      "verification": {
+        "structural": true,
+        "entailment": "supported",
+        "reason": "引文明确表示将继续投资资本支出以支持云业务增长及AI基础设施与训练，主张有直接依据。"
+      }
+    },
+    {
+      "id": "C03",
+      "type": "observation",
+      "text": "微软提示，为建设和维护支持云与AI服务的基础设施而产生显著成本，并会降低营业利润率。",
+      "evidence_ids": [
+        "DOC_1"
+      ],
+      "quotes": [
+        {
+          "source_id": "DOC_1",
+          "quote": "We are incurring significant costs to build and maintain infrastructure to support cloud-based and AI services, reducing operating margins."
+        }
+      ],
+      "verification": {
+        "structural": true,
+        "entailment": "supported",
+        "reason": "引文直接说明为支持云与AI服务基础设施产生显著成本并降低营业利润率。"
+      }
+    },
+    {
+      "id": "C05",
+      "type": "observation",
+      "text": "微软表示，现有现金、现金等价物、短期投资、经营现金流及资本市场准入预计足以支持未来至少十二个月及可预见未来的经营活动和投资、融资承诺。",
+      "evidence_ids": [
+        "DOC_1"
+      ],
+      "quotes": [
+        {
+          "source_id": "DOC_1",
+          "quote": "We expect existing cash, cash equivalents, short-term investments, cash flows from operations, and access to capital markets to continue to be sufficient to fund our operating activities and cash commitments for investing and financing activities, such as dividends, share repurchases, debt maturities, and material capital expenditures, for at least the next 12 months and thereafter for the foreseeable future."
+        }
+      ],
+      "verification": {
+        "structural": true,
+        "entailment": "supported",
+        "reason": "引文完整表述现有现金、短期投资、经营现金流及资本市场准入足以支持至少未来12个月及可预见未来，主张忠实转述。"
+      }
+    },
+    {
+      "id": "C06",
+      "type": "observation",
+      "text": "微软提示，云与AI战略依赖客户需求、技术发展、竞争动态和监管条件，且存在无法开发或扩展足够基础设施的风险。",
+      "evidence_ids": [
+        "DOC_3"
+      ],
+      "quotes": [
+        {
+          "source_id": "DOC_3",
+          "quote": "substantial investments in cloud and AI strategy that depend on customer demand, technological developments, competitive dynamics, and regulatory condition;"
+        },
+        {
+          "source_id": "DOC_3",
+          "quote": "inability to develop and expand adequate infrastructure;"
+        }
+      ],
+      "verification": {
+        "structural": true,
+        "entailment": "supported",
+        "reason": "引文分别提到云与AI战略依赖客户需求、技术发展、竞争动态和监管条件，以及无法开发和扩展足够基础设施的风险。"
+      }
+    },
+    {
+      "id": "C07",
+      "type": "interpretation",
+      "text": "若AI基础设施投入持续超过云与AI服务收入增长，则微软云毛利率和营业利润率可能继续承压；该判断取决于客户需求、技术发展和竞争动态等条件。",
+      "evidence_ids": [
+        "DOC_1",
+        "DOC_3"
+      ],
+      "quotes": [
+        {
+          "source_id": "DOC_1",
+          "quote": "We are incurring significant costs to build and maintain infrastructure to support cloud-based and AI services, reducing operating margins."
+        },
+        {
+          "source_id": "DOC_3",
+          "quote": "substantial investments in cloud and AI strategy that depend on customer demand, technological developments, competitive dynamics, and regulatory condition;"
+        }
+      ],
+      "verification": {
+        "structural": true,
+        "entailment": "supported",
+        "reason": "该判断为条件性表述，明确以投入持续超过收入增长为前提，并限定取决于客户需求、技术发展和竞争动态，与两条引文逻辑一致。"
+      }
+    }
+  ],
+  "sources": [
+    {
+      "title": "Microsoft 10-Q · 2026-04-29",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191507/msft-20260331.htm",
+      "published_at": "2026-04-29",
+      "available_from": "2026-04-30",
+      "source_type": "sec_filing",
+      "accession": "0001193125-26-191507",
+      "form": "10-Q",
+      "discovered_by": "sec_submissions",
+      "id": "DOC_1",
+      "retrieved_at": "2026-09-26T06:06:59+00:00",
+      "sha256": "49baf20163b1c3730e8014ca1e0a315f1a7663c03d8cbc4587e81f3002f8761e",
+      "text_sha256": "5039a26e88465cc86fb5d6cbf3451e7e92b1c0e276092a3d42bf87334855c1d7",
+      "text": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\n[... omitted source paragraphs ...]\nWe have recast certain prior period amounts on our consolidated cash flows statements to conform to the current period presentation. The recast of these prior period amounts had no impact on our consolidated balance sheets, consolidated income statements, or net cash from (used in) operations, investing, or financing on our consolidated cash flows statements.\n[... omitted source paragraphs ...]\nWe have a long-term strategic partnership with OpenAI. In October 2025, we signed a new definitive agreement with OpenAI that extends this partnership. Additionally, OpenAI formed a public benefit corporation and completed a recapitalization (“OpenAI Recapitalization”). We have an investment of approximately 27 percent of OpenAI on an as-converted basis accounted for under the equity method of accounting. As a result of the OpenAI Recapitalization, we had a decrease in our proportionate ownership of OpenAI and recorded a dilution gain in other income (expense), net. Refer to Note 3 – Other Income (Expense), Net for additional information. We calculate our equity method income or loss using the hypothetical liquidation at book value (“HLBV”) method because our liquidation rights and priorities differ from our underlying ownership interest. Under the HLBV method, we recognize income or loss based on the change in the amount we would receive if the net assets of the investee were distributed at book value. We have made total funding commitments of $13 billion, of which $11.8 billion has been funded as of March 31, 2026.\n[... omitted source paragraphs ...]\nFor derivative instruments designated as cash flow hedges, gains and losses are initially reported as a component of other comprehensive income and subsequently recognized in other income (expense), net with the corresponding hedged item. Gains and losses representing hedge components excluded from the assessment of effectiveness are recognized in other income (expense), net.\n[... omitted source paragraphs ...]\nOperating cash flows from operating leases\n[... omitted source paragraphs ...]\nOperating cash flows from finance leases\n[... omitted source paragraphs ...]\nIn its operation of the business, management, including our chief operating decision maker (“CODM”), who is also our Chief Executive Officer, reviews certain financial information, including segmented internal profit and loss statements. The primary profitability measure used by the CODM to review segment operating results is operating income. The CODM uses operating income to allocate resources during our annual planning process and throughout the year, as well as to assess the performance of our segments, primarily by monitoring actual results compared to prior periods and expected results. During the periods presented, we reported our financial performance based on the following segments: Productivity and Business Processes, Intelligent Cloud, and More Personal Computing.\n[... omitted source paragraphs ...]\nServer products and cloud services, including Azure and other cloud services, comprising cloud and AI consumption-based services, GitHub cloud services, Nuance Healthcare cloud services, virtual desktop offerings, and other cloud services; and Server products, comprising SQL Server, Windows Server, Visual Studio, System Center, related Client Access Licenses, and other on-premises offerings.\n[... omitted source paragraphs ...]\nOur Microsoft Cloud revenue, which includes Microsoft 365 Commercial cloud, Azure and other cloud services, the commercial portion of LinkedIn, and Dynamics 365, was $54.5 billion and $155.1 billion for the three and nine months ended March 31, 2026, respectively, and $42.4 billion and $122.2 billion for the three and nine months ended March 31, 2025, respectively. These amounts are included in Server products and cloud services, Microsoft 365 Commercial products and cloud services, LinkedIn, and Dynamics products and cloud services in the table above.\n[... omitted source paragraphs ...]\nWe have reviewed the accompanying consolidated balance sheet of Microsoft Corporation and subsidiaries (the \"Company\") as of March 31, 2026, the related consolidated statements of income, comprehensive income, cash flows, and stockholders’ equity for the three-month and nine-month periods ended March 31, 2026 and 2025, and the related notes (collectively referred to as the “interim financial information”). Based on our reviews, we are not aware of any material modifications that should be made to the accompanying interim financial information for it to be in conformity with accounting principles generally accepted in the United States of America.\nWe have previously audited, in accordance with the standards of the Public Company Accounting Oversight Board (United States) (PCAOB), the consolidated balance sheet of the Company as of June 30, 2025, and the related consolidated statements of income, comprehensive income, cash flows, and stockholders’ equity for the year then ended (not presented herein); and in our report dated July 30, 2025, we expressed an unqualified opinion on those consolidated financial statements. In our opinion, the information set forth in the accompanying consolidated balance sheet as of June 30, 2025, is fairly stated, in all material respects, in relation to the consolidated balance sheet from which it has been derived.\n[... omitted source paragraphs ...]\nThe markets for software, devices, and cloud-based services are dynamic and highly competitive. Our competitors are developing new software and devices, while also deploying competing cloud-based services for consumers and businesses. The devices and form factors customers prefer evolve rapidly, influencing how users access services in the cloud and, in some cases, the user’s choice of which suite of cloud-based services to use. Aggregate demand for our software, services, and devices is also correlated to global macroeconomic and geopolitical factors, which remain dynamic. We must continue to evolve and adapt over an extended time in pace with this changing environment.\n[... omitted source paragraphs ...]\nRevenue from Azure and other cloud services, including cloud and AI consumption-based services, GitHub cloud services, Nuance Healthcare cloud services, virtual desktop offerings, and other cloud services\n[... omitted source paragraphs ...]\nMicrosoft Cloud gross margin percentage decreased to 66% driven by continued investments in AI infrastructure and growing AI product usage, offset in part by efficiency gains in Azure and Microsoft 365 Commercial cloud.\n[... omitted source paragraphs ...]\nServer products and cloud services revenue increased $7.8 billion or 32% driven by Azure and other cloud services. Azure and other cloud services revenue grew 40% driven by demand for services across the platform with continued growth across all workloads. Server products revenue increased slightly, primarily driven by higher purchases of licenses running in multi-cloud environments, offset in part by renewals with lower in-period revenue recognition from the mix of contracts and continued customer shift to cloud.\n[... omitted source paragraphs ...]\nServer products and cloud services revenue increased $21.8 billion or 31% driven by Azure and other cloud services. Azure and other cloud services revenue grew 40% driven by demand for services across the platform with continued growth across all workloads. Server products revenue increased 1% primarily driven by higher purchases of licenses running in multi-cloud environments.\n[... omitted source paragraphs ...]\nWe expect existing cash, cash equivalents, short-term investments, cash flows from operations, and access to capital markets to continue to be sufficient to fund our operating activities and cash commitments for investing and financing activities, such as dividends, share repurchases, debt maturities, and material capital expenditures, for at least the next 12 months and thereafter for the foreseeable future.\n[... omitted source paragraphs ...]\nCash, cash equivalents, and short-term investments totaled $78.3 billion and $94.6 billion as of March 31, 2026 and June 30, 2025, respectively. Equity and other investments were $33.7 billion and $15.4 billion as of March 31, 2026 and June 30, 2025, respectively. Our short-term investments are primarily intended to facilitate liquidity and capital preservation. They consist predominantly of highly liquid investment-grade fixed-income securities, diversified among industries and individual issuers. The investments are predominantly U.S. dollar-denominated securities, but also include foreign currency-denominated securities to diversify risk. Our fixed-income investments are exposed to interest rate risk and credit risk. The credit risk and average maturity of our fixed-income portfolio are managed to achieve economic returns that correlate to certain fixed-income indices. The settlement risk related to these investments is insignificant given that the short-term investments held are primarily highly liquid investment-grade fixed-income securities.\n[... omitted source paragraphs ...]\nCash from operations increased $34.0 billion to $127.5 billion for the nine months ended March 31, 2026, primarily due to an increase in cash received from customers and a decrease in cash used to pay income taxes, offset in part by an increase in cash paid to suppliers. Cash used in financing decreased $88 million to $40.8 billion for the nine months ended March 31, 2026, primarily due to a $6.0 billion decrease in cash used for repayments of debt, offset in part by a $3.8 billion increase in common stock repurchases and a $1.8 billion increase in dividends paid. Cash used in investing increased $42.6 billion to $84.7 billion for the nine months ended March 31, 2026, primarily due to a $32.7 billion increase in additions to property and equipment, a $9.1 billion increase in other investing primarily to facilitate the purchase of components, and a $3.8 billion decrease in cash from net investment purchases, sales, and maturities.\n[... omitted source paragraphs ...]\nWe will continue to invest in sales, marketing, product support infrastructure, and existing and advanced areas of technology, as well as acquisitions that align with our business strategy. Additions to property and equipment will continue, including new facilities, datacenters, and computer systems for research and development, sales and marketing, support, and administrative staff. We will continue to invest in capital expenditures to support growth in our cloud offerings and our investments in AI infrastructure and training. We have operating and finance leases for datacenters, corporate offices, research and development facilities, and certain equipment. We have not engaged in any related party transactions or arrangements with unconsolidated entities or other persons that are reasonably likely to materially affect liquidity or the availability of capital resources.\n[... omitted source paragraphs ...]\nOur contracts with customers often include promises to transfer multiple products and services to a customer. Determining whether products and services are considered distinct performance obligations that should be accounted for separately versus together may require significant judgment. When a cloud-based service includes both on-premises software licenses and cloud services, judgment is required to determine whether the software license is considered distinct and accounted for separately, or not distinct and accounted for together with the cloud service and recognized over time. Certain cloud services, primarily Office 365, depend on a significant level of integration, interdependency, and interrelation between the desktop applications and cloud services, and are accounted for together as one performance obligation. Revenue from Office 365 is recognized ratably over the period in which the cloud services are provided.\n[... omitted source paragraphs ...]\nApplication of the goodwill impairment test requires judgment, including the identification of reporting units, assignment of assets and liabilities to reporting units, assignment of goodwill to reporting units, and determination of the fair value of each reporting unit. The fair value of each reporting unit is estimated primarily through the use of a discounted cash flow methodology. This analysis requires significant judgments, including estimation of future cash flows, which is dependent on internal forecasts, estimation of the long-term rate of growth for our business, estimation of the useful life over which cash flows will occur, and determination of our weighted average cost of capital.\n[... omitted source paragraphs ...]\nOur focus on cloud-based and AI services presents execution and competitive risks. We are incurring significant costs to build and maintain infrastructure to support cloud-based and AI services, reducing operating margins. Whether we succeed in cloud-based and AI services depends on our execution in several areas, including:\n[... omitted source paragraphs ...]\nThe security of our products and services is important in our customers’ decisions to purchase or use our products or services across cloud and on-premises environments. Security threats are a significant challenge to companies like us, whose business is providing technology products and services to others. Threats to or attacks on our own infrastructure, such as the nation-state attack described in the prior risk factor, have also affected our customers and may do so in the future. The reliability of our cloud-based services and the protection of customer data depend on the security of our infrastructure, which includes hardware, software, and other elements provided by third parties. Adversaries tend to focus their efforts on the most popular operating systems, programs, and services, including many of ours, as well as customers with sensitive data, and we expect that to continue. In addition, adversaries can attack our customers’ on-premises or cloud environments, sometimes exploiting previously unknown (“zero-day”) vulnerabilities. Product vulnerabilities can persist even after we have issued security patches if customers have not installed the most recent updates, or if the attackers exploited the vulnerabilities before patching to install additional malware to further compromise customers’ systems. Adversaries will continue to attack customers using our cloud services as customers embrace digital transformation. Adversaries that acquire user account information can use that information to compromise our users’ accounts, including where accounts share the same attributes such as passwords. Inadequate account security practices may also result in unauthorized access, and user activity may result in ransomware or other malicious software impacting a customer’s use of our products or services. Weaknesses in our development processes can result in vulnerabilities in our products. Open-source software can also contain vulnerabilities that may make our products susceptible to cyberattacks as we increasingly incorporate open-source software into our products. Additionally, software, including features that rely on or were generated by AI can be susceptible to cyberattacks.\n[... omitted source paragraphs ...]\nWe may have excessive outages, data losses, and disruptions of our online services if we fail to maintain an adequate operations infrastructure. Our increasing user traffic, growth in services, and the complexity of our products and services demand more computing power. We spend substantial amounts to build, purchase, or lease datacenters and equipment and to upgrade our technology and network infrastructure to handle more traffic. Our datacenters depend on the availability of permitted and buildable land, predictable energy, networking supplies, and servers, including graphics processing units and other components. The cost or availability of these dependencies could be adversely affected by a variety of factors, including the transition to a clean energy economy, local and regional environmental regulations, and geopolitical disruptions. These demands continue to increase as we introduce new products and services and support the growth and the augmentation of existing services, and scale further the incorporation of AI features and/or functionality. We are rapidly growing our business of providing a platform and back-end hosting for services provided by third parties to their end users. Maintaining, securing, and expanding this infrastructure is expensive and complex, and requires development of principles for datacenter builds in geographies with higher safety and reliability risks. It requires that we maintain an Internet connectivity infrastructure and storage and compute capacity that is robust and reliable within competitive and regulatory constraints that continue to evolve. We also face community opposition, local moratoriums, and hyper-local dissent that may impede or delay infrastructure development. Inefficiencies or operational failures, including temporary or permanent loss of customer data, outages, insufficient Internet connectivity, insufficient or unavailable power or water supply, or inadequate storage and compute capacity could diminish the quality of our products, services, and user experience, resulting in contractual liability, claims by customers and other third parties, regulatory actions, damage to our reputation, and loss of current and potential users, subscribers, and advertisers, each of which could adversely affect our business, operations, financial condition, and results of operations.\n[... omitted source paragraphs ...]",
+      "snippet": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\n[... omitted source paragraphs ...]\nWe have recast certain prior period amounts on our consolidated cash flows statements to conform to the current period presentation. The recast of these prior period amounts had no impact on our consolidated balance sheets, consolidated income statements, or net cash from (used in) operations, investing, or financ",
+      "status": "read",
+      "text_truncated": true,
+      "original_text_chars": 242390,
+      "bytes_fetched": 7732054,
+      "date_policy": "published_date_plus_one_day",
+      "excerpt": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\n[... omitted source paragraphs ...]\nWe have recast certain prior period amounts on our consolidated cash flows statements to conform to the current period presentation. The recast of these prior period amounts had no impact on our consolidated balance sheets, consolidated income statements, or net cash from (used in) operations, investing, or financ"
+    },
+    {
+      "title": "Microsoft EX-99.1 · 2026-09-02",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526380280/d291965dex991.htm",
+      "published_at": "2026-09-02",
+      "available_from": "2026-09-03",
+      "source_type": "sec_filing",
+      "accession": "0001193125-26-380280",
+      "form": "8-K",
+      "discovered_by": "sec_efts",
+      "query": "Azure OR cloud OR AI infrastructure",
+      "id": "DOC_2",
+      "retrieved_at": "2026-09-26T06:06:59+00:00",
+      "sha256": "47a0a4a1d6a335fffab571789aba597eca0637d2650f0f62371afa10e205b987",
+      "text_sha256": "333fd6fcaa97e2f4410d4d70e5d790a97e9e37fbff96af1ac190c69afcf6ebbd",
+      "text": "EX-99.1\n2\nd291965dex991.htm\nEX-99.1\n[... omitted source paragraphs ...]\nproducts and reshaping our business models. To reflect this and provide increased transparency to investors, we are updating our financial reporting to mirror how the business is operating, how we allocate resources, and where we are headed.\nBeginning with FY27, we will transition from our current three reporting segments, Productivity and Business Processes, Intelligent Cloud, and More Personal Computing, to two segments: Agents and Infra and Devices and Consumer. Within each of these\nsegments, you will have full transparency of quarterly revenue across each of our key businesses, including Azure, M365 Cloud, Industry solutions, and ads. We will continue to focus on security, quality, and innovation in everything we do. We want\nevery organization to own its own continuous learning loop so it retains its core IP, and to ensure AI empowers every person, amplifying their agency and ambition. That is what we mean by a frontier ecosystem, ensuring value flows and accrues across\n[... omitted source paragraphs ...]\nAzure infrastructure. Under this reporting structure, Azure becomes more purely our consumption-based platform and infrastructure business. Microsoft 365 Cloud brings together our high-value apps and agents across knowledge work, code, and security\n[... omitted source paragraphs ...]\nthe entire trajectory of a “job to be done.” This expands our opportunity across every layer of the stack, from apps and agents that compress and complete tasks, workflows, and processes; to model systems that power agent reasoning and\nactions; to infrastructure that trains and serves those models and agent loops in the most efficient way. Our Devices and Consumer segment is where we bring ubiquitous intelligence to billions of people every day, with expansive TAMs across search\n[... omitted source paragraphs ...]\nAcross our tech stack, business models, and go-to-market, we are well positioned to generate high returns on invested capital because of the built-in diversification of our businesses, architectural coherence of our stack, and operational synergies.\n[... omitted source paragraphs ...]\nsegments for FY27. Agents and Infra will include the Microsoft Cloud, productivity and server licensing, and our consulting and support businesses. Devices and Consumer will include our Windows, XBOX, and advertising businesses. With these\n[... omitted source paragraphs ...]\nforward. Agents and Infra Azure has been updated to reflect the move of GitHub cloud and other developer cloud services as well as Security Copilot to Microsoft 365 cloud. Healthcare and Life Sciences cloud will move to the new Industry\nsolutions cloud metric. Microsoft 365 cloud now brings together our productivity, developer, and security app offerings across commercial and consumer including: Microsoft 365 commercial cloud will now include GitHub cloud and other developer\ncloud services as well as Security Copilot which were previously reported in Azure Microsoft 365 consumer cloud is unchanged Productivity and server licensing brings together licensing offerings across our products including: Server products now\n[... omitted source paragraphs ...]\nproducts, but is otherwise unchanged Industry solutions brings together our vertical commercial offerings across Dynamics, LinkedIn, and Healthcare including: Industry solutions cloud, which is formed from Dynamics 365, LinkedIn Talent Solutions and\nSales Solutions, previously reported in LinkedIn, and Healthcare and Life Sciences cloud, previously reported in Azure Industry solutions products, which is the on-premises portion of these businesses Frontier and support services was previously\n[... omitted source paragraphs ...]\nStructure Agents and Infra Azure Microsoft 365 cloud Microsoft 365 commercial cloud Microsoft 365 consumer cloud Productivity and server licensing Server products Microsoft 365 commercial products Microsoft 365 consumer products Industry solutions\nIndustry solutions cloud Industry solutions products Frontier and support services Devices and Consumer Search and advertising XBOX XBOX content and services XBOX hardware Windows OEM and devices FY26 Segment Structure Productivity and Business\nProcesses Microsoft 365 commercial products and cloud services Microsoft 365 commercial cloud Microsoft 365 commercial products Microsoft 365 consumer products and cloud services Microsoft 365 consumer cloud Office consumer products Dynamics\nproducts and cloud services Dynamics 365 Dynamics products LinkedIn Intelligent Cloud Server products and cloud services Azure and other cloud services Server products Enterprise and partner services More Personal Computing Search advertising XBOX\n[... omitted source paragraphs ...]\nservice reporting updates, the following metrics have been updated: Azure revenue growth metric definition has been updated to reflect the move of GitHub cloud and other developer cloud services revenue, and the move of Security Copilot revenue to\nMicrosoft 365 commercial cloud, as well as the move of Healthcare and Life Sciences cloud revenue to Industry solutions cloud Microsoft 365 commercial cloud revenue growth metric definition has been updated to include revenue from GitHub cloud and\nother developer cloud services, as well as Security Copilot, which were previously reported in Azure Microsoft 365 commercial seat growth metric definition has been updated to include paid GitHub seats Industry solutions cloud revenue growth metric\nis created by combining revenue from Dynamics 365 together with revenue from LinkedIn Talent Solutions and Sales Solutions, which were previously reported in LinkedIn, as well as Healthcare and Life Sciences cloud which was previously reported in\nAzure Search and advertising revenue (ex TAC) growth metric definition has been updated to include revenue from LinkedIn Marketing Solutions (ex TAC) and Premium Subscriptions which were previously reported in LinkedIn FY27 Metric Updates Only\n[... omitted source paragraphs ...]\nMetrics Commercial; Intelligent Cloud; Productivity & Business Processes Commercial bookings growth Commercial remaining performance obligation Microsoft Cloud revenue and revenue growth Microsoft Cloud gross margin percentage Azure and other\ncloud services revenue growth Microsoft 365 commercial cloud revenue growth Microsoft 365 commercial seat growth Microsoft 365 consumer cloud revenue growth Dynamics 365 revenue growth LinkedIn revenue growth More Personal Computing Search\nadvertising revenue (ex TAC) growth XBOX content and services revenue growth Windows OEM and devices revenue growth FY27 Investor Metrics Agents and Infra Commercial bookings growth Commercial remaining performance obligation Microsoft Cloud revenue\nand revenue growth Microsoft Cloud gross margin percentage Azure revenue growth Microsoft 365 commercial cloud revenue growth Microsoft 365 commercial seat growth Microsoft 365 consumer cloud revenue growth Industry solutions cloud revenue growth\n[... omitted source paragraphs ...]\ncommercial products and cloud services, sum of revenue growth, plus change in balance of unearned revenue plus the change in contracted not billed balance Commercial remaining performance obligation: commercial portion of revenue allocated to\nremaining performance obligations, which includes unearned revenue and amounts that will be invoiced and recognized as revenue in future periods Microsoft Cloud revenue and revenue growth: revenue from Azure, Microsoft 365 commercial cloud, and\nIndustry solutions cloud Microsoft Cloud gross margin percentage: gross margin percentage for our Microsoft Cloud business Azure revenue growth: revenue from Azure, including cloud and AI consumption-based services and virtual desktop offerings\nMicrosoft 365 commercial cloud revenue growth: revenue from Microsoft 365 Commercial subscriptions (comprising Microsoft 365 Commercial, Enterprise Mobility + Security, the cloud portion of Windows Commercial, and other commercial services),\nMicrosoft 365 Copilot, GitHub Cloud and other cloud-based developer services, and Security Copilot Microsoft 365 commercial seat growth: the number of Microsoft 365 Commercial seats and GitHub Cloud seats at end of period where seats are paid users\ncovered by a Microsoft 365 Commercial subscription or GitHub subscription Microsoft 365 consumer cloud revenue growth: revenue from Microsoft 365 Consumer subscriptions and other consumer services Industry solutions cloud revenue growth: revenue\nfrom Dynamics 365 (including a set of intelligent, cloud-based applications across ERP, CRM, Service, Power Apps, and Power Automate), LinkedIn Talent Solutions, LinkedIn Sales Solutions, and Healthcare and Life Sciences cloud Agents and Infra\n[... omitted source paragraphs ...]\nsubscriptions, XBOX Cloud Gaming, advertising, and other cloud services Windows OEM and devices revenue growth: revenue from sales of Windows Pro and non-Pro licenses sold through the OEM channel and sales of first-party devices (including Surface\n[... omitted source paragraphs ...]\nOperating expenses $11,253 $11,967 $12,741 $14,384 $50,345 $10,686 $11,418 $11,549 $13,024 $46,677 Operating income $32,718 $33,167 $33,748 $36,732 $136,365 $26,171 $26,718 $27,704 $30,221 $110,814 Devices and Consumer Q1 Q2 Q3 Q4 Fiscal Year Q1 Q2\nQ3 Q4 Fiscal Year Revenue $16,001 $16,832 $15,448 $15,431 $63,712 $15,109 $16,866 $15,303 $15,663 $62,941 Cost of revenue $6,342 $6,671 $5,879 $6,065 $24,957 $6,480 $7,169 $6,409 $6,481 $26,539 Operating expenses $4,416 $5,053 $4,919 $5,495 $19,883\n$4,248 $4,762 $4,598 $5,080 $18,688 Operating income $5,243 $5,108 $4,650 $3,871 $18,872 $4,381 $4,935 $4,296 $4,102 $17,714 Total Q1 Q2 Q3 Q4 Fiscal Year Q1 Q2 Q3 Q4 Fiscal Year Revenue $77,673 $81,273 $82,886 $90,007 $331,839 $65,585 $69,632\n$70,066 $76,441 $281,724 Cost of revenue $24,043 $25,978 $26,828 $29,525 $106,374 $20,099 $21,799 $21,919 $24,014 $87,831 Operating expenses $15,669 $17,020 $17,660 $19,879 $70,228 $14,934 $16,180 $16,147 $18,104 $65,365 Operating income $37,961\n[... omitted source paragraphs ...]\n$6,042 $22,422 Operating expenses $6,892 $7,407 $7,843 $8,958 $31,100 $6,507 $6,983 $7,048 $8,077 $28,615 Operating income $20,407 $20,599 $20,973 $21,900 $83,879 $16,516 $16,885 $17,379 $18,993 $69,773 Intelligent Cloud Q1 Q2 Q3 Q4 Fiscal Year Q1\nQ2 Q3 Q4 Fiscal Year Revenue $30,897 $32,907 $34,681 $39,306 $137,791 $24,092 $25,544 $26,751 $29,878 $106,265 Cost of revenue $12,314 $13,566 $15,120 $16,876 $57,876 $8,614 $9,405 $10,307 $11,845 $40,171 Operating expenses $5,192 $5,468 $5,808\n$6,475 $22,943 $4,975 $5,288 $5,349 $5,893 $21,505 Operating income $13,391 $13,873 $13,753 $15,955 $56,972 $10,503 $10,851 $11,095 $12,140 $44,589 More Personal Computing Q1 Q2 Q3 Q4 Fiscal Year Q1 Q2 Q3 Q4 Fiscal Year Revenue $13,756 $14,250\n$13,192 $12,854 $54,052 $13,176 $14,651 $13,371 $13,451 $54,649 Cost of revenue $6,008 $6,302 $5,511 $5,660 $23,481 $6,191 $6,825 $6,095 $6,127 $25,238 Operating expenses $3,585 $4,145 $4,009 $4,446 $16,185 $3,452 $3,909 $3,750 $4,134 $15,245\nOperating income $4,163 $3,803 $3,672 $2,748 $14,386 $3,533 $3,917 $3,526 $3,190 $14,166 Total Q1 Q2 Q3 Q4 Fiscal Year Q1 Q2 Q3 Q4 Fiscal Year Revenue $77,673 $81,273 $82,886 $90,007 $331,839 $65,585 $69,632 $70,066 $76,441 $281,724 Cost of revenue\n$24,043 $25,978 $26,828 $29,525 $106,374 $20,099 $21,799 $21,919 $24,014 $87,831 Operating expenses $15,669 $17,020 $17,660 $19,879 $70,228 $14,934 $16,180 $16,147 $18,104 $65,365 Operating income $37,961 $38,275 $38,398 $40,603 $155,237 $30,552\n[... omitted source paragraphs ...]\nRevenue As Reported 2026 2025 ($ in millions) Q1 Q2 Q3 Q4 Fiscal Year Q1 Q2 Q3 Q4 Fiscal Year Server products and cloud services $28,872 $30,865 $32,592 $37,096 $129,425 $22,155 $23,641 $24,761 $27,878 $98,435 Microsoft 365 commercial products and\ncloud services $23,966 $24,524 $25,593 $27,914 $101,997 $20,449 $21,117 $21,883 $24,318 $87,767 XBOX $5,508 $5,958 $5,341 $4,983 $21,790 $5,621 $6,581 $5,721 $5,532 $23,455 LinkedIn $4,714 $5,082 $4,832 $5,189 $19,817 $4,292 $4,587 $4,311 $4,622\n$17,812 Windows and devices $4,551 $4,479 $4,041 $4,013 $17,084 $4,329 $4,512 $4,144 $4,329 $17,314 Search advertising $3,697 $3,812 $3,808 $3,859 $15,176 $3,225 $3,558 $3,504 $3,591 $13,878 Microsoft 365 consumer products and cloud services $2,204\n$2,305 $2,297 $2,369 $9,175 $1,727 $1,821 $1,821 $2,035 $7,404 Dynamics products and cloud services $2,136 $2,204 $2,292 $2,374 $9,006 $1,849 $1,913 $1,929 $2,136 $7,827 Enterprise and partner services $2,022 $2,038 $2,087 $2,113 $8,260 $1,928\n[... omitted source paragraphs ...]\nAzure $22,384 $24,129 $26,008 $29,417 $101,938 $16,021 $17,337 $18,540 $20,712 $72,610 Microsoft 365 cloud $23,694 $24,466 $25,418 $26,721 $100,299 $20,017 $20,686 $20,967 $22,935 $84,605 Productivity and server licensing $8,678 $8,814 $8,760\n[... omitted source paragraphs ...]\n2026 Q1 Q2 Q3 Q4 Fiscal Year Azure and other cloud services revenue growth (y/y) 40% / 39% 39% / 38% 40% / 39% 43% 41% / 40% Microsoft 365 commercial cloud revenue growth (y/y) 17% / 15% 17% / 14% 19% / 15% 14% 17% / 14% Microsoft 365 commercial\n[... omitted source paragraphs ...]\nSales Solutions will now be reported in the Industry solutions cloud revenue growth metric. LinkedIn Marketing Solutions and Premium Subscriptions will now be reported in the Search and advertising revenue (ex TAC) growth metric. Quarterly growth\nrates include non-GAAP CC growth (GAAP % / CC %). As Restated 2026 Q1 Q2 Q3 Q4 Fiscal Year Azure revenue growth (y/y) 40% / 39% 39% / 38% 40% / 39% 42% 40% Microsoft 365 commercial cloud revenue growth (y/y) 18% / 15% 17% / 15% 20% / 16% 16% / 15%\n18% / 15% Microsoft 365 commercial seat growth (y/y) 7% 7% 6% 7% 7% Industry solutions cloud revenue growth (y/y) 11% / 9% 12% / 10% 14% / 10% 11% / 9% 12% / 10% Search and advertising revenue (ex TAC) growth (y/y) 16% / 15% 13% / 12% 14% / 11% 13%\n[... omitted source paragraphs ...]\ncurrency impact Decrease to total revenue growth by less than 1 point, with roughly 1 point in Productivity and Business Processes, less than 1 point in Intelligent Cloud, and no meaningful impact in More Personal Computing No meaningful impact to\nCOGS or operating expense growth Total Company Revenue of $89.85 to $90.95 billion Productivity and Business Processes Revenue of $36.7 to $37.0 billion Intelligent Cloud Revenue of $40.95 to $41.25 billion More Personal Computing Revenue of $12.2\nto $12.7 billion Cost of revenue COGS of $29.6 to $29.8 billion Operating expenses Expenses of $16.8 to $16.9 billion Other income and expense Expected to be roughly $(100) million excluding any impact from our investments in OpenAI Operating margin\nExpected to remain relatively flat year-over-year Effective tax rate Approximately 20% Capital expenditures Expected to be over $50 billion including the impact of the useful life update Adjusted Outlook Foreign currency impact Decrease to total\n[... omitted source paragraphs ...]\n$75.15 to $75.75 billion Devices and Consumer Revenue of $14.7 to $15.2 billion Cost of revenue No change to outlook Operating expenses No change to outlook Other income and expense No change to outlook Operating margin No change to outlook\nEffective tax rate No change to outlook Capital expenditures No change to outlook\n[... omitted source paragraphs ...]\nrevenue Growth in mid-single digits Microsoft 365 Consumer cloud revenue Growth in the mid-teens LinkedIn revenue Growth in high-single digits Dynamics 365 revenue Growth in low-teens Intelligent Cloud Azure and other cloud services revenue Growth\n[... omitted source paragraphs ...]\nchange to outlook Azure revenue Growth of 44% to 45% in constant currency, with FX expected to decrease revenue by less than 1 point Microsoft 365 commercial cloud revenue Growth of approximately 17% in constant currency Growth of approximately 18%\nin constant currency when adjusting for prior-year in-period revenue recognition Microsoft 365 consumer cloud revenue No change to outlook Productivity and server licensing revenue Decline in low-single digits Industry solutions cloud revenue Growth\n[... omitted source paragraphs ...]",
+      "snippet": "EX-99.1\n2\nd291965dex991.htm\nEX-99.1\n[... omitted source paragraphs ...]\nproducts and reshaping our business models. To reflect this and provide increased transparency to investors, we are updating our financial reporting to mirror how the business is operating, how we allocate resources, and where we are headed.\nBeginning with FY27, we will transition from our current three reporting segments, Pro",
+      "status": "read",
+      "text_truncated": true,
+      "original_text_chars": 24954,
+      "bytes_fetched": 34288,
+      "date_policy": "published_date_plus_one_day",
+      "excerpt": "EX-99.1\n2\nd291965dex991.htm\nEX-99.1\n[... omitted source paragraphs ...]\nproducts and reshaping our business models. To reflect this and provide increased transparency to investors, we are updating our financial reporting to mirror how the business is operating, how we allocate resources, and where we are headed.\nBeginning with FY27, we will transition from our current three reporting segments, Pro"
+    },
+    {
+      "title": "Microsoft EX-99.1 · 2026-07-29",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323632/msft-ex99_1.htm",
+      "published_at": "2026-07-29",
+      "available_from": "2026-07-30",
+      "source_type": "sec_filing",
+      "accession": "0001193125-26-323632",
+      "form": "8-K",
+      "discovered_by": "sec_efts",
+      "query": "Azure OR cloud OR AI infrastructure",
+      "id": "DOC_3",
+      "retrieved_at": "2026-09-26T06:07:00+00:00",
+      "sha256": "de6758dd524a46f73c8f65c46686455a5ec563477f62cfb07fa56c14d4af6009",
+      "text_sha256": "2d1f135f4b89295ffa5e5626d611734a1dbae06314efd124092161bb15d2372e",
+      "text": "EX-99.1\n2\nmsft-ex99_1.htm\nEX-99.1\nExhibit 99.1\nMicrosoft Cloud and AI Strength Fuels Fourth Quarter Results\nREDMOND, Wash. — July 29, 2026 — Microsoft Corp. today announced the following results for the quarter ended June 30, 2026, as compared to the corresponding period of last fiscal year:\n•\nRevenue was $90.0 billion and increased 18% (up 17% in constant currency)\n•\nOperating income was $40.6 billion and increased 18%\n•\nNet income was $35.8 billion and increased 31% on a GAAP basis, and was $35.3 billion and increased 22% on a non-GAAP basis\n•\nDiluted earnings per share was $4.81 and increased 32% on a GAAP basis, and was $4.74 and increased 23% on a non-GAAP basis\n•\nNon-GAAP results exclude the impact from investments in OpenAI, explained in the Non-GAAP Definition section below\nSeveral discrete items impacted our financial results in the quarter when compared to our forward-looking guidance provided on April 29, 2026, resulting in a benefit of $0.27 on diluted earnings per share. These include a $3.2 billion gain from our investment in Anthropic and lower-than-expected expenses related to the Voluntary Retirement Program which were partially offset by severance expense and impairment charges in XBOX. When adjusting for these items, we exceeded expectations across revenue, operating income, and diluted earnings per share.\n“We are advancing the frontier on the cost-to-outcome curve, ensuring every customer can turn tokens into business results,” said Satya Nadella, chairman and chief executive officer of Microsoft. “This year, Azure revenue surpassed $100 billion for the first time, and Microsoft 365 Copilot reached over 30 million paid seats, reflecting the confidence customers are placing in us to power their AI transformation.”\n“We delivered a strong quarter to close out the fiscal year, highlighted by Microsoft Cloud revenue of $59.3 billion, up 27% year-over-year,” said Amy Hood, executive vice president and chief financial officer of Microsoft.\nThe following table adjusts for the impact from investments in OpenAI and reconciles our financial results reported in accordance with generally accepted accounting principles (GAAP) to non-GAAP financial results. Additional information regarding our non-GAAP definition is provided below. All growth comparisons relate to the corresponding period in the last fiscal year.\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\nThree Months Ended June 30,\n|\n|\n2026\n|\n|\n2025\n|\n|\nPercentage Change Y/Y\n|\n|\nPercentage Change Y/Y\n|\n($ in millions, except per share amounts)\n|\nAs Reported (GAAP)\n|\nImpact from OpenAI*\n|\nAs Adjusted (non-GAAP)\n|\n|\nAs Reported (GAAP)\n|\nImpact from OpenAI*\n|\nAs Adjusted (non-GAAP)\n|\n|\nGAAP\n|\nConstant Currency\n|\nNet Impact from OpenAI*\n|\nNon-GAAP\n|\nNon-GAAP Constant Currency\n|\nNet Income\n|\n$35,766\n|\n$(480)\n|\n$35,286\n|\n|\n$27,233\n|\n$1,575\n|\n$28,808\n|\n|\n31%\n|\n31%\n|\n$(2,055)\n|\n22%\n|\n22%\n|\nDiluted Earnings per Share\n|\n$4.81\n|\n$(0.07)\n|\n$4.74\n|\n|\n$3.65\n|\n$0.21\n|\n$3.86\n|\n|\n32%\n|\n32%\n|\n$(0.28)\n|\n23%\n|\n23%\n*Impact from OpenAI adjusts for the impact from investments in OpenAI\nBusiness Highlights\nMicrosoft Cloud revenue was $59.3 billion and increased 27%, and commercial remaining performance obligation increased 84% to $678 billion.\nRevenue in Productivity and Business Processes was $37.8 billion and increased 14%, with the following business highlights:\n•\nMicrosoft 365 Commercial cloud revenue increased 16% when adjusted for the prior year comparable that benefited from 2 points of in-period revenue recognition. On a reported basis, Microsoft 365 Commercial cloud revenue increased 14%.\n•\nMicrosoft 365 Consumer cloud revenue increased 24% (up 22% in constant currency)\n•\nLinkedIn revenue increased 12% (up 10% in constant currency)\n•\nDynamics 365 revenue increased 13% (up 12% in constant currency)\nRevenue in Intelligent Cloud was $39.3 billion and increased 32% (up 31% in constant currency), with the following business highlights:\n•\nAzure and other cloud services revenue increased 43%\nRevenue in More Personal Computing was $12.9 billion and decreased 4% (down 5% in constant currency), with the following business highlights:\n•\nWindows OEM and Devices revenue decreased 7%\n•\nXBOX content and services revenue decreased 10%\n•\nSearch advertising revenue excluding traffic acquisition costs increased 10% (up 9% in constant currency)\nMicrosoft returned $10.2 billion to shareholders in the form of dividends and share repurchases in the fourth quarter of fiscal year 2026.\nFiscal Year 2026 Results\nMicrosoft Corp. today announced the following results for the fiscal year ended June 30, 2026, as compared to the corresponding period of last fiscal year:\n•\nRevenue was $331.8 billion and increased 18% (up 16% in constant currency)\n•\nOperating income was $155.2 billion and increased 21% (up 19% in constant currency)\n•\nNet income was $133.7 billion and increased 31% on a GAAP basis, and increased 22% (up 20% in constant currency) on a non-GAAP basis\n•\nDiluted earnings per share was $17.95 and increased 32% on a GAAP basis, and increased 22% (up 21% in constant currency) on a non-GAAP basis\n•\nNon-GAAP results exclude the impact from investments in OpenAI, explained in the Non-GAAP Definition section below\nThe following table adjusts for the impact from investments in OpenAI and reconciles our financial results reported in accordance with GAAP to non-GAAP financial results. Additional information regarding our non-GAAP definition is provided below. All growth comparisons relate to the corresponding period in the last fiscal year.\n|\n|\n[... omitted source paragraphs ...]\nNet Income\n[... omitted source paragraphs ...]\nThis momentum is reflected in stories that showcase how our technology is shaping industries and driving customer success. We share innovation updates on our product blogs across Azure, Microsoft 365, and more on our Official Microsoft blog.\n[... omitted source paragraphs ...]\nImpact from investments in OpenAI. In fiscal year 2026, net income and diluted earnings per share were impacted by net gains from investments in OpenAI, which resulted in an increase in net income and diluted earnings per share of $480 million and $0.07, respectively, in the fourth quarter, and $4,963 million and $0.67, respectively, for the full fiscal year. In fiscal year 2025, net income and diluted earnings per share were impacted by net losses from investments in OpenAI, which resulted in a decrease in net income and diluted earnings per share of $1,575 million and $0.21, respectively, in the fourth quarter, and $3,620 million and $0.49, respectively, for the full fiscal year.\n[... omitted source paragraphs ...]\nOperating Income\n[... omitted source paragraphs ...]\nNet Income\n[... omitted source paragraphs ...]\nOperating Income\n[... omitted source paragraphs ...]\nNet Income\n[... omitted source paragraphs ...]\nIntelligent Cloud\n[... omitted source paragraphs ...]\nMicrosoft Cloud revenue\n[... omitted source paragraphs ...]\nMicrosoft 365 Commercial cloud revenue\n[... omitted source paragraphs ...]\nMicrosoft 365 Consumer cloud revenue\n[... omitted source paragraphs ...]\nAzure and other cloud services revenue\n[... omitted source paragraphs ...]\nsubstantial investments in cloud and AI strategy that depend on customer demand, technological developments, competitive dynamics, and regulatory condition;\n[... omitted source paragraphs ...]\ndevelopment, delivery, and maintenance of competitive cloud-based and AI products and services that achieve broad customer adoption and sustainable revenue growth;\n[... omitted source paragraphs ...]\ninability to develop and expand adequate infrastructure;\n[... omitted source paragraphs ...]\nexcessive outages, disruptions, or capacity constraints of our services if we fail to maintain an adequate operations infrastructure or secure resources necessary to support it;\n[... omitted source paragraphs ...]\nan inability to protect and utilize our intellectual property may harm our business and operating results;\n[... omitted source paragraphs ...]\nclaims that Microsoft has infringed the intellectual property rights of others;\n[... omitted source paragraphs ...]\nexposure to increased economic and operational uncertainties from operating a global business, including the effects of foreign currency exchange; and\n[... omitted source paragraphs ...]\nINCOME STATEMENTS\n[... omitted source paragraphs ...]\nOperating income\n[... omitted source paragraphs ...]\nOther income (expense), net\n[... omitted source paragraphs ...]\nIncome before income taxes\n[... omitted source paragraphs ...]\nProvision for income taxes\n[... omitted source paragraphs ...]\nNet income\n[... omitted source paragraphs ...]\nCOMPREHENSIVE INCOME STATEMENTS\n[... omitted source paragraphs ...]\nNet income\n[... omitted source paragraphs ...]\nOther comprehensive income (loss), net of tax:\n[... omitted source paragraphs ...]\nOther comprehensive income (loss)\n[... omitted source paragraphs ...]\nComprehensive income\n[... omitted source paragraphs ...]\nCash and cash equivalents\n[... omitted source paragraphs ...]\nTotal cash, cash equivalents, and short-term investments\n[... omitted source paragraphs ...]\nProperty and equipment, net of accumulated depreciation of $118,691 and $93,653\n[... omitted source paragraphs ...]\nOperating lease right-of-use assets\n[... omitted source paragraphs ...]\nShort-term income taxes\n[... omitted source paragraphs ...]\nLong-term income taxes\n[... omitted source paragraphs ...]\nDeferred income taxes\n[... omitted source paragraphs ...]\nOperating lease liabilities\n[... omitted source paragraphs ...]\nCommon stock and paid-in capital - shares authorized 24,000; outstanding 7,427 and 7,434\n[... omitted source paragraphs ...]\nCASH FLOWS STATEMENTS\n[... omitted source paragraphs ...]\nNet income\n[... omitted source paragraphs ...]\nAdjustments to reconcile net income to net cash from operations:\n[... omitted source paragraphs ...]\nDeferred income taxes\n[... omitted source paragraphs ...]\nChanges in operating assets and liabilities:\n[... omitted source paragraphs ...]\nIncome taxes\n[... omitted source paragraphs ...]\nNet cash from operations\n[... omitted source paragraphs ...]\nCommon stock cash dividends paid\n[... omitted source paragraphs ...]\nNet cash used in financing\n[... omitted source paragraphs ...]\nAdditions to property and equipment\n[... omitted source paragraphs ...]\nAcquisition of companies, net of cash acquired and divestitures, and purchases of intangible and other assets\n[... omitted source paragraphs ...]\nNet cash used in investing\n[... omitted source paragraphs ...]\nEffect of foreign exchange rates on cash and cash equivalents\n[... omitted source paragraphs ...]\nNet change in cash and cash equivalents\n[... omitted source paragraphs ...]\nCash and cash equivalents, beginning of period\n[... omitted source paragraphs ...]\nCash and cash equivalents, end of period\n[... omitted source paragraphs ...]\nOperating expenses\n[... omitted source paragraphs ...]\nOperating income\n[... omitted source paragraphs ...]\nIntelligent Cloud\n[... omitted source paragraphs ...]\nOperating expenses\n[... omitted source paragraphs ...]\nOperating income\n[... omitted source paragraphs ...]\nOperating expenses\n[... omitted source paragraphs ...]\nOperating income\n[... omitted source paragraphs ...]\nOperating expenses\n[... omitted source paragraphs ...]\nOperating income\n[... omitted source paragraphs ...]",
+      "snippet": "EX-99.1\n2\nmsft-ex99_1.htm\nEX-99.1\nExhibit 99.1\nMicrosoft Cloud and AI Strength Fuels Fourth Quarter Results\nREDMOND, Wash. — July 29, 2026 — Microsoft Corp. today announced the following results for the quarter ended June 30, 2026, as compared to the corresponding period of last fiscal year:\n•\nRevenue was $90.0 billion and increased 18% (up 17% in constant currency)\n•\nOperating income was $40.6 bi",
+      "status": "read",
+      "text_truncated": true,
+      "original_text_chars": 27611,
+      "bytes_fetched": 901706,
+      "date_policy": "published_date_plus_one_day",
+      "excerpt": "EX-99.1\n2\nmsft-ex99_1.htm\nEX-99.1\nExhibit 99.1\nMicrosoft Cloud and AI Strength Fuels Fourth Quarter Results\nREDMOND, Wash. — July 29, 2026 — Microsoft Corp. today announced the following results for the quarter ended June 30, 2026, as compared to the corresponding period of last fiscal year:\n•\nRevenue was $90.0 billion and increased 18% (up 17% in constant currency)\n•\nOperating income was $40.6 bi"
+    },
+    {
+      "title": "Microsoft EX-99.1 · 2026-04-29",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526191457/msft-ex99_1.htm",
+      "published_at": "2026-04-29",
+      "available_from": "2026-04-30",
+      "source_type": "sec_filing",
+      "accession": "0001193125-26-191457",
+      "form": "8-K",
+      "discovered_by": "sec_efts",
+      "query": "Azure OR cloud OR AI infrastructure",
+      "id": "DOC_4",
+      "retrieved_at": "2026-09-26T06:07:00+00:00",
+      "sha256": "20d6c2d4b5db3ec4c2fda6ef0c61894aafe3c1ad9fb914b4cde17bdf2f6153fb",
+      "text_sha256": "a7dd3b0ce6457abbf5739e310d24d3405aab88b6da3b369b4ce2bc9e9843ee4b",
+      "text": "EX-99.1\n2\nmsft-ex99_1.htm\nEX-99.1\nExhibit 99.1\nMicrosoft Cloud and AI Strength Fuels Third Quarter Results\nREDMOND, Wash. — April 29, 2026 — Microsoft Corp. today announced the following results for the quarter ended March 31, 2026, as compared to the corresponding period of last fiscal year:\n•\nRevenue was $82.9 billion and increased 18% (up 15% in constant currency)\n•\nOperating income was $38.4 billion and increased 20% (up 16% in constant currency)\n•\nNet income was $31.8 billion and increased 23% on a GAAP basis, and increased 20% (up 18% in constant currency) on a non-GAAP basis\n•\nDiluted earnings per share was $4.27 and increased 23% on a GAAP basis, and increased 21% (up 18% in constant currency) on a non-GAAP basis\n•\nNon-GAAP results exclude the impact from investments in OpenAI, explained in the Non-GAAP Definition section below\n“We are focused on delivering cloud and AI infrastructure and solutions that empower every business to eval-max their outcomes in the agentic computing era,” said Satya Nadella, chairman and chief executive officer of Microsoft. “Our AI business surpassed an annual revenue run rate of $37 billion, up 123% year-over-year.”\n“We delivered results that exceeded expectations across revenue, operating income, and earnings per share, reflecting strong execution and growing demand for the Microsoft Cloud,” said Amy Hood, executive vice president and chief financial officer of Microsoft.\nThe following table reconciles our financial results reported in accordance with generally accepted accounting principles (GAAP) to non-GAAP financial results. Additional information regarding our non-GAAP definition is provided below. All growth comparisons relate to the corresponding period in the last fiscal year.\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\nThree Months Ended March 31,\n|\n|\n2026\n|\n|\n2025\n|\n|\nPercentage Change Y/Y\n|\n($ in millions, except per share amounts)\n|\nAs Reported (GAAP)\n|\nAdjustment*\n|\nAs Adjusted (non-GAAP)\n|\n|\nAs Reported (GAAP)\n|\nAdjustment*\n|\nAs Adjusted (non-GAAP)\n|\n|\nGAAP\n|\nConstant Currency\n|\nNon-GAAP\n|\nNon-GAAP Constant Currency\n|\nNet\nIncome\n|\n$31,778\n|\n$14\n|\n$31,792\n|\n|\n$25,824\n|\n$583\n|\n$26,407\n|\n|\n23%\n|\n20%\n|\n20%\n|\n18%\n|\nDiluted Earnings\nper Share\n|\n$4.27\n|\n$0.00\n|\n$4.27\n|\n|\n$3.46\n|\n$0.08\n|\n$3.54\n|\n|\n23%\n|\n21%\n|\n21%\n|\n18%\n*Adjustment is the impact from investments in OpenAI\nBusiness Highlights\nMicrosoft Cloud revenue was $54.5 billion and increased 29% (up 25% in constant currency), and commercial remaining performance obligation increased 99% to $627 billion.\nRevenue in Productivity and Business Processes was $35.0 billion and increased 17% (up 13% in constant currency), with the following business highlights:\n•\nMicrosoft 365 Commercial cloud revenue increased 19% (up 15% in constant currency)\n•\nMicrosoft 365 Consumer cloud revenue increased 33% (up 29% in constant currency)\n•\nLinkedIn revenue increased 12% (up 9% in constant currency)\n•\nDynamics 365 revenue increased 22% (up 17% in constant currency)\nRevenue in Intelligent Cloud was $34.7 billion and increased 30% (up 28% in constant currency), with the following business highlights:\n•\nAzure and other cloud services revenue increased 40% (up 39% in constant currency)\nRevenue in More Personal Computing was $13.2 billion and decreased 1% (down 3% in constant currency), with the following business highlights:\n•\nWindows OEM and Devices revenue decreased 2% (down 3% in constant currency)\n•\nXbox content and services revenue decreased 5% (down 7% in constant currency)\n•\nSearch advertising revenue excluding traffic acquisition costs increased 12% (up 9% in constant currency)\nMicrosoft returned $10.2 billion to shareholders in the form of dividends and share repurchases in the third quarter of fiscal year 2026.\nBusiness Outlook\nMicrosoft will provide forward-looking guidance in connection with this quarterly earnings announcement on its earnings conference call and webcast.\nQuarterly Highlights, Product Releases, and Customer Stories\nEvery quarter Microsoft delivers hundreds of products, services, and enhancements. These releases are driven by years of significant research and development investments, to empower customers with greater productivity, security, and differentiated value.\nThis momentum is reflected in stories that showcase how our technology is shaping industries and driving customer success. We share innovation updates on our product blogs across Azure, Microsoft 365, and more on our Official Microsoft blog.\nWebcast Details\nSatya Nadella, chairman and chief executive officer, Amy Hood, executive vice president and chief financial officer, Alice Jolla, chief accounting officer, Brian DeFoe, deputy general counsel and corporate secretary, and Jonathan Neilson, vice president of investor relations, will host a conference call and webcast at 2:30 p.m. Pacific time (5:30 p.m. Eastern time) today to discuss details of the company’s performance for the quarter and certain forward-looking information. The session may be accessed at http://www.microsoft.com/en-us/investor. Participants can also dial into the conference call at (877) 407-0666 or +1 (201) 689-8023 for international, no password required. The webcast will be available for replay through the close of business on April 29, 2027.\nNon-GAAP Definition\nImpact from investments in OpenAI. In the third quarter of fiscal year 2026, net losses from investments in OpenAI resulted in a decrease in net income of $14 million and had minimal impact on earnings per share. In the third quarter of fiscal year 2025, net income and diluted earnings per share were impacted by net losses from investments in OpenAI, which resulted in a decrease in net income and diluted earnings per share of $583 million and $0.08, respectively.\nMicrosoft has provided non-GAAP financial measures related to the impact from investments in OpenAI to aid investors in better understanding our performance. Microsoft believes these non-GAAP measures assist investors by providing additional insight into its operational performance and help clarify trends affecting its business. For comparability of reporting, management considers non-GAAP measures in conjunction with GAAP financial results in evaluating business performance. The non-GAAP financial measures presented in this release should not be considered as a substitute for, or superior to, the measures of financial performance prepared in accordance with GAAP.\nConstant Currency\nMicrosoft presents constant currency information to provide a framework for assessing how our underlying businesses performed excluding the effect of foreign currency rate fluctuations. To present this information, current and comparative prior period results for entities reporting in currencies other than United States dollars are converted into United States dollars using the average exchange rates from the comparative period rather than the actual exchange rates in effect during the respective periods. All growth comparisons relate to the corresponding period in the last fiscal year. Microsoft has provided this non-GAAP financial information to aid investors in better understanding our performance. The non-GAAP financial measures presented in this release should not be considered as a substitute for, or superior to, the measures of financial performance prepared in accordance with GAAP.\nFinancial Performance Constant Currency Reconciliation\n|\n|\n|\n[... omitted source paragraphs ...]\nOperating\nIncome\n[... omitted source paragraphs ...]\nNet Income\n[... omitted source paragraphs ...]\nIntelligent Cloud\n[... omitted source paragraphs ...]\nMicrosoft Cloud revenue\n[... omitted source paragraphs ...]\nMicrosoft 365 Commercial cloud revenue\n[... omitted source paragraphs ...]\nMicrosoft 365 Consumer cloud revenue\n[... omitted source paragraphs ...]\nAzure and other cloud services revenue\n[... omitted source paragraphs ...]\nfocus on cloud-based and AI services presenting execution and competitive risks;\n[... omitted source paragraphs ...]\nexcessive outages, data losses, and disruptions of our online services if we fail to maintain an adequate operations infrastructure;\n[... omitted source paragraphs ...]\nan inability to protect and utilize our intellectual property may harm our business and operating results;\n[... omitted source paragraphs ...]\nclaims that Microsoft has infringed the intellectual property rights of others;\n[... omitted source paragraphs ...]\nexposure to increased economic and operational uncertainties from operating a global business, including the effects of foreign currency exchange; and\n[... omitted source paragraphs ...]\nINCOME STATEMENTS\n[... omitted source paragraphs ...]\nOperating income\n[... omitted source paragraphs ...]\nOther income (expense), net\n[... omitted source paragraphs ...]\nIncome before income taxes\n[... omitted source paragraphs ...]\nProvision for income taxes\n[... omitted source paragraphs ...]\nNet income\n[... omitted source paragraphs ...]\nCOMPREHENSIVE INCOME STATEMENTS\n[... omitted source paragraphs ...]\nNet income\n[... omitted source paragraphs ...]\nOther comprehensive income (loss), net of tax:\n[... omitted source paragraphs ...]\nOther comprehensive income (loss)\n[... omitted source paragraphs ...]\nComprehensive income\n[... omitted source paragraphs ...]\nCash and cash equivalents\n[... omitted source paragraphs ...]\nTotal cash, cash equivalents, and short-term investments\n[... omitted source paragraphs ...]\nProperty and equipment, net of accumulated depreciation of $111,723 and $93,653\n[... omitted source paragraphs ...]\nOperating lease right-of-use assets\n[... omitted source paragraphs ...]\nShort-term income taxes\n[... omitted source paragraphs ...]\nLong-term income taxes\n[... omitted source paragraphs ...]\nDeferred income taxes\n[... omitted source paragraphs ...]\nOperating lease liabilities\n[... omitted source paragraphs ...]\nCommon stock and paid-in capital - shares authorized 24,000; outstanding 7,429 and 7,434\n[... omitted source paragraphs ...]\nCASH FLOWS STATEMENTS\n[... omitted source paragraphs ...]\nNet income\n[... omitted source paragraphs ...]\nAdjustments to reconcile net income to net cash from operations:\n[... omitted source paragraphs ...]\nDeferred income taxes\n[... omitted source paragraphs ...]\nChanges in operating assets and liabilities:\n[... omitted source paragraphs ...]\nIncome taxes\n[... omitted source paragraphs ...]\nNet cash from operations\n[... omitted source paragraphs ...]\nCommon stock cash dividends paid\n[... omitted source paragraphs ...]\nNet cash used in financing\n[... omitted source paragraphs ...]\nAdditions to property and equipment\n[... omitted source paragraphs ...]\nAcquisition of companies, net of cash acquired and divestitures, and purchases of intangible and other assets\n[... omitted source paragraphs ...]\nNet cash used in investing\n[... omitted source paragraphs ...]\nEffect of foreign exchange rates on cash and cash equivalents\n[... omitted source paragraphs ...]\nNet change in cash and cash equivalents\n[... omitted source paragraphs ...]\nCash and cash equivalents, beginning of period\n[... omitted source paragraphs ...]\nCash and cash equivalents, end of period\n[... omitted source paragraphs ...]\nOperating expenses\n[... omitted source paragraphs ...]\nOperating income\n[... omitted source paragraphs ...]\nIntelligent Cloud\n[... omitted source paragraphs ...]\nOperating expenses\n[... omitted source paragraphs ...]\nOperating income\n[... omitted source paragraphs ...]\nOperating expenses\n[... omitted source paragraphs ...]\nOperating income\n[... omitted source paragraphs ...]\nOperating expenses\n[... omitted source paragraphs ...]\nOperating income\n[... omitted source paragraphs ...]",
+      "snippet": "EX-99.1\n2\nmsft-ex99_1.htm\nEX-99.1\nExhibit 99.1\nMicrosoft Cloud and AI Strength Fuels Third Quarter Results\nREDMOND, Wash. — April 29, 2026 — Microsoft Corp. today announced the following results for the quarter ended March 31, 2026, as compared to the corresponding period of last fiscal year:\n•\nRevenue was $82.9 billion and increased 18% (up 15% in constant currency)\n•\nOperating income was $38.4 b",
+      "status": "read",
+      "text_truncated": true,
+      "original_text_chars": 23865,
+      "bytes_fetched": 835713,
+      "date_policy": "published_date_plus_one_day",
+      "excerpt": "EX-99.1\n2\nmsft-ex99_1.htm\nEX-99.1\nExhibit 99.1\nMicrosoft Cloud and AI Strength Fuels Third Quarter Results\nREDMOND, Wash. — April 29, 2026 — Microsoft Corp. today announced the following results for the quarter ended March 31, 2026, as compared to the corresponding period of last fiscal year:\n•\nRevenue was $82.9 billion and increased 18% (up 15% in constant currency)\n•\nOperating income was $38.4 b"
+    }
+  ],
+  "financial_answers": [
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "revenue",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "required_inputs": [
+        "revenue"
+      ],
+      "status": "available",
+      "value": "331839000000",
+      "exact_value": "331839000000",
+      "display_value": "$331.84B",
+      "unit": "USD",
+      "evidence_ids": [
+        "MSFT-e0eb2e95aeeaf2a2"
+      ],
+      "formula": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+      "operation": "reported",
+      "inputs": [
+        "revenue"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2026-f3acbb483923",
+      "id": "F01",
+      "label": "营业收入",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "operating_income",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "required_inputs": [
+        "operating_income"
+      ],
+      "status": "available",
+      "value": "155237000000",
+      "exact_value": "155237000000",
+      "display_value": "$155.24B",
+      "unit": "USD",
+      "evidence_ids": [
+        "MSFT-aaf5541741856c30"
+      ],
+      "formula": "us-gaap:OperatingIncomeLoss",
+      "operation": "reported",
+      "inputs": [
+        "operating_income"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2026-f3acbb483923",
+      "id": "F02",
+      "label": "营业利润",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "operating_margin",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "required_inputs": [
+        "operating_income",
+        "revenue"
+      ],
+      "status": "available",
+      "value": "46.78",
+      "exact_value": "15523700/331839",
+      "display_value": "46.78%",
+      "unit": "%",
+      "evidence_ids": [
+        "MSFT-aaf5541741856c30",
+        "MSFT-e0eb2e95aeeaf2a2"
+      ],
+      "formula": "operating_income / revenue × 100",
+      "operation": "ratio",
+      "inputs": [
+        "operating_income",
+        "revenue"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2026-f3acbb483923",
+      "id": "F03",
+      "label": "营业利润率",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "operating_cash_flow",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "required_inputs": [
+        "operating_cash_flow"
+      ],
+      "status": "available",
+      "value": "182935000000",
+      "exact_value": "182935000000",
+      "display_value": "$182.94B",
+      "unit": "USD",
+      "evidence_ids": [
+        "MSFT-797c930bd7fe9581"
+      ],
+      "formula": "us-gaap:NetCashProvidedByUsedInOperatingActivities",
+      "operation": "reported",
+      "inputs": [
+        "operating_cash_flow"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2026-f3acbb483923",
+      "id": "F04",
+      "label": "经营现金流",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "capital_expenditure",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "required_inputs": [
+        "capital_expenditure"
+      ],
+      "status": "available",
+      "value": "115948000000",
+      "exact_value": "115948000000",
+      "display_value": "$115.95B",
+      "unit": "USD",
+      "evidence_ids": [
+        "MSFT-9abf9d6d73766fd6"
+      ],
+      "formula": "us-gaap:PaymentsToAcquirePropertyPlantAndEquipment",
+      "operation": "reported",
+      "inputs": [
+        "capital_expenditure"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2026-f3acbb483923",
+      "id": "F05",
+      "label": "PP&E 现金资本支出",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "free_cash_flow",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "required_inputs": [
+        "operating_cash_flow",
+        "capital_expenditure"
+      ],
+      "status": "available",
+      "value": "66987000000",
+      "exact_value": "66987000000",
+      "display_value": "$66.99B",
+      "unit": "USD",
+      "evidence_ids": [
+        "MSFT-797c930bd7fe9581",
+        "MSFT-9abf9d6d73766fd6"
+      ],
+      "formula": "operating_cash_flow − capital_expenditure",
+      "operation": "subtract",
+      "inputs": [
+        "operating_cash_flow",
+        "capital_expenditure"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2026-f3acbb483923",
+      "id": "F06",
+      "label": "自由现金流",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "research_and_development",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "required_inputs": [
+        "research_and_development"
+      ],
+      "status": "available",
+      "value": "35562000000",
+      "exact_value": "35562000000",
+      "display_value": "$35.56B",
+      "unit": "USD",
+      "evidence_ids": [
+        "MSFT-cbd13a5af3e5607e"
+      ],
+      "formula": "us-gaap:ResearchAndDevelopmentExpense",
+      "operation": "reported",
+      "inputs": [
+        "research_and_development"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2026-f3acbb483923",
+      "id": "F07",
+      "label": "研发费用",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "capex_ratio",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "required_inputs": [
+        "capital_expenditure",
+        "revenue"
+      ],
+      "status": "available",
+      "value": "34.94",
+      "exact_value": "11594800/331839",
+      "display_value": "34.94%",
+      "unit": "%",
+      "evidence_ids": [
+        "MSFT-9abf9d6d73766fd6",
+        "MSFT-e0eb2e95aeeaf2a2"
+      ],
+      "formula": "capital_expenditure / revenue × 100",
+      "operation": "ratio",
+      "inputs": [
+        "capital_expenditure",
+        "revenue"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2026-f3acbb483923",
+      "id": "F08",
+      "label": "资本支出收入比",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    }
+  ],
+  "financial_evidence": [
+    {
+      "id": "MSFT-e0eb2e95aeeaf2a2",
+      "ticker": "MSFT",
+      "metric_id": "revenue",
+      "taxonomy": "us-gaap",
+      "taxonomy_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+      "unit": "USD",
+      "value": "331839000000",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "filed": "2026-07-29",
+      "available_from": "2026-07-30",
+      "accession": "0001193125-26-323660",
+      "form": "10-K",
+      "raw_row": {
+        "start": "2025-07-01",
+        "end": "2026-06-30",
+        "val": 331839000000,
+        "accn": "0001193125-26-323660",
+        "fy": 2026,
+        "fp": "FY",
+        "form": "10-K",
+        "filed": "2026-07-29",
+        "frame": "CY2026"
+      },
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/0001193125-26-323660-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "retrieved_at": "2026-09-26T06:06:58+00:00",
+      "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+      "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "fact_sha256": "e0eb2e95aeeaf2a27c3bd8308198f06e183e8c05c702a5d58a43a1afc7deef71"
+    },
+    {
+      "id": "MSFT-aaf5541741856c30",
+      "ticker": "MSFT",
+      "metric_id": "operating_income",
+      "taxonomy": "us-gaap",
+      "taxonomy_tag": "OperatingIncomeLoss",
+      "unit": "USD",
+      "value": "155237000000",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "filed": "2026-07-29",
+      "available_from": "2026-07-30",
+      "accession": "0001193125-26-323660",
+      "form": "10-K",
+      "raw_row": {
+        "start": "2025-07-01",
+        "end": "2026-06-30",
+        "val": 155237000000,
+        "accn": "0001193125-26-323660",
+        "fy": 2026,
+        "fp": "FY",
+        "form": "10-K",
+        "filed": "2026-07-29",
+        "frame": "CY2026"
+      },
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/0001193125-26-323660-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "retrieved_at": "2026-09-26T06:06:58+00:00",
+      "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+      "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "fact_sha256": "aaf5541741856c30d144fd9cc731dab6f01187155457ad4963a15baefb137606"
+    },
+    {
+      "id": "MSFT-797c930bd7fe9581",
+      "ticker": "MSFT",
+      "metric_id": "operating_cash_flow",
+      "taxonomy": "us-gaap",
+      "taxonomy_tag": "NetCashProvidedByUsedInOperatingActivities",
+      "unit": "USD",
+      "value": "182935000000",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "filed": "2026-07-29",
+      "available_from": "2026-07-30",
+      "accession": "0001193125-26-323660",
+      "form": "10-K",
+      "raw_row": {
+        "start": "2025-07-01",
+        "end": "2026-06-30",
+        "val": 182935000000,
+        "accn": "0001193125-26-323660",
+        "fy": 2026,
+        "fp": "FY",
+        "form": "10-K",
+        "filed": "2026-07-29",
+        "frame": "CY2026"
+      },
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/0001193125-26-323660-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "retrieved_at": "2026-09-26T06:06:58+00:00",
+      "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+      "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "fact_sha256": "797c930bd7fe95813a9d1aa3b024e31f97f7dc75cf8541ac718e712890cb3fc6"
+    },
+    {
+      "id": "MSFT-9abf9d6d73766fd6",
+      "ticker": "MSFT",
+      "metric_id": "capital_expenditure",
+      "taxonomy": "us-gaap",
+      "taxonomy_tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+      "unit": "USD",
+      "value": "115948000000",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "filed": "2026-07-29",
+      "available_from": "2026-07-30",
+      "accession": "0001193125-26-323660",
+      "form": "10-K",
+      "raw_row": {
+        "start": "2025-07-01",
+        "end": "2026-06-30",
+        "val": 115948000000,
+        "accn": "0001193125-26-323660",
+        "fy": 2026,
+        "fp": "FY",
+        "form": "10-K",
+        "filed": "2026-07-29",
+        "frame": "CY2026"
+      },
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/0001193125-26-323660-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "retrieved_at": "2026-09-26T06:06:58+00:00",
+      "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+      "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "fact_sha256": "9abf9d6d73766fd600bde8fef4b972c1debe62554b3bea6ba2a7b1b708eed53a"
+    },
+    {
+      "id": "MSFT-cbd13a5af3e5607e",
+      "ticker": "MSFT",
+      "metric_id": "research_and_development",
+      "taxonomy": "us-gaap",
+      "taxonomy_tag": "ResearchAndDevelopmentExpense",
+      "unit": "USD",
+      "value": "35562000000",
+      "fiscal_year": 2026,
+      "period_start": "2025-07-01",
+      "period_end": "2026-06-30",
+      "filed": "2026-07-29",
+      "available_from": "2026-07-30",
+      "accession": "0001193125-26-323660",
+      "form": "10-K",
+      "raw_row": {
+        "start": "2025-07-01",
+        "end": "2026-06-30",
+        "val": 35562000000,
+        "accn": "0001193125-26-323660",
+        "fy": 2026,
+        "fp": "FY",
+        "form": "10-K",
+        "filed": "2026-07-29",
+        "frame": "CY2026"
+      },
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/0001193125-26-323660-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "retrieved_at": "2026-09-26T06:06:58+00:00",
+      "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+      "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "fact_sha256": "cbd13a5af3e5607ef18b9baba4376e99f63cd967535820c1f58dea2ed1835d9c"
+    }
+  ],
+  "model_receipts": [
+    {
+      "stage": "plan",
+      "provider": "DeepSeek",
+      "response_model": "deepseek-flash",
+      "request_id": "71e13603-d17f-4e43-9d23-898163de5247",
+      "usage": {
+        "prompt_tokens": 1941,
+        "completion_tokens": 245,
+        "total_tokens": 2186,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1941
+      },
+      "latency_ms": 1609,
+      "status": "completed"
+    },
+    {
+      "stage": "draft",
+      "provider": "DeepSeek",
+      "response_model": "deepseek-flash",
+      "request_id": "8b6f6cf6-22e7-422b-8a96-7008ca5eabd8",
+      "usage": {
+        "prompt_tokens": 15835,
+        "completion_tokens": 999,
+        "total_tokens": 16834,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15835
+      },
+      "latency_ms": 3906,
+      "status": "completed"
+    },
+    {
+      "stage": "verify",
+      "provider": "DeepSeek",
+      "response_model": "deepseek-flash",
+      "request_id": "f72d79e0-856d-4aac-990b-309d9b2a9743",
+      "usage": {
+        "prompt_tokens": 3495,
+        "completion_tokens": 242,
+        "total_tokens": 3737,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3495
+      },
+      "latency_ms": 1578,
+      "status": "completed"
+    }
+  ],
+  "trace": [
+    {
+      "step": "plan",
+      "label": "DeepSeek 拆解问题",
+      "detail": "绑定公司和截止日，生成检索词、材料类型与计算清单。",
+      "status": "running",
+      "timestamp": "2026-09-26T06:06:48+00:00"
+    },
+    {
+      "step": "plan",
+      "label": "研究计划已生成",
+      "detail": "核验微软（MSFT）最新可得年度（FY2025）的云需求与AI投入强度，并验证其营业利润率、经营现金流、PP&E资本支出与自由现金流表现，同时识别仍需进一步验证的风险。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:06:50+00:00"
+    },
+    {
+      "step": "search",
+      "label": "搜索 SEC 新材料",
+      "detail": "实时查询申报目录与全文搜索；仅接纳截止日前可得的材料。",
+      "status": "running",
+      "timestamp": "2026-09-26T06:06:50+00:00"
+    },
+    {
+      "step": "search",
+      "label": "联网搜索完成",
+      "detail": "执行 4 项搜索；接纳 4 篇材料。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:07:00+00:00"
+    },
+    {
+      "step": "read",
+      "label": "原文读取与时间检查",
+      "detail": "逐篇保留原文摘录、申报日、抓取时间和内容哈希；材料中的指令按数据处理。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:07:00+00:00"
+    },
+    {
+      "step": "compute",
+      "label": "确定性提取与计算",
+      "detail": "8 项年度指标通过期间、单位、完整操作数与数值核验；原文中的季度数据不自动转成年数。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:07:00+00:00"
+    },
+    {
+      "step": "synthesize",
+      "label": "DeepSeek 生成有据分析",
+      "detail": "仅根据已读取原文和计算结果起草；每条观点绑定引用。",
+      "status": "running",
+      "timestamp": "2026-09-26T06:07:00+00:00"
+    },
+    {
+      "step": "verify",
+      "label": "引用与语义复核",
+      "detail": "6/7 条通过确定性引用检查；启动独立模型复核。",
+      "status": "running",
+      "timestamp": "2026-09-26T06:07:04+00:00"
+    },
+    {
+      "step": "verify",
+      "label": "核验完成",
+      "detail": "交付 6 条有据观点；隔离 1 条未通过项。语义复核不等同于事实正确率保证。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:07:05+00:00"
+    },
+    {
+      "step": "report",
+      "label": "生成引用报告",
+      "detail": "包含检索记录、原文引用、确定性计算、模型调用凭据和证据缺口。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:07:05+00:00"
+    }
+  ],
+  "gaps": [
+    {
+      "code": "SOURCE_SIZE_LIMIT",
+      "message": "材料超过 8 MB 读取上限。",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm"
+    },
+    {
+      "code": "CLAIMS_WITHHELD",
+      "message": "1 条候选观点或分析批次未通过验证，已从交付正文移除。"
+    }
+  ],
+  "searches": [
+    {
+      "query": "MSFT 10-K/10-K/A/10-Q/10-Q/A/8-K/8-K/A before 2026-09-26",
+      "provider": "sec_submissions",
+      "result_count": 81,
+      "status": "ok"
+    },
+    {
+      "query": "Azure OR cloud OR AI infrastructure",
+      "provider": "sec_efts",
+      "result_count": 20,
+      "status": "ok"
+    },
+    {
+      "query": "capital expenditures OR property plant equipment",
+      "provider": "sec_efts",
+      "result_count": 3,
+      "status": "ok"
+    },
+    {
+      "query": "operating income OR cash flow",
+      "provider": "sec_efts",
+      "result_count": 20,
+      "status": "ok"
+    }
+  ],
+  "data_mode": "live",
+  "verification": {
+    "accepted_claims": 6,
+    "rejected_claims": 1,
+    "total_claims": 7,
+    "rejected": [
+      {
+        "id": "C04",
+        "reasons": [
+          "numeric_prose_requires_calculator"
+        ]
+      }
+    ],
+    "method": "exact quotes + known references + cutoff + deterministic numeric kernel + separate model entailment review"
+  },
+  "budget": {
+    "max_model_calls": 3,
+    "model_calls": 3,
+    "documents_read": 4
+  },
+  "limitations": [
+    "当前覆盖八家美股公司的 SEC 申报检索和原文读取；不是全网或实时行情服务。",
+    "CompanyFacts 为本次抓取后按申报日期重建；不是当时保存的完整数据库。日期粒度材料保守地从申报次日纳入。",
+    "财务计算支持年度指标；不自动把季度、分部或公司自定义口径映射为年度指标。",
+    "模型语义复核仍可能出错；通过率不是准确率。缺少股价、估值和未来信息时不生成买卖结论。"
+  ]
+}
