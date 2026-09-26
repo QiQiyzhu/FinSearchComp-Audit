@@ -2,10 +2,10 @@ const { test, expect } = require('@playwright/test');
 
 test('public homepage exposes working product and research archive', async ({page}) => {
   await page.goto('http://127.0.0.1:8092');
-  await expect(page.getByRole('heading', {level:1})).toContainText('有据可查');
+  await expect(page.getByRole('heading', {level:1})).toContainText('当时的依据');
   await page.getByRole('link', {name:'一键体验研究工作台'}).click();
-  await expect(page.locator('#report-area')).toBeVisible();
-  await expect(page.locator('#connection-label')).toContainText('历史');
+  await expect(page.locator('#app-content')).toBeVisible();
+  await expect(page.locator('#company-select option')).toHaveCount(8);
 });
 
 test('static snapshot exposes sources, source details, trace and export', async ({page}) => {

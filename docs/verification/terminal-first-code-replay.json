@@ -1,0 +1,19 @@
+{
+  "verified_at": "2026-09-26T05:18:59+00:00",
+  "replayed_revision": "9cfd3aa7ff8f1c196e2476f2e50053c3d78ef850",
+  "method": "git archive into temporary directory; original frozen scorer and kernel/parser; no worktree checkout or model calls",
+  "checks": [
+    {
+      "receipt": "terminal-structured-first.json",
+      "same_summary_and_every_case": true,
+      "cases": 60,
+      "model_calls": 0
+    },
+    {
+      "receipt": "terminal-nlq-first.json",
+      "same_summary_and_every_case": true,
+      "cases": 16,
+      "model_calls": 0
+    }
+  ]
+}

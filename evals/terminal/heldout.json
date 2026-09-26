@@ -1,0 +1,1465 @@
+{
+  "suite": "terminal-structured-pit-v1",
+  "cases": [
+    {
+      "id": "H01",
+      "split": "heldout",
+      "category": "numeric",
+      "request": {
+        "ticker": "MSFT",
+        "fiscal_year": 2024,
+        "metric_id": "free_cash_flow",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "74071000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "MSFT",
+            "cik": 789019,
+            "metric_id": "operating_cash_flow",
+            "tag": "NetCashProvidedByUsedInOperatingActivities",
+            "unit": "USD",
+            "row": {
+              "accn": "0000950170-24-087843",
+              "end": "2024-06-30",
+              "filed": "2024-07-30",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2023-07-01",
+              "val": 118548000000
+            }
+          },
+          {
+            "ticker": "MSFT",
+            "cik": 789019,
+            "metric_id": "capital_expenditure",
+            "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+            "unit": "USD",
+            "row": {
+              "accn": "0000950170-24-087843",
+              "end": "2024-06-30",
+              "filed": "2024-07-30",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2023-07-01",
+              "val": 44477000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2023-07-01",
+          "end": "2024-06-30",
+          "first_filed": "2024-07-30",
+          "available_from": "2024-07-31"
+        }
+      }
+    },
+    {
+      "id": "H02",
+      "split": "heldout",
+      "category": "numeric",
+      "request": {
+        "ticker": "AAPL",
+        "fiscal_year": 2023,
+        "metric_id": "rd_ratio",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "7.80",
+        "unit": "%",
+        "operands": [
+          {
+            "ticker": "AAPL",
+            "cik": 320193,
+            "metric_id": "research_and_development",
+            "tag": "ResearchAndDevelopmentExpense",
+            "unit": "USD",
+            "row": {
+              "accn": "0000320193-24-000123",
+              "end": "2023-09-30",
+              "filed": "2024-11-01",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2022-09-25",
+              "val": 29915000000
+            }
+          },
+          {
+            "ticker": "AAPL",
+            "cik": 320193,
+            "metric_id": "revenue",
+            "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "unit": "USD",
+            "row": {
+              "accn": "0000320193-24-000123",
+              "end": "2023-09-30",
+              "filed": "2024-11-01",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2022-09-25",
+              "val": 383285000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2022-09-25",
+          "end": "2023-09-30",
+          "first_filed": "2023-11-03",
+          "available_from": "2023-11-04"
+        }
+      }
+    },
+    {
+      "id": "H03",
+      "split": "heldout",
+      "category": "numeric",
+      "request": {
+        "ticker": "NVDA",
+        "fiscal_year": 2022,
+        "metric_id": "net_margin",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "36.23",
+        "unit": "%",
+        "operands": [
+          {
+            "ticker": "NVDA",
+            "cik": 1045810,
+            "metric_id": "net_income",
+            "tag": "NetIncomeLoss",
+            "unit": "USD",
+            "row": {
+              "accn": "0001045810-24-000029",
+              "end": "2022-01-30",
+              "filed": "2024-02-21",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2021-02-01",
+              "val": 9752000000
+            }
+          },
+          {
+            "ticker": "NVDA",
+            "cik": 1045810,
+            "metric_id": "revenue",
+            "tag": "Revenues",
+            "unit": "USD",
+            "row": {
+              "accn": "0001045810-24-000029",
+              "end": "2022-01-30",
+              "filed": "2024-02-21",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2021",
+              "fy": 2024,
+              "start": "2021-02-01",
+              "val": 26914000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2021-02-01",
+          "end": "2022-01-30",
+          "first_filed": "2022-03-18",
+          "available_from": "2022-03-19"
+        }
+      }
+    },
+    {
+      "id": "H04",
+      "split": "heldout",
+      "category": "numeric",
+      "request": {
+        "ticker": "GOOGL",
+        "fiscal_year": 2024,
+        "metric_id": "cash_conversion",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "125.15",
+        "unit": "%",
+        "operands": [
+          {
+            "ticker": "GOOGL",
+            "cik": 1652044,
+            "metric_id": "operating_cash_flow",
+            "tag": "NetCashProvidedByUsedInOperatingActivities",
+            "unit": "USD",
+            "row": {
+              "accn": "0001652044-25-000014",
+              "end": "2024-12-31",
+              "filed": "2025-02-05",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2024-01-01",
+              "val": 125299000000
+            }
+          },
+          {
+            "ticker": "GOOGL",
+            "cik": 1652044,
+            "metric_id": "net_income",
+            "tag": "NetIncomeLoss",
+            "unit": "USD",
+            "row": {
+              "accn": "0001652044-25-000014",
+              "end": "2024-12-31",
+              "filed": "2025-02-05",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2024-01-01",
+              "val": 100118000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "first_filed": "2025-02-05",
+          "available_from": "2025-02-06"
+        }
+      }
+    },
+    {
+      "id": "H05",
+      "split": "heldout",
+      "category": "numeric",
+      "request": {
+        "ticker": "META",
+        "fiscal_year": 2023,
+        "metric_id": "liabilities_to_assets",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "33.30",
+        "unit": "%",
+        "operands": [
+          {
+            "ticker": "META",
+            "cik": 1326801,
+            "metric_id": "liabilities",
+            "tag": "Liabilities",
+            "unit": "USD",
+            "row": {
+              "accn": "0001326801-25-000017",
+              "end": "2023-12-31",
+              "filed": "2025-01-30",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2023Q4I",
+              "fy": 2024,
+              "val": 76455000000
+            }
+          },
+          {
+            "ticker": "META",
+            "cik": 1326801,
+            "metric_id": "assets",
+            "tag": "Assets",
+            "unit": "USD",
+            "row": {
+              "accn": "0001326801-25-000017",
+              "end": "2023-12-31",
+              "filed": "2025-01-30",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2023Q4I",
+              "fy": 2024,
+              "val": 229623000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2023-01-01",
+          "end": "2023-12-31",
+          "first_filed": "2024-02-02",
+          "available_from": "2024-02-03"
+        }
+      }
+    },
+    {
+      "id": "H06",
+      "split": "heldout",
+      "category": "numeric",
+      "request": {
+        "ticker": "AMZN",
+        "fiscal_year": 2022,
+        "metric_id": "current_ratio",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "0.94",
+        "unit": "ratio",
+        "operands": [
+          {
+            "ticker": "AMZN",
+            "cik": 1018724,
+            "metric_id": "current_assets",
+            "tag": "AssetsCurrent",
+            "unit": "USD",
+            "row": {
+              "accn": "0001018724-24-000008",
+              "end": "2022-12-31",
+              "filed": "2024-02-02",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2022Q4I",
+              "fy": 2023,
+              "val": 146791000000
+            }
+          },
+          {
+            "ticker": "AMZN",
+            "cik": 1018724,
+            "metric_id": "current_liabilities",
+            "tag": "LiabilitiesCurrent",
+            "unit": "USD",
+            "row": {
+              "accn": "0001018724-24-000008",
+              "end": "2022-12-31",
+              "filed": "2024-02-02",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2022Q4I",
+              "fy": 2023,
+              "val": 155393000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2022-01-01",
+          "end": "2022-12-31",
+          "first_filed": "2023-02-03",
+          "available_from": "2023-02-04"
+        }
+      }
+    },
+    {
+      "id": "H07",
+      "split": "heldout",
+      "category": "numeric",
+      "request": {
+        "ticker": "TSLA",
+        "fiscal_year": 2024,
+        "metric_id": "cash_to_assets",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "13.22",
+        "unit": "%",
+        "operands": [
+          {
+            "ticker": "TSLA",
+            "cik": 1318605,
+            "metric_id": "cash",
+            "tag": "CashAndCashEquivalentsAtCarryingValue",
+            "unit": "USD",
+            "row": {
+              "accn": "0001628280-25-003063",
+              "end": "2024-12-31",
+              "filed": "2025-01-30",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "val": 16139000000
+            }
+          },
+          {
+            "ticker": "TSLA",
+            "cik": 1318605,
+            "metric_id": "assets",
+            "tag": "Assets",
+            "unit": "USD",
+            "row": {
+              "accn": "0001628280-25-003063",
+              "end": "2024-12-31",
+              "filed": "2025-01-30",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "val": 122070000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "first_filed": "2025-01-30",
+          "available_from": "2025-01-31"
+        }
+      }
+    },
+    {
+      "id": "H08",
+      "split": "heldout",
+      "category": "numeric",
+      "request": {
+        "ticker": "AMD",
+        "fiscal_year": 2023,
+        "metric_id": "capex_ratio",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "2.41",
+        "unit": "%",
+        "operands": [
+          {
+            "ticker": "AMD",
+            "cik": 2488,
+            "metric_id": "capital_expenditure",
+            "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+            "unit": "USD",
+            "row": {
+              "accn": "0000002488-25-000012",
+              "end": "2023-12-30",
+              "filed": "2025-02-05",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2023-01-01",
+              "val": 546000000
+            }
+          },
+          {
+            "ticker": "AMD",
+            "cik": 2488,
+            "metric_id": "revenue",
+            "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "unit": "USD",
+            "row": {
+              "accn": "0000002488-25-000012",
+              "end": "2023-12-30",
+              "filed": "2025-02-05",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2023-01-01",
+              "val": 22680000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2023-01-01",
+          "end": "2023-12-30",
+          "first_filed": "2024-01-31",
+          "available_from": "2024-02-01"
+        }
+      }
+    },
+    {
+      "id": "H09",
+      "split": "heldout",
+      "category": "numeric",
+      "request": {
+        "ticker": "MSFT",
+        "fiscal_year": 2022,
+        "metric_id": "current_ratio",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "1.78",
+        "unit": "ratio",
+        "operands": [
+          {
+            "ticker": "MSFT",
+            "cik": 789019,
+            "metric_id": "current_assets",
+            "tag": "AssetsCurrent",
+            "unit": "USD",
+            "row": {
+              "accn": "0000950170-23-035122",
+              "end": "2022-06-30",
+              "filed": "2023-07-27",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2022Q2I",
+              "fy": 2023,
+              "val": 169684000000
+            }
+          },
+          {
+            "ticker": "MSFT",
+            "cik": 789019,
+            "metric_id": "current_liabilities",
+            "tag": "LiabilitiesCurrent",
+            "unit": "USD",
+            "row": {
+              "accn": "0000950170-23-035122",
+              "end": "2022-06-30",
+              "filed": "2023-07-27",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2022Q2I",
+              "fy": 2023,
+              "val": 95082000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2021-07-01",
+          "end": "2022-06-30",
+          "first_filed": "2022-07-28",
+          "available_from": "2022-07-29"
+        }
+      }
+    },
+    {
+      "id": "H10",
+      "split": "heldout",
+      "category": "numeric",
+      "request": {
+        "ticker": "AAPL",
+        "fiscal_year": 2024,
+        "metric_id": "net_margin",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "23.97",
+        "unit": "%",
+        "operands": [
+          {
+            "ticker": "AAPL",
+            "cik": 320193,
+            "metric_id": "net_income",
+            "tag": "NetIncomeLoss",
+            "unit": "USD",
+            "row": {
+              "accn": "0000320193-24-000123",
+              "end": "2024-09-28",
+              "filed": "2024-11-01",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2023-10-01",
+              "val": 93736000000
+            }
+          },
+          {
+            "ticker": "AAPL",
+            "cik": 320193,
+            "metric_id": "revenue",
+            "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "unit": "USD",
+            "row": {
+              "accn": "0000320193-24-000123",
+              "end": "2024-09-28",
+              "filed": "2024-11-01",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2023-10-01",
+              "val": 391035000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2023-10-01",
+          "end": "2024-09-28",
+          "first_filed": "2024-11-01",
+          "available_from": "2024-11-02"
+        }
+      }
+    },
+    {
+      "id": "H11",
+      "split": "heldout",
+      "category": "numeric",
+      "request": {
+        "ticker": "NVDA",
+        "fiscal_year": 2024,
+        "metric_id": "cash",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "7280000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "NVDA",
+            "cik": 1045810,
+            "metric_id": "cash",
+            "tag": "CashAndCashEquivalentsAtCarryingValue",
+            "unit": "USD",
+            "row": {
+              "accn": "0001045810-25-000023",
+              "end": "2024-01-28",
+              "filed": "2025-02-26",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2023Q4I",
+              "fy": 2025,
+              "val": 7280000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2023-01-30",
+          "end": "2024-01-28",
+          "first_filed": "2024-02-21",
+          "available_from": "2024-02-22"
+        }
+      }
+    },
+    {
+      "id": "H12",
+      "split": "heldout",
+      "category": "numeric",
+      "request": {
+        "ticker": "AMZN",
+        "fiscal_year": 2023,
+        "metric_id": "operating_cash_flow",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "84946000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "AMZN",
+            "cik": 1018724,
+            "metric_id": "operating_cash_flow",
+            "tag": "NetCashProvidedByUsedInOperatingActivities",
+            "unit": "USD",
+            "row": {
+              "accn": "0001018724-25-000004",
+              "end": "2023-12-31",
+              "filed": "2025-02-07",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2023-01-01",
+              "val": 84946000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2023-01-01",
+          "end": "2023-12-31",
+          "first_filed": "2024-02-02",
+          "available_from": "2024-02-03"
+        }
+      }
+    },
+    {
+      "id": "H13",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "MSFT",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2024-07-30"
+      },
+      "expected": {
+        "status": "unavailable_as_of",
+        "value": null,
+        "unit": null,
+        "operands": [],
+        "period": {
+          "start": "2023-07-01",
+          "end": "2024-06-30",
+          "first_filed": "2024-07-30",
+          "available_from": "2024-07-31"
+        }
+      }
+    },
+    {
+      "id": "H14",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "MSFT",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2024-07-31"
+      },
+      "expected": {
+        "status": "available",
+        "value": "245122000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "MSFT",
+            "cik": 789019,
+            "metric_id": "revenue",
+            "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "unit": "USD",
+            "row": {
+              "accn": "0000950170-24-087843",
+              "end": "2024-06-30",
+              "filed": "2024-07-30",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2023-07-01",
+              "val": 245122000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2023-07-01",
+          "end": "2024-06-30",
+          "first_filed": "2024-07-30",
+          "available_from": "2024-07-31"
+        }
+      }
+    },
+    {
+      "id": "H15",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "AAPL",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2024-11-01"
+      },
+      "expected": {
+        "status": "unavailable_as_of",
+        "value": null,
+        "unit": null,
+        "operands": [],
+        "period": {
+          "start": "2023-10-01",
+          "end": "2024-09-28",
+          "first_filed": "2024-11-01",
+          "available_from": "2024-11-02"
+        }
+      }
+    },
+    {
+      "id": "H16",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "AAPL",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2024-11-02"
+      },
+      "expected": {
+        "status": "available",
+        "value": "391035000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "AAPL",
+            "cik": 320193,
+            "metric_id": "revenue",
+            "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "unit": "USD",
+            "row": {
+              "accn": "0000320193-24-000123",
+              "end": "2024-09-28",
+              "filed": "2024-11-01",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2023-10-01",
+              "val": 391035000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2023-10-01",
+          "end": "2024-09-28",
+          "first_filed": "2024-11-01",
+          "available_from": "2024-11-02"
+        }
+      }
+    },
+    {
+      "id": "H17",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "NVDA",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2024-02-21"
+      },
+      "expected": {
+        "status": "unavailable_as_of",
+        "value": null,
+        "unit": null,
+        "operands": [],
+        "period": {
+          "start": "2023-01-30",
+          "end": "2024-01-28",
+          "first_filed": "2024-02-21",
+          "available_from": "2024-02-22"
+        }
+      }
+    },
+    {
+      "id": "H18",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "NVDA",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2024-02-22"
+      },
+      "expected": {
+        "status": "available",
+        "value": "60922000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "NVDA",
+            "cik": 1045810,
+            "metric_id": "revenue",
+            "tag": "Revenues",
+            "unit": "USD",
+            "row": {
+              "accn": "0001045810-24-000029",
+              "end": "2024-01-28",
+              "filed": "2024-02-21",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2023-01-30",
+              "val": 60922000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2023-01-30",
+          "end": "2024-01-28",
+          "first_filed": "2024-02-21",
+          "available_from": "2024-02-22"
+        }
+      }
+    },
+    {
+      "id": "H19",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "GOOGL",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2025-02-05"
+      },
+      "expected": {
+        "status": "unavailable_as_of",
+        "value": null,
+        "unit": null,
+        "operands": [],
+        "period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "first_filed": "2025-02-05",
+          "available_from": "2025-02-06"
+        }
+      }
+    },
+    {
+      "id": "H20",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "GOOGL",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2025-02-06"
+      },
+      "expected": {
+        "status": "available",
+        "value": "350018000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "GOOGL",
+            "cik": 1652044,
+            "metric_id": "revenue",
+            "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "unit": "USD",
+            "row": {
+              "accn": "0001652044-25-000014",
+              "end": "2024-12-31",
+              "filed": "2025-02-05",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2024",
+              "fy": 2024,
+              "start": "2024-01-01",
+              "val": 350018000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "first_filed": "2025-02-05",
+          "available_from": "2025-02-06"
+        }
+      }
+    },
+    {
+      "id": "H21",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "META",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2025-01-30"
+      },
+      "expected": {
+        "status": "unavailable_as_of",
+        "value": null,
+        "unit": null,
+        "operands": [],
+        "period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "first_filed": "2025-01-30",
+          "available_from": "2025-01-31"
+        }
+      }
+    },
+    {
+      "id": "H22",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "META",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2025-01-31"
+      },
+      "expected": {
+        "status": "available",
+        "value": "164501000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "META",
+            "cik": 1326801,
+            "metric_id": "revenue",
+            "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "unit": "USD",
+            "row": {
+              "accn": "0001326801-25-000017",
+              "end": "2024-12-31",
+              "filed": "2025-01-30",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2024-01-01",
+              "val": 164501000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "first_filed": "2025-01-30",
+          "available_from": "2025-01-31"
+        }
+      }
+    },
+    {
+      "id": "H23",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "AMZN",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2025-02-07"
+      },
+      "expected": {
+        "status": "unavailable_as_of",
+        "value": null,
+        "unit": null,
+        "operands": [],
+        "period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "first_filed": "2025-02-07",
+          "available_from": "2025-02-08"
+        }
+      }
+    },
+    {
+      "id": "H24",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "AMZN",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2025-02-08"
+      },
+      "expected": {
+        "status": "available",
+        "value": "637959000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "AMZN",
+            "cik": 1018724,
+            "metric_id": "revenue",
+            "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "unit": "USD",
+            "row": {
+              "accn": "0001018724-25-000004",
+              "end": "2024-12-31",
+              "filed": "2025-02-07",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2024-01-01",
+              "val": 637959000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "first_filed": "2025-02-07",
+          "available_from": "2025-02-08"
+        }
+      }
+    },
+    {
+      "id": "H25",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "TSLA",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2025-01-30"
+      },
+      "expected": {
+        "status": "unavailable_as_of",
+        "value": null,
+        "unit": null,
+        "operands": [],
+        "period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "first_filed": "2025-01-30",
+          "available_from": "2025-01-31"
+        }
+      }
+    },
+    {
+      "id": "H26",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "TSLA",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2025-01-31"
+      },
+      "expected": {
+        "status": "available",
+        "value": "97690000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "TSLA",
+            "cik": 1318605,
+            "metric_id": "revenue",
+            "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "unit": "USD",
+            "row": {
+              "accn": "0001628280-25-003063",
+              "end": "2024-12-31",
+              "filed": "2025-01-30",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2024-01-01",
+              "val": 97690000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "first_filed": "2025-01-30",
+          "available_from": "2025-01-31"
+        }
+      }
+    },
+    {
+      "id": "H27",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "AMD",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2025-02-05"
+      },
+      "expected": {
+        "status": "unavailable_as_of",
+        "value": null,
+        "unit": null,
+        "operands": [],
+        "period": {
+          "start": "2023-12-31",
+          "end": "2024-12-28",
+          "first_filed": "2025-02-05",
+          "available_from": "2025-02-06"
+        }
+      }
+    },
+    {
+      "id": "H28",
+      "split": "heldout",
+      "category": "disclosure_boundary",
+      "request": {
+        "ticker": "AMD",
+        "fiscal_year": 2024,
+        "metric_id": "revenue",
+        "cutoff": "2025-02-06"
+      },
+      "expected": {
+        "status": "available",
+        "value": "25785000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "AMD",
+            "cik": 2488,
+            "metric_id": "revenue",
+            "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+            "unit": "USD",
+            "row": {
+              "accn": "0000002488-25-000012",
+              "end": "2024-12-28",
+              "filed": "2025-02-05",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "start": "2023-12-31",
+              "val": 25785000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2023-12-31",
+          "end": "2024-12-28",
+          "first_filed": "2025-02-05",
+          "available_from": "2025-02-06"
+        }
+      }
+    },
+    {
+      "id": "H29",
+      "split": "heldout",
+      "category": "abstention",
+      "request": {
+        "ticker": "NVDA",
+        "fiscal_year": 2024,
+        "metric_id": "free_cash_flow",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "unknown",
+        "value": null,
+        "unit": null,
+        "operands": [
+          {
+            "ticker": "NVDA",
+            "cik": 1045810,
+            "metric_id": "operating_cash_flow",
+            "tag": "NetCashProvidedByUsedInOperatingActivities",
+            "unit": "USD",
+            "row": {
+              "accn": "0001045810-25-000023",
+              "end": "2024-01-28",
+              "filed": "2025-02-26",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2025,
+              "start": "2023-01-30",
+              "val": 28090000000
+            }
+          }
+        ],
+        "missing_operands": [
+          "capital_expenditure"
+        ],
+        "period": {
+          "start": "2023-01-30",
+          "end": "2024-01-28",
+          "first_filed": "2024-02-21",
+          "available_from": "2024-02-22"
+        }
+      }
+    },
+    {
+      "id": "H30",
+      "split": "heldout",
+      "category": "abstention",
+      "request": {
+        "ticker": "AMZN",
+        "fiscal_year": 2024,
+        "metric_id": "research_and_development",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "unknown",
+        "value": null,
+        "unit": null,
+        "operands": [],
+        "missing_operands": [
+          "research_and_development"
+        ],
+        "period": {
+          "start": "2024-01-01",
+          "end": "2024-12-31",
+          "first_filed": "2025-02-07",
+          "available_from": "2025-02-08"
+        }
+      }
+    },
+    {
+      "id": "H31",
+      "split": "heldout",
+      "category": "abstention",
+      "request": {
+        "ticker": "MSFT",
+        "fiscal_year": 2024,
+        "metric_id": "price_earnings",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "unsupported",
+        "value": null,
+        "unit": null,
+        "operands": []
+      }
+    },
+    {
+      "id": "H32",
+      "split": "heldout",
+      "category": "abstention",
+      "request": {
+        "ticker": "AAPL",
+        "fiscal_year": 2027,
+        "metric_id": "revenue",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "unavailable_as_of",
+        "value": null,
+        "unit": null,
+        "operands": []
+      }
+    },
+    {
+      "id": "H33",
+      "split": "heldout",
+      "category": "period_alignment",
+      "request": {
+        "ticker": "NVDA",
+        "fiscal_year": 2023,
+        "metric_id": "operating_income",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "4224000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "NVDA",
+            "cik": 1045810,
+            "metric_id": "operating_income",
+            "tag": "OperatingIncomeLoss",
+            "unit": "USD",
+            "row": {
+              "accn": "0001045810-25-000023",
+              "end": "2023-01-29",
+              "filed": "2025-02-26",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2022",
+              "fy": 2025,
+              "start": "2022-01-31",
+              "val": 4224000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2022-01-31",
+          "end": "2023-01-29",
+          "first_filed": "2023-02-24",
+          "available_from": "2023-02-25"
+        }
+      }
+    },
+    {
+      "id": "H34",
+      "split": "heldout",
+      "category": "period_alignment",
+      "request": {
+        "ticker": "AAPL",
+        "fiscal_year": 2022,
+        "metric_id": "stockholders_equity",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "50672000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "AAPL",
+            "cik": 320193,
+            "metric_id": "stockholders_equity",
+            "tag": "StockholdersEquity",
+            "unit": "USD",
+            "row": {
+              "accn": "0000320193-24-000123",
+              "end": "2022-09-24",
+              "filed": "2024-11-01",
+              "form": "10-K",
+              "fp": "FY",
+              "fy": 2024,
+              "val": 50672000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2021-09-26",
+          "end": "2022-09-24",
+          "first_filed": "2022-10-28",
+          "available_from": "2022-10-29"
+        }
+      }
+    },
+    {
+      "id": "H35",
+      "split": "heldout",
+      "category": "period_alignment",
+      "request": {
+        "ticker": "AMD",
+        "fiscal_year": 2022,
+        "metric_id": "net_income",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "1320000000",
+        "unit": "USD",
+        "operands": [
+          {
+            "ticker": "AMD",
+            "cik": 2488,
+            "metric_id": "net_income",
+            "tag": "NetIncomeLoss",
+            "unit": "USD",
+            "row": {
+              "accn": "0000002488-25-000012",
+              "end": "2022-12-31",
+              "filed": "2025-02-05",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2022",
+              "fy": 2024,
+              "start": "2021-12-26",
+              "val": 1320000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2021-12-26",
+          "end": "2022-12-31",
+          "first_filed": "2023-02-27",
+          "available_from": "2023-02-28"
+        }
+      }
+    },
+    {
+      "id": "H36",
+      "split": "heldout",
+      "category": "period_alignment",
+      "request": {
+        "ticker": "TSLA",
+        "fiscal_year": 2023,
+        "metric_id": "current_ratio",
+        "cutoff": "2025-04-01"
+      },
+      "expected": {
+        "status": "available",
+        "value": "1.73",
+        "unit": "ratio",
+        "operands": [
+          {
+            "ticker": "TSLA",
+            "cik": 1318605,
+            "metric_id": "current_assets",
+            "tag": "AssetsCurrent",
+            "unit": "USD",
+            "row": {
+              "accn": "0001628280-25-003063",
+              "end": "2023-12-31",
+              "filed": "2025-01-30",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2023Q4I",
+              "fy": 2024,
+              "val": 49616000000
+            }
+          },
+          {
+            "ticker": "TSLA",
+            "cik": 1318605,
+            "metric_id": "current_liabilities",
+            "tag": "LiabilitiesCurrent",
+            "unit": "USD",
+            "row": {
+              "accn": "0001628280-25-003063",
+              "end": "2023-12-31",
+              "filed": "2025-01-30",
+              "form": "10-K",
+              "fp": "FY",
+              "frame": "CY2023Q4I",
+              "fy": 2024,
+              "val": 28748000000
+            }
+          }
+        ],
+        "period": {
+          "start": "2023-01-01",
+          "end": "2023-12-31",
+          "first_filed": "2024-01-29",
+          "available_from": "2024-01-30"
+        }
+      }
+    }
+  ]
+}

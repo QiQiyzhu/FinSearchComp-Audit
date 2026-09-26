@@ -1,18 +1,20 @@
 # FinAgent 工作台：体验与部署
 
-[在线案例](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/) · [项目首页](https://qiqiyzhu.github.io/FinSearchComp-Audit/) · [源码](https://github.com/QiQiyzhu/FinSearchComp-Audit)
+[在线终端](https://qiqiyzhu.github.io/FinSearchComp-Audit/terminal/) · [项目首页](https://qiqiyzhu.github.io/FinSearchComp-Audit/) · [源码](https://github.com/QiQiyzhu/FinSearchComp-Audit)
 
 ## 先体验
 
-在线工作台运行在 GitHub Pages，使用带 SEC 原始来源的历史快照。选择案例、查看报告、切换证据与轨迹、导出 Markdown / JSON 都不需要 API Key。页面会标明数据截止日和历史回放状态；不会把任意输入伪装成实时模型回答。
+FinAgent 3.0 运行在 GitHub Pages。八家公司、多年度、25 个指标可以自由查询；公司研究、比较、证据库、时点评测、收藏及 Markdown / CSV / JSON 导出均无需 API Key。数据来自 2026-09-22 抓取并冻结的 SEC 记录，网页依据输入选择历史版本，不是固定报告回放。
 
-GitHub Pages 只托管静态文件。它不保存模型密钥，也不运行 Python。使用真实模型和实时数据，需要下方的完整服务。工作台可以在连接设置中接入自己部署的服务；推荐直接访问服务提供的同源工作台。
+**完整服务打开 `/terminal/`**。原 v2 仍在 `/workbench/`，根路径保留兼容。新终端的连接设置可接入同源或独立后端，发起“DeepSeek 整理年度摘要”：模型只选择并组织已通过证据门禁的年度事实。当前财务查询与增长计算不依赖模型。
 
-v2 提供公司研究、双公司对比与质量验证。在线静态站点可直接回放四个案例（包括 Microsoft × Apple）；连接完整服务后，`demo` 模式也能对快照覆盖范围内的新问题进行真实计算，不消耗模型额度。`snapshot` / `live` 按已配置的模式运行。
+GitHub Pages 不运行 Python，也不保存模型密钥。真实 DeepSeek 需部署以下完整服务；HTTPS 公开页面不能连接 HTTP 后端，请给远程后端配置 HTTPS，或直接使用本地服务的同源终端。服务访问令牌不是 DeepSeek Key。
+
+新 API 为 `POST /api/terminal/research`（`demo` 或 `snapshot`），任务查询、执行轨迹与导出继续使用 `/api/research/{id}`。旧 `POST /api/research` 的 `live` SEC 获取模式保留在 v2；新终端的证据集固定为已审计档案，截止日不能晚于数据抓取日。
 
 ## 一键云端开发环境
 
-[在 GitHub Codespaces 启动](https://codespaces.new/QiQiyzhu/FinSearchComp-Audit?quickstart=1)。环境安装依赖后自动启动 8090 端口；默认保持端口私有。第一次访问即可运行离线案例。
+[在 GitHub Codespaces 启动](https://codespaces.new/QiQiyzhu/FinSearchComp-Audit?quickstart=1)。环境安装依赖后自动启动 8090 端口；默认保持端口私有。启动后打开端口对应 URL 的 `/terminal/` 即可研究。
 
 Codespaces 由你的 GitHub 账户提供计算资源，其额度与计费遵循 GitHub 账户设置。若要使用 DeepSeek，在 Codespaces 的私有终端复制 `.env.example` 为 `.env`，按下方启用，然后执行 `bash scripts/codespace-start.sh --restart` 重启本项目启动的服务。不要把 `.env` 提交到 Git。
 
@@ -29,7 +31,7 @@ pip install -r requirements-workbench.txt
 python -m uvicorn research_workbench.api:create_app --factory --host 127.0.0.1 --port 8090
 ```
 
-打开 `http://127.0.0.1:8090`。API 交互文档为 `/docs`。Windows 也可直接运行：
+打开 `http://127.0.0.1:8090/terminal/`。API 交互文档为 `/docs`。Windows 也可直接运行：
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/start-workbench.ps1
@@ -42,7 +44,7 @@ docker compose up --build -d
 docker compose logs -f workbench
 ```
 
-打开 `http://127.0.0.1:8090`。容器以非 root 用户运行，数据库与缓存保存在命名卷 `workbench-data`。默认端口只绑定本机。停止服务使用 `docker compose down`；保留命名卷即可保留数据。
+打开 `http://127.0.0.1:8090/terminal/`。容器以非 root 用户运行，数据库与缓存保存在命名卷 `workbench-data`。默认端口只绑定本机。停止服务使用 `docker compose down`；保留命名卷即可保留数据。
 
 ## 开启真实 DeepSeek
 
@@ -60,6 +62,8 @@ SEC_USER_AGENT=FinAgentResearch/1.0 your-real-contact@example.com
 `SEC_USER_AGENT` 请替换为实际项目身份与联系方式，便于 SEC 识别自动访问。设置完成后重启服务。在工作台的连接设置中输入**服务访问令牌**；它不是 DeepSeek Key。模型密钥始终留在服务端。
 
 只在本机使用、服务绑定 `127.0.0.1` 时，可以保留 `FINAGENT_API_TOKEN` 为空，并显式设置 `FINAGENT_PUBLIC_LIVE=true`。这会允许访问该服务的人发起真实模型请求，因此共享部署推荐保留服务令牌。
+
+以下 `live` 仅属于兼容的 v2 接口；v3 终端使用 `demo` / `snapshot`。
 
 | 模式 | 数据来源 | 模型行为 | 所需配置 |
 |---|---|---|---|

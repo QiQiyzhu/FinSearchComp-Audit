@@ -1,0 +1,270 @@
+{
+  "schema_version": 1,
+  "raw_payload_sha256": {
+    "MSFT": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+    "AAPL": "2d1974cf68b105aa4ae1a9da58bc95488993216dde40f8470bcf17eef4c8a472",
+    "NVDA": "c8d2deb79257bf637db44c1166c78aa5f344a138d9e9071ba49c532054ee6e6f",
+    "GOOGL": "67e9eb51a09725a55b786cc0a569efcfb9906ad170e445e4775bc2126e22ae7d",
+    "META": "0317fc3e86d06ba1660234ad40ec4c1408d9828fd2c4c45e25e2394bfd676699",
+    "AMZN": "9ed7d44b3b63e1ddaa71cffd3828101a8f998b7c8198b3c62e218ff3ed440f84",
+    "TSLA": "7546c50f42aebd116fa8c665708f40e64200f14a4649444c3171deaf6311553e",
+    "AMD": "7a88466c7622fc1d640cc115be5e7badb7bea43b481750e4ae084e158da665e8"
+  },
+  "tags": {
+    "revenue": [
+      "RevenueFromContractWithCustomerExcludingAssessedTax",
+      "Revenues",
+      "SalesRevenueNet"
+    ],
+    "operating_income": [
+      "OperatingIncomeLoss"
+    ],
+    "net_income": [
+      "NetIncomeLoss"
+    ],
+    "operating_cash_flow": [
+      "NetCashProvidedByUsedInOperatingActivities"
+    ],
+    "capital_expenditure": [
+      "PaymentsToAcquirePropertyPlantAndEquipment"
+    ],
+    "research_and_development": [
+      "ResearchAndDevelopmentExpense"
+    ],
+    "assets": [
+      "Assets"
+    ],
+    "liabilities": [
+      "Liabilities"
+    ],
+    "cash": [
+      "CashAndCashEquivalentsAtCarryingValue"
+    ],
+    "current_assets": [
+      "AssetsCurrent"
+    ],
+    "current_liabilities": [
+      "LiabilitiesCurrent"
+    ],
+    "stockholders_equity": [
+      "StockholdersEquity"
+    ]
+  },
+  "instant_metrics": [
+    "assets",
+    "cash",
+    "current_assets",
+    "current_liabilities",
+    "liabilities",
+    "stockholders_equity"
+  ],
+  "formulas": {
+    "operating_margin": [
+      "ratio",
+      "operating_income",
+      "revenue"
+    ],
+    "net_margin": [
+      "ratio",
+      "net_income",
+      "revenue"
+    ],
+    "rd_ratio": [
+      "ratio",
+      "research_and_development",
+      "revenue"
+    ],
+    "cash_conversion": [
+      "ratio",
+      "operating_cash_flow",
+      "net_income"
+    ],
+    "free_cash_flow": [
+      "subtract",
+      "operating_cash_flow",
+      "capital_expenditure"
+    ],
+    "liabilities_to_assets": [
+      "ratio",
+      "liabilities",
+      "assets"
+    ],
+    "cash_to_assets": [
+      "ratio",
+      "cash",
+      "assets"
+    ],
+    "capex_ratio": [
+      "ratio",
+      "capital_expenditure",
+      "revenue"
+    ],
+    "current_ratio": [
+      "multiple",
+      "current_assets",
+      "current_liabilities"
+    ]
+  },
+  "periods": {
+    "MSFT": {
+      "2022": {
+        "start": "2021-07-01",
+        "end": "2022-06-30",
+        "first_filed": "2022-07-28",
+        "available_from": "2022-07-29"
+      },
+      "2023": {
+        "start": "2022-07-01",
+        "end": "2023-06-30",
+        "first_filed": "2023-07-27",
+        "available_from": "2023-07-28"
+      },
+      "2024": {
+        "start": "2023-07-01",
+        "end": "2024-06-30",
+        "first_filed": "2024-07-30",
+        "available_from": "2024-07-31"
+      }
+    },
+    "AAPL": {
+      "2022": {
+        "start": "2021-09-26",
+        "end": "2022-09-24",
+        "first_filed": "2022-10-28",
+        "available_from": "2022-10-29"
+      },
+      "2023": {
+        "start": "2022-09-25",
+        "end": "2023-09-30",
+        "first_filed": "2023-11-03",
+        "available_from": "2023-11-04"
+      },
+      "2024": {
+        "start": "2023-10-01",
+        "end": "2024-09-28",
+        "first_filed": "2024-11-01",
+        "available_from": "2024-11-02"
+      }
+    },
+    "NVDA": {
+      "2022": {
+        "start": "2021-02-01",
+        "end": "2022-01-30",
+        "first_filed": "2022-03-18",
+        "available_from": "2022-03-19"
+      },
+      "2023": {
+        "start": "2022-01-31",
+        "end": "2023-01-29",
+        "first_filed": "2023-02-24",
+        "available_from": "2023-02-25"
+      },
+      "2024": {
+        "start": "2023-01-30",
+        "end": "2024-01-28",
+        "first_filed": "2024-02-21",
+        "available_from": "2024-02-22"
+      }
+    },
+    "GOOGL": {
+      "2022": {
+        "start": "2022-01-01",
+        "end": "2022-12-31",
+        "first_filed": "2023-02-03",
+        "available_from": "2023-02-04"
+      },
+      "2023": {
+        "start": "2023-01-01",
+        "end": "2023-12-31",
+        "first_filed": "2024-01-31",
+        "available_from": "2024-02-01"
+      },
+      "2024": {
+        "start": "2024-01-01",
+        "end": "2024-12-31",
+        "first_filed": "2025-02-05",
+        "available_from": "2025-02-06"
+      }
+    },
+    "META": {
+      "2022": {
+        "start": "2022-01-01",
+        "end": "2022-12-31",
+        "first_filed": "2023-02-02",
+        "available_from": "2023-02-03"
+      },
+      "2023": {
+        "start": "2023-01-01",
+        "end": "2023-12-31",
+        "first_filed": "2024-02-02",
+        "available_from": "2024-02-03"
+      },
+      "2024": {
+        "start": "2024-01-01",
+        "end": "2024-12-31",
+        "first_filed": "2025-01-30",
+        "available_from": "2025-01-31"
+      }
+    },
+    "AMZN": {
+      "2022": {
+        "start": "2022-01-01",
+        "end": "2022-12-31",
+        "first_filed": "2023-02-03",
+        "available_from": "2023-02-04"
+      },
+      "2023": {
+        "start": "2023-01-01",
+        "end": "2023-12-31",
+        "first_filed": "2024-02-02",
+        "available_from": "2024-02-03"
+      },
+      "2024": {
+        "start": "2024-01-01",
+        "end": "2024-12-31",
+        "first_filed": "2025-02-07",
+        "available_from": "2025-02-08"
+      }
+    },
+    "TSLA": {
+      "2022": {
+        "start": "2022-01-01",
+        "end": "2022-12-31",
+        "first_filed": "2023-01-31",
+        "available_from": "2023-02-01"
+      },
+      "2023": {
+        "start": "2023-01-01",
+        "end": "2023-12-31",
+        "first_filed": "2024-01-29",
+        "available_from": "2024-01-30"
+      },
+      "2024": {
+        "start": "2024-01-01",
+        "end": "2024-12-31",
+        "first_filed": "2025-01-30",
+        "available_from": "2025-01-31"
+      }
+    },
+    "AMD": {
+      "2022": {
+        "start": "2021-12-26",
+        "end": "2022-12-31",
+        "first_filed": "2023-02-27",
+        "available_from": "2023-02-28"
+      },
+      "2023": {
+        "start": "2023-01-01",
+        "end": "2023-12-30",
+        "first_filed": "2024-01-31",
+        "available_from": "2024-02-01"
+      },
+      "2024": {
+        "start": "2023-12-31",
+        "end": "2024-12-28",
+        "first_filed": "2025-02-05",
+        "available_from": "2025-02-06"
+      }
+    }
+  }
+}

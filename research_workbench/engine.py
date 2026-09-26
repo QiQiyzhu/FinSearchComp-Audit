@@ -105,7 +105,7 @@ def synthesize(settings: Settings, question: str, plan: dict[str, Any], claims: 
         if not required_claim_metrics(plan, claims).issubset(selected_metrics):
             raise ResearchError("MODEL_GROUNDING_REJECTED", "模型选择未覆盖问题要求的已知指标，已改用完整的确定性摘要。")
         usage = body.get("usage", {})
-        receipt = {"request_id": str(body.get("id", ""))[:200], "latency_ms": round((time.monotonic() - started) * 1000),
+        receipt = {"request_id": str(body.get("id", ""))[:200], "response_model": str(body.get("model", ""))[:100], "latency_ms": round((time.monotonic() - started) * 1000),
                    "usage": {key: usage[key] for key in ("prompt_tokens", "completion_tokens", "total_tokens") if isinstance(usage.get(key), int)}}
         return {"selection": selection, "receipt": receipt}
     except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError) as exc:

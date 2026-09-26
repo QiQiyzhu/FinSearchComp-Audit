@@ -1,0 +1,36 @@
+{
+  "suite": "terminal-structured-pit-v1",
+  "frozen_at": "2026-09-26T05:08:03+00:00",
+  "cases": 60,
+  "development_cases": 24,
+  "heldout_cases": 36,
+  "files": {
+    "development.json": "2a86817e541f38fdd6f8da04ec7f6a1d887fea40c4651e44a024f0a6b4443c57",
+    "heldout.json": "f505293f8a17dfedfe3bca4b34c221d23374fc29fe612de355ffc69872d1c2c9",
+    "gold.json": "8db7bd6030c38b97efa4ea0d64608401657b9c9af7d694aa8329e017b1b1c245"
+  },
+  "dataset_sha256": "b138e3e4e1d0e15616169208bf1f35b91dfd5afb92298c798d8ea082abaf5976",
+  "cutoff_policy": "A day-only SEC filing is usable from filed + 1 calendar day. No claim of first public disclosure or intraday timing.",
+  "scope": "Project-authored structured metric queries, 8 issuers, FY2022-FY2024; no natural-language accuracy or investment-return claim.",
+  "independence": "Gold selected from raw SEC companyfacts with literal rows and Fraction arithmetic; no product imports. Coordination separates heldout author from implementers, not a physical access barrier.",
+  "coverage": {
+    "issuers": [
+      "MSFT",
+      "AAPL",
+      "NVDA",
+      "GOOGL",
+      "META",
+      "AMZN",
+      "TSLA",
+      "AMD"
+    ],
+    "fiscal_years": [
+      2022,
+      2023,
+      2024
+    ],
+    "development": "24 numeric queries",
+    "heldout": "12 numeric, 16 disclosure-boundary, 4 abstention, 4 period-alignment queries"
+  },
+  "exposure_policy": "Do not expose heldout cases or gold to implementation agents until first implementation freeze and first evaluation receipt."
+}

@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "experiment_id": "pit-exposed-pilot-evidence-gate-replay-v3",
+  "experiment_type": "deterministic_system_intervention_on_already_exposed_responses",
+  "gate_version": "supplied-evidence-gate-1.0",
+  "source_dataset_sha256": "926006e4dc6ab8d2192cad3b117e797f67545e4822890f5762a81836c2171ed0",
+  "source_receipt_sha256": "368c2246baf5c14013fe21c2d79b66a003e2e026026dd27b67aa3e656dcdc8d9",
+  "source_trace_sha256": "5477e4fe23e2f3e4d854b2557eda07f3688b216ad3dec3523d950df00cc905af",
+  "gate_code_sha256": "4f071a77f318e88f6fc2daa6d7e7e93c16edb81eb32abc7802ddb9ab3f432566",
+  "network_calls": 0,
+  "new_model_calls": 0,
+  "retrieval_calls": 0,
+  "protocol": {
+    "decision_inputs": [
+      "original supplied documents",
+      "original cutoff",
+      "requested metric and formula",
+      "original structured response"
+    ],
+    "gold_in_gate": false,
+    "availability": "filed_date_plus_one_calendar_day",
+    "action": "Accept only if the original response cites all required supplied operands, all are historically available and the structured value/unit equal exact recomputation. Otherwise abstain. No value repair or retrieval.",
+    "scorer": "unchanged pit_benchmark.pilot.score_answer, applied after gate",
+    "limitations": [
+      "36 outputs reuse 6 exposed development questions and 3 shared filings; not a new heldout/model evaluation.",
+      "This changes the system evidence policy; it does not improve or re-run the LLM.",
+      "Memory-only correct post-filing answers are blocked, reducing answer coverage.",
+      "The gate certifies the structured value, unit and citations only; raw model explanatory prose is replaced by a deterministic statement.",
+      "Historical support is relative to supplied designated filings, not all public information."
+    ]
+  },
+  "summary": {
+    "before": {
+      "planned": 36,
+      "decision_correct": 23,
+      "pre_planned": 18,
+      "pre_correct_abstention": 5,
+      "pre_unsupported_answers": 13,
+      "post_planned": 18,
+      "post_answers": 18,
+      "post_numeric_correct": 18,
+      "post_correct_supported": 12,
+      "future_evidence_accepted": 1
+    },
+    "after": {
+      "planned": 36,
+      "decision_correct": 30,
+      "pre_planned": 18,
+      "pre_correct_abstention": 18,
+      "pre_unsupported_answers": 0,
+      "post_planned": 18,
+      "post_answers": 12,
+      "post_numeric_correct": 12,
+      "post_correct_supported": 12,
+      "future_evidence_accepted": 0
+    },
+    "post_answer_coverage_loss": 6,
+    "accepted_original_answers": 12,
+    "blocked_original_answers": 19,
+    "retained_model_abstentions": 5,
+    "gate_reason_counts": {
+      "no_cited_evidence": 18,
+      "model_abstained": 5,
+      "complete_supported_value": 12,
+      "future_or_same_day_evidence": 1
+    },
+    "by_condition": [
+      {
+        "condition": "closed_book",
+        "before": {
+          "planned": 12,
+          "decision_correct": 6,
+          "pre_planned": 6,
+          "pre_correct_abstention": 0,
+          "pre_unsupported_answers": 6,
+          "post_planned": 6,
+          "post_answers": 6,
+          "post_numeric_correct": 6,
+          "post_correct_supported": 0,
+          "future_evidence_accepted": 0
+        },
+        "after": {
+          "planned": 12,
+          "decision_correct": 6,
+          "pre_planned": 6,
+          "pre_correct_abstention": 6,
+          "pre_unsupported_answers": 0,
+          "post_planned": 6,
+          "post_answers": 0,
+          "post_numeric_correct": 0,
+          "post_correct_supported": 0,
+          "future_evidence_accepted": 0
+        }
+      },
+      {
+        "condition": "unfiltered",
+        "before": {
+          "planned": 12,
+          "decision_correct": 11,
+          "pre_planned": 6,
+          "pre_correct_abstention": 5,
+          "pre_unsupported_answers": 1,
+          "post_planned": 6,
+          "post_answers": 6,
+          "post_numeric_correct": 6,
+          "post_correct_supported": 6,
+          "future_evidence_accepted": 1
+        },
+        "after": {
+          "planned": 12,
+          "decision_correct": 12,
+          "pre_planned": 6,
+          "pre_correct_abstention": 6,
+          "pre_unsupported_answers": 0,
+          "post_planned": 6,
+          "post_answers": 6,
+          "post_numeric_correct": 6,
+          "post_correct_supported": 6,
+          "future_evidence_accepted": 0
+        }
+      },
+      {
+        "condition": "pit_filtered",
+        "before": {
+          "planned": 12,
+          "decision_correct": 6,
+          "pre_planned": 6,
+          "pre_correct_abstention": 0,
+          "pre_unsupported_answers": 6,
+          "post_planned": 6,
+          "post_answers": 6,
+          "post_numeric_correct": 6,
+          "post_correct_supported": 6,
+          "future_evidence_accepted": 0
+        },
+        "after": {
+          "planned": 12,
+          "decision_correct": 12,
+          "pre_planned": 6,
+          "pre_correct_abstention": 6,
+          "pre_unsupported_answers": 0,
+          "post_planned": 6,
+          "post_answers": 6,
+          "post_numeric_correct": 6,
+          "post_correct_supported": 6,
+          "future_evidence_accepted": 0
+        }
+      }
+    ]
+  },
+  "receipt_url": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/verification/pit-gate-replay-v3.json",
+  "methods_url": "https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/PIT_GATE_INTERVENTION.md"
+}

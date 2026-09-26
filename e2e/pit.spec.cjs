@@ -10,8 +10,7 @@ test('PIT page compares saved observations, dates and evidence without creating 
   const writes = [];
   page.on('pageerror',error => errors.push(error.message));
   page.on('request',request => { if (request.method() !== 'GET') writes.push(request.url()); });
-  await page.goto('http://127.0.0.1:8092');
-  await page.getByRole('link',{name:'查看时点评测'}).click();
+  await page.goto(URL);
   await expect(page.locator('#pit-content')).toBeVisible();
   const apple = bundle.cases.find(c => c.ticker === 'AAPL');
   await page.locator('#issuer-filter').selectOption('AAPL');

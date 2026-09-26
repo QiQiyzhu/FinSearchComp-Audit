@@ -1,0 +1,135 @@
+{
+  "suite": "terminal-nlq-intent-v1",
+  "cases": [
+    {
+      "id": "NH01",
+      "split": "heldout",
+      "question": "What percentage of FY2024 revenue went to research and development?",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": true,
+        "metric_ids": [
+          "rd_ratio"
+        ],
+        "fiscal_year": 2024,
+        "operation": "value"
+      }
+    },
+    {
+      "id": "NH02",
+      "split": "heldout",
+      "question": "FY2023 经营现金流占净利润的比例是多少？",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": true,
+        "metric_ids": [
+          "cash_conversion"
+        ],
+        "fiscal_year": 2023,
+        "operation": "value"
+      }
+    },
+    {
+      "id": "NH03",
+      "split": "heldout",
+      "question": "FY2022 的总资产和总负债是多少？",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": true,
+        "metric_ids": [
+          "assets",
+          "liabilities"
+        ],
+        "fiscal_year": 2022,
+        "operation": "value"
+      }
+    },
+    {
+      "id": "NH04",
+      "split": "heldout",
+      "question": "What is the FY2024 current ratio?",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": true,
+        "metric_ids": [
+          "current_ratio"
+        ],
+        "fiscal_year": 2024,
+        "operation": "value"
+      }
+    },
+    {
+      "id": "NH05",
+      "split": "heldout",
+      "question": "FY2024 相比 FY2023 经营现金流增长百分之多少？",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": true,
+        "metric_ids": [
+          "operating_cash_flow"
+        ],
+        "fiscal_year": 2024,
+        "operation": "growth_pct"
+      }
+    },
+    {
+      "id": "NH06",
+      "split": "heldout",
+      "question": "预测微软未来十二个月目标价。",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": false
+      }
+    },
+    {
+      "id": "NH07",
+      "split": "heldout",
+      "question": "上一年的营业收入是多少？",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": false
+      }
+    },
+    {
+      "id": "NH08",
+      "split": "heldout",
+      "question": "预测明年的净利润增速。",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": false
+      }
+    }
+  ]
+}

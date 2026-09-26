@@ -1,0 +1,135 @@
+{
+  "suite": "terminal-nlq-intent-v1",
+  "cases": [
+    {
+      "id": "ND01",
+      "split": "development",
+      "question": "微软 FY2024 的营收和营业利润率是多少？",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": true,
+        "metric_ids": [
+          "revenue",
+          "operating_margin"
+        ],
+        "fiscal_year": 2024,
+        "operation": "value"
+      }
+    },
+    {
+      "id": "ND02",
+      "split": "development",
+      "question": "What was Apple free cash flow in FY2023?",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": true,
+        "metric_ids": [
+          "free_cash_flow"
+        ],
+        "fiscal_year": 2023,
+        "operation": "value"
+      }
+    },
+    {
+      "id": "ND03",
+      "split": "development",
+      "question": "FY2024 相比 FY2023，营业收入同比增长百分比是多少？",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": true,
+        "metric_ids": [
+          "revenue"
+        ],
+        "fiscal_year": 2024,
+        "operation": "growth_pct"
+      }
+    },
+    {
+      "id": "ND04",
+      "split": "development",
+      "question": "FY2024 相比 FY2023，净利润增加了多少美元？",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": true,
+        "metric_ids": [
+          "net_income"
+        ],
+        "fiscal_year": 2024,
+        "operation": "growth_amount"
+      }
+    },
+    {
+      "id": "ND05",
+      "split": "development",
+      "question": "FY2024 相比 FY2023 营业利润率变化了多少个百分点？",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": true,
+        "metric_ids": [
+          "operating_margin"
+        ],
+        "fiscal_year": 2024,
+        "operation": "change_pp"
+      }
+    },
+    {
+      "id": "ND06",
+      "split": "development",
+      "question": "2024 年第三季度营收是多少？",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": false
+      }
+    },
+    {
+      "id": "ND07",
+      "split": "development",
+      "question": "微软现在的最新股价是多少？",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": false
+      }
+    },
+    {
+      "id": "ND08",
+      "split": "development",
+      "question": "近几年营业收入是多少？",
+      "context": {
+        "ticker": "MSFT",
+        "cutoff": "2025-04-01",
+        "year": 2024
+      },
+      "expected": {
+        "supported": false
+      }
+    }
+  ]
+}

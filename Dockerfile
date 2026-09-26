@@ -5,6 +5,7 @@ COPY requirements-workbench.txt ./
 RUN pip install --no-cache-dir -r requirements-workbench.txt && useradd --create-home appuser
 COPY research_workbench ./research_workbench
 COPY site/workbench ./site/workbench
+COPY site/terminal ./site/terminal
 RUN mkdir -p /app/build && chown -R appuser:appuser /app
 USER appuser
 EXPOSE 8090

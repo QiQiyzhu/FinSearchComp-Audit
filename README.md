@@ -1,87 +1,82 @@
-# FinAgent · 金融研究工作台
+# FinAgent 3.0 · 可验证的金融研究终端
 
-**从一个研究问题，到可核验的财务事实、研究摘要与条件判断。**
+**每个数字，都有当时的依据。** 八家公司、多年度财报、版本化证据与独立评测，合在一个可以直接操作的网页中。
 
-面向面试展示和单机研究部署的完整应用：浏览器工作台 + FastAPI 服务 + SEC 财报检索 + DeepSeek 证据编排 + 持久任务与审计轨迹。它把本仓库的金融搜索论文实践接到可操作的产品流程中。
-
-[**立即体验 →**](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/) · [项目首页](https://qiqiyzhu.github.io/FinSearchComp-Audit/) · [部署指南](docs/WORKBENCH_DEPLOY.md) · [90 秒面试讲解](docs/WORKBENCH_INTERVIEW.md) · [论文与产品依据](docs/WORKBENCH_RESEARCH.md)
+[**一键进入研究终端 →**](https://qiqiyzhu.github.io/FinSearchComp-Audit/terminal/) · [项目首页](https://qiqiyzhu.github.io/FinSearchComp-Audit/) · [部署指南](docs/WORKBENCH_DEPLOY.md) · [给面试官和老师的讲解](docs/TERMINAL_BRIEFING.md) · [论文方法映射](docs/TERMINAL_METHODS.md)
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/QiQiyzhu/FinSearchComp-Audit?quickstart=1)
 
-> 在线体验使用有来源的历史财报快照，无需注册或 API Key。完整服务提供历史快照 + 真实 DeepSeek，以及 SEC 实时获取 + DeepSeek 两种模式；数据时间、模型调用和证据状态分别标注。
+公开网页无需账号或 Key，直接执行财务查询、历史版本选择、趋势和比较。DeepSeek 可在部署后接入：数字先由程序核验，模型组织已验证的年度事实。
 
-[![FinAgent v2 工作台实际界面](docs/assets/workbench/workbench-v2-desktop.png)](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/)
+[![FinAgent 3.0 实际研究终端](docs/assets/workbench/terminal-v3-desktop.png)](https://qiqiyzhu.github.io/FinSearchComp-Audit/terminal/)
 
-[实际 DeepSeek 双公司操作录像](docs/assets/workbench/workbench-v2-demo.webm) · [真实调用与验证记录](docs/WORKBENCH_VERIFICATION.md)
+## 三分钟体验
 
-**v2 工作台**：逐个子问题回答、可追溯公式、公司财务对比，以及单独呈现的[质量评测](docs/WORKBENCH_QUALITY.md)。[直接查看 Microsoft × Apple 对比](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/?example=msft-aapl-comparison)；财年期间不同会明确提示，不用错位数据给公司排名。
+1. **公司研究**：选择 MSFT、FY2024，查询营业利润率和自由现金流；查看多年趋势和财务表。
+2. **证据核验**：打开某个数字的证据，追到 SEC 申报、XBRL 标签、原始值、期间、计算式与哈希。
+3. **时点切换**：把截止日调到申报前后，观察年度可用性变化；进入时点评测查看 36 次真实 DeepSeek 记录。
+4. **公司比较**：切换公司、保存工作区、导出报告；财年不同会明确标注。
+5. **质量与方法**：查看首次保留题成绩、暴露问题和修复回归，沿链接重跑实验。
 
-40 道项目内冻结问题的首次评测，完整回答从 **50% → 95%**；首次保留集为 **18/20**。公开两道失败后的修复回归为 40/40，单独记录，不覆盖首评分数。这些结果不代表开放金融研究或投资判断准确率。
+## 这次大版本升级
 
-**Point-in-Time 研究试点**：[打开时点评测](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/pit.html) · [给老师的研究方案](docs/PIT_RESEARCH_PROPOSAL.md) · [实验协议](docs/PIT_PILOT_PROTOCOL.md) · [复现实验](pit_benchmark/README.md)。围绕三家公司六道财报题，配对观察指定申报前后、三种证据条件下的真实模型回答；逐条保留时间、原始证据与运行记录。它是封闭材料的时点合规试点，尚不测量模型的精确训练截止日期。
-
-## 给面试官的 3 分钟路径
-
-1. **打开工作台**，选择公司研究或公司对比，先查看每个子问题的回答。
-2. **点击证据**，核对原始申报链接、期间、申报时间、数据指纹和计算公式。
-3. **打开质量验证**，比较旧版和新版在冻结问题上的表现；再展开执行轨迹或导出报告。
-4. **运行完整服务**，连接自己的 DeepSeek 配置，换一个公司或历史截止日发起研究。
-
-## 这次升级具体做了什么
-
-| 产品能力 | 可检查的实现 |
+| 能力 | 可检查的实现 |
 |---|---|
-| 搜索与提取 | SEC Company Facts，显式公司、财务标签、年度期间与 filing date；可选 Tavily 上下文 |
-| 证据验证 | 截止日过滤、期间与单位检查、缺项拒答、来源 ID 与 SHA-256 |
-| 计算与归纳 | Decimal 计算营收增长、利润率和现金流指标；模型在已验证事实范围内组织摘要 |
-| 问题级回答 | 多指标、多操作分别回答；区分同比百分比、金额增量与利润率百分点变化 |
-| 公司对比 | 独立发行人证据、命名空间引用、财年起止校验；缺失值不作零值处理 |
-| 质量验证 | 冻结问题与独立财务答案，分别衡量取数、完整回答、拒答与时间边界 |
-| 研究判断 | 支持因素、风险、条件与下一步；证据质量和市场预测分开 |
-| 完整操作链 | 持久异步任务、幂等、容量限制、运行历史、故障状态与报告导出 |
-| 部署体验 | GitHub Pages 免 Key 体验、Codespaces、Docker Compose、Windows 一键启动 |
+| 真正可操作的公开终端 | 公司研究、同业比较、证据库、时点评测、质量与方法；浏览器内真实查询与计算 |
+| 八家公司、多年财务 | MSFT / AAPL / NVDA / GOOGL / META / AMZN / TSLA / AMD；FY2019–2026 内实际披露的年度 |
+| 25 个财务指标 | 收入、盈利、现金流、资产负债、比率；未知口径显式保留，不用零值填充 |
+| 历史版本而非最新值回填 | 58 个披露事件、171 个年度版本、1,787 条原始证据；申报次日起纳入历史截面 |
+| 证据与数值交付检查 | 公司、财年、期间、单位、完整操作数、来源与时间逐项检查 |
+| 模型与确定性计算分工 | 精确有理数计算；DeepSeek 仅排序和选择已核验结论；失败时保留真实状态和完整数值答案 |
+| 工作区与交付物 | 浏览器收藏和历史、趋势、证据检索、Markdown / CSV / JSON 导出 |
+| 可部署后端 | FastAPI、SQLite 持久异步任务、幂等、服务令牌、预算与容量限制、Docker / Codespaces |
 
-```mermaid
-flowchart LR
-    Q[研究问题 / 公司 / 截止日] --> P[指标与期间规划]
-    P --> R[SEC 数据检索 / 可选网页搜索]
-    R --> V[时间 / 单位 / 证据验证]
-    V --> C[Decimal 财务计算]
-    C --> M[DeepSeek 有依据的摘要编排]
-    M --> W[报告 / 原文 / 执行轨迹]
-    V --> G[证据缺口与条件判断]
-    G --> W
-```
+这次吸收了 [FinFIRST](https://arxiv.org/abs/2609.25192) 的原子评分、[EvidenceLoop](https://openreview.net/pdf?id=x4zQDewgHr) 的证据验证，以及 [ExAnte](https://aclanthology.org/2026.eacl-long.72/) 的时点合规思想。产品工作流参考 Rogo 和 AlphaSense；具体实现范围见[方法说明](docs/TERMINAL_METHODS.md)，不宣称完整复现论文或达到商业终端能力。
 
-## 运行
+## 准确率如何验证
 
-Python 3.11+：
+新建题集先冻结，gold 由原始 SEC 字面行及独立 Fraction 算术得到；实现者在首次评分前未读取保留题。隔离是协作约定，不是第三方盲评或物理权限隔离。
+
+| 首次评测 | 全集 | 首次保留集 | 测量对象 |
+|---|---:|---:|---|
+| 结构化财务 / PIT 查询 | **58/60（96.67%）** | **34/36** | 数值、单位、实体、期间、完整证据、时间和拒答同时通过 |
+| 自然语言意图解析 | **14/16** | **6/8** | 中文/英文指标、年度、计算操作与拒答识别 |
+
+首评发现现金资产比实现遗漏、未来年度状态分类不准确，以及两个意图识别缺口。修复后的成绩作为回归另列，首评不会覆盖。60 题与 16 题测量不同能力，不合并成一个“金融 AI 准确率”。主评测禁用网络和模型；真实 DeepSeek 调用、旧 36 次模型实验及系统门禁回放分别保存。
+
+[完整验证记录](docs/TERMINAL_VERIFICATION.md) · [结构化首次记录](docs/verification/terminal-structured-first.json) · [自然语言首次记录](docs/verification/terminal-nlq-first.json) · [方法与局限](docs/TERMINAL_METHODS.md)
+
+## 运行自己的终端
 
 ```bash
 pip install -r requirements-workbench.txt
 python -m uvicorn research_workbench.api:create_app --factory --host 127.0.0.1 --port 8090
 ```
 
-打开 **http://127.0.0.1:8090**。首次启动就能运行离线案例。Windows 可直接执行：
-
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/start-workbench.ps1
-```
-
-Docker：
+打开 **http://127.0.0.1:8090/terminal/**，首次启动即可运行公开数据研究。或：
 
 ```bash
 docker compose up --build -d
 ```
 
-真实模型模式先复制 `.env.example` 为 `.env`，设置 DeepSeek Key、开启 live，并按[配置说明](docs/WORKBENCH_DEPLOY.md)选择服务访问令牌或仅本机访问。前端不接收 DeepSeek Key。
+接入真实模型时，复制 `.env.example` 为 `.env`，在服务端配置 DeepSeek 与访问策略。网页只填写自己的后端地址与服务令牌，模型 Key 不进入前端。详细说明见[部署指南](docs/WORKBENCH_DEPLOY.md)。
 
-## 验证与边界
+## 复现与边界
 
-- [验证记录](docs/WORKBENCH_VERIFICATION.md)与[质量评测](docs/WORKBENCH_QUALITY.md)：工程测试、实际模型调用与财务问答质量分别记录。
-- 新工作台聚焦 **8 家美股公司、年度基本面研究**；未覆盖 A 股、实时股价、估值数据库或自动交易。报告中的判断是证据范围内的研究结论，不是回测证明的交易策略。
-- SQLite 与进程内执行器面向单实例部署；多租户权限、队列集群、合规审计与服务等级保障属于后续工作。
-- 论文迁移是工程方法吸收。原 ATLAS 的 20 题研究指标保留在[研究档案](https://qiqiyzhu.github.io/FinSearchComp-Audit/research.html)，**不代表新工作台的线上准确率**。
+```bash
+python -m unittest discover -s research_workbench -p 'test_*.py'
+python -m unittest discover -s evals/terminal -p 'test_*.py'
+python scripts/evaluate_terminal.py --split all --label local-regression --output build/quality/terminal-local.json
+python scripts/evaluate_terminal_nlq.py --split all --label local-regression --output build/quality/nlq-local.json
+python scripts/verify_terminal_release.py
+python scripts/build_product_site.py
+npm ci
+npm test
+```
+
+数据于 2026-09-22 抓取；历史截面从 CompanyFacts 历史条目重建，尚非当时留存的完整数据库，也不代表相关指标首次在新闻稿等其他渠道公开的时间。当前覆盖美股年度基本面，不含实时股价、新闻研报全文库、未来预测或自动交易。SQLite 和线程任务适合单实例部署，多租户、队列集群和服务等级保障仍属后续工作。
+
+[v2 工作台](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/)与[首轮 PIT 试点](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/pit.html)继续可用。原始 40 题首评 38/40、旧模型实验和早期负结果保留，均不当作新终端的开放金融研究准确率。
 
 ## 研究基础与原始实验
 

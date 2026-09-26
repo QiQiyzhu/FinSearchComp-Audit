@@ -30,6 +30,12 @@ jobs:
         run: python -m unittest discover -s evals/workbench -p 'test_*.py' -v
       - name: Frozen financial questions must not regress
         run: python scripts/evaluate_workbench.py --split all --output build/quality/ci-evaluation.json --require-no-regression docs/verification/workbench-quality-v2-first.json
+      - name: Terminal atomic financial evaluation
+        run: |
+          python -m unittest discover -s evals/terminal -p 'test_*.py' -v
+          python scripts/evaluate_terminal.py --split all --label ci-regression --output build/quality/terminal-ci.json --require-no-regression docs/verification/terminal-structured-first.json
+          python scripts/verify_terminal_release.py
+          python scripts/replay_pit_gate.py --verify
       - name: Reproduce research and build product website
         run: python scripts/build_product_site.py
       - uses: actions/setup-node@v4
@@ -37,6 +43,10 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - name: Terminal natural language intent evaluation
+        run: |
+          python scripts/evaluate_terminal_nlq.py --split all --label ci-regression --output build/quality/terminal-nlq-ci.json --require-no-regression docs/verification/terminal-nlq-first.json
+          python scripts/check_terminal_parity.py --output build/quality/terminal-parity-ci.json
       - run: npx playwright install --with-deps chromium
       - name: Browser journey, static replay and mobile layout
         run: npm test
