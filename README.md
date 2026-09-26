@@ -1,4 +1,4 @@
-# FinAgent 3.0 · 可验证的金融研究终端
+# FinAgent 3.1 · 联网金融研究终端
 
 **每个数字，都有当时的依据。** 八家公司、多年度财报、版本化证据与独立评测，合在一个可以直接操作的网页中。
 
@@ -6,12 +6,15 @@
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/QiQiyzhu/FinSearchComp-Audit?quickstart=1)
 
-公开网页无需账号或 Key，直接执行财务查询、历史版本选择、趋势和比较。DeepSeek 可在部署后接入：数字先由程序核验，模型组织已验证的年度事实。
+公开网页提供**联网研究**：输入新问题，后端调用 DeepSeek 拆解问题，实时搜索 SEC 申报并读取原文，程序提取与计算财务指标，再进行来源、时间、引用和语义复核，生成带引用的报告。模型 Key 只保存在服务端。免费展示服务休眠后首次连接需要唤醒，访问量受每日额度限制。
+
+原有公司研究、历史版本、趋势、比较、时点评测和质量验证继续支持浏览器离线运行。[公网部署与能力边界](docs/LIVE_DEPLOYMENT.md) · [联网链路设计](docs/LIVE_RESEARCH.md)
 
 [![FinAgent 3.0 实际研究终端](docs/assets/workbench/terminal-v3-desktop.png)](https://qiqiyzhu.github.io/FinSearchComp-Audit/terminal/)
 
 ## 三分钟体验
 
+0. **联网研究**：输入“微软最新年度的资本投入与现金流能否支持继续扩张？”，查看 DeepSeek 计划、实时搜索记录、原文引用、计算表和核验缺口；换成自己的问题重新运行。
 1. **公司研究**：选择 MSFT、FY2024，查询营业利润率和自由现金流；查看多年趋势和财务表。
 2. **证据核验**：打开某个数字的证据，追到 SEC 申报、XBRL 标签、原始值、期间、计算式与哈希。
 3. **时点切换**：把截止日调到申报前后，观察年度可用性变化；进入时点评测查看 36 次真实 DeepSeek 记录。
@@ -27,7 +30,7 @@
 | 25 个财务指标 | 收入、盈利、现金流、资产负债、比率；未知口径显式保留，不用零值填充 |
 | 历史版本而非最新值回填 | 58 个披露事件、171 个年度版本、1,787 条原始证据；申报次日起纳入历史截面 |
 | 证据与数值交付检查 | 公司、财年、期间、单位、完整操作数、来源与时间逐项检查 |
-| 模型与确定性计算分工 | 精确有理数计算；DeepSeek 仅排序和选择已核验结论；失败时保留真实状态和完整数值答案 |
+| 联网研究与模型分工 | DeepSeek 规划、引用分析、独立语义复核；程序负责精确有理数计算和来源／时点／原文门禁 |
 | 工作区与交付物 | 浏览器收藏和历史、趋势、证据检索、Markdown / CSV / JSON 导出 |
 | 可部署后端 | FastAPI、SQLite 持久异步任务、幂等、服务令牌、预算与容量限制、Docker / Codespaces |
 
@@ -59,7 +62,7 @@ python -m uvicorn research_workbench.api:create_app --factory --host 127.0.0.1 -
 docker compose up --build -d
 ```
 
-接入真实模型时，复制 `.env.example` 为 `.env`，在服务端配置 DeepSeek 与访问策略。网页只填写自己的后端地址与服务令牌，模型 Key 不进入前端。详细说明见[部署指南](docs/WORKBENCH_DEPLOY.md)。
+部署自己的真实研究服务时，复制 `.env.example` 为 `.env`，在服务端配置 DeepSeek 与访问策略。仓库提供 Render 免费 Web + Key Value Blueprint；网页自动连接配置好的公网地址，也支持自己的后端。模型 Key 不进入前端。详细说明见[公网部署指南](docs/LIVE_DEPLOYMENT.md)。
 
 ## 复现与边界
 
@@ -74,7 +77,7 @@ npm ci
 npm test
 ```
 
-数据于 2026-09-22 抓取；历史截面从 CompanyFacts 历史条目重建，尚非当时留存的完整数据库，也不代表相关指标首次在新闻稿等其他渠道公开的时间。当前覆盖美股年度基本面，不含实时股价、新闻研报全文库、未来预测或自动交易。SQLite 和线程任务适合单实例部署，多租户、队列集群和服务等级保障仍属后续工作。
+离线数据于 2026-09-22 抓取；联网研究每次读取新材料并记录实际抓取时间。历史截面从 CompanyFacts 历史条目重建，尚非当时留存的完整数据库，也不代表相关指标首次在其他渠道公开的时间。联网首版覆盖八家公司的 SEC 申报与年度指标；不含实时股价、全网新闻研报库、未来价格预测或自动交易。已有冻结题集成绩不代表开放联网研究的准确率。Render 免费 Web 的报告存储在休眠或重启后可能清空；独立 Redis 保留跨 Web 重启的预算，但自身重启仍可能丢失计数。
 
 [v2 工作台](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/)与[首轮 PIT 试点](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/pit.html)继续可用。原始 40 题首评 38/40、旧模型实验和早期负结果保留，均不当作新终端的开放金融研究准确率。
 

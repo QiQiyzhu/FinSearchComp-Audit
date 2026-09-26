@@ -20,6 +20,7 @@ from .workflows import WorkflowEngine, export_report
 from .sources import COMPANIES, DEMO_CUTOFF, DEMO_TICKERS, canonical
 from .store import AdmissionError, JobService
 from .terminal_engine import ApplicationEngine, terminal_cube, terminal_markdown
+from .live_engine import live_markdown
 
 EXAMPLES = [
     {"id": "msft-cashflow", "title": "Microsoft：AI 投入下的现金流", "question": "分析微软 FY2024 相比 FY2023 的收入、盈利与现金流，资本支出增加后还有多少自由现金流？给出需要继续核验的风险。", "ticker": "MSFT", "as_of": DEMO_CUTOFF, "mode": "demo"},
@@ -90,6 +91,11 @@ class ResearchRequest(BaseModel):
         return value
 
 
+class LiveRequest(ResearchRequest):
+    mode: Literal["live"] = "live"
+    compare_with: None = None
+
+
 class TerminalRequest(ResearchRequest):
     mode: Literal["demo", "snapshot"] = "demo"
     fiscal_year: int = Field(ge=2019, le=2026)
@@ -113,11 +119,12 @@ def public_config(settings: Settings) -> dict[str, Any]:
                 "demo": {"available": True, "label": "离线演示", "detail": "真实 SEC 历史快照 + 确定性计算；不调用模型。", "requires_token": False},
                 "snapshot": {"available": settings.available("snapshot"), "label": "快照 + DeepSeek", "detail": "历史证据 + 实时模型归纳；数据不是实时行情。", "requires_token": bool(settings.api_token)},
                 "live": {"available": settings.available("live"), "label": "实时研究", "detail": "检索 SEC 当前数据库并按截止日过滤，模型按配置启用。", "requires_token": bool(settings.api_token)},
+                "live_research": {"available": settings.available("live_research"), "label": "联网研究", "detail": "DeepSeek 规划 → SEC 搜索与原文读取 → 确定性计算 → 引用与语义复核。", "requires_token": bool(settings.api_token)},
             },
-            "features": {"sec": bool(settings.sec_user_agent), "deepseek": bool(settings.deepseek_api_key), "web_search": bool(settings.tavily_api_key), "exports": True, "comparison": True, "question_answers": True, "terminal": True, "persistence": "sqlite"},
+            "features": {"sec": bool(settings.sec_user_agent), "deepseek": bool(settings.deepseek_api_key), "web_search": bool(settings.tavily_api_key), "sec_full_text_search": True, "live_research": settings.available("live_research"), "exports": True, "comparison": True, "question_answers": True, "terminal": True, "persistence": "sqlite", "budget_store": "redis" if settings.redis_url else "sqlite"},
             "tickers": [{"ticker": ticker, "name": company["name"]} for ticker, company in COMPANIES.items()], "demo_tickers": DEMO_TICKERS,
             "limits": {"question_chars": 2000, "live_requests_per_hour": settings.live_requests_per_hour, "live_global_per_day": settings.live_global_per_day, "quota_unit": "issuer_analysis", "comparison_units": 2},
-            "scope": "单公司及双公司年度 10-K 财务研究；不同期间仅并列展示；不含价格预测或交易执行。"}
+            "scope": "八家公司 SEC 申报联网研究与年度财务计算；保留历史查询和同业比较；不含全网新闻库、实时股价或交易执行。"}
 
 
 def create_app(settings: Settings | None = None, *, engine: ResearchEngine | None = None) -> FastAPI:
@@ -215,6 +222,22 @@ def create_app(settings: Settings | None = None, *, engine: ResearchEngine | Non
     def get_research(identifier: str, authorization: Annotated[str | None, Header()] = None) -> dict[str, Any]:
         return require_job(identifier, authorization)
 
+    @app.post("/api/live/research", status_code=202)
+    def live_research(body: LiveRequest, request: Request,
+                      authorization: Annotated[str | None, Header()] = None,
+                      idempotency_key: Annotated[str | None, Header(alias="Idempotency-Key")] = None) -> dict[str, Any]:
+        authorize("live_research", authorization)
+        if idempotency_key is not None and not 1 <= len(idempotency_key) <= 128:
+            raise HTTPException(422, "Idempotency-Key 必须为 1–128 个字符。")
+        client = hashlib.sha256((request.client.host if request.client else "unknown").encode()).hexdigest()
+        payload = body.model_dump(mode="json", exclude_none=True)
+        payload["workflow"] = "live_research"
+        try:
+            job = service.submit(payload, client, idempotency_key)
+        except AdmissionError as exc:
+            raise HTTPException(exc.status, exc.detail, headers={"Retry-After": "60"} if exc.status == 429 else None) from exc
+        return {"id": job["id"], "status": job["status"]}
+
     @app.post("/api/terminal/research", status_code=202)
     def terminal_research(body: TerminalRequest, request: Request,
                           authorization: Annotated[str | None, Header()] = None,
@@ -243,8 +266,16 @@ def create_app(settings: Settings | None = None, *, engine: ResearchEngine | Non
             raise HTTPException(409, "研究尚未完成，无法导出结果。")
         extension = "md" if format == "markdown" else "json"
         renderer = terminal_markdown if job["result"].get("report_type") == "terminal" else export_report
+        if job["result"].get("report_type") == "live_research":
+            renderer = live_markdown
         content = renderer(job["result"]) if format == "markdown" else canonical(job["result"])
         return Response(content, media_type="text/markdown" if format == "markdown" else "application/json", headers={"Content-Disposition": f'attachment; filename="{identifier}.{extension}"'})
+
+    @app.get("/terminal/data/runtime.json")
+    def terminal_runtime() -> dict[str, Any]:
+        # A self-hosted terminal must use its own server, not the public demo
+        # URL embedded in the GitHub Pages static build.
+        return {"api_base_url": "", "use_same_origin": True}
 
     terminal_static = ROOT / "site" / "terminal"
     if terminal_static.is_dir():

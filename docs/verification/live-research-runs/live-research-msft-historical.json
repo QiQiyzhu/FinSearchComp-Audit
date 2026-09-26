@@ -1,0 +1,959 @@
+{
+  "report_type": "live_research",
+  "version": "3.1.0",
+  "title": "MSFT · 联网研究",
+  "question": "微软FY2024的营业利润率、自由现金流和AI投资压力如何？请根据截止日前披露形成有引用的分析。",
+  "ticker": "MSFT",
+  "company": "Microsoft",
+  "as_of": "2024-08-01",
+  "generated_at": "2026-09-26T06:13:11+00:00",
+  "plan": {
+    "objective": "检索 Microsoft 在 2024-08-01 前可得的披露，回答所提问题并核验计算清单。",
+    "research_questions": [
+      "微软FY2024的营业利润率与营业利润、营业收入相比上一财年如何变化？",
+      "微软FY2024的自由现金流（经营现金流减资本支出）规模及自由现金流率表现如何？",
+      "微软FY2024资本支出与研发费用相对收入的比重上升，反映了多大的AI投资压力？"
+    ],
+    "queries": [
+      "capital expenditures AI infrastructure",
+      "operating income revenue",
+      "free cash flow operating activities"
+    ],
+    "metric_ids": [
+      "operating_margin",
+      "operating_income",
+      "revenue",
+      "free_cash_flow",
+      "operating_cash_flow",
+      "capital_expenditure",
+      "free_cash_flow_margin",
+      "capex_ratio"
+    ],
+    "fiscal_year": 2024,
+    "forms": [
+      "10-K",
+      "10-Q",
+      "8-K"
+    ]
+  },
+  "answer": "微软披露其云与人工智能基础设施投资将持续推高运营成本，并可能压低营业利润率。\n\n微软在年度报告中表示，为支持云业务增长及人工智能基础设施与训练投入，预计未来数年资本支出将增加。\n\n微软称其人工智能相关成本将压低此前实现的营业利润率，并指出云与人工智能服务的成功取决于执行情况。\n\n微软在季度报告中表示，将承担重大开发与运营成本以构建和支持满足客户需求的人工智能能力、产品与服务。\n\n若微软持续以当前节奏投入云与人工智能基础设施，则其披露的成本压力可能对营业利润率构成下行约束，但该判断取决于未来收入增长与执行效率，并非对利润率的预测。",
+  "claims": [
+    {
+      "id": "C01",
+      "type": "observation",
+      "text": "微软披露其云与人工智能基础设施投资将持续推高运营成本，并可能压低营业利润率。",
+      "evidence_ids": [
+        "DOC_1",
+        "DOC_2"
+      ],
+      "quotes": [
+        {
+          "source_id": "DOC_1",
+          "quote": "The investments we are making in cloud and AI infrastructure and devices will continue to increase our operating costs and may decrease our operating margins."
+        },
+        {
+          "source_id": "DOC_2",
+          "quote": "We are incurring significant costs to build and maintain infrastructure to support cloud computing and AI services. These costs will reduce the operating margins."
+        }
+      ],
+      "verification": {
+        "structural": true,
+        "entailment": "supported",
+        "reason": "DOC_1与DOC_2原文均直接表述云与AI基础设施投资将增加运营成本并可能/将会降低营业利润率，命题与引文一致。"
+      }
+    },
+    {
+      "id": "C02",
+      "type": "observation",
+      "text": "微软在年度报告中表示，为支持云业务增长及人工智能基础设施与训练投入，预计未来数年资本支出将增加。",
+      "evidence_ids": [
+        "DOC_2"
+      ],
+      "quotes": [
+        {
+          "source_id": "DOC_2",
+          "quote": "We expect capital expenditures to increase in coming years to support growth in our cloud offerings and our investments in AI infrastructure and training."
+        }
+      ],
+      "verification": {
+        "structural": true,
+        "entailment": "supported",
+        "reason": "DOC_2原文明确表示预计未来数年资本支出将增加，以支持云业务增长及AI基础设施与训练投入。"
+      }
+    },
+    {
+      "id": "C03",
+      "type": "observation",
+      "text": "微软称其人工智能相关成本将压低此前实现的营业利润率，并指出云与人工智能服务的成功取决于执行情况。",
+      "evidence_ids": [
+        "DOC_1",
+        "DOC_2"
+      ],
+      "quotes": [
+        {
+          "source_id": "DOC_1",
+          "quote": "Besides software development costs, we are incurring costs to build and maintain infrastructure to support cloud computing and AI services. These costs will reduce the operating margins we have previously achieved."
+        },
+        {
+          "source_id": "DOC_2",
+          "quote": "Our focus on cloud-based and AI services presents execution and competitive risks."
+        }
+      ],
+      "verification": {
+        "structural": true,
+        "entailment": "supported",
+        "reason": "DOC_1原文称这些成本将降低此前实现的营业利润率，DOC_2称云与AI服务聚焦存在执行与竞争风险，两处引文均支持该命题。"
+      }
+    },
+    {
+      "id": "C05",
+      "type": "observation",
+      "text": "微软在季度报告中表示，将承担重大开发与运营成本以构建和支持满足客户需求的人工智能能力、产品与服务。",
+      "evidence_ids": [
+        "DOC_4"
+      ],
+      "quotes": [
+        {
+          "source_id": "DOC_4",
+          "quote": "We will bear significant development and operational costs to build and support the AI capabilities, products, and services necessary to meet the needs of our customers."
+        }
+      ],
+      "verification": {
+        "structural": true,
+        "entailment": "supported",
+        "reason": "DOC_4原文直接表述将承担重大开发与运营成本以构建和支持满足客户需求的AI能力、产品与服务。"
+      }
+    },
+    {
+      "id": "C06",
+      "type": "interpretation",
+      "text": "若微软持续以当前节奏投入云与人工智能基础设施，则其披露的成本压力可能对营业利润率构成下行约束，但该判断取决于未来收入增长与执行效率，并非对利润率的预测。",
+      "evidence_ids": [
+        "DOC_1",
+        "DOC_2"
+      ],
+      "quotes": [
+        {
+          "source_id": "DOC_1",
+          "quote": "The investments we are making in cloud and AI infrastructure and devices will continue to increase our operating costs and may decrease our operating margins."
+        },
+        {
+          "source_id": "DOC_2",
+          "quote": "We expect capital expenditures to increase in coming years to support growth in our cloud offerings and our investments in AI infrastructure and training."
+        }
+      ],
+      "verification": {
+        "structural": true,
+        "entailment": "supported",
+        "reason": "该命题为条件性解读，明确限定取决于未来收入增长与执行效率且非利润率预测，与DOC_1、DOC_2的成本与资本支出表述一致。"
+      }
+    }
+  ],
+  "sources": [
+    {
+      "title": "Microsoft 10-Q · 2024-04-25",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024048288/msft-20240331.htm",
+      "published_at": "2024-04-25",
+      "available_from": "2024-04-26",
+      "source_type": "sec_filing",
+      "accession": "0000950170-24-048288",
+      "form": "10-Q",
+      "discovered_by": "sec_submissions",
+      "id": "DOC_1",
+      "retrieved_at": "2026-09-26T06:13:03+00:00",
+      "sha256": "065aa976c66c743710361cc9da2febe9b9b0337c5681787661c246181828afa1",
+      "text_sha256": "bc8cc918d1ca0d2e364dbc00cd8f30a61bca2dc9df124579864c0e9d43fe2ec7",
+      "text": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, D.C. 20549\nFORM 10-Q\n|\n|\n|\n☒\n|\nQUARTERLY REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Quarterly Period Ended March 31, 2024\n|\n|\n|\nOR\n|\n|\n|\n☐\n|\nTRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Transition Period From to\nCommission File Number 001-37845\nMICROSOFT CORPORATION\n|\n|\n|\n|\nWashington\n|\n|\n91-1144442\n|\n(STATE OF INCORPORATION)\n|\n|\n(I.R.S. ID)\nONE MICROSOFT WAY, REDMOND, Washington 98052-6399\n(425) 882-8080\n[... omitted source paragraphs ...]\n|\nOperating income\n|\n[... omitted source paragraphs ...]\n•\nLevel 3 – inputs are generally unobservable and typically reflect management’s estimates of assumptions that market participants would use in pricing the asset or liability. The fair values are therefore determined using model-based techniques, including option pricing models and discounted cash flow models. Our Level 3 assets and liabilities include investments in corporate notes and bonds, municipal securities, and goodwill and intangible assets, when they are recorded at fair value due to an impairment charge. Unobservable inputs used in the models are significant to the fair values of the assets and liabilities.\nWe measure equity investments without readily determinable fair values on a nonrecurring basis. The fair values of these investments are determined based on valuation techniques using the best information available, and may include quoted market prices, market comparables, and discounted cash flow projections.\nOur other current financial assets and current financial liabilities have fair values that approximate their carrying values.\n[... omitted source paragraphs ...]\nItem 1\nForeign currency risks related to certain non-U.S. dollar-denominated investments are hedged using foreign exchange forward contracts that are designated as fair value hedging instruments. Foreign currency risks related to certain Euro-denominated debt are hedged using foreign exchange forward contracts that are designated as cash flow hedging instruments.\nCertain options and forwards not designated as hedging instruments are also used to manage the variability in foreign exchange rates on certain balance sheet amounts and to manage other foreign currency exposures.\n[... omitted source paragraphs ...]\n|\nDesignated as Cash Flow Hedging Instruments\n|\n[... omitted source paragraphs ...]\n|\nDesignated as Cash Flow Hedging Instruments\n|\n[... omitted source paragraphs ...]\nItem 1\nSupplemental cash flow information related to leases was as follows:\n|\n[... omitted source paragraphs ...]\n|\nOperating cash flows from operating leases\n|\n[... omitted source paragraphs ...]\n|\nOperating cash flows from finance leases\n|\n[... omitted source paragraphs ...]\nIn addition, certain costs are incurred at a corporate level and allocated to our segments. These allocated costs generally include legal, including settlements and fines, information technology, human resources, finance, excise taxes, field selling, shared facilities services, customer service and support, and severance incurred as part of a corporate program. Each allocation is measured differently based on the specific facts and circumstances of the costs being allocated and is generally based on relative gross margin or relative headcount.\nSegment revenue and operating income were as follows during the periods presented:\n|\n[... omitted source paragraphs ...]\n|\nOperating Income\n|\n[... omitted source paragraphs ...]\nThe markets for software, devices, and cloud-based services are dynamic and highly competitive. Our competitors are developing new software and devices, while also deploying competing cloud-based services for consumers and businesses. The devices and form factors customers prefer evolve rapidly, influencing how users access services in the cloud and, in some cases, the user’s choice of which suite of cloud-based services to use. Aggregate demand for our software, services, and devices is also correlated to global macroeconomic and geopolitical factors, which remain dynamic. We must continue to evolve and adapt over an extended time in pace with this changing environment.\nThe investments we are making in cloud and AI infrastructure and devices will continue to increase our operating costs and may decrease our operating margins. We continue to identify and evaluate opportunities to expand our datacenter locations and increase our server capacity to meet the evolving needs of our customers, particularly given the growing demand for AI services. Our datacenters depend on the availability of permitted and buildable land, predictable energy, networking supplies, and servers, including graphics processing units (“GPUs”) and other components. Our devices are primarily manufactured by third-party contract manufacturers. For the majority of our products, we have the ability to use other manufacturers if a current vendor becomes unavailable or unable to meet our requirements. However, some of our products contain certain components for which there are very few qualified suppliers. Extended disruptions at these suppliers could impact our ability to manufacture devices on time to meet consumer demand.\nOur success is highly dependent on our ability to attract and retain qualified employees. We hire a mix of university and industry talent worldwide. We compete for talented individuals globally by offering an exceptional working environment, broad customer reach, scale in resources, the ability to grow one’s career across many different products and businesses, and competitive compensation and benefits.\n[... omitted source paragraphs ...]\n|\nOperating income\n|\n[... omitted source paragraphs ...]\n|\nAdjusted operating income (non-GAAP)\n|\n[... omitted source paragraphs ...]\n•\nMicrosoft Cloud gross margin percentage decreased slightly to 72%. Excluding the impact of the change in accounting estimate, Microsoft Cloud gross margin percentage increased slightly driven by improvements in Azure and Office 365 Commercial, inclusive of scaling our AI infrastructure, offset in part by sales mix shift to Azure.\nOperating expenses increased $1.4 billion or 10% driven by Gaming, with 9 points of growth from the Activision Blizzard acquisition.\n[... omitted source paragraphs ...]\n•\nMicrosoft Cloud gross margin percentage of 72% was relatively unchanged. Excluding the impact of the change in accounting estimate, Microsoft Cloud gross margin percentage increased 1 point driven by improvements in Azure and Office 365 Commercial, inclusive of scaling our AI infrastructure, offset in part by sales mix shift to Azure.\nOperating expenses increased $2.1 billion or 5% driven by Gaming, with 7 points of growth from the Activision Blizzard acquisition, offset in part by 2 points of favorable impact from the prior year Q2 charge.\nOperating income increased $17.2 billion or 27%, including a favorable foreign currency impact of 2%, driven by growth across each of our segments.\nPrior year gross margin, operating income, net income, and diluted EPS were negatively impacted by the Q2 charge, which resulted in decreases of $152 million, $1.2 billion, $946 million, and $0.13, respectively.\nSEGMENT RESULTS OF OPERATIONS\n[... omitted source paragraphs ...]\n|\nOperating Income\n|\n[... omitted source paragraphs ...]\nItem 2\nOperating income increased $1.5 billion or 17%.\n•\n[... omitted source paragraphs ...]\nEnterprise and partner services revenue decreased $186 million or 9% on a strong prior year comparable for Enterprise Support Services.\nOperating income increased $3.0 billion or 32%.\n•\nGross margin increased $3.1 billion or 20% driven by growth in Azure. Gross margin percentage decreased slightly. Excluding the impact of the change in accounting estimate, gross margin percentage increased slightly primarily driven by improvement in Azure, inclusive of scaling our AI infrastructure, offset in part by sales mix shift to Azure.\n•\n[... omitted source paragraphs ...]\n•\nGross margin increased $9.0 billion or 20% driven by growth in Azure. Gross margin percentage was relatively unchanged. Excluding the impact of the change in accounting estimate, gross margin percentage increased 1 point driven by improvement in Azure, inclusive of scaling our AI infrastructure, offset in part by sales mix shift to Azure.\n•\n[... omitted source paragraphs ...]\n|\nOperating income\n|\n[... omitted source paragraphs ...]\n|\nAdjusted operating income (non-GAAP)\n|\n[... omitted source paragraphs ...]\nLIQUIDITY AND CAPITAL RESOURCES\nWe expect existing cash, cash equivalents, short-term investments, cash flows from operations, and access to capital markets to continue to be sufficient to fund our operating activities and cash commitments for investing and financing activities, such as dividends, share repurchases, debt maturities, material capital expenditures, and the transition tax related to the Tax Cuts and Jobs Act (“TCJA”), for at least the next 12 months and thereafter for the foreseeable future.\nCash, Cash Equivalents, and Investments\n[... omitted source paragraphs ...]\nDebt Proceeds\nWe issue debt to take advantage of favorable pricing and liquidity in the debt markets, reflecting our credit rating. The proceeds of these issuances were or will be used for general corporate purposes, which may include, among other things, funding for working capital, capital expenditures, repurchases of capital stock, acquisitions, and repayment of existing debt. Refer to Note 10 – Debt of the Notes to Financial Statements (Part I, Item 1 of this Form 10-Q) for further discussion.\nUnearned Revenue\n[... omitted source paragraphs ...]\nOther Planned Uses of Capital\nWe will continue to invest in sales, marketing, product support infrastructure, and existing and advanced areas of technology, as well as acquisitions that align with our business strategy. Additions to property and equipment will continue, including new facilities, datacenters, and computer systems for research and development, sales and marketing, support, and administrative staff. We expect capital expenditures to increase in coming years to support growth in our cloud offerings and our investments in AI infrastructure and training. We have operating and finance leases for datacenters, corporate offices, research and development facilities, Microsoft Experience Centers, and certain equipment. We have not engaged in any related party transactions or arrangements with unconsolidated entities or other persons that are reasonably likely to materially affect liquidity or the availability of capital resources.\nRECENT ACCOUNTING GUIDANCE\n[... omitted source paragraphs ...]\nWe allocate goodwill to reporting units based on the reporting unit expected to benefit from the business combination. We evaluate our reporting units on an annual basis and, if necessary, reassign goodwill using a relative fair value allocation approach. Goodwill is tested for impairment at the reporting unit level (operating segment or one level below an operating segment) on an annual basis (May 1) and between annual tests if an event occurs or circumstances change that would more likely than not reduce the fair value of a reporting unit below its carrying value. These events or circumstances could include a significant change in the business climate, legal factors, operating performance indicators, competition, or sale or disposition of a significant portion of a reporting unit.\nApplication of the goodwill impairment test requires judgment, including the identification of reporting units, assignment of assets and liabilities to reporting units, assignment of goodwill to reporting units, and determination of the fair value of each reporting unit. The fair value of each reporting unit is estimated primarily through the use of a discounted cash flow methodology. This analysis requires significant judgments, including estimation of future cash flows, which is dependent on internal forecasts, estimation of the long-term rate of growth for our business, estimation of the useful life over which cash flows will occur, and determination of our weighted average cost of capital.\nThe estimates used to calculate the fair value of a reporting unit change from year to year based on operating results, market conditions, and other factors. Changes in these estimates and assumptions could materially affect the determination of fair value and goodwill impairment for each reporting unit.\n[... omitted source paragraphs ...]\nSome companies compete with us by modifying and then distributing open source software at little or no cost to end users, using open source AI models, and earning revenue on advertising or integrated products and services. These firms do not bear the full costs of research and development for the open source products. Some open source products mimic the features and functionality of our products.\nThe competitive pressures described above may cause decreased sales volumes, price reductions, and/or increased operating costs, such as for research and development, marketing, and sales incentives. This may lead to lower revenue, gross margins, and operating income.\nOur focus on cloud-based services presents execution and competitive risks. A growing part of our business involves cloud-based services available across the spectrum of computing devices. Our strategic vision is to compete and grow by building best-in-class platforms and productivity services that utilize ubiquitous computing and ambient intelligence to drive insights and productivity gains. At the same time, our competitors are rapidly developing and deploying cloud-based services for consumers and business customers. Pricing and delivery models are evolving. Devices and form factors influence how users access services in the cloud and sometimes the user’s choice of which cloud-based services to use. Certain industries and customers have specific requirements for cloud services and may present enhanced risks. We are devoting significant resources to develop and deploy our cloud-based strategies. The Windows ecosystem must continue to evolve with this changing environment. We embrace cultural and organizational changes to drive accountability and eliminate obstacles to innovation. Our intelligent cloud and intelligent edge offerings are connected to the growth of the Internet of Things (“IoT”), a network of distributed and interconnected devices employing sensors, data, and computing capabilities, including AI. Our success in driving ubiquitous computing and ambient intelligence will depend on the level of adoption of our offerings such as Azure, Azure AI, and Azure IoT Edge. We may not establish market share sufficient to achieve scale necessary to meet our business objectives.\n[... omitted source paragraphs ...]\nItem 1A\nBesides software development costs, we are incurring costs to build and maintain infrastructure to support cloud computing and AI services. These costs will reduce the operating margins we have previously achieved. Whether we succeed in cloud-based services depends on our execution in several areas, including:\n•\n[... omitted source paragraphs ...]\nMaking our suite of cloud-based services platform-agnostic, available on a wide range of devices and ecosystems, including those of our competitors.\nIt is uncertain whether our strategies will attract the users or generate the revenue required to succeed. If we are not effective in executing organizational and technical changes to increase efficiency and accelerate innovation, or if we fail to generate sufficient usage of our new products and services, we may not grow revenue in line with the infrastructure and development investments described above. This may negatively impact gross margins and operating income.\nSome users may engage in fraudulent or abusive activities through our cloud-based services. These include unauthorized use of accounts through stolen credentials, use of stolen credit cards or other payment vehicles, failure to pay for services accessed, or other activities that violate our terms of service such as cryptocurrency mining or launching cyberattacks. If our efforts to detect such violations or our actions to control these types of fraud and abuse are not effective, we may experience adverse impacts to our revenue or incur reputational damage.\n[... omitted source paragraphs ...]",
+      "snippet": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, D.C. 20549\nFORM 10-Q\n|\n|\n|\n☒\n|\nQUARTERLY REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Quarterly Period Ended March 31, 2024\n|\n|\n|\nOR\n|\n|\n|\n☐\n|\nTRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Transition Period From to\nCommission File ",
+      "status": "read",
+      "text_truncated": true,
+      "original_text_chars": 244096,
+      "bytes_fetched": 5698655,
+      "date_policy": "published_date_plus_one_day",
+      "excerpt": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, D.C. 20549\nFORM 10-Q\n|\n|\n|\n☒\n|\nQUARTERLY REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Quarterly Period Ended March 31, 2024\n|\n|\n|\nOR\n|\n|\n|\n☐\n|\nTRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Transition Period From to\nCommission File "
+    },
+    {
+      "title": "Microsoft 10-K · 2024-07-30",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/msft-20240630.htm",
+      "published_at": "2024-07-30",
+      "available_from": "2024-07-31",
+      "source_type": "sec_filing",
+      "accession": "0000950170-24-087843",
+      "form": "10-K",
+      "discovered_by": "sec_submissions",
+      "id": "DOC_2",
+      "retrieved_at": "2026-09-26T06:13:04+00:00",
+      "sha256": "099a7f9d9561a7347e0965ac85e8f1a194f8236d47f2afcff39deeda70ad50a6",
+      "text_sha256": "3828b9e023e60409c065411a84d6598f74ad17b92b9717e1769b536f50266b83",
+      "text": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, D.C. 20549\nFORM 10-K\n|\n|\n|\n☒\n|\nANNUAL REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Fiscal Year Ended June 30, 2024\n|\n|\n|\n|\nOR\n|\n|\n|\n☐\n|\nTRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Transition Period From to\nCommission File Number 001-37845\nMICROSOFT CORPORATION\n|\n|\n|\n|\nWashington\n|\n|\n91-1144442\n|\n(STATE OF INCORPORATION)\n|\n|\n(I.R.S. ID)\nONE MICROSOFT WAY, REDMOND, Washington 98052-6399\n(425) 882-8080\nwww.microsoft.com/investor\n[... omitted source paragraphs ...]\nEmbracing Our Future\nMicrosoft is a technology company committed to making digital technology and artificial intelligence (“AI”) available broadly and doing so responsibly, with a mission to empower every person and every organization on the planet to achieve more. We create platforms and tools, powered by AI, that deliver innovative solutions that meet the evolving needs of our customers. From infrastructure and data, to business applications and collaboration, we provide unique, differentiated value to customers. We strive to create local opportunity, growth, and impact in every country around the world.\nWe have entered a new age of AI that will fundamentally transform productivity for every individual, organization, and industry on earth, while helping us address some of our most pressing challenges. Microsoft's AI offerings, including Copilot and our Copilot stack, are already orchestrating a new era of AI transformation, driving better business outcomes across every role and industry. As a company, we believe we can be the democratizing force for this new generation of technology and the opportunity it will help unlock for every country, community, and individual.\n[... omitted source paragraphs ...]\nBuild the Intelligent Cloud and Intelligent Edge Platform\nDigital transformation and adoption of AI continues to revolutionize more business workstreams for organizations in every sector across the globe. For enterprises, digital technology empowers employees, optimizes operations, engages customers, and in some cases, changes the very core of products and services. We continue to invest in high performance and sustainable computing to meet the growing demand for fast access to Microsoft services provided by our network of cloud computing and AI infrastructure and datacenters.\nOur cloud business benefits from three economies of scale: datacenters that deploy computational resources at significantly lower cost per unit than smaller ones; datacenters that coordinate and aggregate diverse customer, geographic, and application demand patterns, improving the utilization of computing, storage, and network resources; and multi-tenancy locations that lower application maintenance labor costs.\nThe Microsoft Cloud provides the best integration across the technology stack while offering openness, improving time to value, reducing costs, and increasing agility. As the foundation of the Microsoft Cloud, Azure uniquely offers hybrid consistency, developer productivity, data and AI capabilities, and trusted security and compliance.\nWe offer supercomputing power for AI at scale to run large workloads, complemented by our rapidly expanding portfolio of AI cloud services and hardware, which includes custom-built silicon and strong partnerships with chip manufacturers. We have introduced purpose-built cloud infrastructure for AI workloads including a custom AI accelerator, Azure Maia, and a custom in-house central processing unit, Azure Cobalt.\n4\n[... omitted source paragraphs ...]\nAzure is a comprehensive set of cloud services that offer developers, IT professionals, and enterprises freedom to build, deploy, and manage applications on any platform or device. Customers can use Azure through our global network of datacenters for computing, networking, storage, mobile and web application services, AI, Internet of Things (“IoT”), cognitive services, and machine learning. Azure enables customers to devote more resources to development and use of applications that benefit their organizations, rather than managing on-premises hardware and software. Azure revenue is mainly affected by infrastructure-as-a-service and platform-as-a-service consumption-based services, and per user-based services such as Enterprise Mobility + Security.\nAzure AI offerings provide a competitive advantage as companies seek ways to optimize and scale their business with machine learning. With Azure’s purpose-built, AI-optimized infrastructure, customers can use a variety of large language models and developer tools to create the next generation of AI apps and services.\nOur server products are designed to make IT professionals, developers, and their systems more productive and efficient. Server software is integrated server infrastructure and middleware designed to support software applications built on the Windows Server operating system. This includes the server platform, database, business intelligence, storage, management and operations, virtualization, service-oriented architecture platform, security, and identity software. We also license standalone and software development lifecycle tools for software architects, developers, testers, and project managers. Server products revenue is mainly affected by purchases through volume licensing programs, licenses sold to original equipment manufacturers (“OEM”), and retail packaged products. CALs provide access rights to certain server products, including SQL Server and Windows Server, and revenue is reported along with the associated server product.\n[... omitted source paragraphs ...]\nWindows\nThe Windows operating system is designed to deliver a more personal computing experience for users by enabling consistency of experience, applications, and information across their devices. Windows OEM revenue is impacted significantly by the number of Windows operating system licenses purchased by OEMs, which they pre-install on the devices they sell. In addition to computing device market volume, Windows OEM revenue is impacted by:\n•\n[... omitted source paragraphs ...]\n•\nCloud and AI – focuses on making IT professionals, developers, partners, independent software vendors, and their systems more productive and efficient through development of Azure AI platform and cloud infrastructure, server, database, CRM, ERP, software development tools and services, AI cognitive services, and other business process applications and services for enterprises.\n•\n[... omitted source paragraphs ...]\n•\nTechnology and Research – focuses on fundamental research, product and business incubations, and forward-looking AI innovations that span infrastructure, services, and applications. This engineering group includes Microsoft Research, one of the world’s largest corporate research organizations, which focuses on fundamental research in AI, computer science, and a broad range of other disciplines.\n•\n[... omitted source paragraphs ...]\nThe competitive pressures described above may cause decreased sales volumes, price reductions, and/or increased operating costs, such as for research and development, marketing, and sales incentives, which may adversely affect our financial condition and results of operations.\nOur focus on cloud-based and AI services presents execution and competitive risks. We are incurring significant costs to build and maintain infrastructure to support cloud computing and AI services. These costs will reduce the operating margins. Whether we succeed in cloud-based and AI services depends on our execution in several areas, including:\n•\n[... omitted source paragraphs ...]\n|\nOperating income\n|\n[... omitted source paragraphs ...]\n|\nAdjusted operating income (non-GAAP)\n|\n[... omitted source paragraphs ...]\nOperating income increased $20.9 billion or 24% driven by growth across each of our segments.\nPrior year gross margin, operating income, net income, and diluted EPS were negatively impacted by the Q2 charge, which resulted in decreases of $152 million, $1.2 billion, $946 million, and $0.13, respectively.\n43\n[... omitted source paragraphs ...]\n|\nOperating Income\n|\n[... omitted source paragraphs ...]\nDynamics products and cloud services revenue increased $1.0 billion or 19% driven by Dynamics 365. Dynamics 365 revenue grew 24% driven by growth across all workloads.\nOperating income increased $6.4 billion or 19%.\n•\n[... omitted source paragraphs ...]\nDevices revenue decreased $815 million or 15%.\nOperating income increased $2.9 billion or 17%.\n•\n[... omitted source paragraphs ...]\n|\nOperating income\n|\n[... omitted source paragraphs ...]\n|\nAdjusted operating income (non-GAAP)\n|\n[... omitted source paragraphs ...]\nLIQUIDITY AND CAPITAL RESOURCES\nWe expect existing cash, cash equivalents, short-term investments, cash flows from operations, and access to capital markets to continue to be sufficient to fund our operating activities and cash commitments for investing and financing activities, such as dividends, share repurchases, debt maturities, material capital expenditures, and the transition tax related to the Tax Cuts and Jobs Act (“TCJA”), for at least the next 12 months and thereafter for the foreseeable future.\nCash, Cash Equivalents, and Investments\n[... omitted source paragraphs ...]\nDebt Proceeds\nWe issue debt to take advantage of favorable pricing and liquidity in the debt markets, reflecting our credit rating. The proceeds of these issuances were or will be used for general corporate purposes, which may include, among other things, funding for working capital, capital expenditures, repurchases of capital stock, acquisitions, and repayment of existing debt. Refer to Note 11 – Debt of the Notes to Financial Statements (Part II, Item 8 of this Form 10-K) for further discussion.\nUnearned Revenue\n[... omitted source paragraphs ...]\nOther Planned Uses of Capital\nWe will continue to invest in sales, marketing, product support infrastructure, and existing and advanced areas of technology, as well as acquisitions that align with our business strategy. Additions to property and equipment will continue, including new facilities, datacenters, and computer systems for research and development, sales and marketing, support, and administrative staff. We expect capital expenditures to increase in coming years to support growth in our cloud offerings and our investments in AI infrastructure and training. We have operating and finance leases for datacenters, corporate offices, research and development facilities, Microsoft Experience Centers, and certain equipment. We have not engaged in any related party transactions or arrangements with unconsolidated entities or other persons that are reasonably likely to materially affect liquidity or the availability of capital resources.\n50\n[... omitted source paragraphs ...]\nWe allocate goodwill to reporting units based on the reporting unit expected to benefit from the business combination. We evaluate our reporting units on an annual basis and, if necessary, reassign goodwill using a relative fair value allocation approach. Goodwill is tested for impairment at the reporting unit level (operating segment or one level below an operating segment) on an annual basis (May 1) and between annual tests if an event occurs or circumstances change that would more likely than not reduce the fair value of a reporting unit below its carrying value. These events or circumstances could include a significant change in the business climate, legal factors, operating performance indicators, competition, or sale or disposition of a significant portion of a reporting unit.\nApplication of the goodwill impairment test requires judgment, including the identification of reporting units, assignment of assets and liabilities to reporting units, assignment of goodwill to reporting units, and determination of the fair value of each reporting unit. The fair value of each reporting unit is estimated primarily through the use of a discounted cash flow methodology. This analysis requires significant judgments, including estimation of future cash flows, which is dependent on internal forecasts, estimation of the long-term rate of growth for our business, estimation of the useful life over which cash flows will occur, and determination of our weighted average cost of capital.\nThe estimates used to calculate the fair value of a reporting unit change from year to year based on operating results, market conditions, and other factors. Changes in these estimates and assumptions could materially affect the determination of fair value and goodwill impairment for each reporting unit.\n[... omitted source paragraphs ...]\n|\nOperating income\n|\n[... omitted source paragraphs ...]\n•\nLevel 3 – inputs are generally unobservable and typically reflect management’s estimates of assumptions that market participants would use in pricing the asset or liability. The fair values are therefore determined using model-based techniques, including option pricing models and discounted cash flow models. Our Level 3 assets and liabilities include investments in corporate notes and bonds, municipal securities, and goodwill and intangible assets, when they are recorded at fair value due to an impairment charge. Unobservable inputs used in the models are significant to the fair values of the assets and liabilities.\nWe measure equity investments without readily determinable fair values on a nonrecurring basis. The fair values of these investments are determined based on valuation techniques using the best information available, and may include quoted market prices, market comparables, and discounted cash flow projections.\nOur other current financial assets and current financial liabilities have fair values that approximate their carrying values.\n[... omitted source paragraphs ...]\nCertain forecasted transactions, assets, and liabilities are exposed to foreign currency risk. We monitor our foreign currency exposures daily to maximize the economic effectiveness of our foreign currency hedge positions.\nForeign currency risks related to certain non-U.S. dollar-denominated investments are hedged using foreign exchange forward contracts that are designated as fair value hedging instruments. Foreign currency risks related to certain Euro-denominated debt are hedged using foreign exchange forward contracts that are designated as cash flow hedging instruments.\nCertain options and forwards not designated as hedging instruments are also used to manage the variability in foreign exchange rates on certain balance sheet amounts and to manage other foreign currency exposures.\n[... omitted source paragraphs ...]\n|\nDesignated as Cash Flow Hedging Instruments\n|\n[... omitted source paragraphs ...]\n|\nDesignated as Cash Flow Hedging Instruments\n|\n[... omitted source paragraphs ...]\nGoodwill Impairment\nWe test goodwill for impairment annually on May 1 at the reporting unit level, primarily using a discounted cash flow methodology with a peer-based, risk-adjusted weighted average cost of capital. We believe use of a discounted cash flow approach is the most reliable indicator of the fair values of the businesses.\nNo instances of impairment were identified in our May 1, 2024, May 1, 2023, or May 1, 2022 tests. As of June 30, 2024 and 2023, accumulated goodwill impairment was $11.3 billion.\n[... omitted source paragraphs ...]\n|\nSupplemental cash flow information related to leases was as follows:\n|\n[... omitted source paragraphs ...]\n|\nOperating cash flows from operating leases\n|\n[... omitted source paragraphs ...]\n|\nOperating cash flows from finance leases\n|\n[... omitted source paragraphs ...]\nIn addition, certain costs are incurred at a corporate level and allocated to our segments. These allocated costs generally include legal, including settlements and fines, information technology, human resources, finance, excise taxes, field selling, shared facilities services, customer service and support, and severance incurred as part of a corporate program. Each allocation is measured differently based on the specific facts and circumstances of the costs being allocated and is generally based on relative gross margin or relative headcount.\nSegment revenue and operating income were as follows during the periods presented:\n|\n[... omitted source paragraphs ...]\n|\nOperating Income\n|\n[... omitted source paragraphs ...]",
+      "snippet": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, D.C. 20549\nFORM 10-K\n|\n|\n|\n☒\n|\nANNUAL REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Fiscal Year Ended June 30, 2024\n|\n|\n|\n|\nOR\n|\n|\n|\n☐\n|\nTRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Transition Period From to\nCommission File Number ",
+      "status": "read",
+      "text_truncated": true,
+      "original_text_chars": 394421,
+      "bytes_fetched": 6861017,
+      "date_policy": "published_date_plus_one_day",
+      "excerpt": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, D.C. 20549\nFORM 10-K\n|\n|\n|\n☒\n|\nANNUAL REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Fiscal Year Ended June 30, 2024\n|\n|\n|\n|\nOR\n|\n|\n|\n☐\n|\nTRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Transition Period From to\nCommission File Number "
+    },
+    {
+      "title": "Microsoft 10-Q · 2024-01-30",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024008814/msft-20231231.htm",
+      "published_at": "2024-01-30",
+      "available_from": "2024-01-31",
+      "source_type": "sec_filing",
+      "accession": "0000950170-24-008814",
+      "form": "10-Q",
+      "discovered_by": "sec_efts",
+      "query": "capital expenditures AI infrastructure",
+      "id": "DOC_3",
+      "retrieved_at": "2026-09-26T06:13:05+00:00",
+      "sha256": "48aa73842dbbf0240b5e49841e3f74ee78164500dd75b576ac5705c6a2f87967",
+      "text_sha256": "9084cdfd92e0d46079bc0cd952f19072bf651c7bdb9f8fdcbf5a2aaf46273535",
+      "text": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, D.C. 20549\nFORM 10-Q\n|\n|\n|\n☒\n|\nQUARTERLY REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Quarterly Period Ended December 31, 2023\n|\n|\n|\nOR\n|\n|\n|\n☐\n|\nTRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Transition Period From to\nCommission File Number 001-37845\nMICROSOFT CORPORATION\n|\n|\n|\n|\nWashington\n|\n|\n91-1144442\n|\n(STATE OF INCORPORATION)\n|\n|\n(I.R.S. ID)\nONE MICROSOFT WAY, REDMOND, Washington 98052-6399\n(425) 882-8080\n[... omitted source paragraphs ...]\n|\nOperating income\n|\n[... omitted source paragraphs ...]\n•\nLevel 3 – inputs are generally unobservable and typically reflect management’s estimates of assumptions that market participants would use in pricing the asset or liability. The fair values are therefore determined using model-based techniques, including option pricing models and discounted cash flow models. Our Level 3 assets and liabilities include investments in corporate notes and bonds, municipal securities, and goodwill and intangible assets, when they are recorded at fair value due to an impairment charge. Unobservable inputs used in the models are significant to the fair values of the assets and liabilities.\nWe measure equity investments without readily determinable fair values on a nonrecurring basis. The fair values of these investments are determined based on valuation techniques using the best information available, and may include quoted market prices, market comparables, and discounted cash flow projections.\nOur other current financial assets and current financial liabilities have fair values that approximate their carrying values.\n[... omitted source paragraphs ...]\n|\nDesignated as Cash Flow Hedging Instruments\n|\n[... omitted source paragraphs ...]\n|\nDesignated as Cash Flow Hedging Instruments\n|\n[... omitted source paragraphs ...]\n|\nSince the date of acquisition, the net impact of the Activision Blizzard acquisition on our consolidated income statements was revenue and operating loss of $2.1 billion and $437 million, respectively, for both the three and six months ended December 31, 2023. The change of Activision Blizzard content from third-party to first-party is reflected in the net impact.\nFollowing are the supplemental consolidated financial results of Microsoft Corporation on an unaudited pro forma basis, as if the acquisition had been consummated on July 1, 2022:\n[... omitted source paragraphs ...]\n|\nSupplemental cash flow information related to leases was as follows:\n|\n[... omitted source paragraphs ...]\n|\nOperating cash flows from operating leases\n|\n[... omitted source paragraphs ...]\n|\nOperating cash flows from finance leases\n|\n[... omitted source paragraphs ...]\nIn addition, certain costs are incurred at a corporate level and allocated to our segments. These allocated costs generally include legal, including settlements and fines, information technology, human resources, finance, excise taxes, field selling, shared facilities services, customer service and support, and severance incurred as part of a corporate program. Each allocation is measured differently based on the specific facts and circumstances of the costs being allocated and is generally based on relative gross margin or relative headcount.\nSegment revenue and operating income were as follows during the periods presented:\n|\n[... omitted source paragraphs ...]\n|\nOperating Income\n|\n[... omitted source paragraphs ...]\nThe markets for software, devices, and cloud-based services are dynamic and highly competitive. Our competitors are developing new software and devices, while also deploying competing cloud-based services for consumers and businesses. The devices and form factors customers prefer evolve rapidly, influencing how users access services in the cloud and, in some cases, the user’s choice of which suite of cloud-based services to use. Aggregate demand for our software, services, and devices is also correlated to global macroeconomic and geopolitical factors, which remain dynamic. We must continue to evolve and adapt over an extended time in pace with this changing environment.\nThe investments we are making in cloud and AI infrastructure and devices will continue to increase our operating costs and may decrease our operating margins. We continue to identify and evaluate opportunities to expand our datacenter locations and increase our server capacity to meet the evolving needs of our customers, particularly given the growing demand for AI services. Our datacenters depend on the availability of permitted and buildable land, predictable energy, networking supplies, and servers, including graphics processing units (“GPUs”) and other components. Our devices are primarily manufactured by third-party contract manufacturers. For the majority of our products, we have the ability to use other manufacturers if a current vendor becomes unavailable or unable to meet our requirements. However, some of our products contain certain components for which there are very few qualified suppliers. Extended disruptions at these suppliers could impact our ability to manufacture devices on time to meet consumer demand.\nOur success is highly dependent on our ability to attract and retain qualified employees. We hire a mix of university and industry talent worldwide. We compete for talented individuals globally by offering an exceptional working environment, broad customer reach, scale in resources, the ability to grow one’s career across many different products and businesses, and competitive compensation and benefits.\n[... omitted source paragraphs ...]\n|\nOperating income\n|\n[... omitted source paragraphs ...]\n•\nMicrosoft Cloud gross margin percentage of 72% was relatively unchanged. Excluding the impact of the change in accounting estimate, Microsoft Cloud gross margin percentage increased 1 point driven by improvements in Azure and Office 365 Commercial, offset in part by the impact of scaling our AI infrastructure.\nOperating expenses increased $505 million or 3% driven by Gaming, with 11 points of growth from the Activision Blizzard acquisition, offset in part by 7 points of favorable impact from the prior year Q2 charge.\nOperating income increased $6.6 billion or 33% driven by growth across each of our segments.\nRevenue, gross margin, and operating income included a favorable foreign currency impact of 2%, 2%, and 3%, respectively.\nPrior year gross margin, operating income, net income, and diluted EPS were negatively impacted by the Q2 charge, which resulted in decreases of $152 million, $1.2 billion, $946 million, and $0.12, respectively.\nSix Months Ended December 31, 2023 Compared with Six Months Ended December 31, 2022\n[... omitted source paragraphs ...]\n•\nMicrosoft Cloud gross margin percentage increased slightly to 73%. Excluding the impact of the change in accounting estimate, Microsoft Cloud gross margin percentage increased 2 points driven by improvements in Azure and Office 365 Commercial, offset in part by the impact of scaling our AI infrastructure.\nOperating expenses increased $673 million or 2% driven by Gaming, with 6 points of growth from the Activision Blizzard acquisition, offset in part by 4 points of favorable impact from the prior year Q2 charge.\nOperating income increased $12.0 billion or 29%, including a favorable foreign currency impact of 2%, driven by growth across each of our segments.\nPrior year gross margin, operating income, net income, and diluted EPS were negatively impacted by the Q2 charge, which resulted in decreases of $152 million, $1.2 billion, $946 million, and $0.13, respectively.\n35\n[... omitted source paragraphs ...]\n|\nOperating Income\n|\n[... omitted source paragraphs ...]\n•\nGross margin increased $3.1 billion or 20% driven by growth in Azure. Gross margin percentage was relatively unchanged. Excluding the impact of the change in accounting estimate, gross margin percentage increased 1 point driven by improvement in Azure, offset in part by the impact of scaling our AI infrastructure.\n•\n[... omitted source paragraphs ...]\n•\nGross margin increased $5.9 billion or 20% driven by growth in Azure. Gross margin percentage was relatively unchanged. Excluding the impact of the change in accounting estimate, gross margin percentage increased 1 point driven by improvement in Azure, offset in part by the impact of scaling our AI infrastructure.\n•\n[... omitted source paragraphs ...]\n|\nOperating income\n|\n[... omitted source paragraphs ...]\n* Not meaningful.\nLIQUIDITY AND CAPITAL RESOURCES\nWe expect existing cash, cash equivalents, short-term investments, cash flows from operations, and access to capital markets to continue to be sufficient to fund our operating activities and cash commitments for investing and financing activities, such as dividends, share repurchases, debt maturities, material capital expenditures, and the transition tax related to the Tax Cuts and Jobs Act (“TCJA”), for at least the next 12 months and thereafter for the foreseeable future.\nCash, Cash Equivalents, and Investments\n[... omitted source paragraphs ...]\nDebt Proceeds\nWe issue debt to take advantage of favorable pricing and liquidity in the debt markets, reflecting our credit rating. The proceeds of these issuances were or will be used for general corporate purposes, which may include, among other things, funding for working capital, capital expenditures, repurchases of capital stock, acquisitions, and repayment of existing debt. Refer to Note 10 – Debt of the Notes to Financial Statements (Part I, Item 1 of this Form 10-Q) for further discussion.\nUnearned Revenue\n[... omitted source paragraphs ...]\nOther Planned Uses of Capital\nWe will continue to invest in sales, marketing, product support infrastructure, and existing and advanced areas of technology, as well as acquisitions that align with our business strategy. Additions to property and equipment will continue, including new facilities, datacenters, and computer systems for research and development, sales and marketing, support, and administrative staff. We expect capital expenditures to increase in coming years to support growth in our cloud offerings and our investments in AI infrastructure. We have operating and finance leases for datacenters, corporate offices, research and development facilities, Microsoft Experience Centers, and certain equipment. We have not engaged in any related party transactions or arrangements with unconsolidated entities or other persons that are reasonably likely to materially affect liquidity or the availability of capital resources.\nRECENT ACCOUNTING GUIDANCE\n[... omitted source paragraphs ...]\nWe allocate goodwill to reporting units based on the reporting unit expected to benefit from the business combination. We evaluate our reporting units on an annual basis and, if necessary, reassign goodwill using a relative fair value allocation approach. Goodwill is tested for impairment at the reporting unit level (operating segment or one level below an operating segment) on an annual basis (May 1) and between annual tests if an event occurs or circumstances change that would more likely than not reduce the fair value of a reporting unit below its carrying value. These events or circumstances could include a significant change in the business climate, legal factors, operating performance indicators, competition, or sale or disposition of a significant portion of a reporting unit.\nApplication of the goodwill impairment test requires judgment, including the identification of reporting units, assignment of assets and liabilities to reporting units, assignment of goodwill to reporting units, and determination of the fair value of each reporting unit. The fair value of each reporting unit is estimated primarily through the use of a discounted cash flow methodology. This analysis requires significant judgments, including estimation of future cash flows, which is dependent on internal forecasts, estimation of the long-term rate of growth for our business, estimation of the useful life over which cash flows will occur, and determination of our weighted average cost of capital.\nThe estimates used to calculate the fair value of a reporting unit change from year to year based on operating results, market conditions, and other factors. Changes in these estimates and assumptions could materially affect the determination of fair value and goodwill impairment for each reporting unit.\n[... omitted source paragraphs ...]\nSome companies compete with us by modifying and then distributing open source software at little or no cost to end users, using open source AI models, and earning revenue on advertising or integrated products and services. These firms do not bear the full costs of research and development for the open source products. Some open source products mimic the features and functionality of our products.\nThe competitive pressures described above may cause decreased sales volumes, price reductions, and/or increased operating costs, such as for research and development, marketing, and sales incentives. This may lead to lower revenue, gross margins, and operating income.\nOur focus on cloud-based services presents execution and competitive risks. A growing part of our business involves cloud-based services available across the spectrum of computing devices. Our strategic vision is to compete and grow by building best-in-class platforms and productivity services that utilize ubiquitous computing and ambient intelligence to drive insights and productivity gains. At the same time, our competitors are rapidly developing and deploying cloud-based services for consumers and business customers. Pricing and delivery models are evolving. Devices and form factors influence how users access services in the cloud and sometimes the user’s choice of which cloud-based services to use. Certain industries and customers have specific requirements for cloud services and may present enhanced risks. We are devoting significant resources to develop and deploy our cloud-based strategies. The Windows ecosystem must continue to evolve with this changing environment. We embrace cultural and organizational changes to drive accountability and eliminate obstacles to innovation. Our intelligent cloud and intelligent edge offerings are connected to the growth of the Internet of Things (“IoT”), a network of distributed and interconnected devices employing sensors, data, and computing capabilities, including AI. Our success in driving ubiquitous computing and ambient intelligence will depend on the level of adoption of our offerings such as Azure, Azure AI, and Azure IoT Edge. We may not establish market share sufficient to achieve scale necessary to meet our business objectives.\n[... omitted source paragraphs ...]\nItem 1A\nBesides software development costs, we are incurring costs to build and maintain infrastructure to support cloud computing and AI services. These costs will reduce the operating margins we have previously achieved. Whether we succeed in cloud-based services depends on our execution in several areas, including:\n•\n[... omitted source paragraphs ...]\nMaking our suite of cloud-based services platform-agnostic, available on a wide range of devices and ecosystems, including those of our competitors.\nIt is uncertain whether our strategies will attract the users or generate the revenue required to succeed. If we are not effective in executing organizational and technical changes to increase efficiency and accelerate innovation, or if we fail to generate sufficient usage of our new products and services, we may not grow revenue in line with the infrastructure and development investments described above. This may negatively impact gross margins and operating income.\nSome users may engage in fraudulent or abusive activities through our cloud-based services. These include unauthorized use of accounts through stolen credentials, use of stolen credit cards or other payment vehicles, failure to pay for services accessed, or other activities that violate our terms of service such as cryptocurrency mining or launching cyberattacks. If our efforts to detect such violations or our actions to control these types of fraud and abuse are not effective, we may experience adverse impacts to our revenue or incur reputational damage.\n[... omitted source paragraphs ...]",
+      "snippet": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, D.C. 20549\nFORM 10-Q\n|\n|\n|\n☒\n|\nQUARTERLY REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Quarterly Period Ended December 31, 2023\n|\n|\n|\nOR\n|\n|\n|\n☐\n|\nTRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Transition Period From to\nCommission Fi",
+      "status": "read",
+      "text_truncated": true,
+      "original_text_chars": 243967,
+      "bytes_fetched": 5673406,
+      "date_policy": "published_date_plus_one_day",
+      "excerpt": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, D.C. 20549\nFORM 10-Q\n|\n|\n|\n☒\n|\nQUARTERLY REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Quarterly Period Ended December 31, 2023\n|\n|\n|\nOR\n|\n|\n|\n☐\n|\nTRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Transition Period From to\nCommission Fi"
+    },
+    {
+      "title": "Microsoft 10-Q · 2023-10-24",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023054855/msft-20230930.htm",
+      "published_at": "2023-10-24",
+      "available_from": "2023-10-25",
+      "source_type": "sec_filing",
+      "accession": "0000950170-23-054855",
+      "form": "10-Q",
+      "discovered_by": "sec_efts",
+      "query": "capital expenditures AI infrastructure",
+      "id": "DOC_4",
+      "retrieved_at": "2026-09-26T06:13:05+00:00",
+      "sha256": "ffe1b942bff2aaa686a7724d3bdb075f04ffc439fdbb605891a77392a4ce709a",
+      "text_sha256": "b6daa5947673b9b1b226a1552cdf55a33cfff8ea219f0f427d0169d0bcd4b179",
+      "text": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, D.C. 20549\nFORM 10-Q\n|\n|\n|\n☒\n|\nQUARTERLY REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Quarterly Period Ended September 30, 2023\n|\n|\n|\n|\nOR\n|\n|\n|\n☐\n|\nTRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Transition Period From to\nCommission File Number 001-37845\nMICROSOFT CORPORATION\n|\n|\n|\n|\nWashington\n|\n|\n91-1144442\n|\n(STATE OF INCORPORATION)\n|\n|\n(I.R.S. ID)\nONE MICROSOFT WAY, REDMOND, Washington 98052-6399\n(425) 882-8080\n[... omitted source paragraphs ...]\n|\nOperating income\n|\n[... omitted source paragraphs ...]\n|\nDesignated as Cash Flow Hedging Instruments\n|\n[... omitted source paragraphs ...]\n|\nDesignated as Cash Flow Hedging Instruments\n|\n[... omitted source paragraphs ...]\n|\nSupplemental cash flow information related to leases was as follows:\n|\n[... omitted source paragraphs ...]\n|\nOperating cash flows from operating leases\n|\n[... omitted source paragraphs ...]\n|\nOperating cash flows from finance leases\n|\n[... omitted source paragraphs ...]\nItem 1\nSegment revenue and operating income were as follows during the periods presented:\n|\n[... omitted source paragraphs ...]\n|\nOperating Income\n|\n[... omitted source paragraphs ...]\nThe markets for software, devices, and cloud-based services are dynamic and highly competitive. Our competitors are developing new software and devices, while also deploying competing cloud-based services for consumers and businesses. The devices and form factors customers prefer evolve rapidly, influencing how users access services in the cloud and, in some cases, the user’s choice of which suite of cloud-based services to use. Aggregate demand for our software, services, and devices is also correlated to global macroeconomic and geopolitical factors, which remain dynamic. We must continue to evolve and adapt over an extended time in pace with this changing environment.\nThe investments we are making in cloud and AI infrastructure and devices will continue to increase our operating costs and may decrease our operating margins. We continue to identify and evaluate opportunities to expand our datacenter locations and increase our server capacity to meet the evolving needs of our customers, particularly given the growing demand for AI services. Our datacenters depend on the availability of permitted and buildable land, predictable energy, networking supplies, and servers, including graphics processing units (“GPUs”) and other components. Our devices are primarily manufactured by third-party contract manufacturers. For the majority of our products, we have the ability to use other manufacturers if a current vendor becomes unavailable or unable to meet our requirements. However, some of our products contain certain components for which there are very few qualified suppliers. Extended disruptions at these suppliers could impact our ability to manufacture devices on time to meet consumer demand.\nOur success is highly dependent on our ability to attract and retain qualified employees. We hire a mix of university and industry talent worldwide. We compete for talented individuals globally by offering an exceptional working environment, broad customer reach, scale in resources, the ability to grow one’s career across many different products and businesses, and competitive compensation and benefits.\n[... omitted source paragraphs ...]\n|\nOperating income\n|\n[... omitted source paragraphs ...]\n|\nOperating Income\n|\n[... omitted source paragraphs ...]\nLIQUIDITY AND CAPITAL RESOURCES\nWe expect existing cash, cash equivalents, short-term investments, cash flows from operations, and access to capital markets to continue to be sufficient to fund our operating activities and cash commitments for investing and financing activities, such as dividends, share repurchases, debt maturities, material capital expenditures, and the transition tax related to the Tax Cuts and Jobs Act (“TCJA”), for at least the next 12 months and thereafter for the foreseeable future.\nCash, Cash Equivalents, and Investments\n[... omitted source paragraphs ...]\nDebt Proceeds\nWe issue debt to take advantage of favorable pricing and liquidity in the debt markets, reflecting our credit rating. The proceeds of these issuances were or will be used for general corporate purposes, which may include, among other things, funding for working capital, capital expenditures, repurchases of capital stock, acquisitions, and repayment of existing debt. Refer to Note 9 – Debt of the Notes to Financial Statements (Part I, Item 1 of this Form 10-Q) for further discussion.\nUnearned Revenue\n[... omitted source paragraphs ...]\nFor the three months ended September 30, 2023 and 2022, our Board of Directors declared quarterly dividends of $0.75 per share and $0.68 per share, totaling $5.6 billion and $5.1 billion, respectively. We intend to continue returning capital to shareholders in the form of dividends, subject to declaration by our Board of Directors. Refer to Note 14 – Stockholders’ Equity of the Notes to Financial Statements (Part I, Item 1 of this Form 10-Q) for further discussion.\nOther Planned Uses of Capital\nOn October 13, 2023, we completed our acquisition of Activision Blizzard, Inc. for a cash payment of $61.8 billion, net of cash acquired.\nWe will continue to invest in sales, marketing, product support infrastructure, and existing and advanced areas of technology, as well as acquisitions that align with our business strategy. Additions to property and equipment will continue, including new facilities, datacenters, and computer systems for research and development, sales and marketing, support, and administrative staff. We expect capital expenditures to increase in coming years to support growth in our cloud offerings and our investments in AI infrastructure. We have operating and finance leases for datacenters, corporate offices, research and development facilities, Microsoft Experience Centers, and certain equipment. We have not engaged in any related party transactions or arrangements with unconsolidated entities or other persons that are reasonably likely to materially affect liquidity or the availability of capital resources.\n39\n[... omitted source paragraphs ...]\n•\nWe are investing in artificial intelligence (“AI”) across the entire company and infusing generative AI capabilities into our consumer and commercial offerings. We expect AI technology and services to be a highly competitive and rapidly evolving market. We will bear significant development and operational costs to build and support the AI capabilities, products, and services necessary to meet the needs of our customers. To compete effectively we must also be responsive to technological change, potential regulatory developments, and public scrutiny.\n•\n[... omitted source paragraphs ...]\nSome companies compete with us by modifying and then distributing open source software at little or no cost to end users, using open source AI models, and earning revenue on advertising or integrated products and services. These firms do not bear the full costs of research and development for the open source products. Some open source products mimic the features and functionality of our products.\nThe competitive pressures described above may cause decreased sales volumes, price reductions, and/or increased operating costs, such as for research and development, marketing, and sales incentives. This may lead to lower revenue, gross margins, and operating income.\nOur increasing focus on cloud-based services presents execution and competitive risks. A growing part of our business involves cloud-based services available across the spectrum of computing devices. Our strategic vision is to compete and grow by building best-in-class platforms and productivity services that utilize ubiquitous computing and ambient intelligence to drive insights and productivity gains. At the same time, our competitors are rapidly developing and deploying cloud-based services for consumers and business customers. Pricing and delivery models are evolving. Devices and form factors influence how users access services in the cloud and sometimes the user’s choice of which cloud-based services to use. Certain industries and customers have specific requirements for cloud services and may present enhanced risks. We are devoting significant resources to develop and deploy our cloud-based strategies. The Windows ecosystem must continue to evolve with this changing environment. We embrace cultural and organizational changes to drive accountability and eliminate obstacles to innovation. Our intelligent cloud and intelligent edge offerings are connected to the growth of the Internet of Things (“IoT”), a network of distributed and interconnected devices employing sensors, data, and computing capabilities, including AI. Our success in driving ubiquitous computing and ambient intelligence will depend on the level of adoption of our offerings such as Azure, Azure AI, and Azure IoT Edge. We may not establish market share sufficient to achieve scale necessary to meet our business objectives.\n[... omitted source paragraphs ...]\nMaking our suite of cloud-based services platform-agnostic, available on a wide range of devices and ecosystems, including those of our competitors.\nIt is uncertain whether our strategies will attract the users or generate the revenue required to succeed. If we are not effective in executing organizational and technical changes to increase efficiency and accelerate innovation, or if we fail to generate sufficient usage of our new products and services, we may not grow revenue in line with the infrastructure and development investments described above. This may negatively impact gross margins and operating income.\nSome users may engage in fraudulent or abusive activities through our cloud-based services. These include unauthorized use of accounts through stolen credentials, use of stolen credit cards or other payment vehicles, failure to pay for services accessed, or other activities that violate our terms of service such as cryptocurrency mining or launching cyberattacks. If our efforts to detect such violations or our actions to control these types of fraud and abuse are not effective, we may experience adverse impacts to our revenue or incur reputational damage.\n[... omitted source paragraphs ...]\nSecurity of our products, services, devices, and customers’ data\nThe security of our products and services is important in our customers’ decisions to purchase or use our products or services across cloud and on-premises environments. Security threats are a significant challenge to companies like us whose business is providing technology products and services to others. Threats to our own IT infrastructure can also affect our customers. Customers using our cloud-based services rely on the security of our infrastructure, including hardware and other elements provided by third parties, to ensure the reliability of our services and the protection of their data. Adversaries tend to focus their efforts on the most popular operating systems, programs, and services, including many of ours, and we expect that to continue. In addition, adversaries can attack our customers’ on-premises or cloud environments, sometimes exploiting previously unknown (“zero day”) vulnerabilities, such as occurred in early calendar year 2021 with several of our Exchange Server on-premises products. Vulnerabilities in these or any product can persist even after we have issued security patches if customers have not installed the most recent updates, or if the attackers exploited the vulnerabilities before patching to install additional malware to further compromise customers’ systems. Adversaries will continue to attack customers using our cloud services as customers embrace digital transformation. Adversaries that acquire user account information can use that information to compromise our users’ accounts, including where accounts share the same attributes such as passwords. Inadequate account security practices may also result in unauthorized access, and user activity may result in ransomware or other malicious software impacting a customer’s use of our products or services. We are increasingly incorporating open source software into our products. There may be vulnerabilities in open source software that may make our products susceptible to cyberattacks. Additionally, we are actively adding new generative AI features to our services. Because generative AI is a new field, understanding of security risks and protection methods continues to develop; features that rely on generative AI may be susceptible to unanticipated security threats from sophisticated adversaries.\nOur customers operate complex IT systems with third-party hardware and software from multiple vendors that may include systems acquired over many years. They expect our products and services to support all these systems and products, including those that no longer incorporate the strongest current security advances or standards. As a result, we may not be able to discontinue support in our services for a product, service, standard, or feature solely because a more secure alternative is available. Failure to utilize the most current security advances and standards can increase our customers’ vulnerability to attack. Further, customers of widely varied size and technical sophistication use our technology, and consequently may still have limited capabilities and resources to help them adopt and implement state of the art cybersecurity practices and technologies. In addition, we must account for this wide variation of technical sophistication when defining default settings for our products and services, including security default settings, as these settings may limit or otherwise impact other aspects of IT operations and some customers may have limited capability to review and reset these defaults.\n[... omitted source paragraphs ...]\nOPERATIONAL RISKS\nWe may have excessive outages, data losses, and disruptions of our online services if we fail to maintain an adequate operations infrastructure. Our increasing user traffic, growth in services, and the complexity of our products and services demand more computing power. We spend substantial amounts to build, purchase, or lease datacenters and equipment and to upgrade our technology and network infrastructure to handle more traffic on our websites and in our datacenters. Our datacenters depend on the availability of permitted and buildable land, predictable energy, networking supplies, and servers, including graphics processing units (“GPUs”) and other components. The cost or availability of these dependencies could be adversely affected by a variety of factors, including the transition to a clean energy economy, local and regional environmental regulations, and geopolitical disruptions. These demands continue to increase as we introduce new products and services and support the growth and the augmentation of existing services such as Bing, Azure, Microsoft Account services, Microsoft 365, Microsoft Teams, Dynamics 365, OneDrive, SharePoint Online, Skype, Xbox, and Outlook.com through the incorporation of AI features and/or functionality. We are rapidly growing our business of providing a platform and back-end hosting for services provided by third parties to their end users. Maintaining, securing, and expanding this infrastructure is expensive and complex, and requires development of principles for datacenter builds in geographies with higher safety and reliability risks. It requires that we maintain an Internet connectivity infrastructure and storage and compute capacity that is robust and reliable within competitive and regulatory constraints that continue to evolve. Inefficiencies or operational failures, including temporary or permanent loss of customer data, insufficient Internet connectivity, insufficient or unavailable power supply, or inadequate storage and compute capacity, could diminish the quality of our products, services, and user experience resulting in contractual liability, claims by customers and other third parties, regulatory actions, damage to our reputation, and loss of current and potential users, subscribers, and advertisers, each of which may adversely impact our consolidated financial statements.\nWe may experience quality or supply problems. Our hardware products such as Xbox consoles, Surface devices, and other devices we design and market are highly complex and can have defects in design, manufacture, or associated software. We could incur significant expenses, lost revenue, and reputational harm as a result of recalls, safety alerts, or product liability claims if we fail to prevent, detect, or address such issues through design, testing, or warranty repairs.\n[... omitted source paragraphs ...]",
+      "snippet": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, D.C. 20549\nFORM 10-Q\n|\n|\n|\n☒\n|\nQUARTERLY REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Quarterly Period Ended September 30, 2023\n|\n|\n|\n|\nOR\n|\n|\n|\n☐\n|\nTRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Transition Period From to\nCommission",
+      "status": "read",
+      "text_truncated": true,
+      "original_text_chars": 205866,
+      "bytes_fetched": 4966857,
+      "date_policy": "published_date_plus_one_day",
+      "excerpt": "UNITED STATES\nSECURITIES AND EXCHANGE COMMISSION\nWashington, D.C. 20549\nFORM 10-Q\n|\n|\n|\n☒\n|\nQUARTERLY REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Quarterly Period Ended September 30, 2023\n|\n|\n|\n|\nOR\n|\n|\n|\n☐\n|\nTRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n|\n|\n|\n|\nFor the Transition Period From to\nCommission"
+    }
+  ],
+  "financial_answers": [
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "operating_margin",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "required_inputs": [
+        "operating_income",
+        "revenue"
+      ],
+      "status": "available",
+      "value": "44.64",
+      "exact_value": "5471650/122561",
+      "display_value": "44.64%",
+      "unit": "%",
+      "evidence_ids": [
+        "MSFT-0ea473e4198691e8",
+        "MSFT-390ab9990d0ac7b4"
+      ],
+      "formula": "operating_income / revenue × 100",
+      "operation": "ratio",
+      "inputs": [
+        "operating_income",
+        "revenue"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2024-230babda4ff3",
+      "id": "F01",
+      "label": "营业利润率",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "operating_income",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "required_inputs": [
+        "operating_income"
+      ],
+      "status": "available",
+      "value": "109433000000",
+      "exact_value": "109433000000",
+      "display_value": "$109.43B",
+      "unit": "USD",
+      "evidence_ids": [
+        "MSFT-0ea473e4198691e8"
+      ],
+      "formula": "us-gaap:OperatingIncomeLoss",
+      "operation": "reported",
+      "inputs": [
+        "operating_income"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2024-230babda4ff3",
+      "id": "F02",
+      "label": "营业利润",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "revenue",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "required_inputs": [
+        "revenue"
+      ],
+      "status": "available",
+      "value": "245122000000",
+      "exact_value": "245122000000",
+      "display_value": "$245.12B",
+      "unit": "USD",
+      "evidence_ids": [
+        "MSFT-390ab9990d0ac7b4"
+      ],
+      "formula": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+      "operation": "reported",
+      "inputs": [
+        "revenue"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2024-230babda4ff3",
+      "id": "F03",
+      "label": "营业收入",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "free_cash_flow",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "required_inputs": [
+        "operating_cash_flow",
+        "capital_expenditure"
+      ],
+      "status": "available",
+      "value": "74071000000",
+      "exact_value": "74071000000",
+      "display_value": "$74.07B",
+      "unit": "USD",
+      "evidence_ids": [
+        "MSFT-478ea93077ead4f2",
+        "MSFT-5fc8fd42a5a2d7f5"
+      ],
+      "formula": "operating_cash_flow − capital_expenditure",
+      "operation": "subtract",
+      "inputs": [
+        "operating_cash_flow",
+        "capital_expenditure"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2024-230babda4ff3",
+      "id": "F04",
+      "label": "自由现金流",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "operating_cash_flow",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "required_inputs": [
+        "operating_cash_flow"
+      ],
+      "status": "available",
+      "value": "118548000000",
+      "exact_value": "118548000000",
+      "display_value": "$118.55B",
+      "unit": "USD",
+      "evidence_ids": [
+        "MSFT-478ea93077ead4f2"
+      ],
+      "formula": "us-gaap:NetCashProvidedByUsedInOperatingActivities",
+      "operation": "reported",
+      "inputs": [
+        "operating_cash_flow"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2024-230babda4ff3",
+      "id": "F05",
+      "label": "经营现金流",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "capital_expenditure",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "required_inputs": [
+        "capital_expenditure"
+      ],
+      "status": "available",
+      "value": "44477000000",
+      "exact_value": "44477000000",
+      "display_value": "$44.48B",
+      "unit": "USD",
+      "evidence_ids": [
+        "MSFT-5fc8fd42a5a2d7f5"
+      ],
+      "formula": "us-gaap:PaymentsToAcquirePropertyPlantAndEquipment",
+      "operation": "reported",
+      "inputs": [
+        "capital_expenditure"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2024-230babda4ff3",
+      "id": "F06",
+      "label": "PP&E 现金资本支出",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "free_cash_flow_margin",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "required_inputs": [
+        "free_cash_flow",
+        "revenue"
+      ],
+      "status": "available",
+      "value": "30.22",
+      "exact_value": "3703550/122561",
+      "display_value": "30.22%",
+      "unit": "%",
+      "evidence_ids": [
+        "MSFT-478ea93077ead4f2",
+        "MSFT-5fc8fd42a5a2d7f5",
+        "MSFT-390ab9990d0ac7b4"
+      ],
+      "formula": "free_cash_flow / revenue × 100",
+      "operation": "ratio",
+      "inputs": [
+        "free_cash_flow",
+        "revenue"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2024-230babda4ff3",
+      "id": "F07",
+      "label": "自由现金流率",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "entity": "Microsoft",
+      "metric_id": "capex_ratio",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "required_inputs": [
+        "capital_expenditure",
+        "revenue"
+      ],
+      "status": "available",
+      "value": "18.14",
+      "exact_value": "2223850/122561",
+      "display_value": "18.14%",
+      "unit": "%",
+      "evidence_ids": [
+        "MSFT-5fc8fd42a5a2d7f5",
+        "MSFT-390ab9990d0ac7b4"
+      ],
+      "formula": "capital_expenditure / revenue × 100",
+      "operation": "ratio",
+      "inputs": [
+        "capital_expenditure",
+        "revenue"
+      ],
+      "reason": null,
+      "annual_id": "MSFT-2024-230babda4ff3",
+      "id": "F08",
+      "label": "资本支出收入比",
+      "verification": {
+        "passed": true,
+        "checks": {
+          "available": true,
+          "entity": true,
+          "metric": true,
+          "period": true,
+          "unit": true,
+          "value": true,
+          "complete_operands": true,
+          "source_time": true
+        },
+        "provenance": {
+          "passed": true,
+          "unknown_ids": [],
+          "future_ids": [],
+          "wrong_company_ids": [],
+          "empty": false
+        }
+      }
+    }
+  ],
+  "financial_evidence": [
+    {
+      "id": "MSFT-0ea473e4198691e8",
+      "ticker": "MSFT",
+      "metric_id": "operating_income",
+      "taxonomy": "us-gaap",
+      "taxonomy_tag": "OperatingIncomeLoss",
+      "unit": "USD",
+      "value": "109433000000",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "filed": "2024-07-30",
+      "available_from": "2024-07-31",
+      "accession": "0000950170-24-087843",
+      "form": "10-K",
+      "raw_row": {
+        "start": "2023-07-01",
+        "end": "2024-06-30",
+        "val": 109433000000,
+        "accn": "0000950170-24-087843",
+        "fy": 2024,
+        "fp": "FY",
+        "form": "10-K",
+        "filed": "2024-07-30"
+      },
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "retrieved_at": "2026-09-26T06:13:02+00:00",
+      "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+      "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "fact_sha256": "0ea473e4198691e8250d3523df348b2179e1c7a59e56da0e5076783ea35e0e6d"
+    },
+    {
+      "id": "MSFT-390ab9990d0ac7b4",
+      "ticker": "MSFT",
+      "metric_id": "revenue",
+      "taxonomy": "us-gaap",
+      "taxonomy_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+      "unit": "USD",
+      "value": "245122000000",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "filed": "2024-07-30",
+      "available_from": "2024-07-31",
+      "accession": "0000950170-24-087843",
+      "form": "10-K",
+      "raw_row": {
+        "start": "2023-07-01",
+        "end": "2024-06-30",
+        "val": 245122000000,
+        "accn": "0000950170-24-087843",
+        "fy": 2024,
+        "fp": "FY",
+        "form": "10-K",
+        "filed": "2024-07-30"
+      },
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "retrieved_at": "2026-09-26T06:13:02+00:00",
+      "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+      "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "fact_sha256": "390ab9990d0ac7b4599c4917b2c85dcdb499b8a92fe5ad516e32319bc1243d68"
+    },
+    {
+      "id": "MSFT-478ea93077ead4f2",
+      "ticker": "MSFT",
+      "metric_id": "operating_cash_flow",
+      "taxonomy": "us-gaap",
+      "taxonomy_tag": "NetCashProvidedByUsedInOperatingActivities",
+      "unit": "USD",
+      "value": "118548000000",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "filed": "2024-07-30",
+      "available_from": "2024-07-31",
+      "accession": "0000950170-24-087843",
+      "form": "10-K",
+      "raw_row": {
+        "start": "2023-07-01",
+        "end": "2024-06-30",
+        "val": 118548000000,
+        "accn": "0000950170-24-087843",
+        "fy": 2024,
+        "fp": "FY",
+        "form": "10-K",
+        "filed": "2024-07-30"
+      },
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "retrieved_at": "2026-09-26T06:13:02+00:00",
+      "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+      "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "fact_sha256": "478ea93077ead4f21cb07611c58e66f19489c6b4b3347b851d396048b93dfe08"
+    },
+    {
+      "id": "MSFT-5fc8fd42a5a2d7f5",
+      "ticker": "MSFT",
+      "metric_id": "capital_expenditure",
+      "taxonomy": "us-gaap",
+      "taxonomy_tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+      "unit": "USD",
+      "value": "44477000000",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "filed": "2024-07-30",
+      "available_from": "2024-07-31",
+      "accession": "0000950170-24-087843",
+      "form": "10-K",
+      "raw_row": {
+        "start": "2023-07-01",
+        "end": "2024-06-30",
+        "val": 44477000000,
+        "accn": "0000950170-24-087843",
+        "fy": 2024,
+        "fp": "FY",
+        "form": "10-K",
+        "filed": "2024-07-30"
+      },
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "retrieved_at": "2026-09-26T06:13:02+00:00",
+      "canonical_payload_sha256": "75bebe2eebf09fd5c1383646a761563922c8eb0f2cdb107a13e526572a5140c3",
+      "upstream_response_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "fact_sha256": "5fc8fd42a5a2d7f53fab799e1eca15dba3d0f622ec6d32c38e6b3877975a85d6"
+    }
+  ],
+  "model_receipts": [
+    {
+      "stage": "plan",
+      "provider": "DeepSeek",
+      "response_model": "deepseek-flash",
+      "request_id": "d88d9a42-5f9b-4070-9a2d-c53cf73111c3",
+      "usage": {
+        "prompt_tokens": 1934,
+        "completion_tokens": 220,
+        "total_tokens": 2154,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 1678
+      },
+      "latency_ms": 1703,
+      "status": "completed"
+    },
+    {
+      "stage": "draft",
+      "provider": "DeepSeek",
+      "response_model": "deepseek-flash",
+      "request_id": "f590e8b2-457b-42e9-84cd-ba5776afd643",
+      "usage": {
+        "prompt_tokens": 16133,
+        "completion_tokens": 709,
+        "total_tokens": 16842,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 15749
+      },
+      "latency_ms": 3484,
+      "status": "completed"
+    },
+    {
+      "stage": "verify",
+      "provider": "DeepSeek",
+      "response_model": "deepseek-flash",
+      "request_id": "986eb5fd-13e6-4019-911f-6e7ee043fe09",
+      "usage": {
+        "prompt_tokens": 16534,
+        "completion_tokens": 300,
+        "total_tokens": 16834,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 16406
+      },
+      "latency_ms": 1813,
+      "status": "completed"
+    }
+  ],
+  "trace": [
+    {
+      "step": "plan",
+      "label": "DeepSeek 拆解问题",
+      "detail": "绑定公司和截止日，生成检索词、材料类型与计算清单。",
+      "status": "running",
+      "timestamp": "2026-09-26T06:12:49+00:00"
+    },
+    {
+      "step": "plan",
+      "label": "研究计划已生成",
+      "detail": "检索 Microsoft 在 2024-08-01 前可得的披露，回答所提问题并核验计算清单。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:12:50+00:00"
+    },
+    {
+      "step": "search",
+      "label": "搜索 SEC 新材料",
+      "detail": "实时查询申报目录与全文搜索；仅接纳截止日前可得的材料。",
+      "status": "running",
+      "timestamp": "2026-09-26T06:12:50+00:00"
+    },
+    {
+      "step": "search",
+      "label": "联网搜索完成",
+      "detail": "执行 4 项搜索；接纳 4 篇材料。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:13:05+00:00"
+    },
+    {
+      "step": "read",
+      "label": "原文读取与时间检查",
+      "detail": "逐篇保留原文摘录、申报日、抓取时间和内容哈希；材料中的指令按数据处理。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:13:05+00:00"
+    },
+    {
+      "step": "compute",
+      "label": "确定性提取与计算",
+      "detail": "8 项年度指标通过期间、单位、完整操作数与数值核验；原文中的季度数据不自动转成年数。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:13:06+00:00"
+    },
+    {
+      "step": "synthesize",
+      "label": "DeepSeek 生成有据分析",
+      "detail": "仅根据已读取原文和计算结果起草；每条观点绑定引用。",
+      "status": "running",
+      "timestamp": "2026-09-26T06:13:06+00:00"
+    },
+    {
+      "step": "verify",
+      "label": "引用与语义复核",
+      "detail": "6/6 条通过确定性引用检查；启动独立模型复核。",
+      "status": "running",
+      "timestamp": "2026-09-26T06:13:09+00:00"
+    },
+    {
+      "step": "verify",
+      "label": "核验完成",
+      "detail": "交付 5 条有据观点；隔离 1 条未通过项。语义复核不等同于事实正确率保证。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:13:11+00:00"
+    },
+    {
+      "step": "report",
+      "label": "生成引用报告",
+      "detail": "包含检索记录、原文引用、确定性计算、模型调用凭据和证据缺口。",
+      "status": "completed",
+      "timestamp": "2026-09-26T06:13:11+00:00"
+    }
+  ],
+  "gaps": [
+    {
+      "code": "CLAIMS_WITHHELD",
+      "message": "1 条候选观点或分析批次未通过验证，已从交付正文移除。"
+    }
+  ],
+  "searches": [
+    {
+      "query": "MSFT 10-K/10-K/A/10-Q/10-Q/A/8-K/8-K/A before 2024-08-01",
+      "provider": "sec_submissions",
+      "result_count": 55,
+      "status": "ok"
+    },
+    {
+      "query": "capital expenditures AI infrastructure",
+      "provider": "sec_efts",
+      "result_count": 20,
+      "status": "ok"
+    },
+    {
+      "query": "operating income revenue",
+      "provider": "sec_efts",
+      "result_count": 20,
+      "status": "ok"
+    },
+    {
+      "query": "free cash flow operating activities",
+      "provider": "sec_efts",
+      "result_count": 20,
+      "status": "ok"
+    }
+  ],
+  "data_mode": "live",
+  "verification": {
+    "accepted_claims": 5,
+    "rejected_claims": 1,
+    "total_claims": 6,
+    "rejected": [
+      {
+        "id": "C04",
+        "reasons": [
+          "DOC_1与DOC_3原文均称AI基础设施规模扩张是抵消毛利率改善的因素之一，而非被毛利率改善所抵消，命题方向颠倒。"
+        ]
+      }
+    ],
+    "method": "exact quotes + known references + cutoff + deterministic numeric kernel + separate model entailment review"
+  },
+  "budget": {
+    "max_model_calls": 3,
+    "model_calls": 3,
+    "documents_read": 4
+  },
+  "limitations": [
+    "当前覆盖八家美股公司的 SEC 申报检索和原文读取；不是全网或实时行情服务。",
+    "CompanyFacts 为本次抓取后按申报日期重建；不是当时保存的完整数据库。日期粒度材料保守地从申报次日纳入。",
+    "财务计算支持年度指标；不自动把季度、分部或公司自定义口径映射为年度指标。",
+    "模型语义复核仍可能出错；通过率不是准确率。缺少股价、估值和未来信息时不生成买卖结论。"
+  ]
+}

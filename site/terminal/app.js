@@ -1,15 +1,17 @@
 import {parseQuestion} from './query.mjs';
 import {selectState,resolveMetric} from './data.mjs';
+import {LiveResearchUI} from './live.mjs';
 
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const icon=id=>`<svg aria-hidden="true"><use href="#i-${id}"/></svg>`;
 const REPO='https://github.com/QiQiyzhu/FinSearchComp-Audit';
-const VIEWS={research:['公司研究','FUNDAMENTAL RESEARCH','从财报数据出发，把问题、计算和证据放在一起。'],compare:['同业比较','COMPARABLE ANALYSIS','看清相同指标，也看清不同公司的财务期间。'],evidence:['证据库','SOURCE INTELLIGENCE','每一个数值都能追溯到原始申报、标签与版本。'],pit:['时点评测','POINT-IN-TIME LAB','回到信息披露之前，检验答案是否越过时间边界。'],quality:['质量与方法','EVALUATION & METHODOLOGY','把真实成绩、失败案例与能力边界一起公开。']};
+const VIEWS={live:['联网研究','LIVE FINANCIAL RESEARCH','从问题到资料，从证据到判断；查看一次真实研究如何完成。'],research:['公司研究','FUNDAMENTAL RESEARCH','从财报数据出发，把问题、计算和证据放在一起。'],compare:['同业比较','COMPARABLE ANALYSIS','看清相同指标，也看清不同公司的财务期间。'],evidence:['证据库','SOURCE INTELLIGENCE','每一个数值都能追溯到原始申报、标签与版本。'],pit:['时点评测','POINT-IN-TIME LAB','回到信息披露之前，检验答案是否越过时间边界。'],quality:['质量与方法','EVALUATION & METHODOLOGY','把真实成绩、失败案例与能力边界一起公开。']};
 const ALIASES={MSFT:/微软|microsoft|\bMSFT\b/i,AAPL:/苹果|apple|\bAAPL\b/i,NVDA:/英伟达|nvidia|\bNVDA\b/i,GOOGL:/谷歌|alphabet|google|\bGOOGL\b/i,META:/meta|脸书|facebook/i,AMZN:/亚马逊|amazon|\bAMZN\b/i,TSLA:/特斯拉|tesla|\bTSLA\b/i,AMD:/超微|\bAMD\b/i};
 const DEFAULT_QUESTION='营收、营业利润率和自由现金流是多少？';
 const METRIC_ORDER=['revenue','operating_income','net_income','operating_cash_flow','free_cash_flow','operating_margin','net_margin','gross_margin','research_and_development','rd_ratio','cash_conversion','capital_expenditure','assets','liabilities','cash','current_ratio'];
 const state={cube:null,view:'research',ticker:'MSFT',peer:'AAPL',year:2024,asof:'',question:DEFAULT_QUESTION,plan:null,answers:[],chart:'revenue',history:[],saved:[],quality:null,v3quality:null,pit:null,gate:null,config:null,backend:'',token:'',modelReport:null,pitCase:null,pitCondition:'pit_filtered'};
+const liveResearch=new LiveResearchUI({getConnection:()=>({apiBase:state.backend,token:state.token,config:state.config,checking:state.connectionChecking,progress:state.connectionProgress}),onUpdate:()=>{if(state.cube&&state.view==='live')render();},onConnect:()=>{const button=document.querySelector('[data-connect]');button?.click();},onReconnect:()=>reconnectBackend(),toast});
 const operationLabel={value:'',growth_pct:'同比增长',growth_amount:'同比变化金额',change_pp:'同比变化'};
 let toastTimer;
 function toast(message){$('#toast').textContent=message;$('#toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').hidden=true,2800);}
@@ -17,7 +19,7 @@ function safeRead(key){try{return JSON.parse(localStorage.getItem(key)||'[]');}c
 function persist(){try{localStorage.setItem('finsearch-v3-saved',JSON.stringify(state.saved));localStorage.setItem('finsearch-v3-history',JSON.stringify(state.history));}catch{toast('浏览器未允许保存本地工作区。');}}
 function currentWorkspace(){return {view:state.view,ticker:state.ticker,peer:state.peer,year:state.year,asof:state.asof,question:state.question};}
 function workspaceKey(w){return [w.view,w.ticker,w.peer,w.year,w.asof,w.question].join('|');}
-function updateURL(){const params=new URLSearchParams({view:state.view,ticker:state.ticker,year:String(state.year),asof:state.asof});if(state.view==='compare')params.set('peer',state.peer);if(state.question!==DEFAULT_QUESTION)params.set('q',state.question);history.replaceState(null,'',`?${params}`);}
+function updateURL(){if(state.view==='live'){const params=new URLSearchParams({view:'live'});if(liveResearch.state.job?.id)params.set('live_run',liveResearch.state.job.id);history.replaceState(null,'',`?${params}`);return;}const params=new URLSearchParams({view:state.view,ticker:state.ticker,year:String(state.year),asof:state.asof});if(state.view==='compare')params.set('peer',state.peer);if(state.question!==DEFAULT_QUESTION)params.set('q',state.question);history.replaceState(null,'',`?${params}`);}
 function addHistory(){const item=currentWorkspace();state.history=[item,...state.history.filter(x=>workspaceKey(x)!==workspaceKey(item))].slice(0,6);persist();renderWorkspace();}
 function renderWorkspace(){
   $('#saved-count').textContent=state.saved.length;
@@ -127,9 +129,9 @@ function renderV3Quality(q){
 function render(){
   const [title,eyebrow,description]=VIEWS[state.view];$('#breadcrumb-title').textContent=title;$('#page-eyebrow').textContent=eyebrow;$('#page-title').innerHTML=title+'<span class="title-dot">.</span>';$('#page-description').textContent=description;
   $$('.nav-item').forEach(x=>{x.classList.toggle('active',x.dataset.view===state.view);if(x.dataset.view===state.view)x.setAttribute('aria-current','page');else x.removeAttribute('aria-current');});
-  $('#research-controls').hidden=['quality','pit'].includes(state.view);$('#peer-field').hidden=state.view!=='compare';$('.question-form').hidden=state.view==='evidence';$('.suggestion-row').hidden=state.view==='evidence';
-  $('#save-workspace').disabled=false;$('#export-toggle').disabled=!['research','compare','evidence'].includes(state.view);
-  const content=({research:renderResearch,compare:renderCompare,evidence:renderEvidence,pit:renderPIT,quality:renderQuality})[state.view]();$('#view-content').innerHTML=content;$('#view-content').classList.remove('result-pulse');void $('#view-content').offsetWidth;$('#view-content').classList.add('result-pulse');updateURL();
+  $('#research-controls').hidden=['quality','pit','live'].includes(state.view);$('#peer-field').hidden=state.view!=='compare';$('.question-form').hidden=state.view==='evidence';$('.suggestion-row').hidden=state.view==='evidence';
+  $('#save-workspace').disabled=state.view==='live';$('#export-toggle').disabled=!['research','compare','evidence'].includes(state.view);
+  const content=({live:()=>liveResearch.render(),research:renderResearch,compare:renderCompare,evidence:renderEvidence,pit:renderPIT,quality:renderQuality})[state.view]();$('#view-content').innerHTML=content;$('#view-content').classList.remove('result-pulse');if(state.view!=='live'){void $('#view-content').offsetWidth;$('#view-content').classList.add('result-pulse');}updateURL();
 }
 function showEvidence(ids){
   const rows=ids.map(id=>state.cube.evidence[id]).filter(Boolean);if(!rows.length){toast('引用未在当前数据集中找到。');return;}
@@ -157,14 +159,34 @@ async function generateBrief(){
   }catch(error){const output=$('#model-output');if(output&&signature===workspaceKey(currentWorkspace()))output.innerHTML=`<p class="scope-note">${esc(error.message)}。<a href="../workbench/">打开后端工作台检查连接或访问令牌 ↗</a></p>`;else toast('原研究摘要任务失败：'+error.message);}
   finally{state.busy=false;button.disabled=false;button.textContent='DeepSeek 整理年度摘要';const current=$('#generate-brief');if(current&&current!==button){current.disabled=!state.config?.modes?.snapshot?.available;current.textContent='DeepSeek 整理年度摘要';}}
 }
+async function fetchBackendConfig(base,token,onProgress=()=>{},isCurrent=()=>true){
+  const deadline=Date.now()+90000,headers={};if(token)headers.Authorization='Bearer '+token;let lastError=new Error('服务尚未就绪');
+  for(let attempt=1;Date.now()<deadline&&isCurrent();attempt++){
+    onProgress(`正在唤醒研究服务 · 第 ${attempt} 次连接`);
+    try{const response=await fetch(base+'/api/config',{headers,signal:AbortSignal.timeout(Math.max(1,Math.min(15000,deadline-Date.now())))});
+      if(response.ok){const config=await response.json();if(!config.features?.terminal&&!config.features?.live_research){const error=new Error('该后端尚未启用研究终端，请更新部署');error.permanent=true;throw error;}return config;}
+      const error=new Error(`服务连接失败 (HTTP ${response.status})`);error.permanent=![408,425,429,500,502,503,504].includes(response.status);throw error;
+    }catch(error){lastError=error;if(error.permanent)throw error;}
+    const remaining=deadline-Date.now();if(remaining<=0)break;await new Promise(resolve=>setTimeout(resolve,Math.min(1200*2**Math.min(attempt-1,3),8000,remaining)));
+  }
+  throw new Error('研究服务暂未就绪，可点击“唤醒并重连”继续连接。'+(lastError.message.includes('HTTP')?' '+lastError.message:''));
+}
+async function reconnectBackend(){
+  if(!state.backend)return;const base=state.backend,token=state.token,epoch=(state.connectionEpoch||0)+1;state.connectionEpoch=epoch;state.connectionChecking=true;state.config=null;liveResearch.connectionChanged();
+  try{const config=await fetchBackendConfig(base,token,message=>{if(state.connectionEpoch===epoch){state.connectionProgress=message;liveResearch.connectionChanged();}},()=>state.connectionEpoch===epoch);
+    if(state.connectionEpoch===epoch){state.config=config;liveResearch.state.connectionError='';}
+  }catch(error){if(state.connectionEpoch===epoch)liveResearch.state.connectionError=error.message;}
+  finally{if(state.connectionEpoch===epoch){state.connectionChecking=false;state.connectionProgress='';if(['research','live'].includes(state.view))render();}}
+}
 async function connectBackend(event){
   event?.preventDefault();const button=$('#connect-backend');button.disabled=true;$('#connection-message').textContent='正在检查后端…';
   try{
     const url=new URL($('#backend-url').value.trim()||location.origin);if(!['https:','http:'].includes(url.protocol)||url.username||url.password)throw new Error('请输入不含用户名和密码的 HTTP(S) 地址');
     const base=url.href.replace(/\/$/,''),token=$('#backend-token').value.trim(),headers={};if(token)headers.Authorization='Bearer '+token;
-    const response=await fetch(base+'/api/config',{headers,signal:AbortSignal.timeout(12000)});if(!response.ok)throw new Error('后端检查失败 ('+response.status+')');const config=await response.json();if(!config.features?.terminal)throw new Error('该后端尚未启用 V3 研究终端，请更新部署');
+    const config=await fetchBackendConfig(base,token,message=>$('#connection-message').textContent=message+'；首次唤醒最多约 90 秒。');
+    state.connectionEpoch=(state.connectionEpoch||0)+1;state.connectionChecking=false;state.connectionProgress='';
     state.backend=base;state.token=token;state.config=config;try{sessionStorage.setItem('finagent.terminal.backend',base);sessionStorage.setItem('finagent.terminal.token',token);}catch{}
-    $('#connection-dialog').close();render();toast('研究后端已连接；可在公司研究中生成摘要。');
+    $('#connection-dialog').close();liveResearch.connectionChanged();render();toast(config.modes?.live_research?.available?'研究后端已连接，可开始联网研究。':'研究后端已连接；可使用已开启的研究功能。');
   }catch(error){$('#connection-message').textContent=error.message+'。远程部署需允许当前网站跨域访问，HTTPS 页面通常需要 HTTPS 后端。';}
   finally{button.disabled=false;}
 }
@@ -173,13 +195,15 @@ async function initialize(){
   $('#loading').hidden=false;$('#error-panel').hidden=true;$('#app-content').hidden=true;
   try{
     const [cube,quality,pit]=await Promise.all([loadJSON('../workbench/data/finance_cube.json'),loadJSON('../workbench/data/quality_summary.json',false),loadJSON('../workbench/data/pit_pilot.json',false)]);state.cube=cube;state.quality=quality;state.pit=pit;
-    const params=new URLSearchParams(location.search);state.view=VIEWS[params.get('view')]?params.get('view'):'research';state.ticker=cube.companies[params.get('ticker')]?params.get('ticker'):'MSFT';state.peer=cube.companies[params.get('peer')]?params.get('peer'):'AAPL';state.year=Number(params.get('year'))||cube.companies[state.ticker].fiscal_years.at(-1);state.asof=params.get('asof')||cube.captured_at.slice(0,10);state.question=params.get('q')||DEFAULT_QUESTION;
+    const params=new URLSearchParams(location.search);state.view=VIEWS[params.get('view')]?params.get('view'):(params.has('ticker')||params.has('year')||params.has('q')?'research':'live');state.ticker=cube.companies[params.get('ticker')]?params.get('ticker'):'MSFT';state.peer=cube.companies[params.get('peer')]?params.get('peer'):'AAPL';state.year=Number(params.get('year'))||cube.companies[state.ticker].fiscal_years.at(-1);state.asof=params.get('asof')||cube.captured_at.slice(0,10);state.question=params.get('q')||DEFAULT_QUESTION;
     state.saved=safeRead('finsearch-v3-saved').filter(w=>cube.companies[w.ticker]&&VIEWS[w.view]).slice(0,12);state.history=safeRead('finsearch-v3-history').filter(w=>cube.companies[w.ticker]&&VIEWS[w.view]).slice(0,6);
     const options=Object.entries(cube.companies).map(([ticker,c])=>`<option value="${ticker}">${ticker} · ${esc(c.name)}</option>`).join('');$('#company-select').innerHTML=options;$('#peer-select').innerHTML=options;$('#asof-input').max=cube.captured_at.slice(0,10);$('#asof-input').min='2018-01-01';
     selectControls();renderWorkspace();render();$('#data-status').textContent=`${cube.statistics.companies} 家公司 · ${cube.statistics.metrics} 类指标`;
     $('#loading').hidden=true;$('#app-content').hidden=false;
     try{state.backend=sessionStorage.getItem('finagent.terminal.backend')||'';state.token=sessionStorage.getItem('finagent.terminal.token')||'';}catch{}
-    if(state.backend||['localhost','127.0.0.1'].includes(location.hostname)&&location.port!=='8092'&&location.port!=='8093')try{const headers={};if(state.token)headers.Authorization='Bearer '+state.token;const response=await fetch(state.backend+'/api/config',{headers,signal:AbortSignal.timeout(12000)});if(response.ok)state.config=await response.json();if(state.config?.features?.terminal&&state.view==='research')render();}catch{}
+    if(!state.backend)try{const runtime=await loadJSON('data/runtime.json',false);if(runtime?.use_same_origin===true&&['https:','http:'].includes(location.protocol))state.backend=location.origin;else if(runtime?.api_base_url){const url=new URL(runtime.api_base_url);if(['https:','http:'].includes(url.protocol)&&!url.username&&!url.password)state.backend=url.href.replace(/\/$/,'');}}catch{}
+    if(!state.backend&&['localhost','127.0.0.1'].includes(location.hostname)&&location.port!=='8092'&&location.port!=='8093')state.backend=location.origin;
+    if(state.backend)reconnectBackend().then(()=>{if(params.get('live_run')&&state.view==='live'&&state.config)liveResearch.restore(params.get('live_run'));});
     // The independently generated first-evaluation summary is optional until the release run finishes.
     try{state.v3quality=await loadJSON('data/quality.json',false);state.gate=await loadJSON('data/pit_gate_summary.json',false);if(['quality','pit'].includes(state.view))render();}catch{}
   }catch(error){$('#loading').hidden=true;$('#error-panel').hidden=false;$('#error-detail').textContent=error.message;$('#data-status').textContent='数据暂不可用';}
@@ -209,7 +233,7 @@ $('#question-input').addEventListener('keydown',event=>{if(event.key==='Enter'&&
 $('#retry-load').addEventListener('click',initialize);
 $('#connection-form').addEventListener('submit',connectBackend);
 $('#close-connection').addEventListener('click',()=>$('#connection-dialog').close());
-$('#disconnect-backend').addEventListener('click',()=>{state.backend='';state.token='';state.config=null;state.modelReport=null;try{sessionStorage.removeItem('finagent.terminal.backend');sessionStorage.removeItem('finagent.terminal.token');}catch{}$('#connection-dialog').close();render();toast('已断开研究后端；财务数据研究仍可使用。');});
+$('#disconnect-backend').addEventListener('click',()=>{state.connectionEpoch=(state.connectionEpoch||0)+1;state.connectionChecking=false;state.connectionProgress='';state.backend='';state.token='';state.config=null;state.modelReport=null;try{sessionStorage.removeItem('finagent.terminal.backend');sessionStorage.removeItem('finagent.terminal.token');}catch{}$('#connection-dialog').close();render();toast('已断开研究后端；财务数据研究仍可使用。');});
 $('#menu-toggle').addEventListener('click',()=>{const open=$('#sidebar').classList.toggle('open');$('#sidebar-scrim').hidden=!open;$('#menu-toggle').setAttribute('aria-expanded',String(open));});
 $('#sidebar-scrim').addEventListener('click',closeSidebar);
 $('#close-evidence').addEventListener('click',()=>$('#evidence-dialog').close());

@@ -5,6 +5,11 @@ const BASE='http://127.0.0.1:8092/terminal/';
 const readCube=()=>JSON.parse(fs.readFileSync(path.join(__dirname,'../site/workbench/data/finance_cube.json'),'utf8'));
 const ready=page=>expect(page.locator('#app-content')).toBeVisible();
 
+// Snapshot tests must never wake or use the public live service configured for the deployed site.
+test.beforeEach(async({page})=>{
+  await page.route('**/terminal/data/runtime.json',route=>route.fulfill({json:{api_base_url:''}}));
+});
+
 test('terminal computes arbitrary supported snapshot research and respects a named issuer',async({page})=>{
   const errors=[],writes=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.method()!=='GET')writes.push(r.url());});
   await page.goto(BASE+'?ticker=MSFT&year=2024&asof=2024-11-02');await ready(page);

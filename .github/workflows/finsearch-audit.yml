@@ -51,7 +51,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install platform API dependencies
-        run: python -m pip install -r requirements-platform.txt -r requirements-workbench.txt
+        run: python -m pip install -r requirements-platform.txt -r requirements-workbench.txt 'fakeredis[lua]>=2.26,<3'
       - name: Verify product backend
         run: python -m unittest discover -s research_workbench -p 'test_*.py' -v
       - name: Terminal independent financial evaluation
@@ -60,6 +60,7 @@ jobs:
           python scripts/evaluate_terminal.py --split all --label pages-regression --output build/quality/terminal-pages.json --require-no-regression docs/verification/terminal-structured-first.json
           python scripts/verify_terminal_release.py
           python scripts/replay_pit_gate.py --verify
+          python scripts/verify_live_receipts.py
       - uses: actions/setup-node@v4
         with:
           node-version: '22'

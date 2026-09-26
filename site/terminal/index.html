@@ -6,6 +6,7 @@
   <title>FinAgent · 研究终端</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23087f6b'/%3E%3Cpath d='M10 9v22h22M15 25l6-9 5 4 7-12' fill='none' stroke='white' stroke-width='2.5'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="live.css">
 </head>
 <body>
   <a class="skip-link" href="#main">跳至研究内容</a>
@@ -30,6 +31,7 @@
       <a class="brand" href="../"><span class="brand-mark"><svg><use href="#i-chart"/></svg></span><span>FinAgent<small>RESEARCH TERMINAL</small></span></a>
       <div class="workspace-label">研究工作台 <span>V3</span></div>
       <nav class="nav-list">
+        <button data-view="live" class="nav-item live-nav"><svg><use href="#i-search"/></svg><span>联网研究</span><span class="live-nav-tag">LIVE</span></button>
         <button data-view="research" class="nav-item active"><svg><use href="#i-grid"/></svg><span>公司研究</span></button>
         <button data-view="compare" class="nav-item"><svg><use href="#i-compare"/></svg><span>同业比较</span></button>
         <button data-view="evidence" class="nav-item"><svg><use href="#i-file"/></svg><span>证据库</span></button>
@@ -38,7 +40,7 @@
       </nav>
       <div class="sidebar-section"><div class="section-label">我的工作区 <span id="saved-count">0</span></div><div id="saved-list" class="saved-list"><p class="empty-small">收藏研究，方便下次接着看。</p></div></div>
       <div class="sidebar-section history-section"><div class="section-label">最近研究</div><div id="history-list" class="saved-list"></div></div>
-      <div class="sidebar-bottom"><div class="local-mark"><span class="status-dot"></span><div>公开研究数据<small>浏览器内计算 · 无需 API Key</small></div></div><a href="../workbench/">连接 DeepSeek 后端 <svg><use href="#i-external"/></svg></a><a href="https://github.com/QiQiyzhu/FinSearchComp-Audit" target="_blank" rel="noopener">代码与部署文档 <svg><use href="#i-external"/></svg></a></div>
+      <div class="sidebar-bottom"><div class="local-mark"><span class="status-dot"></span><div>研究与验证工作台<small>联网研究 · 历史财报 · 时点评测</small></div></div><a href="../workbench/">打开原研究工作台 <svg><use href="#i-external"/></svg></a><a href="https://github.com/QiQiyzhu/FinSearchComp-Audit" target="_blank" rel="noopener">代码与部署文档 <svg><use href="#i-external"/></svg></a></div>
     </aside>
     <button class="sidebar-scrim" id="sidebar-scrim" aria-label="关闭导航" hidden></button>
     <div class="workspace">
@@ -60,7 +62,7 @@
     </div>
   </div>
   <div id="toast" class="toast" role="status" hidden></div>
-  <dialog id="connection-dialog" class="connection-dialog"><form id="connection-form"><div class="drawer-heading"><div><div class="eyebrow">RESEARCH ENGINE</div><h2>连接研究后端</h2></div><button type="button" class="icon-button" id="close-connection" aria-label="关闭连接设置"><svg><use href="#i-close"/></svg></button></div><div class="connection-body"><p>公开页面可直接进行财务研究。接入已部署的后端后，可用 DeepSeek 整理有引用的年度摘要。</p><label>后端地址<input id="backend-url" type="url" placeholder="https://your-finagent.example.com" autocomplete="url"></label><label>后端访问令牌（如已配置）<input id="backend-token" type="password" placeholder="输入 FINAGENT_API_TOKEN" autocomplete="off"></label><p class="connection-note">访问令牌只保存在此标签页会话。DeepSeek API Key 应配置在服务器中。</p><p id="connection-message" role="status"></p><div class="connection-actions"><button type="button" id="disconnect-backend" class="button secondary">断开连接</button><button type="submit" id="connect-backend" class="button primary">连接并检查</button></div></div></form></dialog>
+  <dialog id="connection-dialog" class="connection-dialog"><form id="connection-form"><div class="drawer-heading"><div><div class="eyebrow">RESEARCH ENGINE</div><h2>连接研究后端</h2></div><button type="button" class="icon-button" id="close-connection" aria-label="关闭连接设置"><svg><use href="#i-close"/></svg></button></div><div class="connection-body"><p>接入研究服务后，由服务器调用 DeepSeek、搜索和读取资料。历史财报与评测功能仍可直接使用。</p><label>后端地址<input id="backend-url" type="url" placeholder="https://your-finagent.example.com" autocomplete="url"></label><label>后端访问令牌（如已配置）<input id="backend-token" type="password" placeholder="填写服务访问令牌" autocomplete="off"></label><p class="connection-note">访问令牌只保存在此标签页会话。DeepSeek API Key 留在服务器中，不应填写到网页。</p><p id="connection-message" role="status"></p><div class="connection-actions"><button type="button" id="disconnect-backend" class="button secondary">断开连接</button><button type="submit" id="connect-backend" class="button primary">连接并检查</button></div></div></form></dialog>
   <dialog id="evidence-dialog" class="evidence-dialog"><div class="drawer-heading"><div><div class="eyebrow">SOURCE INSPECTOR</div><h2>证据详情</h2></div><button class="icon-button" id="close-evidence" aria-label="关闭证据详情"><svg><use href="#i-close"/></svg></button></div><div id="evidence-detail"></div></dialog>
   <script type="module" src="app.js"></script>
 </body>
