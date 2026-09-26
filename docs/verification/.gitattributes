@@ -1,2 +1,4 @@
 # Preserve first-attempt evaluation receipt bytes and their recorded hashes.
 workbench-quality-*.json -text whitespace=cr-at-eol
+pit-*.json -text
+pit-*.jsonl -text

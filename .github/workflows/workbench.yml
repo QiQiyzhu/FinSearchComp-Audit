@@ -20,6 +20,10 @@ jobs:
       - run: pip install -r requirements-workbench.txt -r requirements-platform.txt
       - name: Financial invariants and API lifecycle
         run: python -m unittest discover -s research_workbench -p 'test_*.py' -v
+      - name: PIT fixture and scoring without model calls
+        run: |
+          python -m unittest discover -s pit_benchmark -p 'test_*.py' -v
+          python scripts/verify_pit_release.py
       - name: Existing research regression
         run: python -m unittest temporal_clash.test_atlas_xbrl temporal_clash.test_pit_audit finagent_platform.test_platform -v
       - name: Independent scorer integrity
