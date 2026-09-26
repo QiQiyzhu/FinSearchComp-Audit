@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#14232e">
+  <meta name="description" content="用同一条 SEC 财报问题的披露前后两个时间截面，检查金融模型如何使用历史上可获得的证据。公开问题、条件、原始运行记录与评测边界。">
+  <title>时点评测 · FinAgent Research</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="v2.css">
+  <link rel="stylesheet" href="pit.css">
+  <script src="pit.js" defer></script>
+</head>
+<body class="pit-page">
+  <a class="skip-link" href="#main">跳至时点评测</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="主导航">
+      <a class="brand" href="../" aria-label="FinAgent 首页"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M5 22V6h18M5 14h13M13 22V6"/><path d="m16 19 3 3 5-7"/></svg></span><span>FinAgent<small>RESEARCH INTELLIGENCE</small></span></a>
+      <div class="workspace-name"><span class="workspace-avatar">F</span><div>金融时点研究<small>SEC disclosure pilot</small></div></div>
+      <p class="nav-label">研究工具</p>
+      <nav class="main-nav">
+        <a class="nav-item" href="index.html"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>研究工作台</a>
+        <a class="nav-item" href="index.html?view=quality"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6zM8 12l3 3 5-6"/></svg>质量验证</a>
+        <a class="nav-item active" href="pit.html" aria-current="page"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2M3 3l3 3"/></svg>时点评测</a>
+      </nav>
+      <div class="sidebar-bottom"><div class="sidebar-note"><span class="tiny-dot"></span>把时间放回证据链<p>同题配对 · 条件对照<br>原始记录可下载</p></div><a class="nav-item" href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/PIT_RESEARCH_PROPOSAL.md" target="_blank" rel="noopener noreferrer">研究方案与老师汇报 ↗</a></div>
+    </aside>
+    <main id="main" class="main-content">
+      <header class="topbar"><div class="breadcrumb"><a href="../">FinAgent</a><span>/</span><strong>时点评测</strong></div><a class="pit-back-link" href="index.html">返回工作台 ↗</a></header>
+      <div class="page-content pit-content">
+        <section class="pit-heading"><div><p class="eyebrow">POINT-IN-TIME / SEC PILOT</p><h1>同一个问题，<span class="pit-heading-break">回到披露前后。</span></h1><p class="pit-lead">检查模型能否区分“现在知道答案”与“当时有证据回答”。<br>用美股财报搭建一个可复现的配对试点，逐步接入金融研究工作台。</p></div><a class="secondary-button" href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/PIT_RESEARCH_PROPOSAL.md" target="_blank" rel="noopener noreferrer">研究方案与汇报材料 ↗</a></section>
+        <div class="pit-loading" id="pit-loading" role="status"><span class="spinner"></span>正在读取已发布的实验记录…</div>
+        <div class="pit-error" id="pit-error" role="alert" hidden><h2>实验记录暂时无法读取</h2><p id="pit-error-detail"></p><button class="secondary-button" id="pit-retry" type="button">重新读取</button></div>
+        <div id="pit-content" hidden>
+          <section class="pit-stats" aria-label="试点范围" id="pit-stats"></section>
+          <div class="pit-status-banner" id="pit-status-banner" role="status"></div><p id="pit-round-observation" class="pit-round-observation" hidden></p>
+          <section class="pit-card pit-explorer" aria-labelledby="explorer-title">
+            <div class="pit-section-head"><div><p class="card-kicker">PAIRED OBSERVATIONS</p><h2 id="explorer-title">查看一题，比较两个时间截面</h2></div><span id="case-position" class="pit-badge"></span></div>
+            <div class="pit-filters"><div><label for="issuer-filter">研究公司</label><select id="issuer-filter"><option value="all">全部公司</option></select></div><div class="pit-question-filter"><label for="case-filter">问题</label><select id="case-filter"></select></div><div><label for="condition-filter">模型可使用什么</label><select id="condition-filter"><option value="pit_filtered">仅当时可用证据</option><option value="unfiltered">全部证据（含未来）</option><option value="closed_book">不给证据</option></select></div></div>
+            <div class="pit-case-heading"><div><span class="pit-case-id" id="case-id"></span><h3 id="case-question"></h3></div><div class="pit-pager"><button class="icon-button" id="previous-case" type="button" aria-label="上一题">←</button><button class="icon-button" id="next-case" type="button" aria-label="下一题">→</button></div></div>
+            <p class="pit-condition-description" id="condition-description"></p><p class="pit-shared-input-note">对照说明：披露前，“不给证据”与“仅当时可用证据”收到相同输入；披露后，“全部证据”与“仅当时可用证据”收到相同输入。它们是重复观察，不能把随机输出差异直接归因于条件。</p>
+            <div class="pit-event-line"><span class="pit-event-dot" aria-hidden="true"></span><div><strong>目标 SEC 申报事件</strong><span id="event-date"></span></div><p id="event-note">按日期划分：申报前一天 / 申报后一天，不对申报当日的盘中可得性作判断。</p></div>
+            <div class="pit-pair" id="pit-pair" aria-live="polite" aria-atomic="true"></div>
+            <details class="pit-evidence-details"><summary>展开这道题的证据、报告期与抓取记录 <span id="evidence-count"></span></summary><div id="pit-evidence"></div></details>
+          </section>
+          <section class="pit-card pit-results" aria-labelledby="results-title"><div class="pit-section-head"><div><p class="card-kicker">ALL CASES / THREE CONDITIONS</p><h2 id="results-title">实验成绩单</h2><p>统计全部问题；上方筛选只切换单题检查。每个条件使用相同问题与时间截面。</p><p><a href="https://github.com/QiQiyzhu/FinSearchComp-Audit/blob/main/docs/PIT_PILOT_RESULTS.md" target="_blank" rel="noopener noreferrer">阅读首轮实验结果与局限 ↗</a></p></div><a class="secondary-button" id="download-records" href="data/pit_pilot.json" download="finagent-pit-pilot.json">下载评分记录 ↓</a></div><p class="pit-trace-link"><a id="trace-records" href="#" target="_blank" rel="noopener noreferrer" hidden>完整请求与原始响应（JSONL） ↗</a></p><div class="pit-table-wrap" tabindex="0" role="region" aria-label="实验成绩，窄屏可横向滚动"><table class="pit-score-table"><thead><tr><th scope="col">证据条件</th><th scope="col">任务通过</th><th scope="col">披露前正确拒答</th><th scope="col">披露后数值正确</th><th scope="col">未来证据被接受</th><th scope="col">未评分 / 错误</th></tr></thead><tbody id="score-body"></tbody></table></div><p class="pit-table-note" id="pit-score-note"></p><details class="pit-metric-notes"><summary>这些分数分别说明什么？</summary><dl><div><dt>任务通过</dt><dd>同时检查是否应该回答，以及回答时的数值和单位。主分母为全部计划运行，另外列出已评分数。披露后拒答会导致任务未通过，但不代表发生了时间泄漏。</dd></div><div><dt>披露前正确拒答</dt><dd>在限定的 SEC 证据集合内，目标申报尚不可用时，明确保留答案。提前猜中未来数值仍不满足这个任务。</dd></div><div><dt>披露后数值正确</dt><dd>目标申报已可用时，回答数值与单位是否符合冻结答案。引用与未来证据使用另行记录。</dd></div><div><dt>未来证据被接受</dt><dd>模型引用了晚于截止日的证据。分母仅包括实际收到未来材料、且可评分的运行；没有未来材料的条件标记为不适用。它与“检索上下文里出现了未来证据”是两个不同的量。</dd></div></dl></details></section>
+          <section class="pit-boundaries" aria-labelledby="boundaries-title"><div><p class="card-kicker">INTERPRET WITH CARE</p><h2 id="boundaries-title">测量历史证据约束，保留研究边界。</h2></div><div class="pit-boundary-grid"><article><span>01</span><h3>披露时间 ≠ 报告期</h3><p>报告期说明数字描述哪个财年；申报日用于判断证据在该截面是否可用。抓取日记录本地保存时间，三者分别显示。</p></article><article><span>02</span><h3>历史可得性 ≠ 模型知识截止</h3><p>今天的模型可能见过这些财报。披露前答对不能单独证明其知识截止日，也不能直接证明训练污染。</p></article><article><span>03</span><h3>小样本试点，先验证协议</h3><p>问题限定于保存的 SEC 申报记录。企业可能更早发布业绩预告或新闻；试点不声称找到信息在全网的首次公开时间。</p></article></div><details class="pit-limitations-details"><summary>完整协议边界（原文）</summary><ul id="protocol-limitations" class="pit-limitations"></ul></details></section>
+          <details class="pit-provenance"><summary>复现信息与数据指纹</summary><dl id="pit-provenance"></dl></details>
+        </div>
+        <footer class="page-footer"><span>FinAgent <b>/</b> Point-in-Time Research</span><p>只读取保存的实验结果；浏览与筛选不会发起模型调用。</p></footer>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

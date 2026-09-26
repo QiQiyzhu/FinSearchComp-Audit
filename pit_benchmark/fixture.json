@@ -1,0 +1,338 @@
+{
+  "schema_version": 1,
+  "protocol": {
+    "name": "PIT Filing Pilot v1",
+    "version": "pit-filing-pilot-1.0",
+    "scope": "Six authored FY2024 questions across three US issuers; availability relative to each specifically designated 10-K accession, not all public information.",
+    "time_granularity": "date",
+    "conditions": [
+      "closed_book",
+      "unfiltered",
+      "pit_filtered"
+    ],
+    "max_model_calls": 36,
+    "repeats": 1,
+    "schedule": "deterministic cyclic condition order by case and phase",
+    "pre_offset_days": -1,
+    "post_offset_days": 1,
+    "rounding": "Revenue: exact USD; margin: exact rational operands, round half up to 2 decimals.",
+    "scoring": "Decision: pre must abstain and post must supply exact requested numeric value and unit. Errors and invalid responses are separate and fail all-planned success. Evidence leakage and unsupported citations are reported separately.",
+    "limitations": [
+      "This is a small, project-authored development pilot, not a blind or independent benchmark.",
+      "A historical as_of prompt does not establish the model training cutoff or knowledge boundary.",
+      "Pre-cutoff abstention is relative only to the designated filing corpus; earlier earnings releases or other public disclosures are out of scope.",
+      "The SEC API bytes were captured later and filtered by historical filing dates; they are not a contemporaneous archive.",
+      "Daily filing dates do not establish intraday trading availability; same-day cutoffs are deliberately excluded.",
+      "The provider model alias, run date and full request/response are recorded; an alias is not an independently verified checkpoint.",
+      "One repeat, six questions and three shared filings do not support model rankings or independent 36-sample significance claims.",
+      "No news, broker research reports, monthly rolling collection, live trading or investment returns are evaluated."
+    ]
+  },
+  "provenance": {
+    "capture_policy": "Later SEC Company Facts response; exact accession and annual period row audit.",
+    "captured_at": "2026-09-22T11:59:35+00:00",
+    "gold_method": "Six literal SEC raw values, independently checked by exact-row matching and Fraction arithmetic; no workbench selector/calculator imported.",
+    "dataset_role": "development_pilot"
+  },
+  "evidence": [
+    {
+      "id": "MSFT-FY2024-revenue",
+      "ticker": "MSFT",
+      "company": "Microsoft",
+      "cik": 789019,
+      "metric": "revenue",
+      "value": "245122000000",
+      "unit": "USD",
+      "taxonomy_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "filing_date": "2024-07-30",
+      "accession": "0000950170-24-087843",
+      "form": "10-K",
+      "fiscal_year": 2024,
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "captured_at": "2026-09-22T11:59:35+00:00",
+      "timestamp_basis": "official SEC filing date; daily precision"
+    },
+    {
+      "id": "MSFT-FY2024-operating_income",
+      "ticker": "MSFT",
+      "company": "Microsoft",
+      "cik": 789019,
+      "metric": "operating_income",
+      "value": "109433000000",
+      "unit": "USD",
+      "taxonomy_tag": "OperatingIncomeLoss",
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "filing_date": "2024-07-30",
+      "accession": "0000950170-24-087843",
+      "form": "10-K",
+      "fiscal_year": 2024,
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/0000950170-24-087843-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "upstream_sha256": "f8aae2965b20ad0df44bdf7ccbedf797d275b6b8dc030154a7a311361bb7246f",
+      "captured_at": "2026-09-22T11:59:35+00:00",
+      "timestamp_basis": "official SEC filing date; daily precision"
+    },
+    {
+      "id": "AAPL-FY2024-revenue",
+      "ticker": "AAPL",
+      "company": "Apple",
+      "cik": 320193,
+      "metric": "revenue",
+      "value": "391035000000",
+      "unit": "USD",
+      "taxonomy_tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+      "period_start": "2023-10-01",
+      "period_end": "2024-09-28",
+      "filing_date": "2024-11-01",
+      "accession": "0000320193-24-000123",
+      "form": "10-K",
+      "fiscal_year": 2024,
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+      "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+      "captured_at": "2026-09-22T11:59:35+00:00",
+      "timestamp_basis": "official SEC filing date; daily precision"
+    },
+    {
+      "id": "AAPL-FY2024-operating_income",
+      "ticker": "AAPL",
+      "company": "Apple",
+      "cik": 320193,
+      "metric": "operating_income",
+      "value": "123216000000",
+      "unit": "USD",
+      "taxonomy_tag": "OperatingIncomeLoss",
+      "period_start": "2023-10-01",
+      "period_end": "2024-09-28",
+      "filing_date": "2024-11-01",
+      "accession": "0000320193-24-000123",
+      "form": "10-K",
+      "fiscal_year": 2024,
+      "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+      "upstream_sha256": "73a86c6aedc31f77cac2ea4df5f80f0b3bd7e6eb58bb4e01444fbedf3afb9c43",
+      "captured_at": "2026-09-22T11:59:35+00:00",
+      "timestamp_basis": "official SEC filing date; daily precision"
+    },
+    {
+      "id": "NVDA-FY2024-revenue",
+      "ticker": "NVDA",
+      "company": "NVIDIA",
+      "cik": 1045810,
+      "metric": "revenue",
+      "value": "60922000000",
+      "unit": "USD",
+      "taxonomy_tag": "Revenues",
+      "period_start": "2023-01-30",
+      "period_end": "2024-01-28",
+      "filing_date": "2024-02-21",
+      "accession": "0001045810-24-000029",
+      "form": "10-K",
+      "fiscal_year": 2024,
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+      "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+      "captured_at": "2026-09-22T11:59:35+00:00",
+      "timestamp_basis": "official SEC filing date; daily precision"
+    },
+    {
+      "id": "NVDA-FY2024-operating_income",
+      "ticker": "NVDA",
+      "company": "NVIDIA",
+      "cik": 1045810,
+      "metric": "operating_income",
+      "value": "32972000000",
+      "unit": "USD",
+      "taxonomy_tag": "OperatingIncomeLoss",
+      "period_start": "2023-01-30",
+      "period_end": "2024-01-28",
+      "filing_date": "2024-02-21",
+      "accession": "0001045810-24-000029",
+      "form": "10-K",
+      "fiscal_year": 2024,
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.htm",
+      "source_url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+      "upstream_sha256": "19ef503a5770f5660964b3c3aea6937579d9b359da344afe6a9adf59c63d26ff",
+      "captured_at": "2026-09-22T11:59:35+00:00",
+      "timestamp_basis": "official SEC filing date; daily precision"
+    }
+  ],
+  "cases": [
+    {
+      "id": "msft_fy2024_revenue",
+      "ticker": "MSFT",
+      "metric": "revenue",
+      "question": "For Microsoft FY2024 (2023-07-01 to 2024-06-30), what was revenue in USD?",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "filing_date": "2024-07-30",
+      "accession": "0000950170-24-087843",
+      "pre_as_of": "2024-07-29",
+      "post_as_of": "2024-07-31",
+      "evidence_ids": [
+        "MSFT-FY2024-revenue"
+      ],
+      "gold": {
+        "pre": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD"
+        },
+        "post": {
+          "action": "answer",
+          "value": "245122000000",
+          "unit": "USD"
+        }
+      }
+    },
+    {
+      "id": "msft_fy2024_operating_margin",
+      "ticker": "MSFT",
+      "metric": "operating_margin",
+      "question": "For Microsoft FY2024 (2023-07-01 to 2024-06-30), what was the operating margin (operating income / revenue × 100), rounded to two decimal places?",
+      "fiscal_year": 2024,
+      "period_start": "2023-07-01",
+      "period_end": "2024-06-30",
+      "filing_date": "2024-07-30",
+      "accession": "0000950170-24-087843",
+      "pre_as_of": "2024-07-29",
+      "post_as_of": "2024-07-31",
+      "evidence_ids": [
+        "MSFT-FY2024-revenue",
+        "MSFT-FY2024-operating_income"
+      ],
+      "gold": {
+        "pre": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%"
+        },
+        "post": {
+          "action": "answer",
+          "value": "44.64",
+          "unit": "%"
+        }
+      }
+    },
+    {
+      "id": "aapl_fy2024_revenue",
+      "ticker": "AAPL",
+      "metric": "revenue",
+      "question": "For Apple FY2024 (2023-10-01 to 2024-09-28), what was revenue in USD?",
+      "fiscal_year": 2024,
+      "period_start": "2023-10-01",
+      "period_end": "2024-09-28",
+      "filing_date": "2024-11-01",
+      "accession": "0000320193-24-000123",
+      "pre_as_of": "2024-10-31",
+      "post_as_of": "2024-11-02",
+      "evidence_ids": [
+        "AAPL-FY2024-revenue"
+      ],
+      "gold": {
+        "pre": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD"
+        },
+        "post": {
+          "action": "answer",
+          "value": "391035000000",
+          "unit": "USD"
+        }
+      }
+    },
+    {
+      "id": "aapl_fy2024_operating_margin",
+      "ticker": "AAPL",
+      "metric": "operating_margin",
+      "question": "For Apple FY2024 (2023-10-01 to 2024-09-28), what was the operating margin (operating income / revenue × 100), rounded to two decimal places?",
+      "fiscal_year": 2024,
+      "period_start": "2023-10-01",
+      "period_end": "2024-09-28",
+      "filing_date": "2024-11-01",
+      "accession": "0000320193-24-000123",
+      "pre_as_of": "2024-10-31",
+      "post_as_of": "2024-11-02",
+      "evidence_ids": [
+        "AAPL-FY2024-revenue",
+        "AAPL-FY2024-operating_income"
+      ],
+      "gold": {
+        "pre": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%"
+        },
+        "post": {
+          "action": "answer",
+          "value": "31.51",
+          "unit": "%"
+        }
+      }
+    },
+    {
+      "id": "nvda_fy2024_revenue",
+      "ticker": "NVDA",
+      "metric": "revenue",
+      "question": "For NVIDIA FY2024 (2023-01-30 to 2024-01-28), what was revenue in USD?",
+      "fiscal_year": 2024,
+      "period_start": "2023-01-30",
+      "period_end": "2024-01-28",
+      "filing_date": "2024-02-21",
+      "accession": "0001045810-24-000029",
+      "pre_as_of": "2024-02-20",
+      "post_as_of": "2024-02-22",
+      "evidence_ids": [
+        "NVDA-FY2024-revenue"
+      ],
+      "gold": {
+        "pre": {
+          "action": "abstain",
+          "value": null,
+          "unit": "USD"
+        },
+        "post": {
+          "action": "answer",
+          "value": "60922000000",
+          "unit": "USD"
+        }
+      }
+    },
+    {
+      "id": "nvda_fy2024_operating_margin",
+      "ticker": "NVDA",
+      "metric": "operating_margin",
+      "question": "For NVIDIA FY2024 (2023-01-30 to 2024-01-28), what was the operating margin (operating income / revenue × 100), rounded to two decimal places?",
+      "fiscal_year": 2024,
+      "period_start": "2023-01-30",
+      "period_end": "2024-01-28",
+      "filing_date": "2024-02-21",
+      "accession": "0001045810-24-000029",
+      "pre_as_of": "2024-02-20",
+      "post_as_of": "2024-02-22",
+      "evidence_ids": [
+        "NVDA-FY2024-revenue",
+        "NVDA-FY2024-operating_income"
+      ],
+      "gold": {
+        "pre": {
+          "action": "abstain",
+          "value": null,
+          "unit": "%"
+        },
+        "post": {
+          "action": "answer",
+          "value": "54.12",
+          "unit": "%"
+        }
+      }
+    }
+  ]
+}

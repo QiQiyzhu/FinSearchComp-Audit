@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-09-26T04:30:17.714978+00:00",
+  "dataset_sha256": "926006e4dc6ab8d2192cad3b117e797f67545e4822890f5762a81836c2171ed0",
+  "files": {
+    "fixture.json": "926006e4dc6ab8d2192cad3b117e797f67545e4822890f5762a81836c2171ed0"
+  },
+  "case_count": 6,
+  "planned_runs": 36,
+  "status": "frozen_before_provider_execution",
+  "existing_gold_exposure": "Questions use already public FY2024 facts; this is not an unseen heldout test."
+}

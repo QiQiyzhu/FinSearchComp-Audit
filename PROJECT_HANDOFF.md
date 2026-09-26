@@ -1,6 +1,16 @@
-# FinAgent 工作台交接 · 2026-09-22
+# FinAgent 工作台交接 · 2026-09-26
 
-## 当前运行
+## Point-in-Time 研究试点
+
+本轮分支 `codex/pit-financial-pilot` 从 v2 合并提交 `509d06c` 建立。新增 [时点评测](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/pit.html)、[导师汇报提案](docs/PIT_RESEARCH_PROPOSAL.md)、[协议](docs/PIT_PILOT_PROTOCOL.md)及[真实首评结果](docs/PIT_PILOT_RESULTS.md)。原工作台引擎未改；新实验直接诊断模型行为，不能与 v2 40 题回归成绩混比。
+
+`pit_benchmark/` 已冻结 6 题、3 个申报事件，前后时点 × 三种材料条件共 36 次真实 DeepSeek 请求。全部完成、20,141 tokens，任务通过分别为无材料 6/12、未过滤 11/12、时点过滤 6/12；过滤同时移除了数值和时间元数据，结果不证明过滤天然有害，也不证明模型知识截止。完整请求与响应在 `docs/verification/pit-pilot-live-20260926.trace.jsonl`，公开 bundle 是首次 receipt 的字节复制。
+
+可用 `python scripts/verify_pit_release.py` 零调用重算。`pilot.py/run.py` 的源码哈希已写入首评 trace，后续改核心评分应另起协议版本并保留首评源码，不覆盖成绩。下一轮是元数据、记忆许可和系统拦截的独立对照，以及新事件隐藏题。当前没有月度知识截止曲线、新闻研报库或 Pronoia 集成。
+
+本轮本地验证：18 项新增 PIT 检查、91 项既有 Python 检查、14 个浏览器场景、40 题既有产品回归、整站构建和公开记录离线重放。截图在 `docs/assets/workbench/pit-pilot-{desktop,mobile}.png`。没有在后台保留新的开发服务器；下方 8100 状态是 9 月 22 日历史交接，9 月 26 日检查时未监听，需要时按命令启动。
+
+## 9 月 22 日的运行记录
 
 - 本机完整工作台：**http://127.0.0.1:8100/**，已接入原有 DeepSeek 配置。
 - 公共入口：[项目首页](https://qiqiyzhu.github.io/FinSearchComp-Audit/) / [免 Key 历史体验](https://qiqiyzhu.github.io/FinSearchComp-Audit/workbench/)。
