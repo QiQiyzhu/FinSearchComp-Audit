@@ -7,6 +7,7 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -35,6 +36,9 @@ def score(case, actual):
 
 
 def main():
+    # Receipts remain UTF-8 even when a Windows terminal defaults to cp932.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser()
     parser.add_argument("--split", choices=["development", "heldout", "all"], default="development")
     parser.add_argument("--output", type=Path, required=True)

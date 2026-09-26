@@ -51,6 +51,7 @@ DERIVED = {
     "cash_conversion": ("净利润现金转化率", "%", "ratio", ["operating_cash_flow", "net_income"]),
     "liabilities_to_assets": ("资产负债率", "%", "ratio", ["liabilities", "assets"]),
     "current_ratio": ("流动比率", "x", "ratio", ["current_assets", "current_liabilities"]),
+    "cash_to_assets": ("现金资产比", "%", "ratio", ["cash", "assets"]),
     "capex_ratio": ("资本支出收入比", "%", "ratio", ["capital_expenditure", "revenue"]),
     "free_cash_flow_margin": ("自由现金流率", "%", "ratio", ["free_cash_flow", "revenue"]),
 }
@@ -85,7 +86,7 @@ def metric_catalog() -> dict[str, dict[str, Any]]:
                      "inputs": [key], "operation": "reported"}
                for key, (label, kind, tags) in REPORTED.items()}
     for key, (label, unit, operation, inputs) in DERIVED.items():
-        catalog[key] = {"id": key, "label": label, "unit": unit, "kind": "instant" if key in {"liabilities_to_assets", "current_ratio"} else "duration",
+        catalog[key] = {"id": key, "label": label, "unit": unit, "kind": "instant" if key in {"liabilities_to_assets", "current_ratio", "cash_to_assets"} else "duration",
                         "inputs": inputs, "operation": operation}
     return catalog
 
@@ -417,7 +418,7 @@ def query_metric(cube: dict[str, Any], ticker: str, cutoff: str, fiscal_year: in
     else:
         annual = next((item for item in annuals if item["fiscal_year"] == fiscal_year), None)
     if annual is None:
-        future = any(item["fiscal_year"] == fiscal_year for item in cube["companies"][ticker.upper()]["annuals"].values())
+        future = fiscal_year > date.fromisoformat(cutoff).year or any(item["fiscal_year"] == fiscal_year for item in cube["companies"][ticker.upper()]["annuals"].values())
         return {**base, **missing(metric_id, "unavailable_as_of" if future else "unsupported", "该财政年度在截止日不可用。" if future else "财政年度不在已收录范围内。")}
     return {**base, **deepcopy(annual["metrics"][metric_id]), "fiscal_year": annual["fiscal_year"], "period_start": annual["period_start"] if cube["metric_catalog"][metric_id]["kind"] == "duration" else None, "period_end": annual["period_end"], "annual_id": annual["id"]}
 

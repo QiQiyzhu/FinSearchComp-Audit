@@ -2,3 +2,4 @@
 workbench-quality-*.json -text whitespace=cr-at-eol
 pit-*.json -text
 pit-*.jsonl -text
+terminal-*.json -text

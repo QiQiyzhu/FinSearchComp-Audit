@@ -128,6 +128,19 @@ class TerminalTemporalTests(unittest.TestCase):
         self.assertFalse(evidence_gate(cube, ["made-up"], "2023-08-01")["passed"])
         self.assertFalse(evidence_gate(cube, [ref], "2023-08-01", ticker="AAPL")["passed"])
 
+    def test_post_evaluation_cash_to_assets_contract_regression(self):
+        cash, assets = row(25), row(200)
+        cash.pop("start")
+        assets.pop("start")
+        cube = fixture({"Revenues": [row(100)], "CashAndCashEquivalentsAtCarryingValue": [cash], "Assets": [assets]})
+        value = query_metric(cube, "MSFT", "2023-08-01", 2023, "cash_to_assets")
+        self.assertEqual((value["status"], value["value"], value["period_start"]), ("available", "12.50", None))
+
+    def test_post_evaluation_future_fiscal_year_is_time_unavailable(self):
+        cube = fixture({"Revenues": [row(100)]})
+        self.assertEqual(query_metric(cube, "MSFT", "2025-04-01", 2027, "revenue")["status"], "unavailable_as_of")
+        self.assertEqual(query_metric(cube, "MSFT", "2025-04-01", 2010, "revenue")["status"], "unsupported")
+
 
 class TerminalArtifactTests(unittest.TestCase):
     @classmethod
