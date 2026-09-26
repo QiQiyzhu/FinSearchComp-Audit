@@ -28,6 +28,7 @@ class Settings:
     deepseek_base_url: str = "https://api.deepseek.com"
     deepseek_model: str = "deepseek-flash"
     tavily_api_key: str = field(default="", repr=False)
+    redis_url: str = field(default="", repr=False)
     trust_env: bool = False
     max_workers: int = 2
     max_pending: int = 16
@@ -53,6 +54,7 @@ class Settings:
             deepseek_base_url=os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com").rstrip("/"),
             deepseek_model=os.getenv("DEEPSEEK_MODEL", "deepseek-flash"),
             tavily_api_key=os.getenv("TAVILY_API_KEY", "").strip(),
+            redis_url=os.getenv("FINAGENT_REDIS_URL", "").strip(),
             trust_env=flag("FINAGENT_HTTP_TRUST_ENV"),
             max_workers=integer("FINAGENT_MAX_WORKERS", 2, 1, 4),
             max_pending=integer("FINAGENT_MAX_PENDING", 16, 1, 100),
@@ -71,4 +73,6 @@ class Settings:
             return True
         if not self.enable_live or not (self.api_token or self.public_live):
             return False
+        if mode == "live_research":
+            return bool(self.deepseek_api_key and self.sec_user_agent)
         return bool(self.deepseek_api_key) if mode == "snapshot" else bool(self.sec_user_agent)

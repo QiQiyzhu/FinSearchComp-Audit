@@ -125,10 +125,14 @@ class TerminalEngine:
 
 class ApplicationEngine:
     def __init__(self, settings: Settings):
+        from .live_engine import LiveResearchEngine
         self.legacy = WorkflowEngine(settings)
         self.terminal = TerminalEngine(settings)
+        self.live = LiveResearchEngine(settings)
 
     def run(self, request, emit=None):
+        if request.get("workflow") == "live_research":
+            return self.live.run(request, emit)
         engine = self.terminal if request.get("workflow") == "terminal" else self.legacy
         return engine.run(request, emit)
 

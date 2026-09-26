@@ -1,0 +1,58 @@
+# Render Blueprint: a free, single-instance demonstration service.
+# Configure credentials in Render; they never enter the image or GitHub Pages.
+services:
+  - type: keyvalue
+    name: finagent-live-budget
+    plan: free
+    region: singapore
+    maxmemoryPolicy: noeviction
+    ipAllowList: []
+  - type: web
+    name: finagent-live-research
+    runtime: docker
+    plan: free
+    region: singapore
+    repo: https://github.com/QiQiyzhu/FinSearchComp-Audit
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    maxShutdownDelaySeconds: 150
+    envVars:
+      - key: PORT
+        value: "8090"
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: DEEPSEEK_BASE_URL
+        value: https://api.deepseek.com
+      - key: DEEPSEEK_MODEL
+        value: deepseek-flash
+      - key: SEC_USER_AGENT
+        sync: false
+      - key: FINAGENT_API_TOKEN
+        value: ""
+      - key: FINAGENT_ENABLE_LIVE
+        value: "true"
+      - key: FINAGENT_PUBLIC_LIVE
+        value: "true"
+      - key: FINAGENT_REDIS_URL
+        fromService:
+          type: keyvalue
+          name: finagent-live-budget
+          property: connectionString
+      - key: FINAGENT_ALLOWED_ORIGINS
+        value: https://qiqiyzhu.github.io
+      - key: FINAGENT_DB_PATH
+        value: /app/build/workbench.sqlite3
+      - key: FINAGENT_CACHE_DIR
+        value: /app/build/cache
+      - key: FINAGENT_MAX_WORKERS
+        value: "1"
+      - key: FINAGENT_MAX_PENDING
+        value: "1"
+      - key: FINAGENT_LIVE_REQUESTS_PER_HOUR
+        value: "3"
+      - key: FINAGENT_LIVE_GLOBAL_PER_DAY
+        value: "12"
+      - key: FINAGENT_HTTP_TRUST_ENV
+        value: "false"

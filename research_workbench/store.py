@@ -105,6 +105,12 @@ class JobStore:
             db.execute("DELETE FROM research_jobs WHERE status IN ('completed','failed') AND created_at<?", (retention,))
             db.execute("DELETE FROM research_jobs WHERE id IN (SELECT id FROM research_jobs WHERE status IN ('completed','failed') ORDER BY created_at DESC LIMIT -1 OFFSET ?)", (self.settings.max_history,))
             identifier = "research_" + uuid4().hex
+            if request["mode"] != "demo" and self.settings.redis_url:
+                from .budget import BudgetError, reserve
+                try:
+                    reserve(self.settings, identifier, units)
+                except BudgetError as exc:
+                    raise AdmissionError(exc.status_code, exc.message) from exc
             db.execute("INSERT INTO research_jobs(id,status,request_json,request_hash,idempotency_key,created_at,updated_at) VALUES(?,'queued',?,?,?,?,?)", (identifier, canonical(request), request_hash, scoped_key, stamp, stamp))
             db.execute("INSERT INTO research_admissions(job_id,client_hash,mode,created_at,units) VALUES(?,?,?,?,?)", (identifier, client, request["mode"], stamp, units))
             row = db.execute("SELECT * FROM research_jobs WHERE id=?", (identifier,)).fetchone()

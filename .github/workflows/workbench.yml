@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install -r requirements-workbench.txt -r requirements-platform.txt
+      - run: pip install -r requirements-workbench.txt -r requirements-platform.txt 'fakeredis[lua]>=2.26,<3'
       - name: Financial invariants and API lifecycle
         run: python -m unittest discover -s research_workbench -p 'test_*.py' -v
       - name: PIT fixture and scoring without model calls
