@@ -18,6 +18,7 @@ from .engine import ResearchEngine
 from .workflows import WorkflowEngine, export_report
 from .sources import COMPANIES, DEMO_CUTOFF, DEMO_TICKERS, canonical
 from .store import AdmissionError, JobService
+from .terminal_engine import ApplicationEngine, terminal_cube, terminal_markdown
 
 EXAMPLES = [
     {"id": "msft-cashflow", "title": "Microsoft：AI 投入下的现金流", "question": "分析微软 FY2024 相比 FY2023 的收入、盈利与现金流，资本支出增加后还有多少自由现金流？给出需要继续核验的风险。", "ticker": "MSFT", "as_of": DEMO_CUTOFF, "mode": "demo"},
@@ -88,6 +89,23 @@ class ResearchRequest(BaseModel):
         return value
 
 
+class TerminalRequest(ResearchRequest):
+    mode: Literal["demo", "snapshot"] = "demo"
+    fiscal_year: int = Field(ge=2019, le=2026)
+    metric_ids: list[str] = Field(min_length=1, max_length=12)
+
+    @model_validator(mode="after")
+    def validate_terminal_scope(self):
+        cube = terminal_cube()
+        if any(metric not in cube["metric_catalog"] for metric in self.metric_ids):
+            raise ValueError("指标不在已支持的年度指标目录中。")
+        for ticker in [self.ticker, self.compare_with]:
+            if ticker and self.as_of.isoformat() > cube["companies"][ticker]["source"]["retrieved_at"][:10]:
+                raise ValueError("截止日不能晚于该公司数据抓取日期。")
+        self.metric_ids = list(dict.fromkeys(self.metric_ids))
+        return self
+
+
 def public_config(settings: Settings) -> dict[str, Any]:
     return {"version": __version__, "default_mode": "demo", "default_as_of": DEMO_CUTOFF,
             "modes": {
@@ -95,7 +113,7 @@ def public_config(settings: Settings) -> dict[str, Any]:
                 "snapshot": {"available": settings.available("snapshot"), "label": "快照 + DeepSeek", "detail": "历史证据 + 实时模型归纳；数据不是实时行情。", "requires_token": bool(settings.api_token)},
                 "live": {"available": settings.available("live"), "label": "实时研究", "detail": "检索 SEC 当前数据库并按截止日过滤，模型按配置启用。", "requires_token": bool(settings.api_token)},
             },
-            "features": {"sec": bool(settings.sec_user_agent), "deepseek": bool(settings.deepseek_api_key), "web_search": bool(settings.tavily_api_key), "exports": True, "comparison": True, "question_answers": True, "persistence": "sqlite"},
+            "features": {"sec": bool(settings.sec_user_agent), "deepseek": bool(settings.deepseek_api_key), "web_search": bool(settings.tavily_api_key), "exports": True, "comparison": True, "question_answers": True, "terminal": True, "persistence": "sqlite"},
             "tickers": [{"ticker": ticker, "name": company["name"]} for ticker, company in COMPANIES.items()], "demo_tickers": DEMO_TICKERS,
             "limits": {"question_chars": 2000, "live_requests_per_hour": settings.live_requests_per_hour, "live_global_per_day": settings.live_global_per_day, "quota_unit": "issuer_analysis", "comparison_units": 2},
             "scope": "单公司及双公司年度 10-K 财务研究；不同期间仅并列展示；不含价格预测或交易执行。"}
@@ -103,7 +121,7 @@ def public_config(settings: Settings) -> dict[str, Any]:
 
 def create_app(settings: Settings | None = None, *, engine: ResearchEngine | None = None) -> FastAPI:
     config = settings or Settings.from_env()
-    service = JobService(config, engine or WorkflowEngine(config))
+    service = JobService(config, engine or ApplicationEngine(config))
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -194,6 +212,22 @@ def create_app(settings: Settings | None = None, *, engine: ResearchEngine | Non
     def get_research(identifier: str, authorization: Annotated[str | None, Header()] = None) -> dict[str, Any]:
         return require_job(identifier, authorization)
 
+    @app.post("/api/terminal/research", status_code=202)
+    def terminal_research(body: TerminalRequest, request: Request,
+                          authorization: Annotated[str | None, Header()] = None,
+                          idempotency_key: Annotated[str | None, Header(alias="Idempotency-Key")] = None) -> dict[str, Any]:
+        authorize(body.mode, authorization)
+        if idempotency_key is not None and not 1 <= len(idempotency_key) <= 128:
+            raise HTTPException(422, "Idempotency-Key 必须为 1–128 个字符。")
+        client = hashlib.sha256((request.client.host if request.client else "unknown").encode()).hexdigest()
+        payload = body.model_dump(mode="json", exclude_none=True)
+        payload["workflow"] = "terminal"
+        try:
+            job = service.submit(payload, client, idempotency_key)
+        except AdmissionError as exc:
+            raise HTTPException(exc.status, exc.detail, headers={"Retry-After": "60"} if exc.status == 429 else None) from exc
+        return {"id": job["id"], "status": job["status"]}
+
     @app.get("/api/research/{identifier}/events")
     def events(identifier: str, authorization: Annotated[str | None, Header()] = None) -> dict[str, Any]:
         job = require_job(identifier, authorization)
@@ -205,10 +239,16 @@ def create_app(settings: Settings | None = None, *, engine: ResearchEngine | Non
         if job["status"] != "completed":
             raise HTTPException(409, "研究尚未完成，无法导出结果。")
         extension = "md" if format == "markdown" else "json"
-        content = export_report(job["result"]) if format == "markdown" else canonical(job["result"])
+        renderer = terminal_markdown if job["result"].get("report_type") == "terminal" else export_report
+        content = renderer(job["result"]) if format == "markdown" else canonical(job["result"])
         return Response(content, media_type="text/markdown" if format == "markdown" else "application/json", headers={"Content-Disposition": f'attachment; filename="{identifier}.{extension}"'})
 
+    terminal_static = ROOT / "site" / "terminal"
+    if terminal_static.is_dir():
+        app.mount("/terminal", StaticFiles(directory=str(terminal_static), html=True), name="terminal")
     static = ROOT / "site" / "workbench"
+    if static.is_dir():
+        app.mount("/workbench", StaticFiles(directory=str(static), html=True), name="workbench-path")
     if static.is_dir():
         app.mount("/", StaticFiles(directory=str(static), html=True), name="workbench")
     return app
